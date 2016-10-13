@@ -1,0 +1,90 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+%signature page formatting
+
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\title{Problem Statement \\ CS Senior Capstone}
+\author{Authored by \\ Nathan Healea, Stephen Krueger, Matthew Zakrevsky}
+\date{October 12, 2016}
+\begin{document}
+% Title page
+\maketitle
+% End title page
+\newpage
+
+% Section: Project Abstract
+\section*{Project Abstract}
+Currently, the Valley Library's flat, un-interactive map fails to provide enough useful information for students to be able to successfully navigate the library. Students struggle to quickly find study rooms reserved online or make use of many unmarked study spaces throughout the library. The Valley Library Interactive Map (VLIM) provides an interactive map to guide users to find known locations and discover areas with potentially desirable attributes (such as study spaces with certain amenities). To solve this problem, an interactive wayfinding web application will use an existing system and frameworks that are mobile friendly and accessible across multiple platforms. VLIM will be developed using JavaScript, PHP, and HTML with the use of the library's SQL data, while being hosted on the library's server. Upon completion of this project, navigation will become less complex and students will easily be able to find desired spaces.
+% end section: Project Abstract
+
+% Section: Project Definition
+\section*{Problem Definition}
+Students, Faculty, Staff and Community members struggle with navigating the Valley Library to find areas to study or to locate resources. Evidence from service design studies done by sections of an undergraduate course (DHE263) indicated students struggle to find known spaces in the library, such as specific study rooms they have reserved online. The current library maps fail to provide enough information to guide an individual to “known” areas like: study rooms, gender neutral bathrooms, Circulation desk, etc. There are also unknown areas with attributes appealing to visitors and students, such as: next to a window, near food, has a wipe board or projector. 
+
+Flat un-interactive maps can’t provide all the necessary information to navigate to these areas effectively. With the library resources being added, removed, or moved, flat un-interactive maps become outdated quickly and compound the navigation problem. Due to the constant changes of spaces in the library, the librarians also have trouble keeping the un-interactive maps and signage up to date. Students and visitors need a convenient way to navigate the library and find specific locations via a map on their phone, laptop, tablet, or kiosk. 
+% end section: Problem Definition
+
+% Section: Problem Solution
+\section*{Problem Solution}
+To solve the Valley Library’s problem of navigation, an interactive map will be developed that will be mobile friendly and cross platform compatible so that students, faculty, staff, and community members can access the map from any device. To achieve this, a web application will display information, regarding an area or resource, that the user is searching for. This search feature will allow an individual to look for known areas or areas with certain attributes and different resources offered by the library. Displaying information on the map will result in areas and resources being highlighted with additional information being displayed in a sidebar. 
+
+To obtain the necessary information, an administration dashboard will allow library staff to add, edit, or delete information regarding locations. Information will also be pulled from other library applications which will provide additional information regarding resources. The library intends to use kiosks, and wall mounted display to display the maps around the library so the web application will be designed in a way that will allow for different screens sizes. To make sure the interactive map is accessible to everyone, it will follow Oregon State University Accessibility guideline for web development. 
+% end section: Problem Solution
+
+% Section: Performance Metrics
+\section*{Performance Metrics}
+Performance metrics will be used to determine if the Valley Library Interactive Map is ready for a full release and to evaluate the success of this project. These metrics include whether or not the application is complete as per the requirements of the client and how the users interact with the finished application.  In this application, usability is paramount. The first metric that is being used to determine the completeness of the project is the number and depth of each of the major features, specifically how completely the major features provide their functions. The second metrics that will be based usability testing. 
+
+Testing will take the form of surveys, demonstrations, and interactive field tests with undergraduate students throughout the development process. The information garnered from this project will provide fine tuning for the application’s basic requirements while providing the metrics to make sure that this application can successfully serve the needs of the client and the intended user base of visitors to the library.The metrics that will be tested will be the difficulty to use the application, the ability to find the intended space or resources within the library, and the speed in which an intended space can be found.
+%end Performance metrics 
+
+\newpage
+% Section: Signatures
+\section*{Signatures}
+
+\subsection*{Client}
+\vspace{10mm} %5mm vertical space
+\noindent\begin{tabular}{ll}
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Beth Filar Williams & Date\\[8ex]
+\end{tabular}
+
+\subsection*{Capstone Team}
+\vspace{10mm} %5mm vertical space
+\noindent\begin{tabular}{ll}
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Nathan Healea & Date\\[8ex]
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Stephen Krueger & Date\\[8ex]
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Matthew Zakrevsky & Date\\[8ex]
+
+\end{tabular}
+
+
+\end{document}
