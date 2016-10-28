@@ -1,0 +1,295 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+%signature page formatting
+
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\title{Requirement Document \\ CS Senior Capstone \\ \vspace{2mm}\small CS461 (Fall 2016)}
+\author{Authored by \\ Nathan Healea, Stephen Krueger, Matthew Zakrevsky}
+\date{October 25, 2016}
+\begin{document}
+% Title page
+\maketitle
+% End title page
+\newpage
+
+% Introduction Section
+\section{Introduction}
+
+% Introduction Section: Purpose
+\subsection{Purpose}
+This document will outline the software specifications for the \_\_\_\_\_\_\_\_\_ app. Specific requirements for the app will be defined below. This is to ensure that everyone involved in the project is in agreement regarding the behaviors, features, and constraints of the project. This document will also provide a glossary that will be used to make sure the contents of the document are communicated effectively. \\ 
+\\
+This document is intended for use by the  Library Experience and Access Department (LEAD) and Senior Capstone team in order to effectively communicate goals and requirements for the \_\_\_\_\_.    
+% Introduction Section: Scope
+\subsection{Scope}
+Identify the software product(s) to be produced by name:
+\begin{enumerate} 
+	\item Interactive Map
+	\item Librarian Administration Dashboard
+\end{enumerate}
+Explain what the software products (s) will, and , if necessary, will no do
+\begin{enumerate}
+	\item The Interactive Map 
+    \begin{enumerate}
+		\item Provides easy navigation of the Valley Library at Oregon State University
+		\item Display information when a location is  clicked on
+		\item Will scale to appropriate device size.
+		\item Provide search capabilities for Known and Unknown locations
+    \end{enumerate}
+    \item Librarian Administration Dashboard
+    \begin{enumerate}
+		\item Create, edit, and delete Known locations and resources.
+		\item Create, edit, and delete Unknown locations and resources.
+		\item Upload new versions of the library map when changes are made.
+		\item Assign roles to users
+		\item Describe the application of the software being specified including relevant benefits, objectives, and goals
+    \end{enumerate}
+\end{enumerate}
+
+% Introduction Section: Definitions, Acronyms, and Abbreviations (DAA)
+\subsection{Definitions, Acronyms, and Abbreviations}
+
+% (DAA): Definitions
+\subsubsection{Definitions}
+\begin{enumerate}
+	\item Known locations: Locations that are marked on the map and have physical, dimensional limits. These locations include study rooms, bath rooms, floors, etc. 
+	\item Unknown Location: Locations that are marked on map and have no physical dimensional limits.
+\end{enumerate}
+
+% (DAA): Acronyms
+\subsubsection{Acronyms}
+
+% (DAA): Abbreviations
+\subsubsection{Abbreviations}
+
+% References
+\section{References}
+
+% Overview
+\section{Overview}
+The remainder of the document specifies the features and the requirements regarding their implementation. It describes the requirements from a product, user, software, and system perspective. This SRS is broken down into designated sections that deal with each perspective (product,software, user, system). This is followed by a list of constraints on the project and any assumptions or dependencies that will be needed to complete the project successfully. 
+
+% Overview: Product Perspective
+\subsection{Product Perspective}
+The product is independent. The product will function as a standalone interactive map. It may be tied in with other library software products such as the room reservation system or book location system.
+
+% Product Perspective: System Interface
+\subsubsection{System Interface}
+\begin{enumerate}
+	\item Interactive Map: This dashboard is the forward facing interface for use by visitors to  the library. This interface will allow the user to find marked locations and search for locations with specific criteria.
+	\item Librarian Administration Dashboard: Allows the library staff to make changes to the maps that have been created, create new maps, and delete old information without the need to access the database directly.
+\end{enumerate}
+
+% Product Perspective: User Interface
+\subsubsection{User Interface}
+\begin{enumerate}
+	\item Interactive Map
+    \begin{enumerate}
+    	\item Main screen: Map View
+    \end{enumerate}
+	\item Librarian Administration Dashboard
+    \begin{enumerate}
+    	\item Map Upload
+        \item Known Location Input Form
+        \item Unknown Location Input Form
+        \item Role Assignment Form
+    \end{enumerate}
+\end{enumerate}
+
+% Product Perspective: Software Interfaces
+\subsubsection{Software Interfaces}
+\begin{enumerate}
+	\item Drupal
+\end{enumerate}
+
+% Product Perspective: Communication Interfaces
+\subsubsection{Communication Interfaces}
+
+% Product Perspective: Memory Constraints
+\subsubsection{Memory Constraints}
+\begin{enumerate}
+	\item Valley Library Web Server
+\end{enumerate}
+
+% Product Perspective: Operations
+\subsubsection{Operations}
+
+% Overview: Product Functions
+\subsection{Product Functions}
+\begin{enumerate}
+	\item The web application will guide users around the library by displaying information based on user search parameters. This search feature will allow an individual to look for both known and unknown areas, and areas that offer different resources such as disability access and bathrooms. Displaying information on the map will result in areas and resources being highlighted with additional information being displayed in a sidebar or pop up.
+    \item Admin functions will allow an administrator to add, edit, and delete areas and information. The admin will be provided with a form to edit room/area information. Admins will be able to upload new floor maps. They will also be provided with a “find” API that will return the id of the area they are looking for.
+\end{enumerate}
+
+% Overview: User Characteristics
+\subsection{User Characteristics}
+The general user will most likely be a 18-30 year old university student. Most users are assumed to be familiar with other map technologies such as Google maps or apple maps. The app should be able to be used by someone with very limited technical expertise. It is assumed that the user is technically proficient enough to navigate to the website.
+
+% Overview: Constraints
+\subsection{Constraints}
+
+% Constraints: Regulatory Policies
+\subsubsection{Regulatory Policies}
+\begin{enumerate}
+	\item Oregon State University Web Accessibility
+\end{enumerate}
+
+% Constraints: Hardware Limitations
+\subsubsection{Hardware Limitations}
+\begin{enumerate}
+	\item Valley Library Web Server
+\end{enumerate}
+
+% Constraints: Interface to Other Application
+\subsubsection{Interface to Other Application}
+\begin{enumerate}
+	\item API that will allows location ID to sent to the Interactive Map and show the location of that ID
+\end{enumerate}
+
+% Constraints: Parallel Operation
+\subsubsection{Parallel Operation}
+N/A
+
+% Constraints: Audit Functions
+\subsubsection{Audit Functions}
+N/A
+
+% Constraints: Control Functions
+\subsubsection{Control Functions}
+N/A
+
+% Constraints: Higher-order languages requirements
+\subsubsection{Higher-order languages requirements}
+N/A
+
+% Constraints: Handshake Protocols
+\subsubsection{Handshake Protocols}
+N/A
+
+% Overview: Reliability Requirements
+\subsection{Reliability Requirements}
+N/A
+
+% Overview: Safety and Security Considerations
+\subsection{Safety and Security Considerations}
+\begin{enumerate}
+	\item Must adhere FERPA
+\end{enumerate}
+
+% Overview: Criminality of the Application
+\subsection{Criminality of the Application}
+N/A
+
+% Overview: Assumptions and Dependencies
+\subsection{Assumptions and Dependencies}
+N/A
+
+% Overview: Factors that affect the requirements in the SRS
+\subsection{Factors that affect the requirements in the SRS}
+\begin{enumerate}
+	\item Operating systems
+	\item Database
+	\item Framework
+	\item Language Interpreter
+	\item Device
+	\item Web browser
+\end{enumerate}
+
+% Specific Requirements (SR)
+\section{Specific Requirements}
+
+% (SR): External Interfaces
+\subsubsection{External Interfaces}
+
+% (SR): Functions
+\subsubsection{Functions}
+\begin{enumerate}
+	\item Interact Map
+    \begin{enumerate}
+    	\item Find Location
+		\item Search Location
+		\item Display Location Information
+		\item Set Current Location
+    \end{enumerate}
+    \item Librarian Administration Dashboard
+    \begin{enumerate}
+      \item Known
+      \begin{enumerate}
+          \item Create
+          \item Edit
+          \item Delete
+      \end{enumerate}
+      \item Unknown
+      \begin{enumerate}
+          \item Create
+          \item Edit
+          \item Delete
+      \end{enumerate}
+      \item Map Upload 
+      \item Role Assignment
+      \begin{enumerate}
+          \item Create
+          \item Edit
+          \item Delete
+      \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+% (SR): Performance Requirements
+\subsubsection{Performance Requirements}
+N/A
+
+% (SR): Logical Database Requirements
+\subsubsection{Logical Database Requirements}
+N/A
+
+% (SR): Design constraints
+\subsubsection{Design constraints}
+N/A
+
+% (SR): Standards compliance 
+\subsubsection{Standards compliance }
+N/A
+
+% (SR): Software system attributes 
+\subsubsection{Software system attributes }
+N/A
+
+% Appendixes
+\section{Appendixes}
+
+% Index
+\section{Index}
+\newpage
+
+% Table of Content
+\tableofcontents
+\newpage
+% End Table of Content
+
+\end{document}
