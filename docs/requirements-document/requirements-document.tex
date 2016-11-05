@@ -1,8 +1,9 @@
-\documentclass[letterpaper,10pt,titlepage]{article}
+\documentclass[letterpaper,10pt,titlepage, onecolumn, compsoc]{IEEEtran}
 \usepackage{graphicx}                                        
 \usepackage{amssymb}                                         
 \usepackage{amsmath}                                         
-\usepackage{amsthm}                                          
+\usepackage{amsthm} 
+\usepackage{pgfgantt}
 
 \usepackage{alltt}                                           
 \usepackage{float}
@@ -28,12 +29,17 @@
 \usepackage{hyperref}
 \usepackage{geometry}
 
-\title{Requirement Document \\ CS Senior Capstone \\ \vspace{2mm}\small CS461 (Fall 2016)}
+\title{Team LibNav \\ Requirement Document \\ CS Senior Capstone \\ \vspace{2mm}\small CS461 (Fall 2016)}
 \author{Authored by \\ Nathan Healea, Stephen Krueger, Matthew Zakrevsky}
-\date{October 25, 2016}
+\date{November 3, 2016}
 \begin{document}
 % Title page
 \maketitle
+
+% Abstract
+\section*{abstract}
+Currently, the Oregon State University Valley Library's flat, un-interactive map fails to provide visitors the information needed to navigate the library effectively. Visitors struggle to navigate to marked locations and find places with desired attributes. The requirements laid out in this document help solve this problem by providing specifications for the interactive map, administration dashboard, and web accessibility standards. Included specifications cover the purpose of the application, as well as product functions and project constraints.
+
 % End title page
 \newpage
 
@@ -42,32 +48,32 @@
 
 % Introduction Section: Purpose
 \subsection{Purpose}
-This document will outline the software specifications for the \_\_\_\_\_\_\_\_\_ app. Specific requirements for the app will be defined below. This is to ensure that everyone involved in the project is in agreement regarding the behaviors, features, and constraints of the project. This document will also provide a glossary that will be used to make sure the contents of the document are communicated effectively. \\ 
-\\
-This document is intended for use by the  Library Experience and Access Department (LEAD) and Senior Capstone team in order to effectively communicate goals and requirements for the \_\_\_\_\_.    
+
+This document will outline the software specifications for the LibNav web application. Specific requirements for the app will be defined below. This is to ensure that everyone involved in the project is in agreement regarding the behaviors, features, and constraints of the project. This document will also provide a glossary that will be used to make sure the contents of the document are communicated effectively.  
+
+This document is intended for use by the  Library Experience and Access Department (LEAD) and Senior Capstone team in order to effectively communicate goals and requirements for the LibNav. 
 % Introduction Section: Scope
 \subsection{Scope}
-Identify the software product(s) to be produced by name:
+The Scope of this project is broken down into three main requirements: Interactive Map, Librarian Administration Dashboard, and Accessibility.
 \begin{enumerate} 
-	\item Interactive Map
-	\item Librarian Administration Dashboard
-\end{enumerate}
-Explain what the software products (s) will, and , if necessary, will no do
-\begin{enumerate}
-	\item The Interactive Map 
+	\item Interactive Map: The interactive map will show a overview of the Valley Library at Oregon State with clickable location, that when clicked on will display information about that location.
     \begin{enumerate}
-		\item Provides easy navigation of the Valley Library at Oregon State University
-		\item Display information when a location is  clicked on
-		\item Will scale to appropriate device size.
-		\item Provide search capabilities for Known and Unknown locations
+    	\item Provides easy navigation of the Valley Library at Oregon State University.
+      	\item Displays information when a location is clicked.
+    	\item Cross platform compatible. (limited to modern browser: Safari, Chrome, Firefox, IE +6.0)
+    	\item Scale to device sizes (3.5” to 28” screen size)
     \end{enumerate}
-    \item Librarian Administration Dashboard
+	\item Librarian Administration Dashboard: That dashboard will allow administration over the information that will be displayed on the interactive map.
     \begin{enumerate}
-		\item Create, edit, and delete Known locations and resources.
-		\item Create, edit, and delete Unknown locations and resources.
-		\item Upload new versions of the library map when changes are made.
-		\item Assign roles to users
-		\item Describe the application of the software being specified including relevant benefits, objectives, and goals
+    	\item Create, edit, and delete Known locations and resources.
+        \item Create, edit, and delete Unknown locations and resources.
+        \item Upload new versions of the library map when changes are made.
+        \item Assign roles to users
+        \item User login using CAS
+    \end{enumerate}
+    \item Accessibility
+    \begin{enumerate}
+    	\item Create a web application compliant with Oregon State University Web Accessibility guidelines focusing on: text alternatives to images, color choice, lists, and headings that are specified. 
     \end{enumerate}
 \end{enumerate}
 
@@ -78,31 +84,44 @@ Explain what the software products (s) will, and , if necessary, will no do
 \subsubsection{Definitions}
 \begin{enumerate}
 	\item Known locations: Locations that are marked on the map and have physical, dimensional limits. These locations include study rooms, bath rooms, floors, etc. 
-	\item Unknown Location: Locations that are marked on map and have no physical dimensional limits.
+	\item Unknown Location: Locations that are marked on the map and have no physical, dimensional limits.
+    \item Tag/Search Tag: A word that is able to be searched for that correlates to an attribute in an area. 
+    \item Location Attributes: Amenities or facilities that are offered by or located at a known or unknown location. 
+    \item Interactive Map: A map with a responsive interface that allows the user find locations with information they provide, and receive directions to that location. 
+    \item Dashboard: A graphical user interface for an admin that provides a summary of all important information and allows quick access to major functionalities such as creating spaces, editing spaces, and uploading maps.
+    \item ID: A unique identification of an object in a database pertaining to a Known or Unknown location.
+    \item Study Room Reservation: A Valley Library web application that allows a student to reserve a study room for a set amount of time depending on a student's academic standing. 
+    \item 1Search: A third party application that is combined with Oregon State University Libraries catalog and many other online databases.
 \end{enumerate}
 
 % (DAA): Acronyms
-\subsubsection{Acronyms}
+%\subsubsection{Acronyms}
 
 % (DAA): Abbreviations
 \subsubsection{Abbreviations}
+\begin{enumerate}
+	\item CAS: Central Access Services
+    \item VLIM: Valley Library Interactive Map
+    \item LAD: Librarian Administration Dashboard
+    \item OSU: Oregon State University 
+\end{enumerate}
 
 % References
-\section{References}
+%\section{References}
 
 % Overview
 \section{Overview}
-The remainder of the document specifies the features and the requirements regarding their implementation. It describes the requirements from a product, user, software, and system perspective. This SRS is broken down into designated sections that deal with each perspective (product,software, user, system). This is followed by a list of constraints on the project and any assumptions or dependencies that will be needed to complete the project successfully. 
+The remainder of the document specifies the features and the requirements regarding their implementation. It describes the requirements from a product, user, software, and system perspective. This SRS is broken down into designated sections that deal with each perspective (product,software, user, system). This is followed by a list of constraints on the project and any assumptions or dependencies that will be needed to complete the project successfully.
 
 % Overview: Product Perspective
 \subsection{Product Perspective}
-The product is independent. The product will function as a standalone interactive map. It may be tied in with other library software products such as the room reservation system or book location system.
+VLIM is an independent of other systems and function as a standalone web application. VLIM may also be passed relative id from other library software products such as Study Room Reservation or book location system (1search)
 
 % Product Perspective: System Interface
 \subsubsection{System Interface}
 \begin{enumerate}
-	\item Interactive Map: This dashboard is the forward facing interface for use by visitors to  the library. This interface will allow the user to find marked locations and search for locations with specific criteria.
-	\item Librarian Administration Dashboard: Allows the library staff to make changes to the maps that have been created, create new maps, and delete old information without the need to access the database directly.
+	\item Interactive Map: This dashboard is the forward facing interface for use by visitors to the OSU Valley Library. This interface will allow the user to find marked locations and search for locations with specific criteria.
+	\item Librarian Administration Dashboard: Allows the library staff to make modification to the information displayed within the Interactive Map by creating, editing, or deleting Known and Unknown locations. The Dashboard also allows library staff to assign roles to user, granting them access to the VLIM web application. 
 \end{enumerate}
 
 % Product Perspective: User Interface
@@ -110,7 +129,9 @@ The product is independent. The product will function as a standalone interactiv
 \begin{enumerate}
 	\item Interactive Map
     \begin{enumerate}
-    	\item Main screen: Map View
+    	\item Map that displays known and unknown locations
+        \item Directory of known location
+        \item Search box for known and unknown locations
     \end{enumerate}
 	\item Librarian Administration Dashboard
     \begin{enumerate}
@@ -118,32 +139,44 @@ The product is independent. The product will function as a standalone interactiv
         \item Known Location Input Form
         \item Unknown Location Input Form
         \item Role Assignment Form
+        \item User Login
     \end{enumerate}
 \end{enumerate}
 
+% Product Perspective: Hardware Interfaces
+%\subsubsection{Hardware Interfaces}
+
 % Product Perspective: Software Interfaces
-\subsubsection{Software Interfaces}
-\begin{enumerate}
-	\item Drupal
-\end{enumerate}
+%\subsubsection{Software Interfaces}
 
 % Product Perspective: Communication Interfaces
-\subsubsection{Communication Interfaces}
+%\subsubsection{Communication Interfaces}
 
 % Product Perspective: Memory Constraints
-\subsubsection{Memory Constraints}
-\begin{enumerate}
-	\item Valley Library Web Server
-\end{enumerate}
+%\subsubsection{Memory Constraints}
 
 % Product Perspective: Operations
-\subsubsection{Operations}
+%\subsubsection{Operations}
+
+% Product Perspective: Site Adaptations Requirements
+%\subsubsection{Site Adaptations Requirements}
 
 % Overview: Product Functions
 \subsection{Product Functions}
 \begin{enumerate}
-	\item The web application will guide users around the library by displaying information based on user search parameters. This search feature will allow an individual to look for both known and unknown areas, and areas that offer different resources such as disability access and bathrooms. Displaying information on the map will result in areas and resources being highlighted with additional information being displayed in a sidebar or pop up.
-    \item Admin functions will allow an administrator to add, edit, and delete areas and information. The admin will be provided with a form to edit room/area information. Admins will be able to upload new floor maps. They will also be provided with a “find” API that will return the id of the area they are looking for.
+	\item Interactive Map
+    \begin{enumerate}
+    	\item Provide guidance for a users to navigate around the library by displaying information
+        \item Search abilities to help user find Known and Unknown locations.
+        \item Highlighting of locations to clearly mark the desired location for a user.
+    \end{enumerate}
+    \item Librarian Administration Dashboard
+    \begin{enumerate}
+    	\item Allows an authorized user to create, edit or delete Known and Unknown locations and information through the use of a web form.
+        \item Allows an authorized user to upload library floor maps when needed.
+        \item Allows an authorized user to grant a user access to the system.
+    \end{enumerate}
+    
 \end{enumerate}
 
 % Overview: User Characteristics
@@ -156,129 +189,136 @@ The general user will most likely be a 18-30 year old university student. Most u
 % Constraints: Regulatory Policies
 \subsubsection{Regulatory Policies}
 \begin{enumerate}
-	\item Oregon State University Web Accessibility
+	\item Oregon State University Web Accessibility guidelines - Regulations for defining web media within Oregon State University domain.
 \end{enumerate}
 
 % Constraints: Hardware Limitations
-\subsubsection{Hardware Limitations}
-\begin{enumerate}
-	\item Valley Library Web Server
-\end{enumerate}
+%\subsubsection{Hardware Limitations}
 
 % Constraints: Interface to Other Application
 \subsubsection{Interface to Other Application}
 \begin{enumerate}
-	\item API that will allows location ID to sent to the Interactive Map and show the location of that ID
+	\item Study Room Reservation Service
+    \item 1Search
 \end{enumerate}
 
 % Constraints: Parallel Operation
-\subsubsection{Parallel Operation}
-N/A
+%\subsubsection{Parallel Operation}
 
 % Constraints: Audit Functions
-\subsubsection{Audit Functions}
-N/A
+%\subsubsection{Audit Functions}
 
 % Constraints: Control Functions
-\subsubsection{Control Functions}
-N/A
+%\subsubsection{Control Functions}
 
 % Constraints: Higher-order languages requirements
-\subsubsection{Higher-order languages requirements}
-N/A
+%\subsubsection{Higher-order languages requirements}
 
 % Constraints: Handshake Protocols
-\subsubsection{Handshake Protocols}
-N/A
+%\subsubsection{Handshake Protocols}
 
-% Overview: Reliability Requirements
-\subsection{Reliability Requirements}
-N/A
+% Constraints: Reliability Requirements
+%\subsection{Reliability Requirements}
 
-% Overview: Safety and Security Considerations
+% Constraints: Criminality of the Application
+\subsection{Criticality of the Application}
+This is a non-critical system. This system will have to field a large number of request, but should the system fail,  the Valley Library services will not be impacted.
+
+% Constraints: Safety and Security Considerations
 \subsection{Safety and Security Considerations}
 \begin{enumerate}
-	\item Must adhere FERPA
+	\item There are no security considerations that need to be taken other than to secure the authentication of user signing into the librarian dashboard and will adhere to FERPA. All other information is freely available on the Oregon State Valley Library website. 
 \end{enumerate}
 
-% Overview: Criminality of the Application
-\subsection{Criminality of the Application}
-N/A
-
-% Overview: Assumptions and Dependencies
+% Overview: Assumptions and Dependencies (AD)
 \subsection{Assumptions and Dependencies}
-N/A
-
-% Overview: Factors that affect the requirements in the SRS
-\subsection{Factors that affect the requirements in the SRS}
+Factors that might affect the requirements stated in the SRS.
 \begin{enumerate}
-	\item Operating systems
-	\item Database
-	\item Framework
-	\item Language Interpreter
-	\item Device
-	\item Web browser
+	\item Operating System
+    \item Database
+    \item Framework
+    \item Language Interpreter
+    \item Device
+    \item Web browser
 \end{enumerate}
+
+% AD: Assumptions
+%\subsubsection{Assumptions}
+
+% AD: Dependencies
+%\subsubsection{Dependencies}
+
+% Overview: Apportioning of Requirements
+%\subsection{Apportioning of Requirements}
 
 % Specific Requirements (SR)
 \section{Specific Requirements}
 
 % (SR): External Interfaces
-\subsubsection{External Interfaces}
+%\subsubsection{External Interfaces}
 
 % (SR): Functions
-\subsubsection{Functions}
+\subsection{Functions}
 \begin{enumerate}
-	\item Interact Map
-    \begin{enumerate}
-    	\item Find Location
-		\item Search Location
-		\item Display Location Information
-		\item Set Current Location
-    \end{enumerate}
-    \item Librarian Administration Dashboard
-    \begin{enumerate}
-      \item Known
-      \begin{enumerate}
-          \item Create
-          \item Edit
-          \item Delete
-      \end{enumerate}
-      \item Unknown
-      \begin{enumerate}
-          \item Create
-          \item Edit
-          \item Delete
-      \end{enumerate}
-      \item Map Upload 
-      \item Role Assignment
-      \begin{enumerate}
-          \item Create
-          \item Edit
-          \item Delete
-      \end{enumerate}
-    \end{enumerate}
+	\item Sanitize inputs entered into HTML Forms in the Librarian Administration Dashboard so that the inputs have consistent vales to prevent cross site scripting
 \end{enumerate}
 
 % (SR): Performance Requirements
-\subsubsection{Performance Requirements}
-N/A
+%\subsubsection{Performance Requirements}
 
 % (SR): Logical Database Requirements
-\subsubsection{Logical Database Requirements}
-N/A
+%\subsubsection{Logical Database Requirements}
 
-% (SR): Design constraints
-\subsubsection{Design constraints}
-N/A
+% (SR): Design constraints (DS)
+%\subsubsection{Design constraints}
 
-% (SR): Standards compliance 
-\subsubsection{Standards compliance }
-N/A
+% (DS): Standards compliance
+%\subsubsection{Standards compliance }
 
-% (SR): Software system attributes 
-\subsubsection{Software system attributes }
-N/A
+% (SR): Software system attributes  (SSA)
+%\subsubsection{Software system attributes }
+
+% (SSA): Reliability
+%\subsubsection{Reliability}
+
+% (SSA): Availability
+%\subsubsection{Availability}
+
+% (SSA): Security
+%\subsubsection{Security}
+
+% (SSA): Maintainability
+%\subsubsection{Maintainability}
+
+% (SSA): Portability
+%\subsubsection{Portability}
+
+% (SR): Organizing the Specific Requirements  (OSR)
+%\subsubsection{Organizing the Specific Requirements}
+
+% (OSR): System Mode
+%\subsubsection{System Mode}
+
+% (OSR): User Class
+%\subsubsection{User Class}
+
+% (OSR): Objects
+%\subsubsection{Objects}
+
+% (OSR): Features
+%\subsubsection{Features}
+
+% (OSR): Stimulus
+%\subsubsection{Stimulus}
+
+% (OSR): Responses
+%\subsubsection{Responses}
+
+% (OSR): Functional hierarchy
+%\subsubsection{Functional hierarchy}
+
+% (SR): Additional Comments
+%\subsubsection{Additional Comments}
 
 % Appendixes
 \section{Appendixes}
@@ -286,10 +326,59 @@ N/A
 % Index
 \section{Index}
 \newpage
-
 % Table of Content
 \tableofcontents
-\newpage
 % End Table of Content
+
+\begin{ganttchart}{1}{15}
+  \gantttitle{Valley Library Interactive Map}{15} \\
+  \gantttitlelist{1,...,15}{1} \\
+  %Interactive Map 
+  \ganttgroup{Interactive Map Dev}{1}{15} \\
+  \ganttbar{Drawing Locations}{1}{5} \\
+  \ganttlinkedbar{Location Search}{6}{7} \\
+  \ganttlinkedbar{Directory Search}{6}{7} \\
+  \ganttlinkedbar{Display Attributes}{6}{8} \\
+  \ganttlinkedbar{Current Location}{7}{8} \\
+  \ganttlinkedbar{Guidance system}{8}{12}\\ 
+  % Librarian Administration Dashboard
+  \ganttgroup{Dashboard Dev}{1}{13} \\
+  \ganttbar{Database Implementation}{1}{2}\\
+  \ganttlinkedbar{User Login}{2}{3} \\
+  \ganttlinkedbar{Role Assignment}{2}{3} \\
+  \ganttlinkedbar{Upload Maps}{3}{4} \\
+  \ganttgroup{Known Input Forms}{4}{6} \\
+  	\ganttbar{Implement Create}{4}{5} \\
+    \ganttlinkedbar{Implement Edit}{5}{5} \\
+    \ganttlinkedbar{Implement Delete}{5}{6}\\
+  \ganttgroup{Unknown Input Forms}{6}{8} \\
+  	\ganttbar{Implement Create}{6}{7} \\
+    \ganttlinkedbar{Implement Edit}{7}{7} \\
+    \ganttlinkedbar{Implement Delete}{7}{8}\\
+  \ganttbar{Input/Edit Area Attributes}{9}{10} \\
+\end{ganttchart}
+
+% Section: Signatures
+\section*{Signatures}
+*Uta Hussong-Christian signing for Beth Filar-Williams, this has been approved by Beth
+\subsection*{Client}
+
+\vspace{10mm} %5mm vertical space
+\noindent\begin{tabular}{ll}
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Uta Hussong-Christian* & Date\\[8ex]
+\end{tabular}
+
+\subsection*{Capstone Team}
+\vspace{10mm} %5mm vertical space
+\noindent\begin{tabular}{ll}
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Nathan Healea & Date\\[8ex]
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Stephen Krueger & Date\\[8ex]
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Matthew Zakrevsky & Date\\[8ex]
+
+\end{tabular}
 
 \end{document}
