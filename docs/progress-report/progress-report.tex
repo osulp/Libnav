@@ -1,0 +1,248 @@
+\documentclass[letterpaper,10pt,titlepage, onecolumn, compsoc]{IEEEtran}
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm} 
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+%signature page formatting
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\title{Team LibNav \\ Progress Report \\ CS Senior Capstone \\ \vspace{2mm}\small CS461 (Fall 2016)}
+\author{Authored by \\ Nathan Healea, Stephen Krueger, Matthew Zakrevsky}
+\date{November 14, 2016}
+\begin{document}
+% Title page
+\maketitle
+
+% Abstract
+\section*{abstract}
+This Progress Report contain information regarding the progress made in the CS Senior Capstone class by Team LibNav. This document will cover A recap of the project purposes and goals, a description of were the LibNav team is currently at, a description of problems that have impeded our progress and the solution to those problems, a  retrospective the of past 10 weeks.
+\newpage
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% Purpose / Goals
+\section{Purpose\/ Goals}
+This project is to provide a way for patrons and visitors of the Oregon State University Valley Library to navigate the space through the use of an interactive map. This map will guide the user from a starting location to a location of their choice through the multiple floors of the library. Users will be able to search for existing locations by names or attributes to make finding spaces and locations easier to find. 
+
+The goals of this project is to make it easier and quicker for visitors to find their destination, through the use of a web application designed to be used on mobile devices. This web application will be easy to use and uncluttered by extra features. This map will be fully editable by members of the library staff, allowing the staff to make updates to their map as the spaces around the library change. This project is being designed with portability and usability of both visitors and staff in mind, allowing for use of this application for years to come.
+
+% Where are we currently?
+\section{Where are we currently?}
+At this point in time we have completed the Design Document, using the requirements that we have received from our clients within the Valley Library. This is the final document that we needed to complete before we could begin developing the main web application. We have decided on the technologies that we plan use and how those technologies will be used to build the Librarian Administrator Dashboard, display the Interactive Map, guide users to destinations throughout the Library, and adhere to Oregon State University Web Accessibility. 
+
+With the completion of the Design Document we are now able to begin development over Winter Break. During this time we will workout any uncertainties we might have, by producing examples and learning some of the technologies. We plan to start on the development of our application so we have a jump start going into winter term. Because we are going to do some prototyping over winter break, this will give us a chance to evaluate our design to see if there are any changes that may need to be made.
+
+% 10 Week Retrospective (WR)
+\section{10 Week Retrospective}
+
+% WR: Week 3
+\subsection{Week 3}
+During week three was the introductory phase for the group. After we received our team assignments we got together to meet each other (capstone team) and our clients. We finally got to meet with the team at the Valley library, Beth Flair-Williams, the department head for the Library Experience and Access Department (LEAD) and Uta Husson-Christian who is a Science Librarian. During our first meeting we set up dedicated meeting times for each Friday at 2:00pm. We also established a line of communication between capstone team and library team. Email is used as main form of official communication. The team also opened a Slack channel for more informal communication. The weekly blog was set up as well. The blog in tandem with the Slack channel will help the clients keep up to date with our work on projects.  
+
+This week we also wrote our Problem Statement including an abstract, a list of definitions, a solution to the problem that our program will solve, and a performance matrix with standards to measure our success. 
+
+% Week 3: What we did
+\subsubsection{What we did}
+
+% Week 3: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+\begin{enumerate}
+	\item Communication: We need a way to communicate between client and capstone team.
+\end{enumerate}
+
+% Week 3: Solutions
+\subsubsection{Solutions}
+\begin{enumerate}
+	\item To solve the communication problem we decided to use Slack and email to communicate. 
+\end{enumerate}
+
+% WR: Week 4
+\subsection{Week 4}
+
+
+% Week 4: What we did
+\subsubsection{What we did}
+This week the group received the problem statement back and the feedback from the professors which only called for small changes. We quickly made the changes and got the document re-signed by clients and ready to re-submit. We were happy overall. Our group got a head start on the problem statement and were able to finish early due to efficient communicating in the group. Getting the problem statement done quickly also gave us plenty of time for client feedback which ensured that our problem statement encompassed all the client’s needs. 
+
+During our weekly friday meeting the group got introduced to Brandon Straley who is our main contact for any technical questions that we need answered. Brandon helped us answer many of the questions we had regarding the technical information that we will need to complete the requirements document. 
+
+We sat down early in the week to get together a list of requirements to present to the clients. After some small changes, we felt confident that we could at least get started on the requirements document.
+
+% Week 4: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+No problems impeded our progress this week.
+
+% Week 4: Solutions
+\subsubsection{Solutions}
+None
+
+% WR: Week 5
+\subsection{Week 5}
+
+% Week 5: What we did
+\subsubsection{What we did}
+This week was focused on writing the requirements document. We started by going through the IEEE 830 document and pulled out an outline. Then as a team we went through the outline and tried to fill out as much of it as we could. Some of the sections were confusing so we decided to meet with Kirsten to clear up some of the questions we had. 
+
+When we met with our client they were able to provide us with information needed to complete the document. Brandon gave us details such as traffic requirements and the number of concurrent users we would need to support. Beth helped us finalize a list of expected features for the software. 
+
+Brandon let us know that we wouldn’t be able to develop the application on the library server which was disappointing. It then became an imperative for us to find the best way to develop the application. Brandon told us that as long as it works we can hand it off to them and they’ll make it work on their servers. 
+
+% Week 5: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+\begin{enumerate}
+	\item The team could not develop on the library server where the web application would live. This was something that was outside of our project team and dealt with another department in the library. 
+\end{enumerate}
+
+% Week 5: Solutions
+\subsubsection{Solutions}
+\begin{enumerate}
+	\item Brainstorm some possible solution to develope our project. At this point we would create a master MV build that would be shared between the three of us to use and would develop on our local machine. We would mimic the server in which the application would live at the library. 
+\end{enumerate}
+
+% WR: Week 6
+\subsection{Week 6}
+
+% Week 6: What we did
+\subsubsection{What we did}
+The group finally came up with a name LibNav for both our team and the product. It took a lot of effort but we finished writing up the requirements document. LibNav has been broken down into three main requirements, Interactive Map, Librarian Administration Dashboard, and Web Accessibility. We are confident that we had put in as much information as we could. We added a bunch of definitions and developed a Gantt chart to the best of our ability. 
+
+During the week our team talked to Kevin about our current situation with regards to not having access to the library server. Kevin provided us with an Intel Nuc that we will be developing our project on. During our weekly meeting Brandon was able to give us details about the build of the library server. The plan is to basically build a replica of the library server on the Nuc to minimize problems when we go to move it to their server. 
+
+% Week 6: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+\begin{enumerate}
+	\item The problem that impeded our progress was where the application would be hosted. This caused uncertainty that the library technical team would not be able to get our project working due to differences between versions of software used between the MV and Library server. 
+\end{enumerate}
+
+% Week 6: Solutions
+\subsubsection{Solutions}
+\begin{enumerate}
+	\item To solve this problem we obtained a Intel NUC from Kevin that we will build to match the library server and were our application will be hosted for the duration of the project. This will insure that we will have a working version to demo and develop against in the case that the library technical team can not get the application working.  
+\end{enumerate}
+
+% WR: Week 7
+\subsection{Week 7}
+
+% Week 7: What we did
+\subsubsection{What we did}
+The focus this week was on the Technology Review Document. We met early in the week to divide up the responsibilities and roles of each team member. We broke down our application into about 15 or 16 sections between the backend and the frontend. From there, after an hour or so of brainstorming what technologies we would try out for each of the sections, we narrowed our choices down to nine. Matthew is responsible for Map Drawing/Generation and the framework. Steve is responsible for the database, user navigation and location, and the map upload. Nathan is focusing on information sanitation, user interface, user roles, user login, and session state. 
+
+There was not a meeting this week due to Veterans Day. We did receive clarification over Slack about regarding the technologies used on the library server. They have Node.js installed which is perfect because we will be using Node to build our application. We also got confirmation that the library maps can be exported as SVGs which is also great because we can use the information stored in SVGs to help with outlining walls, rooms and other locations. 
+
+% Week 7: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+This week we did not have any problems that impeded our progress.
+
+% Week 7: Solutions
+\subsubsection{Solutions}
+None
+
+% WR: Week 8
+\subsection{Week 8}
+
+% Week 8: What we did
+\subsubsection{What we did}
+This week was the week that we completed the Technology Review Document. After looking at all the technologies that we are going to be useing, we are eager to get started. There are still some decisions to be made, especially when it comes to the Dashboard template but for the most part everyone has a strong idea on what needs to be used to complete this project.
+
+Also during our class time, last thursday, we sat down and talked more about some of the harder parts of the project, navigation, drawing, ect. We have came up with some solid option to tackle these problems but won't know more until we get started. We also wanted to make sure that we had all of the information we needed to write our implementation plans
+
+Looking forward all of us are ready to start writing our parts for the Design Document. We are going to try to have everything done by December 1st so that we can get it signed on the second. We are not meeting with the Library Team due to the holiday. We all have a good idea of what we need to do on the Design Document and we know what sections will need to be filled out.
+
+% Week 8: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+\begin{enumerate}
+	\item This week there was not really a problem that impeded our progress, but we are having trouble coming up with a solid solution to our navigation and grid system.
+\end{enumerate}
+
+% Week 8: Solutions
+\subsubsection{Solutions}
+\begin{enumerate}
+	\item Over winter break we plan to do some code testing any try our some of our ideas we have for the navigation and grid system.
+\end{enumerate}
+
+% WR: Week 9
+\subsection{Week 9}
+
+
+% Week 9: What we did
+\subsubsection{What we did}
+During week 9 it was Thanksgiving. Not a lot got done. We did not meet with our client due to the holidays. Before everyone left for the long weekend we discussed our design document and who was responsible for each part. 
+
+We received feedback for the Technology Review Document. The results were positive though we as a group need to do a better job of making sure that our documents are being proof read. There are minor changes to be made that will have to be reflected in the technology document, such as focusing on a the important search requirement, and the validation javascript library we were going use got changed from Validator.js to Validate.js after taking a second look.
+
+One thing that caught us off guard was a quick changes what was made to the Technology Review Document. We found a technology that covered two parts of our application. When we realized that a new section was quickly added and due to limited communication two people cover the same component of the application twice.  
+
+% Week 9: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+\begin{enumerate}
+	\item Due to unclear communication on a last minute change resulted in two people cover the same component of the application. 
+\end{enumerate}
+
+% Week 9: Solutions
+\subsubsection{Solutions}
+\begin{enumerate}
+	\item To solve our communication problem and to insure that we have a continuous open line of communication we will be using Google Hangouts to communication with each member of the capstone team. 
+\end{enumerate}
+
+% WR: Week 10
+\subsection{Week 10}
+
+% Week 10: What we did
+\subsubsection{What we did}
+Week 10 was eventful for everyone. The Design Document was due at the end of the week and took a lot of effort from all of us to get it completed. This document will be instrumental as we begin to actually implement our project. The document broke down each of the major features that need to be implemented and actually went into the details of how we are going to do it. Though we will most certainly use the document as a guide, most of the specific details are subject to change. 
+
+We had our meeting with the library staff. Only one or two clarifying questions needed to be answered. The questions were about the specifics when it came to uploading of the map and the way we were going to guide the user through the library. We also received the SVG maps so that we can begin prototyping and testing  ideas we had for drawing, grids, and navigation. 
+
+% Week 10: Problems that have Impeded Progress
+\subsubsection{Problems that have Impeded Progress}
+No problems have impeded our progress.
+
+
+% Week 10: Solutions
+\subsubsection{Solutions}
+None
+
+% Positives \/Delta \/ Actions 
+\section{Positives \/Delta \/ Actions }
+\begin{center}
+
+\begin{tabular}{|p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}|}
+\hline
+\textbf{Positives}                                                                  & \textbf{Deltas}                                                                                                                           & \textbf{Actions}                                                                                                                                                         \\ \hline
+                                                                                    & We cannot use the library server for development. We will not be given access to the library server that will be hosting our application. & A Intel NUC will be used to host our application while we develop. The IT team at the Valley Library will be responsible for adding the application to their own servers \\ \hline
+All documents were turned in on time                                                & Document Courtesy making sure clients had more time to read over documents.                                                               & Complete all documents two days before due date. Give the Valley Library Team at least a day to review and changes to be made before they sign.                          \\ \hline
+Completed all necessary Documentation to begin development                          &                                                                                                                                           &                                                                                                                                                                          \\ \hline
+                                                                                    & Uncertainties on how grid and navigation system will work in the application and the transition between screen size.                      & Over winter break we will be doing some code examples and experimentation.                                                                                               \\ \hline
+No conflicts when it came to group dynamics - everyone did the work they were given &                                                                                                                                           &                                                                                                                                                                          \\ \hline
+\end{tabular}
+\end{center}
+\newpage
+% Bibliography
+%\section{Bibliography}
+%\bibliographystyle{IEEEtran}
+%\bibliography{bibiography.bib}
+
+\end{document}
