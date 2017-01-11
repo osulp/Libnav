@@ -1,0 +1,54 @@
+<h1>Live Data Graph</h1>
+
+this page uses: 
+<ul>
+  <li>node</li>
+  <li>express</li>
+  <li>MongoDB</li>
+  <li>Angular</li>
+  <li>d3</li>
+  <li>nvd3</li>
+</ul>
+
+<p>
+collection is: {{collection}}
+</p>
+
+
+<div ng-app="angular-app">
+<h2>Chart Follows</h2>
+  <div ng-controller="myChart">
+    <div>
+    <nvd3 options="options" data="data"></nvd3>
+    </div>
+    <div>
+<h2> individual data points </h2>
+      <ul>
+        <li ng-repeat="datum in data[0].values | reverse">
+        {[{datum}]}
+    </li>
+    </div>
+  </div>
+</div>
+
+
+<!-- <table> -->
+<!-- {{#each objects}} -->
+<!-- <tr> -->
+<!--    {{#each this}} -->
+<!--      <td>{{this}}</td> -->
+<!--     {{/each}} -->
+<!-- </tr> -->
+<!-- {{/each}} -->
+<!-- </table> -->
+
+
+
+<!-- can access individual elements with this -->
+    <!-- Key: {{this.title}} -->
+    <!-- </p> -->
+    <!-- <p> -->
+    <!-- Key: {{this._id}} -->
+    <!-- </p> -->
+    <!-- <p> -->
+    <!-- Key: {{this.created_at}} -->
