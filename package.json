@@ -1,5 +1,5 @@
 {
-  "name": "Libnav",
+  "name": "libnav",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,11 +7,49 @@
   },
   "dependencies": {
     "body-parser": "~1.15.1",
+    "bootstrap": "^3.3.7",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
     "hbs": "~4.0.0",
+    "jquery": "^3.1.1",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "description": "Oregon State University Valley Library Libnav project.",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VallyLibrarySeniorCapstone/Libnav.git"
+  },
+  "keywords": [
+    "Oregon",
+    "State",
+    "University",
+    "navigation",
+    "Libnav"
+  ],
+  "contributors": [
+    {
+      "name": "Nathan Healea",
+      "email": "healean@oregonstate.edu"
+    },
+    {
+      "name": "Stephen Krueger",
+      "email": "kruegest@oregonstate.edu"
+    },
+    {
+      "name": "Matthew Zakrevsky",
+      "email": "zakrevsm@oregonstate.edu"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VallyLibrarySeniorCapstone/Libnav/issues"
+  },
+  "homepage": "https://github.com/VallyLibrarySeniorCapstone/Libnav#readme"
 }
