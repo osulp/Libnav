@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/home');
 var users = require('./routes/users');
+var dashboard = require('./routes/dashboard');
 
 var app = express();
 
@@ -35,7 +36,6 @@ app.set('view engine', 'handlebars');
 app.use('/public', express.static(__dirname + '/public/'));
 // Jquery
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
-
 // Bootstrap
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 
@@ -50,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/dashboard',dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
