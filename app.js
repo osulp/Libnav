@@ -19,12 +19,12 @@ app.set('view engine', 'handlebars');*/
 
 // Create `ExpressHandlebars` instance with a default layout.
 var hbs = exphbs.create({
-  defaultLayout: 'main/base',
+  defaultLayout: 'home-main',
 
   // Uses multiple partials dirs, templates in "shared/templates/" are shared
   // with the client-side of the app (see below).
   partialsDir: [
-    'views/templates/main'
+    'views/templates'
   ]
 });
 
@@ -38,6 +38,10 @@ app.use('/public', express.static(__dirname + '/public/'));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 // Bootstrap
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
+// Bootstrap
+app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'));
+// MetisMenu
+app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist'));
 
 
 // uncomment after placing your favicon in /public
