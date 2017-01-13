@@ -6,14 +6,29 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var routes = require('./routes/home');
 var users = require('./routes/users');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+/*app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');*/
+
+// Create `ExpressHandlebars` instance with a default layout.
+var hbs = exphbs.create({
+  defaultLayout: 'main/base',
+
+  // Uses multiple partials dirs, templates in "shared/templates/" are shared
+  // with the client-side of the app (see below).
+  partialsDir: [
+    'views/templates/main'
+  ]
+});
+
+// Register `hbs` as our view engine using its bound `engine()` function.
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // public folder
@@ -23,6 +38,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 // Bootstrap
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
