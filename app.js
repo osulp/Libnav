@@ -19,12 +19,10 @@ app.set('view engine', 'handlebars');*/
 
 // Create `ExpressHandlebars` instance with a default layout.
 var hbs = exphbs.create({
-  defaultLayout: 'home-main',
-
-  // Uses multiple partials dirs, templates in "shared/templates/" are shared
+  // Uses multiple partials dirs, partials in "shared/partials/" are shared
   // with the client-side of the app (see below).
   partialsDir: [
-    'views/templates'
+    'views/partials'
   ]
 });
 
