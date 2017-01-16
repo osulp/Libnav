@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/home');
 var users = require('./routes/users');
+var dashboard = require('./routes/dashboard');
 
 var app = express();
 
@@ -18,12 +19,10 @@ app.set('view engine', 'handlebars');*/
 
 // Create `ExpressHandlebars` instance with a default layout.
 var hbs = exphbs.create({
-  defaultLayout: 'main/base',
-
-  // Uses multiple partials dirs, templates in "shared/templates/" are shared
+  // Uses multiple partials dirs, partials in "shared/partials/" are shared
   // with the client-side of the app (see below).
   partialsDir: [
-    'views/templates/main'
+    'views/partials'
   ]
 });
 
@@ -35,9 +34,12 @@ app.set('view engine', 'handlebars');
 app.use('/public', express.static(__dirname + '/public/'));
 // Jquery
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
-
 // Bootstrap
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
+// Bootstrap
+app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'));
+// MetisMenu
+app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist'));
 
 
 // uncomment after placing your favicon in /public
@@ -50,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/dashboard',dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
