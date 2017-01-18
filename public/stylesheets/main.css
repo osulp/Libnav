@@ -140,6 +140,8 @@ section {
     padding: 50px 10px;
 }
 
+/* --- Footer styling --- */
+
 footer {
     background: url('/public/images/osu/footer-trees.png?v=1') repeat-x bottom left #373737;
     color: #fff;
@@ -172,6 +174,13 @@ footer p {
     margin: 5px 0px;
 }
 
+/* --- Font Awesome styleing --- */
+.fa-container{
+    display: inline-block;
+}
 
+.fa-vertical{
+    vertical-align: middle;
+}
 
 
