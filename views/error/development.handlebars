@@ -9,8 +9,12 @@
     {{> home/nav}}
 
     <div class="container">
-        <h1>{{message}}</h1>
+        <h1>{{title}}</h1>
         <h2>{{error.status}}</h2>
+
+
+        {{{body}}}
+
         <pre>{{error.stack}}</pre>
 
     </div>
