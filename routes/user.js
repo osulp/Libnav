@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var user = require('../models/user');
 /* GET users listing. */
 /*router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -13,7 +13,7 @@ router.get('/login', function(req, res, next) {
 
 /* POST user login */
 router.post('/login', function(req, res, next) {
-  console.log(req.body.username);
+  user.authenticate(req.body.username);
   var body = '<p>Username: ' + req.body.username + '</p><p>Password: ' + req.body.password + '</p>';
   res.render('error/development', {title: 'Checking User login POST Data', body: body });
 });
