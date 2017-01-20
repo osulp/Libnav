@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/home');
-var users = require('./routes/users');
+var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
 
 var app = express();
@@ -31,21 +31,21 @@ app.set('view engine', 'handlebars');
 
 // public folder
 app.use('/public', express.static(__dirname + '/public/'));
-// Jquery
+// jquery
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
-// Bootstrap
+// bootstrap
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
-// Bootstrap
+// font-awesome
 app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'));
-// MetisMenu
+// metismenu
 app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist'));
 
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser());
 
 // Populates req.session
@@ -59,7 +59,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/user', user);
 app.use('/dashboard',dashboard);
 
 // catch 404 and forward to error handler
