@@ -13,9 +13,12 @@ router.get('/login', function(req, res, next) {
 
 /* POST user login */
 router.post('/login', function(req, res, next) {
-  user.authenticate(req.body.username);
-  var body = '<p>Username: ' + req.body.username + '</p><p>Password: ' + req.body.password + '</p>';
-  res.render('error/development', {title: 'Checking User login POST Data', body: body });
+  user.openconfig();
+  if(user.authenticate(req.body.username, req.body.password)){
+    req.session.authenticated = true;
+    res.redirect('/dashboard')
+  }
+  res.redirect('/login');
 });
 
 module.exports = router;

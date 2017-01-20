@@ -124,9 +124,9 @@ h2, h3, h4 {
     line-height: 1.2;
 }
 
-section {
-    background-color: lightgray;
-}
+/*section {*/
+    /*background-color: lightgray;*/
+/*}*/
 
 /* --- Footer styling --- */
 
@@ -134,6 +134,7 @@ footer {
     background: url('/public/images/osu/footer-trees.png?v=1') repeat-x bottom left #373737;
     color: #fff;
     padding: 50px;
+    margin-top: 10px;
     border-top: 5px solid #c34500;
     min-height: 200px;
 }
@@ -173,7 +174,7 @@ footer p {
 
 
 /* --- Login styleing ---- */
-.form-signin {
+.form-signin{
     max-width: 330px;
     padding: 15px;
     margin: 10px auto;
@@ -201,5 +202,13 @@ footer p {
 .form-signin .form-control:focus {
     z-index: 2;
 }
+
+/**[role="form"] {*/
+    /*max-width: 530px;*/
+    /*padding: 15px;*/
+    /*margin: 0 auto;*/
+    /*background-color: #fff;*/
+    /*border-radius: 0.3em;*/
+/*}*/
 
 
