@@ -1,15 +1,20 @@
 var express = require('express');
 var exphbs  = require('express-handlebars');
 var session = require('express-session');
+var crypto  = require('crypto');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 var routes = require('./routes/home');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
+
+// config
+var config = JSON.parse(fs.readFileSync('./config/config.json'));
 
 var app = express();
 
