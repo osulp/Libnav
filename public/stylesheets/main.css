@@ -88,6 +88,9 @@ body {
     padding: 0px;
 }
 
+.navbar-right{
+    margin: 0px;
+}
 /*.navbar-fixed-top .nav {*/
 /*padding: 15px 0;*/
 /*}*/
