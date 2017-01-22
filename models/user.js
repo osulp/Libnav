@@ -34,7 +34,7 @@ exports.authenticate = function(userOG, passwdOG){
         isMatch = true;
     }
 
-    return true;
+    return isMatch;
 };
 
 
