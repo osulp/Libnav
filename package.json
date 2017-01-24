@@ -18,7 +18,8 @@
     "jquery": "^3.1.1",
     "metismenu": "^2.6.1",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "validator.js": "^2.0.3"
   },
   "description": "Oregon State University Valley Library Libnav project.",
   "main": "app.js",

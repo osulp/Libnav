@@ -20,10 +20,6 @@ exports.authenticate = function(userOG, passwdOG){
     var passwdCK = config['login']['username'];
     var isMatch = false;
 
-    // testing
-    console.log('authenticate - userOG: ' + userOG);
-    console.log('authenticate - passwdOG: ' + passwdOG);
-
     // hashing inputted username and password
     userOG = encrypt.hash(userOG, config['salt']);
     passwdOG = encrypt.hash(passwdOG, config['salt']);
