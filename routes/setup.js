@@ -17,16 +17,16 @@ var config = {
     'salt': null
 };
 
-/* GET home page. */
+/* GET setup index page. */
 router.get('/', function (req, res, next) {
     res.render('setup/index', {title: 'Express'});
 });
 
-/* GET home page. */
+/* POST setup index page. */
 router.post('/', function (req, res, next) {
     var salt = encrypt.genSalt(16);
-    config['login']['username'] = encrypt.hash(req.body.loginUsername, salt);
-    config['login']['password'] = encrypt.hash( req.body.loginPassword, salt);
+    config['login']['username'] = encrypt.hash(req.body.masterUsername, salt);
+    config['login']['password'] = encrypt.hash( req.body.masterPassword, salt);
     config['database']['host'] = req.body.dbHost;
     config['database']['name'] = req.body.dbName;
     config['database']['username'] = encrypt.hash(req.body.dbUsername, salt);
@@ -35,7 +35,8 @@ router.post('/', function (req, res, next) {
 
     fs.writeFile('config/config.json', JSON.stringify(config));
 
-    res.render('home/index', { title: 'Express' });
+    res.json(JSON.stringify(true));
+    // res.render('home/index', { title: 'Express' });
 
 });
 

@@ -51,8 +51,8 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'
 app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'));
 // metismenu
 app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist/'));
-// validator.js
-app.use('/validator', express.static(__dirname + '/node_modules/validator.js/dist/'));
+// approve.js
+app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
 
 
 // uncomment after placing your favicon in /public
