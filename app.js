@@ -5,7 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var PF = require('pathfinding');
+var d3 = require('d3');
 var routes = require('./routes/home');
 var users = require('./routes/users');
 var dashboard = require('./routes/dashboard');
@@ -40,7 +41,10 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'
 app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'));
 // MetisMenu
 app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist'));
-
+// Pathfinding.js
+app.use('/pathfinding', express.static(__dirname + '/node_modules/pathfinding'));
+//d3.js
+app.use('/d3', express.static(__dirname+ '/node_modules/d3'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
