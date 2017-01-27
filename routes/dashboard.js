@@ -115,9 +115,9 @@ router.post('/room', function (req, res, next) {
 });
 
 /* Get Service Point Location page */
-router.get('/room', function (req, res, next) {
+router.get('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/service')
+        res.render('dashboard/servicepoint')
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -131,9 +131,9 @@ router.get('/room', function (req, res, next) {
 });
 
 /* Post Service Point Location page */
-router.post('/room', function (req, res, next) {
+router.post('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/service' )
+        res.render('dashboard/servicepoint' )
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
