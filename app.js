@@ -53,6 +53,8 @@ app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'
 app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist/'));
 // approve.js
 app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
+// d3
+app.use('/d3',express.static(__dirname + '/node_modules/d3'));
 
 
 // uncomment after placing your favicon in /public

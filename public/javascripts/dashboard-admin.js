@@ -47,11 +47,11 @@ $(function () {
     }
 
     /* Applies focues class to any map input field. */
-    $('#map-wrapper').mouseover(function () {
+    /*$('#map-wrapper').mouseover(function () {
         $(this).click(function() {
             $(this).addClass('focus');
         });
     }).mouseout(function () {
         $(this).removeClass('focus');
-    })
+    })*/
 });
