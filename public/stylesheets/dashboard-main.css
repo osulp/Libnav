@@ -35,6 +35,14 @@ body {
     }
 }
 
+.navbar-main{
+    margin:5px 0px;
+}
+/* ---- Top Navigation bar * ----*/
+.navbar{
+    margin-bottom: 0px;
+}
+
 .navbar-top-links {
     margin-right: 0;
 }
@@ -94,6 +102,7 @@ body {
 }
 
 /* ---- Sidbar Navigation ---- */
+
 .sidebar .sidebar-nav.navbar-collapse {
     padding-left: 0;
     padding-right: 0;
@@ -157,7 +166,7 @@ body {
         z-index: 1;
         position: absolute;
         width: 215px;
-        margin-top: 78px;
+        /*margin-top: 78px;*/
     }
 
     .navbar-top-links .dropdown-messages,

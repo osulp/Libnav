@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/index', {title: 'Express'})
+        res.render('dashboard/index', {title: 'Express', sesion:true})
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
