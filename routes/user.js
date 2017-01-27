@@ -31,6 +31,12 @@ router.post('/login', function (req, res, next) {
 
 });
 
+/* GET user logut */
+router.get('/logout', function (req, res, next) {
+    req.session.isAuthenticated = false;
+    res.redirect('/');
+});
+
 /*router.post('/login', function (req, res, next) {
  // testing
  console.log('post/login - username: ' + req.body.username);

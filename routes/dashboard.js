@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/index', {title: 'Express', sesion:true})
+        res.render('dashboard/index', {session:true});
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
 /* Get Known Location page */
 router.get('/known', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/known')
+        res.render('dashboard/known', {session:true});
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -37,7 +37,7 @@ router.get('/known', function (req, res, next) {
 /* Post Know Location page */
 router.post('/known', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/known')
+        res.render('dashboard/known', {session:true});
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -53,7 +53,7 @@ router.post('/known', function (req, res, next) {
 /* Get Unknown Location page */
 router.get('/unknown', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/unknown')
+        res.render('dashboard/unknown', {session:true})
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -69,7 +69,7 @@ router.get('/unknown', function (req, res, next) {
 /* Post Unknown Location page */
 router.post('/unknown', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/known' )
+        res.render('dashboard/known', {session:true} )
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -85,7 +85,7 @@ router.post('/unknown', function (req, res, next) {
 /* Get Room Location page */
 router.get('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/room')
+        res.render('dashboard/room', {session:true})
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -101,7 +101,7 @@ router.get('/room', function (req, res, next) {
 /* Post Room Location page */
 router.post('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/room' )
+        res.render('dashboard/room',{session:true} )
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -117,7 +117,7 @@ router.post('/room', function (req, res, next) {
 /* Get Service Point Location page */
 router.get('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/servicepoint')
+        res.render('dashboard/servicepoint',{session:true})
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
@@ -133,7 +133,7 @@ router.get('/servicepoint', function (req, res, next) {
 /* Post Service Point Location page */
 router.post('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/servicepoint' )
+        res.render('dashboard/servicepoint',{session:true} )
     }else {
         res.render('error/index', {
             message: '<div class="fa-container">' +
