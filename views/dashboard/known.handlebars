@@ -89,7 +89,9 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group" id="map-group">
-
+                                        <object type="image/svg+xml" id="map-wrapper" data="/public/images/floor-6-redesign.svg">
+                                            Your browser does not support SVG
+                                        </object>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 data-target="#map-modal">
@@ -131,9 +133,7 @@
                     <h4 class="modal-title" id="myModalLabel">Mark Location</h4>
                 </div>
                 <div class="modal-body">
-                    <object type="image/svg+xml" id="map-wrapper" data="/public/images/floor-6-redesign.svg">
-                        Your browser does not support SVG
-                    </object>
+
                     <div class="row" id="map-control">
                         <div class="col-lg-12">
                             <div class="btn btn-default" id="btn-draw">Draw</div>
@@ -159,5 +159,25 @@
 
     <script src="/d3/build/d3.min.js"></script>
     <script src="/public/javascripts/render-map.js"></script>
+    <script>
+        window.onload = function () {
+            $('#map-wrapper').ready(function() {
+                var a = $('#map-wrapper');
+                console.log(a);
+                var doc = a[0].contentDocument;
+                console.log(doc);
+                var svgItem = doc.getElementById("base");
+                console.log(svgItem);
+                var svg = d3.select(svgItem);
+                console.log(svg);
+                var polyLayer = svg.append("g").attr("id", "polygons");
+//                var svgDoc = a.contentDocument;
+//                var svgItem = svgDoc.getElementById("base");
+//                var svg = d3.select(svgItem);
+//
+//                var polyLayer = svg.append("g").attr("id", "polygons");
+            })
+        };
+    </script>
 
 </body>
