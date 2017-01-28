@@ -89,10 +89,12 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group" id="map-group">
-                                        <label for="map-wrapper">Mark Location</label>
-                                        <div id="map-wrapper"class="form-control">
 
-                                        </div> <!-- / #map-wrapper !-->
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#map-modal">
+                                            Mark Location
+                                        </button>
                                     </div> <!-- / .form-group !-->
                                 </div> <!-- / .col-lg-12 !-->
                             </div><!-- / .row !-->
@@ -118,6 +120,40 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="map-modal" tabindex="-1" role="dialog" aria-labelledby="map-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mark Location</h4>
+                </div>
+                <div class="modal-body">
+                    <object type="image/svg+xml" id="map-wrapper" data="/public/images/floor-6-redesign.svg">
+                        Your browser does not support SVG
+                    </object>
+                    <div class="row" id="map-control">
+                        <div class="col-lg-12">
+                            <div class="btn btn-default" id="btn-draw">Draw</div>
+                            <div class="btn btn-primary" id="btn-fill">Fill</div>
+                            <div class="btn btn-warning" id="btn-clear">
+                                Clear
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-default" data-dismiss="modal">Close</div>
+                    <div class="btn btn-primary">Save changes</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{> dashboard/javascript }}
     <script src="/d3/build/d3.min.js"></script>
