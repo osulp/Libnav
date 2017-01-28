@@ -158,6 +158,27 @@ footer div.social-media {
     padding-top: 15px;
 }
 
+<<<<<<< HEAD
+.circle {
+	border-radius: 50%;
+	width: 20px;
+	height: 20px; 
+    background-color: black
+}
+
+.grid { margin:1em auto; border-collapse:collapse }
+.grid td {
+    cursor:pointer;
+    width:30px; height:30px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
+.grid td.clicked {
+    background-color:yellow;
+    font-weight:bold; color:red;
+}
+=======
 footer p {
     padding: 0px;
     margin: 5px 0px;
@@ -210,5 +231,6 @@ footer p {
     /*background-color: #fff;*/
     /*border-radius: 0.3em;*/
 /*}*/
+>>>>>>> healean-branch
 
 

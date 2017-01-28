@@ -7,7 +7,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var PF = require('pathfinding');
+var d3 = require('d3');
 
 var routes = require('./routes/home');
 var user = require('./routes/user');
@@ -49,13 +50,14 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 // font-awesome
 app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'));
-// metismenu
-app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist/'));
+// MetisMenu
+app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist'));
+// Pathfinding.js
+app.use('/pathfinding', express.static(__dirname + '/node_modules/pathfinding'));
+//d3.js
+app.use('/d3', express.static(__dirname+ '/node_modules/d3'));
 // approve.js
 app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
-// d3
-app.use('/d3',express.static(__dirname + '/node_modules/d3'));
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
