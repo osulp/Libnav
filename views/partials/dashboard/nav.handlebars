@@ -1,0 +1,100 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    <!--<div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Libnav</a>
+    </div>
+    &lt;!&ndash; /.navbar-header &ndash;&gt;-->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://oregonstate.edu"><img src="/public/images/osu/logo.jpg?v=1"
+                                                                   alt="oregon state university" width="215"
+                                                                   height="78"/></a>
+        <h1 class="navbar-text">Libnav</h1>
+    </div> <!-- ./navbar-header !-->
+
+    <!--    <ul class="nav navbar-default">
+            <li><a href="/">Home</a></li>
+
+        </ul>-->
+</nav>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="navbar-collapse collapse navbar-main" id="top-navbar-collapse">
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="#">About</a>
+        </li>
+        <li>
+            <a href="#">Services</a>
+        </li>
+        <li>
+            <a href="#">Contact</a>
+        </li>
+    </ul>
+
+    {{#if session}}
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+            <li>
+                <a href="/user/logout">Logout</a>
+            </li>
+        </ul>
+    {{else}}
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="/user/login">Login</a>
+            </li>
+        </ul>
+
+    {{/if}}
+</div> <!-- /.navbar-collapse -->
+
+<!-- Sidebar !-->
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav <!--navbar-collapse-->">
+        <ul class="nav" id="side-menu">
+            <li>
+                <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-pencil-square-o  fa-fw"></i> Location Forms<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li>
+                        <a href="/dashboard/known">Known</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/unknown">Unknown</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/room">Room</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/servicepoint">Service Point</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/blocked">Blocked</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->
