@@ -23,7 +23,7 @@ router.get('/known', function (req, res, next) {
 /* Post Know Location page */
 router.post('/known', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/known', {session:true});
+        res.json(JSON.stringify(true));
     }else {
         res.render('error/login');
     }

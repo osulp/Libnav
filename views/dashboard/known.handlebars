@@ -27,7 +27,7 @@
                 <!-- Form !-->
                 <div class="row">
                     <div class="col-lg-12">
-                        <form role="form">
+                        <form href="/known" method="POST" role="form">
                             <div class="row">
 
                                 <!-- Location name input !-->
@@ -68,7 +68,7 @@
                                         <label for="attribute">Attribute</label>
                                         <textarea rows="5" id="attribute" name="attribute" class="form-control"
                                                   placeholder="Lighting, Natural, Electrical, Socket, etc."
-                                                  required autofocus></textarea>
+                                                   autofocus></textarea>
                                         <p class="help-block">Enter the attributes the location contains.</p>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
@@ -78,7 +78,7 @@
                                     <div class="form-group" id="name-group">
                                         <label for="tag">Tag</label>
                                         <textarea rows="5" id="tag" name="tag" class="form-control"
-                                                  placeholder="Learning Corner, Circulation Desk, etc." required
+                                                  placeholder="Learning Corner, Circulation Desk, etc."
                                                   autofocus></textarea>
                                         <p class="help-block">Enter the tag used to identify the location.</p>
                                     </div>
@@ -124,6 +124,7 @@
     {{> dashboard/javascript }}
 
     <script src="/d3/build/d3.min.js"></script>
+    <script src="/public/javascripts/form-submit.js" ></script>
     <!--<script src="/public/javascripts/render-map.js"></script>-->
 
 </body>
