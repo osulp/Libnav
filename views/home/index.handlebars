@@ -12,15 +12,23 @@
         <h1>{{title}}</h1>
         <p>Welcome to {{title}}</p>
         {{body}}
-        <div class="boxMap" style="width:500px;height:500px;"></div>
-
+        <object id="map" data="/../../public/images/floor-6-redesign.svg" ></object>
 
     </div>
 
     {{> home/footer }}
     {{> home/javascript }}
     
-    <!-- Add d3 scrip here !-->
+    
+    
+    <!--pathfinding js -->
+    <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+
+    <!-- Navigation js -->
+    <script src="../../../public/javascripts/navigation-main.js"></script>
+    
+    <!--d3.js-->
+    <script src="/d3/build/d3.min.js"></script>
 
     <!-- Navigation Script tag !-->
     <script>
@@ -39,4 +47,6 @@
         ga('create', 'UA-48705802-2', 'auto');
         ga('send', 'pageview');*/
     </script>
+    
+    
 </body>

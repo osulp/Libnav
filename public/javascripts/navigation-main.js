@@ -1,8 +1,41 @@
-$( document ).ready(function() {
-
-    var boxDiv = $(".boxMap");
+window.onload=function(){
     
-var lastClicked;
+$("#map").ready(function(){
+  /*  var getSVG = $("#base");
+    */
+    
+    var navThis = function(){
+     
+     var gridCalc = new PF.Grid(svgItem.clientWidth,svgItem.clientHeight);
+     var finder = new PF.AStarFinder();
+    }
+    
+    var a = document.getElementById("map");
+    console.log(a);
+	var svgDoc = a.contentDocument;
+	var svgItem = svgDoc.getElementById("base"); 
+    var svg = d3.select(svgItem);
+    var navLayer = svg.append('g').attr('id','navLayer');
+    for(var h = 0 ; h < svgItem.clientHeight; h += 20){
+        for(var w = 0; w < svgItem.clientWidth; w += 20){
+            if(h==0|| w == 0){
+                
+            }else{
+               var circle = navLayer.append('circle').attr('cx', w).attr('cy', h).attr('r', 1).attr('onclick', navThis()).style("fill", "rgba(0,0,0,.5)");
+               
+            }
+        }
+    }
+    
+    var arryCIrc = circle.selectAll();
+  
+    
+    
+});
+
+    
+    
+/*var lastClicked;
 var startFlag = true;
 var finishFlag = false;
 var notWalkFlag = false;
@@ -78,10 +111,10 @@ function clickableGrid( rows, cols, callback ){
         }
     }
     return grid;
-}
+}*/
     
     
     
     
-});
+};
 
