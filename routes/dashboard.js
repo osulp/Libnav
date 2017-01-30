@@ -17,6 +17,7 @@ router.get('/known', function (req, res, next) {
         res.render('dashboard/known', {session:true});
     }else {
         res.render('error/login');
+
     }
 });
 

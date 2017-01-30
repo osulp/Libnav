@@ -4,9 +4,11 @@
     cursor: pointer;
     min-height: 300px;
 }
+
 #map-control{
     margin-bottom: 10px;
 }
+
 
 .focus {
     border-color: #66afe9;
