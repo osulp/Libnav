@@ -7,9 +7,11 @@
 
 
 window.onload = function () {
+
 var pointArray = [];
 
 var count = 0;
+
 
 var floor = "../floor-6-redesign";
 
@@ -23,8 +25,8 @@ var svgItem = svgDoc.getElementById("base");
 
 var polyLayer = svg.append("g").attr("id", "polygons");
 
-    document.getElementById("btn-mark").onclick = function() {
-       document.getElementById("btn-mark").innerHTML = "Fill Polygon"
+    document.getElementById("btn-draw").onclick = function() {
+
             svg.on("click",function(ev){
                 console.log('cliking');
                     //var point = d3.mouse(this), p = {x:point[0], y:point[1]};
@@ -50,7 +52,7 @@ var polyLayer = svg.append("g").attr("id", "polygons");
 
 
                 svg.append("line")
-                    .attr("class", "line")
+                    .attr("class", "click-line")
                     .attr("x1", pointArray[count].x)
                     .attr("y1", pointArray[count].y)
                     .attr("x2", pointArray[(count + 1)].x)
@@ -60,8 +62,9 @@ var polyLayer = svg.append("g").attr("id", "polygons");
                     .style("strokeWidth", 0.5);
                 count++;
 
-                document.getElementById("btn-mark").onclick = function (){
+                document.getElementById("btn-fill").onclick = function (){
                             svg.append("polygon")
+                            .attr("class", "drawn-poly")
                             .attr("points", function () {
                                 return pointArray.map(function (d) {
                                     return [d.x, d.y].join(",");
@@ -73,6 +76,13 @@ var polyLayer = svg.append("g").attr("id", "polygons");
                         
                 }
 
+                document.getElementById("btn-clear").onclick = function (){
+                            console.log("attempting to remove items")
+                            svg.selectAll("circle.click-circle").remove();
+                            svg.selectAll("polygon.drawn-poly").remove();
+                            svg.selectAll("line.click-line").remove();
+                        
+                }
             });
 
         }
