@@ -7,14 +7,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var PF = require('pathfinding');
-var d3 = require('d3');
 
+
+// setting routes variables
 var routes = require('./routes/home');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
 var setup = null;
 
+// Defining application
 var app = express();
 
 // config file set up
@@ -22,8 +23,6 @@ try {
     setup = require('./routes/setup');
 } catch(e){ // do nothing
  }
-
-
 
 
 // view engine setup
@@ -38,9 +37,11 @@ var hbs = exphbs.create({
     ]
 });
 
+
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
 
 // public folder
 app.use('/public', express.static(__dirname + '/public/'));
@@ -59,12 +60,17 @@ app.use('/d3', express.static(__dirname+ '/node_modules/d3'));
 // approve.js
 app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
 
+
+// app.use(express.static(path.join(__dirname, 'public')));
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 app.use(cookieParser());
+
 
 // Populates req.session
 app.use(session({
@@ -73,14 +79,12 @@ app.use(session({
     secret: 'keyboard cat'
 }));
 
-
-app.use(express.static(path.join(__dirname, 'public')));
-
 // setting routes
 app.use('/', routes);
 app.use('/user', user);
 app.use('/dashboard', dashboard);
 
+// set setup script
 try{
     app.use('/setup', setup);
 }
