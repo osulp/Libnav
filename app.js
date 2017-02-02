@@ -8,6 +8,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var config = null;
+
 
 // setting routes variables
 var routes = require('./routes/home');
@@ -17,6 +19,14 @@ var setup = null;
 
 // Defining application
 var app = express();
+
+// Load config file
+try{
+    config = require('./config/config.json');
+}
+catch(e){
+    console.log('config not loaded.');
+}
 
 // config file set up
 try {
