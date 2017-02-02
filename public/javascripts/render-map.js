@@ -5,34 +5,34 @@
  * Created: 1/16/17
  */
 
+var pointArray = [];
 
 window.onload = function () {
 
-var pointArray = [];
 
-var count = 0;
+    var count = 0;
 
 
-var floor = "../floor-6-redesign";
+    var floor = "../floor-6-redesign";
 
-$("#map-wrapper").ready(function(){
-var a = document.getElementById("map-wrapper");
-   console.log(a);
-var svgDoc = a.contentDocument;
-console.log(svgDoc);
-var svgItem = svgDoc.getElementById("base");
-   var svg = d3.select(svgItem);
+    $("#map-wrapper").ready(function () {
+        var a = document.getElementById("map-wrapper");
+        console.log(a);
+        var svgDoc = a.contentDocument;
+        console.log(svgDoc);
+        var svgItem = svgDoc.getElementById("base");
+        var svg = d3.select(svgItem);
 
-var polyLayer = svg.append("g").attr("id", "polygons");
+        var polyLayer = svg.append("g").attr("id", "polygons");
 
-    document.getElementById("btn-draw").onclick = function() {
+        document.getElementById("btn-draw").onclick = function () {
 
-            svg.on("click",function(ev){
+            svg.on("click", function (ev) {
                 console.log('cliking');
-                    //var point = d3.mouse(this), p = {x:point[0], y:point[1]};
-                    //var $div = $(ev.target);
-                    //var offset = $div.offset();
-                pos =  d3.mouse(this)
+                //var point = d3.mouse(this), p = {x:point[0], y:point[1]};
+                //var $div = $(ev.target);
+                //var offset = $div.offset();
+                pos = d3.mouse(this)
                 //pointArray.push([(ev.clientX-offset.left),(ev.clientY -  offset.top)]);
                 point = {
                     "x": pos[0],
@@ -62,31 +62,31 @@ var polyLayer = svg.append("g").attr("id", "polygons");
                     .style("strokeWidth", 0.5);
                 count++;
 
-                document.getElementById("btn-fill").onclick = function (){
-                            svg.append("polygon")
-                            .attr("class", "drawn-poly")
-                            .attr("points", function () {
-                                return pointArray.map(function (d) {
-                                    return [d.x, d.y].join(",");
-                                }).join(" ");
-                            })
-                            .style("fill", "0cff00")
-                            .style("stroke", "0cff00")
-                            .style("opacity", .25);
-                        
+                document.getElementById("btn-fill").onclick = function () {
+                    svg.append("polygon")
+                        .attr("class", "drawn-poly")
+                        .attr("points", function () {
+                            return pointArray.map(function (d) {
+                                return [d.x, d.y].join(",");
+                            }).join(" ");
+                        })
+                        .style("fill", "0cff00")
+                        .style("stroke", "0cff00")
+                        .style("opacity", .25);
+
                 }
 
-                document.getElementById("btn-clear").onclick = function (){
-                            console.log("attempting to remove items")
-                            svg.selectAll("circle.click-circle").remove();
-                            svg.selectAll("polygon.drawn-poly").remove();
-                            svg.selectAll("line.click-line").remove();
-                        
+                document.getElementById("btn-clear").onclick = function () {
+                    console.log("attempting to remove items")
+                    svg.selectAll("circle.click-circle").remove();
+                    svg.selectAll("polygon.drawn-poly").remove();
+                    svg.selectAll("line.click-line").remove();
+
                 }
             });
 
         }
-});
-    
+    });
+
 }    
 

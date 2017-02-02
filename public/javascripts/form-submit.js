@@ -15,6 +15,9 @@ $(function () {
             formdata[input.name] = input.value
         }
 
+        // adding data array
+        formdata['points'] = pointArray;
+
         // Submit data
         submit(formdata, url);
 
