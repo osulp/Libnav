@@ -2,10 +2,17 @@
  * Description:
  *  handles all logic for authenticating a user and starting a session.
  */
-var fs = require('fs');
-var encrypt = require('../classes/encrypt');
-var configFile = fs.readFileSync('./config/config.json');
-var config = null;
+
+var crypt = require('./crypt');
+var config = '';
+
+// try to load config
+try{
+    config = require('../config/config');
+}
+catch(e){
+    console.log('Config file was not loaded.');
+}
 
 
 /**
@@ -21,10 +28,8 @@ exports.authenticate = function(userOG, passwdOG){
     var isMatch = false;
 
     // hashing inputted username and password
-    userOG = encrypt.hash(userOG, config['salt']);
-    passwdOG = encrypt.hash(passwdOG, config['salt']);
-    // crypto.createHash('md5').update(userOG);
-    // crypto.createHash('md5').update(passwdOG);
+    userOG = crypt.encrypt(userOG);
+    passwdOG = crypt.encrypt(passwdOG);
 
     if((userOG == userCK) && (passwdOG == passwdCK)){
         isMatch = true;
@@ -33,8 +38,3 @@ exports.authenticate = function(userOG, passwdOG){
     return isMatch;
 };
 
-
-exports.openconfig = function(){
-    var jsonData = fs.readFileSync('config/config.json');
-    config = JSON.parse(jsonData);
-};

@@ -20,14 +20,6 @@ var setup = null;
 // Defining application
 var app = express();
 
-// Load config file
-try{
-    config = require('./config/config.json');
-}
-catch(e){
-    console.log('config not loaded.');
-}
-
 // config file set up
 try {
     setup = require('./routes/setup');
@@ -47,11 +39,9 @@ var hbs = exphbs.create({
     ]
 });
 
-
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-
 
 // public folder
 app.use('/public', express.static(__dirname + '/public/'));
@@ -70,17 +60,12 @@ app.use('/d3', express.static(__dirname+ '/node_modules/d3'));
 // approve.js
 app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
 
-
-// app.use(express.static(path.join(__dirname, 'public')));
-
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 app.use(cookieParser());
-
 
 // Populates req.session
 app.use(session({
@@ -132,6 +117,5 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;

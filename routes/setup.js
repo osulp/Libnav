@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var encrypt  =  require('../classes/encrypt');
+var crypt  =  require('../classes/crypt');
 var fs = require('fs');
 
 var config = {
@@ -13,8 +13,7 @@ var config = {
         'name': null,
         'username': null,
         'password': null
-    },
-    'salt': null
+    }
 };
 
 /* GET setup index page. */
@@ -24,19 +23,17 @@ router.get('/', function (req, res, next) {
 
 /* POST setup index page. */
 router.post('/', function (req, res, next) {
-    var salt = encrypt.genSalt(16);
-    config['login']['username'] = encrypt.hash(req.body.masterUsername, salt);
-    config['login']['password'] = encrypt.hash( req.body.masterPassword, salt);
+    console.log('In post method');
+    config['login']['username'] = crypt.encrypt(req.body.masterUsername);
+    config['login']['password'] = crypt.encrypt( req.body.masterPassword);
     config['database']['host'] = req.body.dbHost;
     config['database']['name'] = req.body.dbName;
-    config['database']['username'] = encrypt.hash(req.body.dbUsername, salt);
-    config['database']['password'] = encrypt.hash( req.body.dbPassword, salt);
-    config['salt'] = salt;
+    config['database']['username'] = crypt.encrypt(req.body.dbUsername);
+    config['database']['password'] = crypt.encrypt( req.body.dbPassword);
 
-    fs.writeFile('config/config.json', JSON.stringify(config));
-
+    // write config informaion to file.
+    fs.writeFile('./config/config.json', JSON.stringify(config));
     res.json(JSON.stringify(true));
-    // res.render('home/index', { title: 'Express' });
 
 });
 
