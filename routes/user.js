@@ -30,24 +30,5 @@ router.get('/logout', function (req, res, next) {
     res.redirect('/');
 });
 
-/*router.post('/login', function (req, res, next) {
- // testing
- console.log('post/login - username: ' + req.body.username);
- console.log('post/login - password: ' + req.body.password);
-
- user.openconfig();
- var isAuthenticated = false;
- isAuthenticated = user.authenticate(req.body.username, req.body.password);
- console.log(isAuthenticated);
-
- if (isAuthenticated) {
- req.session.isAuthenticated = true;
- res.redirect('/dashboard');
- } else {
- req.flash('error', 'Username and password are incorrect');
- res.redirect('/login');
- }
-
- });*/
 
 module.exports = router;

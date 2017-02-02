@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var database = require('../classes/database');
 
 
 /* GET home page. */
@@ -26,6 +27,10 @@ router.post('/known', function (req, res, next) {
     if (req.session.isAuthenticated) {
         console.log(req.body);
         res.json(JSON.stringify(true));
+        database.connect();
+        console.log(database.connection);
+
+
     }else {
         res.render('error/login');
     }
