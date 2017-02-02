@@ -46,7 +46,7 @@
                                     <div class="form-group" id="name-group">
                                         <label for="floor">Floor</label>
                                         <select id="floor" name="floor" class="form-control"
-                                                placeholder="floor"
+                                                
                                                 required autofocus>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -68,7 +68,7 @@
                                         <label for="attribute">Attribute</label>
                                         <textarea rows="5" id="attribute" name="attribute" class="form-control"
                                                   placeholder="Lighting, Natural, Electrical, Socket, etc."
-                                                  required autofocus></textarea>
+                                                   autofocus></textarea>
                                         <p class="help-block">Enter the attributes the location contains.</p>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
@@ -78,7 +78,7 @@
                                     <div class="form-group" id="name-group">
                                         <label for="tag">Tag</label>
                                         <textarea rows="5" id="tag" name="tag" class="form-control"
-                                                  placeholder="Learning Corner, Circulation Desk, etc." required
+                                                  placeholder="Learning Corner, Circulation Desk, etc."
                                                   autofocus></textarea>
                                         <p class="help-block">Enter the tag used to identify the location.</p>
                                     </div>
@@ -89,13 +89,9 @@
                             <!-- Map Location Input!-->
                             <div class="row">
                                 <div class="col-lg-12">
+
                                     <p class="input-label">Mark Location</p>
 
-                                    <!-- Map Canvas !-->
-                                    <object type="image/svg+xml" id="map-wrapper"
-                                            data="/public/images/floor-6-redesign.svg">
-                                        Your browser does not support SVG
-                                    </object>
 
                                     <!-- Map Control !-->
                                     <div class="row" id="map-control">
@@ -105,6 +101,13 @@
                                             <div class="btn btn-warning" id="btn-clear">Clear</div>
                                         </div>
                                     </div>
+
+                                    <div class="form-group" id="map-group">
+                                        <object type="image/svg+xml" id="map-wrapper" data="/public/images/floor-6-redesign.svg">
+                                            Your browser does not support SVG
+                                        </object>
+                                    </div> <!-- / .form-group !-->
+
                                 </div> <!-- / .col-lg-12 !-->
                             </div> <!-- / .row !-->
 
