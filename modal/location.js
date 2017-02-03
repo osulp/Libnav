@@ -1,6 +1,6 @@
 var db = require('../classes/database');
 
-exports.insert = function (data) {
+exports.insert = function (data, callback) {
     var results = null;
     // create database connection
     db.createConnection();
@@ -12,7 +12,7 @@ exports.insert = function (data) {
     db.connection.query('INSERT INTO location SET ?', data, function (error, results, fields) {
         if (error) throw error;
 
-        console.log(results.insertId);
+        callback(results.insertId);
     });
 
     // close connection to database

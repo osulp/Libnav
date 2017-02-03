@@ -6,8 +6,8 @@ var location = require('../modal/location');
 /* GET home page. */
 router.get('/', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/index', {session:true});
-    }else {
+        res.render('dashboard/index', {session: true});
+    } else {
         res.render('error/login');
     }
 });
@@ -15,8 +15,8 @@ router.get('/', function (req, res, next) {
 /* Get Known Location page */
 router.get('/known', function (req, res, next) {
     if (1) {
-        res.render('dashboard/known', {session:true});
-    }else {
+        res.render('dashboard/known', {session: true});
+    } else {
         res.render('error/login');
 
     }
@@ -27,25 +27,24 @@ router.post('/known', function (req, res, next) {
     if (1) {
         var data = {
             'floor': req.body.floor,
-            'type' : 'known',
-            'name' : req.body.name
+            'type': 'known',
+            'name': req.body.name
         };
+        var testid = null;
 
-        console.log(data);
+        location.insert(data, function (id) {
 
-
-        location.insert(data);
-
+        });
 
 
 
         /*console.log(req.body);
-        res.json(JSON.stringify(true));
-        database.connect();
-        console.log(database.connection);*/
+         res.json(JSON.stringify(true));
+         database.connect();
+         console.log(database.connection);*/
 
 
-    }else {
+    } else {
         res.render('error/login');
     }
 });
@@ -53,8 +52,8 @@ router.post('/known', function (req, res, next) {
 /* Get Unknown Location page */
 router.get('/unknown', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/unknown', {session:true})
-    }else {
+        res.render('dashboard/unknown', {session: true})
+    } else {
         res.render('error/login');
     }
 });
@@ -64,7 +63,7 @@ router.post('/unknown', function (req, res, next) {
     if (req.session.isAuthenticated) {
         console.log(req.body);
         res.json(JSON.stringify(true));
-    }else {
+    } else {
         res.render('error/login');
     }
 });
@@ -72,8 +71,8 @@ router.post('/unknown', function (req, res, next) {
 /* Get Room Location page */
 router.get('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/room', {session:true})
-    }else {
+        res.render('dashboard/room', {session: true})
+    } else {
         res.render('error/login');
     }
 });
@@ -83,7 +82,7 @@ router.post('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
         console.log(req.body);
         res.json(JSON.stringify(true));
-    }else {
+    } else {
         res.render('error/login');
     }
 });
@@ -91,8 +90,8 @@ router.post('/room', function (req, res, next) {
 /* Get Service Point Location page */
 router.get('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/servicepoint',{session:true})
-    }else {
+        res.render('dashboard/servicepoint', {session: true})
+    } else {
         res.render('error/login');
     }
 });
@@ -102,11 +101,10 @@ router.post('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
         console.log(req.body);
         res.json(JSON.stringify(true));
-    }else {
+    } else {
         res.render('error/login');
     }
 });
-
 
 
 module.exports = router;
