@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ab">
 <head>
-    {{> dashboard/head }}
+    {{> head }}
 
     <!-- Map dispaly CSS !-->
     <link rel="stylesheet" type="text/css" href="/public/stylesheets/map-display.css"/>
@@ -9,7 +9,8 @@
 
 <body>
     <div id="wrapper">
-        {{> dashboard/nav }}
+        {{> nav }}
+        {{> dashboard/sidebar }}
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -125,13 +126,12 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-
+        {{> footer }}
     </div>
     <!-- /#wrapper -->
 
-
-
     {{> dashboard/javascript }}
+
     <script src="/d3/build/d3.min.js"></script>
     <script src="/public/javascripts/render-map.js"></script>
     <script src="/public/javascripts/form-submit.js" ></script>

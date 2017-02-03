@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ab">
 <head>
-    {{> dashboard/head }}
+    {{> head }}
 
     <!-- Map dispaly CSS !-->
     <link rel="stylesheet" type="text/css" href="/public/stylesheets/map-display.css"/>
@@ -10,7 +10,8 @@
 
 <body>
     <div id="wrapper">
-        {{> dashboard/nav }}
+        {{> nav }}
+        {{> dashboard/sidebar }}
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -155,7 +156,7 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-
+        {{>footer}}
     </div>
     <!-- /#wrapper -->
 

@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="ab">
 <head>
-    {{> home/head }}
-
-
+    {{> head }}
 </head>
+
 <body>
-    {{> home/nav}}
+    <div id="wrapper">
+        {{> nav }}
+        {{> home/sidebar }}
 
-    <div class="container">
-        <h1>{{title}}</h1>
-        <p>Welcome to {{title}}</p>
-        {{body}}
-        <div class="boxMap" style="width:500px;height:500px;"></div>
-
-
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="map-group">
+                            <object type="image/svg+xml" id="map-wrapper" data="/public/images/map-floor-2.svg">
+                                Your browser does not support SVG
+                            </object>
+                        </div> <!-- / #map-group !-->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+        {{> footer }}
     </div>
+    <!-- /#wrapper -->
 
-    {{> home/footer }}
-    {{> home/javascript }}
 
-    <!--pathfinding js -->
-    <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+    {{> dashboard/javascript }}
 
-    <!--d3.js-->
-    <script src="/d3/build/d3.min.js"></script>
-
-    <!-- Navigation js -->
-    <script src="../../../public/javascripts/navigation-main.js"></script>
 </body>
