@@ -33,12 +33,8 @@ $("#navGrid").ready(function(){
   h = svgItem.clientHeight;
 
 // create the svg
-var svg = d3.select('#grid').append('svg')
-  .attr({
-    width: w,
-    height: h
-  });
-
+var svg = d3.select('#grid').append('svg');
+svg.attr("width", w).attr("height", h);
     
     
     
@@ -61,30 +57,29 @@ _.times(squaresColumn, function(n){
     
 });
     
-    
+
 // loop over number of columns
 _.times(squaresColumn, function(n) {
 
   // create each set of rows
-  var rows = svg.selectAll('rect' + ' .row-' + (n + 1))
-    .data(d3.range(squaresRow))
-    .enter().append('rect').attr("fill-opacity", '.3')
-    .attr({
-      class: function(d, i) {
-        return 'square row-' + (n + 1) + ' ' + 'col-' + (i + 1);
-      },
-      id: function(d, i) {
-        return 's-' + (n + 1) +"-"+ (i + 1);
-      },
-      width: square,
-      height: square,
-      x: function(d, i) {
-        return i * square;
-      },
-      y: n * square,
-      stroke: '#FDBB30'
-    });
 
+  var rows = svg.selectAll('rect' + ' .row-' + (n + 1)).data(d3.range(squaresRow))
+    .enter().append('rect')
+        .attr("fill-opacity", '.3')
+        .attr('class',function(d, i) {
+            return 'square row-' + (n + 1) + ' ' + 'col-' + (i + 1);
+          })
+        .attr('id',function(d, i) {
+            return 's-' + (n + 1) +"-"+ (i + 1);
+         })
+        .attr("width",square)
+        .attr("height",square)
+        .attr("x",function(d, i) {
+            return i * square;
+          })
+        .attr('y',n*square)
+        .attr("stroke",'black');
+    
     
     
     var isDragging = false;
@@ -97,7 +92,7 @@ _.times(squaresColumn, function(n) {
             if(this.attributes.getNamedItem("path") == null){
                 this.attributes.getNamedItem("fill-opacity").value = 0;
             }else{
-                this.attributes.getNamedItem("fill-opacity").value = .7;
+                this.attributes.getNamedItem("fill-opacity").value = .4;
             }
         });
     }); 
