@@ -788,6 +788,13 @@ table.dataTable thead .sorting:after {
     }
 }
 
+/* ---- Form styling ----*/
+.input-label{
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
 
 
 
