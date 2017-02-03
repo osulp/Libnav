@@ -7,12 +7,20 @@
 </head>
 <body>
     {{> home/nav}}
+    <h4 id="grid-ref">roll-over grid</h4>
 
     <div class="container">
         <h1>{{title}}</h1>
         <p>Welcome to {{title}}</p>
         {{body}}
-        <object id="map" data="/../../public/images/floor-6-redesign.svg" ></object>
+        <button id="setWalkTrue">set walkable</button>
+            <button id="setWalkFalse">set unwalkable</button>
+            <button id="hideGrid">hide Grid</button>
+        <div id="mapDiv" style="display:flex">
+            <object id="map" data="/../../public/images/floor-6-redesign.svg" ></object>
+            <section id="grid" style="position:absolute"></section>
+            
+        </div>
 
     </div>
 
@@ -30,6 +38,11 @@
     <!--d3.js-->
     <script src="/d3/build/d3.min.js"></script>
 
+    <!--lodash.js-->
+    <script src="lodash/lodash.js"></script>
+
+     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" charset="utf-8"></script>
     <!-- Navigation Script tag !-->
     <script>
         /*(function (i, s, o, g, r, a, m) {
