@@ -12,9 +12,9 @@ $("#setWalkFalse").on("click",function(){
 
    
     
-$("#map").ready(function(){
+$("#map-group").ready(function(){
     
-    var a = document.getElementById("map");
+    var a = document.getElementById("map-wrapper");
     var svgDoc = a.contentDocument;
 	var svgItem = svgDoc.getElementById("base"); 
 

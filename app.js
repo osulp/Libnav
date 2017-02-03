@@ -11,11 +11,17 @@ var PF = require('pathfinding');
 var d3 = require('d3');
 var lodash = require('lodash');
 
+
+var config = null;
+
+
+// setting routes variables
 var routes = require('./routes/home');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
 var setup = null;
 
+// Defining application
 var app = express();
 
 // config file set up
@@ -23,8 +29,6 @@ try {
     setup = require('./routes/setup');
 } catch(e){ // do nothing
  }
-
-
 
 
 // view engine setup
@@ -75,14 +79,12 @@ app.use(session({
     secret: 'keyboard cat'
 }));
 
-
-app.use(express.static(path.join(__dirname, 'public')));
-
 // setting routes
 app.use('/', routes);
 app.use('/user', user);
 app.use('/dashboard', dashboard);
 
+// set setup script
 try{
     app.use('/setup', setup);
 }
@@ -120,6 +122,5 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
