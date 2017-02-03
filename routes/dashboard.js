@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var database = require('../classes/database');
+var location = require('../modal/location');
 
 
 /* GET home page. */
@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
 
 /* Get Known Location page */
 router.get('/known', function (req, res, next) {
-    if (req.session.isAuthenticated) {
+    if (1) {
         res.render('dashboard/known', {session:true});
     }else {
         res.render('error/login');
@@ -24,11 +24,25 @@ router.get('/known', function (req, res, next) {
 
 /* Post Know Location page */
 router.post('/known', function (req, res, next) {
-    if (req.session.isAuthenticated) {
-        console.log(req.body);
+    if (1) {
+        var data = {
+            'floor': req.body.floor,
+            'type' : 'known',
+            'name' : req.body.name
+        };
+
+        console.log(data);
+
+
+        location.insert(data);
+
+
+
+
+        /*console.log(req.body);
         res.json(JSON.stringify(true));
         database.connect();
-        console.log(database.connection);
+        console.log(database.connection);*/
 
 
     }else {
