@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ab">
+<head>
+    {{> home/head }}
+
+
+</head>
+<body>
+    {{> home/nav}}
+
+    <div class="container">
+        <h1>{{title}}</h1>
+        <p>Welcome to {{title}}</p>
+        {{body}}
+        <div class="boxMap" style="width:500px;height:500px;"></div>
+
+
+    </div>
+
+    {{> home/footer }}
+    {{> home/javascript }}
+
+    <!--pathfinding js -->
+    <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+
+    <!--d3.js-->
+    <script src="/d3/build/d3.min.js"></script>
+
+    <!-- Navigation js -->
+    <script src="../../../public/javascripts/navigation-main.js"></script>
+</body>
