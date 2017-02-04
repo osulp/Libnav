@@ -59,9 +59,14 @@ app.use('/pathfinding', express.static(__dirname + '/node_modules/pathfinding'))
 app.use('/d3', express.static(__dirname+ '/node_modules/d3'));
 // approve.js
 app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
+//lodash
+app.use('/lodash', express.static(__dirname + '/node_modules/lodash/'));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+
 app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
