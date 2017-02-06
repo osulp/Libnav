@@ -52,15 +52,14 @@ CREATE TABLE IF NOT EXISTS gridpoint (
   ON DELETE CASCADE
 );*/
 
-/*CREATE TABLE IF NOT EXISTS locationattributes (
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS attribute (
+  id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  location_id INT             NOT NULL,
+  attr        VARCHAR(255),
   FOREIGN KEY (location_id) REFERENCES location (id)
     ON UPDATE CASCADE
-    ON DELETE CASCADE,
-  FOREIGN KEY (attribute) REFERENCES Attributes (id)
-    ON UPDATE CASCADE
     ON DELETE CASCADE
-);*/
+);
 
 
 /*CREATE TABLE roles (

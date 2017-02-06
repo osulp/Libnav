@@ -25,14 +25,27 @@ router.get('/known', function (req, res, next) {
 /* Post Know Location page */
 router.post('/known', function (req, res, next) {
     if (1) {
+        console.log(req.body);
+
+        // defining know data
         var data = {
             'floor': req.body.floor,
             'type': 'known',
             'name': req.body.name
         };
-        var testid = null;
 
-        location.insert(data, function (id) {
+        var attributes = req.body.attribute;
+        var tags = req.body.tag;
+
+        location.insertLocation(data, function (id) {
+
+            // applying id to attributes
+            for(var att in attributes){
+                attributes[att][0] = id;
+            }
+
+            // insuring attributes into attribute.
+            location.insertAttribute(attributes);
 
         });
 

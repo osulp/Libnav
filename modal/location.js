@@ -1,6 +1,6 @@
 var db = require('../classes/database');
 
-exports.insert = function (data, callback) {
+exports.insertLocation = function (data, callback) {
     var results = null;
     // create database connection
     db.createConnection();
@@ -18,5 +18,19 @@ exports.insert = function (data, callback) {
     // close connection to database
     db.connection.end();
 
+};
 
+exports.insertAttribute = function(data){
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('INSERT INTO attribute (location_id, attr) VALUES ?', [data]);
+
+    // close connection to database
+    db.connection.end();
 };
