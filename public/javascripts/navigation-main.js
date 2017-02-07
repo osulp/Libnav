@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+    $("#loadGrid").on("click",function(){
+
+    $("#hideGrid").show();
+    $("#setWalkTrue").show();
+    $("#setWalkFalse").show();    
+        
+
     var walkable = true;
 
 
@@ -179,6 +186,7 @@ $(document).ready(function(){
 
         });
 
+    });
     });
 
 });
