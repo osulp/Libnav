@@ -36,19 +36,43 @@ router.post('/known', function (req, res, next) {
 
         var attributes = req.body.attribute;
         var tags = req.body.tag;
+        var points = req.body.points;
 
         location.insertLocation(data, function (id) {
 
             // applying id to attributes
-            for(var att in attributes){
-                attributes[att][0] = id;
+            if (attributes != null) {
+                for (var att in attributes) {
+                    attributes[att][0] = id;
+                }
+                location.insertAttribute(attributes);
+
             }
 
             // insuring attributes into attribute.
-            location.insertAttribute(attributes);
+            if (tags != null) {
+
+                // applying id to tags
+                for (var att in tags) {
+                    tags[att][0] = id;
+                }
+
+                // insert attributes into tags.
+                location.insertTag(tags);
+            }
+
+            // insert points into point table
+            if(points != null){
+                // applying id to points
+                for (var p in points) {
+                    points[p][0] = id;
+                }
+
+                // insert attributes into tags.
+                location.insertPoint(points);
+            }
 
         });
-
 
 
         /*console.log(req.body);

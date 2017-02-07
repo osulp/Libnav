@@ -21,7 +21,8 @@ $(function () {
         }
 
         // adding data array
-        formdata['points'] = pointArray;
+        formdata['points'] = formatPoints(pointArray);
+        console.log(formdata);
 
         // Submit data
         submit(formdata, url);
@@ -77,6 +78,15 @@ function splitText(text){
             newtext.push([,text[t]]);
         }
     }
-    console.log(newtext);
     return newtext;
+}
+
+function formatPoints(points){
+    var newpoints = [];
+    for(var p in points){
+        newpoints.push([,points[p].y, points[p].x]);
+    }
+
+    return newpoints;
+
 }

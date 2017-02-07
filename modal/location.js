@@ -34,3 +34,33 @@ exports.insertAttribute = function(data){
     // close connection to database
     db.connection.end();
 };
+
+exports.insertTag = function(data){
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('INSERT INTO tag (location_id, attr) VALUES ?', [data]);
+
+    // close connection to database
+    db.connection.end();
+};
+
+exports.insertPoint = function(data){
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('INSERT INTO point (location_id, y, x) VALUES ?', [data]);
+
+    // close connection to database
+    db.connection.end();
+};

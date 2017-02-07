@@ -61,6 +61,25 @@ CREATE TABLE IF NOT EXISTS attribute (
     ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS tag (
+  id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  location_id INT             NOT NULL,
+  attr        VARCHAR(255),
+  FOREIGN KEY (location_id) REFERENCES location (id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS point (
+  id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  location_id INT             NOT NULL,
+  y           INT,
+  x           INT,
+  FOREIGN KEY (location_id) REFERENCES location (id)
+  ON UPDATE CASCADE
+  ON DELETE CASCADE
+);
+
 
 /*CREATE TABLE roles (
   id   INT AUTO_INCREMENT PRIMARY KEY,
