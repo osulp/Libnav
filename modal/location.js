@@ -1,6 +1,6 @@
 var db = require('../classes/database');
 
-exports.insertLocation = function (callback) {
+exports.insertLocation = function (data, callback) {
     var results = null;
     // create database connection
     db.createConnection();
