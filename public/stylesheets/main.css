@@ -193,6 +193,10 @@ body {
 
 /* ---- Sidbar Navigation ---- */
 
+.navbar-default.sidebar{
+    background-color:#ffffff;
+}
+
 .sidebar .sidebar-nav.navbar-collapse {
     padding-left: 0;
     padding-right: 0;
@@ -204,7 +208,7 @@ body {
 }
 
 .sidebar ul li {
-    background-color: #f5f2ed;
+    /*background-color: #f5f2ed;*/
 
 }
 
@@ -221,8 +225,8 @@ body {
 }
 
 .sidebar ul li a:hover {
-    color: #C44501;
-    background-color: #f5f2ed;
+    color: #ffffff;
+    background-color: #C44501;
 }
 
 .sidebar .arrow {
@@ -240,7 +244,7 @@ body {
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
     border-bottom: none !important;
-    background-color: #f5f2ed;
+    background-color: #ffffff;
 }
 
 .sidebar .nav-second-level li a {
