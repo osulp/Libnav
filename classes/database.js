@@ -12,7 +12,7 @@ catch(e){
 }
 
 
-exports.connect = function(){
+exports.createConnection = function(){
     var user = crypt.decrypt(config['database']['username']);
     var pass = crypt.decrypt(config['database']['password']);
 
@@ -23,6 +23,7 @@ exports.connect = function(){
             password: pass,
             database: config['database']['name']
         });
+
         console.log('Connection to database');
 
     }

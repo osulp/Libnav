@@ -12,11 +12,17 @@ $(function () {
         // get form input data
         for (var i = 0; i < inputs.length; i++) {
             var input = inputs[i];
-            formdata[input.name] = input.value
+            if (input.name == 'tag' || input.name == 'attribute'){
+                formdata[input.name] = splitText(input.value);
+            }
+            else {
+                formdata[input.name] = input.value
+            }
         }
 
         // adding data array
-        formdata['points'] = pointArray;
+        formdata['points'] = formatPoints(pointArray);
+        console.log(formdata);
 
         // Submit data
         submit(formdata, url);
@@ -53,4 +59,34 @@ function submit(data, url) {
         .fail(function () {
             console.log("Password Check failed");
         });
+}
+
+function splitText(text){
+
+    // remove non alphanumeric characters and replace with space
+    text = text.replace(/[^0-9a-zA-Z, ]/gi, '');
+
+    // split text on ',' and ' '
+    text = text.split(/[ ,]+/);
+
+    // creating new text vairiable
+    var newtext = [];
+
+    // scanning parsed text for empty strings.
+    for(var t in text){
+        if(text[t] != ""){
+            newtext.push([,text[t]]);
+        }
+    }
+    return newtext;
+}
+
+function formatPoints(points){
+    var newpoints = [];
+    for(var p in points){
+        newpoints.push([,points[p].y, points[p].x]);
+    }
+
+    return newpoints;
+
 }

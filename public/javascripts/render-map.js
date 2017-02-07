@@ -20,7 +20,7 @@ window.onload = function () {
         console.log(a);
         var svgDoc = a.contentDocument;
         console.log(svgDoc);
-        var svgItem = svgDoc.getElementById("base");
+        var svgItem = svgDoc.getElementById("Layer_4");
         var svg = d3.select(svgItem);
 
         var polyLayer = svg.append("g").attr("id", "polygons");
@@ -32,7 +32,7 @@ window.onload = function () {
                 //var point = d3.mouse(this), p = {x:point[0], y:point[1]};
                 //var $div = $(ev.target);
                 //var offset = $div.offset();
-                pos = d3.mouse(this)
+                pos = d3.mouse(this);
                 //pointArray.push([(ev.clientX-offset.left),(ev.clientY -  offset.top)]);
                 point = {
                     "x": pos[0],
@@ -49,7 +49,7 @@ window.onload = function () {
                     .attr('cx', point.x)
                     .attr('cy', point.y)
                     .attr("r", "5")
-                    .style("fill", "000000")
+                    .style("fill", "000000");
 
 
                 svg.append("line")
@@ -75,7 +75,7 @@ window.onload = function () {
                         .style("stroke", "0cff00")
                         .style("opacity", .25);
 
-                }
+                };
 
                 document.getElementById("btn-clear").onclick = function () {
                     console.log("attempting to remove items")
@@ -94,5 +94,5 @@ window.onload = function () {
         }
     });
 
-}    
+};
 
