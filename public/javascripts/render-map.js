@@ -91,18 +91,3 @@ window.onload = function () {
 };
 
 
-/*  
-var mainMapSVG = d3.select(svgItem.children[0]);
-var locations = mainMapSVG.selectAll("rect");
- 
-        locations.on("mouseenter",function(){
-        
-            var x = this.attributes.getNamedItem("x").value;
-            var y = this.attributes.getNamedItem("y").value;
-            var rectW = this.attributes.getNamedItem("width").value;
-            var rectH = this.attributes.getNamedItem("height").value;
-            this.attributes.getNamedItem("fill").value = "blue";
-                
-        });
-*/
-

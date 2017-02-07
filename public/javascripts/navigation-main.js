@@ -1,4 +1,4 @@
-window.onload = function () {
+$(document).ready(function(){
 
     var walkable = true;
 
@@ -17,8 +17,7 @@ window.onload = function () {
         var svgDoc = a.contentDocument;
         var svgChildren = svgDoc.childNodes;
         var svgItem = svgChildren[2];
-
-
+        
 
         $("#navGrid").ready(function () {
 
@@ -85,11 +84,20 @@ window.onload = function () {
                 var allRectangles = svg.selectAll('rect');
 
                 $("#hideGrid").on("click", function () {
+                    
+                    
+                    /*remove this!!*/
+                    svg.remove();
+                    
+                    
+                    
+                    
                     allRectangles.attr("stroke", 'none');
                     allRectangles.each(function () {
                         var x = this;
                         if (this.attributes.getNamedItem("path") == null) {
                             this.attributes.getNamedItem("fill-opacity").value = 0;
+                            this.remove();
                         } else {
                             this.attributes.getNamedItem("fill-opacity").value = .4;
                         }
@@ -173,5 +181,5 @@ window.onload = function () {
 
     });
 
-};
+});
 
