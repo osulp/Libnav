@@ -14,11 +14,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <button id="setWalkTrue">set walkable</button>
-                        <button id="setWalkFalse">set unwalkable</button>
-                        <button id="hideGrid">hide Grid</button>
-                        <div id="map-group" style="display:flex">
-                            <object type="image/svg+xml" id="map-wrapper" data="/public/images/map-floor-1.svg">
+                        <button class="btn" id="loadGrid">Load Grid</button>
+                        <button style="display:none" class="btn" id="setWalkTrue">set walkable</button>
+                        <button style="display:none" class="btn" id="setWalkFalse">set unwalkable</button>
+                        <button style="display:none" class="btn" id="hideGrid">hide Grid</button>
+                        <div id="map-group" style=" display:flex">
+                            <object type="image/svg+xml" id="map-wrapper" data="/public/images/map-floor-1.svg" style="pointer-events:all;">
                                 Your browser does not support SVG
                             </object>
                             <section id="grid" style="position:absolute"></section>
@@ -53,6 +54,10 @@
 
     <!-- Navigation js -->
     <script src="/public/javascripts/navigation-main.js"></script>
+
+    
+    <!--polygon-hover.js-->
+    <script src="/public/javascripts/polygon-hover.js"></script>
 
     <!-- D3 js -->
     <script src="/d3/build/d3.min.js"></script>
