@@ -23,9 +23,9 @@
                             </object>
                             <section id="grid" style="position:absolute"></section>
                         </div> <!-- / #map-group !-->
-                           
-                            <div id="mapDiv" style="display:flex">
-                            
+
+                        <div id="mapDiv" style="display:flex">
+
                         </div>
 
                     </div>
@@ -48,18 +48,33 @@
     <!-- Dashboard js -->
     <script src='/public/javascripts/dashboard-admin.js'></script>
 
-    <!-- Pathfinding js -->
+    <!-- Pathfinding js-->
     <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
 
     <!-- Navigation js -->
     <script src="/public/javascripts/navigation-main.js"></script>
-    
+
     <!-- D3 js -->
     <script src="/d3/build/d3.min.js"></script>
 
     <!-- Lodash js -->
     <script src="lodash/lodash.js"></script>
 
+    <script>
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: '/home/location'
+        })
+                .done(function (data) {
+                    console.log(data);
+                    var result = JSON.parse(data);
+
+                })
+                .fail(function () {
+                    console.log("Ajax Failed.");
+                });
+    </script>
 
 
 </body>
