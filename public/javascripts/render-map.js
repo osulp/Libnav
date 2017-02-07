@@ -41,6 +41,7 @@ window.onload = function () {
                 console.log(point);
 
                 pointArray.push(point);
+                console.log(pointArray);
 
                 polyLayer.append("circle")
                     .attr("class", "click-circle")
@@ -81,7 +82,12 @@ window.onload = function () {
                     svg.selectAll("circle.click-circle").remove();
                     svg.selectAll("polygon.drawn-poly").remove();
                     svg.selectAll("line.click-line").remove();
-
+                    //pointArray = [];
+                    //clear all points in the array
+                    while(pointArray.length > 0) {
+                         pointArray.pop();
+                }    
+                count = 0;
                 }
             });
 
