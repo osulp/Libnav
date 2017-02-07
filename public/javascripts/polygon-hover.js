@@ -2,6 +2,8 @@ window.onload = function () {
 
     $("#map-group").ready(function () {
 
+        
+        //select svg
         var a = document.getElementById("map-wrapper");
         var svgDoc = a.contentDocument;
         var svgChildren = svgDoc.childNodes;
@@ -9,10 +11,10 @@ window.onload = function () {
         
         var mainMapSVG = d3.select(svgItem.children[1]);
         
-        //rectangles
+        //select rectangles
         var rects = mainMapSVG.selectAll("rect");
         
-            
+        //give rectangles fill    
         _.times(rects._groups[0].length, function(g){
             
             rects._groups[0][g].attributes.getNamedItem("fill").value = "white";
@@ -27,6 +29,8 @@ window.onload = function () {
             this.attributes.getNamedItem("fill").value = "white";  
         });
         
+        
+        //get data on click
         rects.on("click",function(){
             
             var x = this.attributes.getNamedItem("x").value;
@@ -61,6 +65,35 @@ window.onload = function () {
         });
         
          polygon.on("click",function(){
+            
+            var points = this.attributes.getNamedItem("points").value;
+
+            console.log(points);
+            this.attributes.getNamedItem("fill").value = "red";          
+        });
+        
+        
+         //polylines
+        var polylines = mainMapSVG.selectAll("polyline");
+        
+            
+        _.times(polylines._groups[0].length, function(g){
+            
+            polylines._groups[0][g].attributes.getNamedItem("fill").value = "white";
+            
+        });
+        
+        polylines.on("mouseenter",function(){
+                
+                this.attributes.getNamedItem("fill").value = "yellow";
+                
+            });
+        
+        polylines.on("mouseleave",function(){
+            this.attributes.getNamedItem("fill").value = "white";  
+        });
+        
+         polylines.on("click",function(){
             
             var points = this.attributes.getNamedItem("points").value;
 
