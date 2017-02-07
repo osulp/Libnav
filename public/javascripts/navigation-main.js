@@ -15,7 +15,9 @@ window.onload = function () {
 
         var a = document.getElementById("map-wrapper");
         var svgDoc = a.contentDocument;
-        var svgItem = svgDoc.getElementById("base");
+        var svgChildren = svgDoc.childNodes;
+        var svgItem = svgChildren[2];
+
 
 
         $("#navGrid").ready(function () {
