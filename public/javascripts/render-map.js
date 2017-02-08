@@ -20,7 +20,7 @@ window.onload = function () {
         console.log(a);
         var svgDoc = a.contentDocument;
         console.log(svgDoc);
-        var svgItem = svgDoc.getElementById("Layer_4");
+        var svgItem = svgDoc.getElementById("Background");
         var svg = d3.select(svgItem);
 
         var polyLayer = svg.append("g").attr("id", "polygons");
@@ -95,4 +95,5 @@ window.onload = function () {
     });
 
 };
+
 
