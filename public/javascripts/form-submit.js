@@ -84,7 +84,7 @@ function splitText(text){
 function formatPoints(points){
     var newpoints = [];
     for(var p in points){
-        newpoints.push([,points[p].y, points[p].x]);
+        newpoints.push([,points[p].x, points[p].y]);
     }
 
     return newpoints;
