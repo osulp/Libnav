@@ -4,6 +4,7 @@
  * Author: Nathan Healea, Matthew Zakrevsky
  * Created: 1/16/17
  */
+       
 
 var pointArray = [];
 var result = [];
@@ -25,23 +26,18 @@ $("#map-wrapper").ready(function () {
 
         document.getElementById('btn-draw').onclick = drawByButton(svgDoc);
         selectByShape(mainMapSVG);
+        drawAllResults(mainMapSVG);
 
-        $.ajax({
-            type: "GET",
-            async: true,
-            url: '/home/location'
-        })
-                .done(function (data) {
-                    console.log(data);
-                    var result = JSON.parse(data);
-                    console.log("in ajax done");
-                })
-                .fail(function () {
-                    console.log("Ajax Failed.");
-                });
 
     });
 };
+
+function drawAllResults(svg){
+
+
+}
+
+
 
 function selectByShape(mainMapSVG){
 
