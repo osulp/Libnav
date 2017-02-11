@@ -143,5 +143,24 @@ router.post('/servicepoint', function (req, res, next) {
     }
 });
 
+/* Get Navigation Grid  page */
+router.get('/navigation', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+        res.render('dashboard/navigation', {session: true})
+    } else {
+        res.render('error/login');
+    }
+});
+
+/* Post Navigation Grid page */
+router.post('/navigation', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+        console.log(req.body);
+        res.json(JSON.stringify(true));
+    } else {
+        res.render('error/login');
+    }
+});
+
 
 module.exports = router;
