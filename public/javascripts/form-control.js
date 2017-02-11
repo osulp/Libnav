@@ -13,6 +13,8 @@ $(function () {
     // When form is submitted
     $('form').submit(function (event) {
 
+        disableSaveBtn();
+
         var url = $('form').attr('href');
 
         var data = getInputData();
@@ -32,7 +34,6 @@ $(function () {
  * @param url
  */
 function submitForm(data, url) {
-    // disableSaveBtn();
     $.ajax({
         type: "POST",
         async: true,
@@ -121,5 +122,5 @@ function loadMap(id) {
 }
 
 function disableSaveBtn() {
-    $('#btn-save').disable();
+    $('#btn-save').addClass('disabled');
 }
