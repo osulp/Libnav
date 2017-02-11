@@ -1,31 +1,17 @@
 $(function () {
 
+    loadMap('/public/images/floor-1.svg');
 
     // When form is submitted
     $('form').submit(function (event) {
-        var formdata = {};
+
         var url = $('form').attr('href');
 
-        // select all form input and textares
-        var inputs = $('form :input:not(:button) ');
+        var data = getInputData();
 
-        // get form input data
-        for (var i = 0; i < inputs.length; i++) {
-            var input = inputs[i];
-            if (input.name == 'tag' || input.name == 'attribute'){
-                formdata[input.name] = splitText(input.value);
-            }
-            else {
-                formdata[input.name] = input.value
-            }
-        }
-
-        // adding data array
-        formdata['points'] = formatPoints(pointArray);
-        console.log(formdata);
 
         // Submit data
-        submit(formdata, url);
+        submit(data, url);
 
         event.preventDefault();
         return false;
@@ -89,4 +75,34 @@ function formatPoints(points){
 
     return newpoints;
 
+}
+
+/**
+ * Gets input data from form
+ * @returns {{}}
+ */
+function getInputData(){
+    var data ={};
+    // select all form input and textares
+    var inputs = $('form :input:not(:button) ');
+
+    // get form input data
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (input.name == 'tag' || input.name == 'attribute'){
+            data[input.name] = splitText(input.value);
+        }
+        else {
+            data[input.name] = input.value
+        }
+    }
+
+    return data;
+}
+
+function loadMap(map){
+    d3.xml(map, function(error, xml) {
+        if (error) throw error;
+        $('#map-wrapper').append(xml.documentElement);
+    });
 }
