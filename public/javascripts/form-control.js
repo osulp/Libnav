@@ -122,5 +122,6 @@ function loadMap(id) {
 }
 
 function disableSaveBtn() {
-    $('#btn-save').addClass('disabled');
+    $('#btn-save').attr('disabled', true);
+    $('#btn-save').prop('disabled', true);
 }
