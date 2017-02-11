@@ -2,7 +2,7 @@ $(function () {
 
     loadMap(1);
 
-    $('#floor').change(function(){
+    $('#floor').change(function () {
         // remove the current map
         $('#map-wrapper').empty();
         loadMap($(this).val());
@@ -17,9 +17,8 @@ $(function () {
 
         var data = getInputData();
 
-
         // Submit data
-        submit(data, url);
+        submitForm(data, url);
 
         event.preventDefault();
         return false;
@@ -32,7 +31,8 @@ $(function () {
  * @param data
  * @param url
  */
-function submit(data, url) {
+function submitForm(data, url) {
+    // disableSaveBtn();
     $.ajax({
         type: "POST",
         async: true,
@@ -55,49 +55,49 @@ function submit(data, url) {
         });
 }
 
-function splitText(text){
+/**
+ * splits text in to array
+ * removes no alphanumeric characters
+ * @param text
+ * @returns {Array}
+ */
+function splitText(text) {
+    var newtext = null;
 
-    // remove non alphanumeric characters and replace with space
-    text = text.replace(/[^0-9a-zA-Z, ]/gi, '');
+    if (text != ' ') {
 
-    // split text on ',' and ' '
-    text = text.split(/[ ,]+/);
+        // remove non alphanumeric characters and replace with space
+        text = text.replace(/[^0-9a-zA-Z, ]/gi, '');
 
-    // creating new text vairiable
-    var newtext = [];
+        // split text on ',' and ' '
+        text = text.split(/[ ,]+/);
 
-    // scanning parsed text for empty strings.
-    for(var t in text){
-        if(text[t] != ""){
-            newtext.push([,text[t]]);
+        // creating new text vairiable
+        newtext = [];
+
+        // scanning parsed text for empty strings.
+        for (var t in text) {
+            if (text[t] != "") {
+                newtext.push([null, text[t]]);
+            }
         }
     }
     return newtext;
-}
-
-function formatPoints(points){
-    var newpoints = [];
-    for(var p in points){
-        newpoints.push([,points[p].y, points[p].x]);
-    }
-
-    return newpoints;
-
 }
 
 /**
  * Gets input data from form
  * @returns {{}}
  */
-function getInputData(){
-    var data ={};
+function getInputData() {
+    var data = {};
     // select all form input and textares
     var inputs = $('form :input:not(:button) ');
 
     // get form input data
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
-        if (input.name == 'tag' || input.name == 'attribute'){
+        if (input.name == 'tag' || input.name == 'attribute') {
             data[input.name] = splitText(input.value);
         }
         else {
@@ -108,10 +108,18 @@ function getInputData(){
     return data;
 }
 
-function loadMap(id){
-    var map = '/public/images/floor-' +id + '.svg';
-    d3.xml(map, function(error, xml) {
+/**
+ * loads svg map based on id
+ * @param id
+ */
+function loadMap(id) {
+    var map = '/public/images/floor-' + id + '.svg';
+    d3.xml(map, function (error, xml) {
         if (error) throw error;
         $('#map-wrapper').append(xml.documentElement);
     });
+}
+
+function disableSaveBtn() {
+    $('#btn-save').disable();
 }

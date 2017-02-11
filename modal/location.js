@@ -10,13 +10,20 @@ exports.insertLocation = function (data, callback) {
 
     // insert information into floor table
     db.connection.query('INSERT INTO location SET ?', data, function (error, results, fields) {
+        db.connection.end();
+
         if (error) throw error;
 
         callback(results.insertId);
+
     });
 
     // close connection to database
+/*
     db.connection.end();
+*/
+
+
 
 };
 
