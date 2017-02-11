@@ -1,6 +1,14 @@
 $(function () {
 
-    loadMap('/public/images/floor-1.svg');
+    loadMap(1);
+
+    $('#floor').change(function(){
+        // remove the current map
+        $('#map-wrapper').empty();
+        loadMap($(this).val());
+
+
+    });
 
     // When form is submitted
     $('form').submit(function (event) {
@@ -100,7 +108,8 @@ function getInputData(){
     return data;
 }
 
-function loadMap(map){
+function loadMap(id){
+    var map = '/public/images/floor-' +id + '.svg';
     d3.xml(map, function(error, xml) {
         if (error) throw error;
         $('#map-wrapper').append(xml.documentElement);
