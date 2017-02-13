@@ -29,7 +29,7 @@ window.onload = getPoints(function(result) {
                 var space;
                 var done = 0;
                 var locations = [];
-                var id = 10;
+                var id = 1;
                 var pointArray = [];
                 var point;
 
@@ -43,10 +43,10 @@ window.onload = getPoints(function(result) {
                 for( i = 0 ; i < result.length; i++){ 
                     if ((result[i].floor === 1)&&(result[i].id === id)){
                         point = {
-                                "x": result[i].x,
-                                "y": result[i].y
+                                "x": result[i].y,
+                                "y": result[i].x
                         };
-                        pointArray.push(point);      
+                        pointArray.push(point);     
                     }
                 }
 
@@ -59,7 +59,71 @@ window.onload = getPoints(function(result) {
                                     })
                                     .style("fill", "0cff00")
                                     .style("stroke", "0cff00")
-                                    .style("opacity", .25);
+                                    .style("opacity", 1);
+
+                id = 5;
+                pointArray = [];
+                for( i = 0 ; i < result.length; i++){ 
+                    if (locations.indexOf(result[i].id) === -1){
+                        locations.push(result[i].id);
+                    }
+                }    
+                    console.log(locations);
+
+                for( i = 0 ; i < result.length; i++){ 
+                    if ((result[i].floor === 1)&&(result[i].id === id)){
+                        point = {
+                                "x": result[i].y,
+                                "y": result[i].x
+                        };
+                        pointArray.push(point);     
+                    }
+                }
+
+                svg.append("polygon")
+                                    .attr("class", "drawn-poly")
+                                    .attr("points", function () {
+                                        return pointArray.map(function (d) {
+                                            return [d.x, d.y].join(",");
+                                        }).join(" ");
+                                    })
+                                    .style("fill", "0cff00")
+                                    .style("stroke", "0cff00")
+                                    .style("opacity", 1);
+
+
+                id = 4;
+                 pointArray = [];
+                for( i = 0 ; i < result.length; i++){ 
+                    if (locations.indexOf(result[i].id) === -1){
+                        locations.push(result[i].id);
+                    }
+                }    
+                    console.log(locations);
+
+                for( i = 0 ; i < result.length; i++){ 
+                    if ((result[i].floor === 1)&&(result[i].id === id)){
+                        point = {
+                                "x": result[i].y,
+                                "y": result[i].x
+                        };
+                        pointArray.push(point);     
+                    }
+                }
+
+                svg.append("polygon")
+                                    .attr("class", "drawn-poly")
+                                    .attr("points", function () {
+                                        return pointArray.map(function (d) {
+                                            return [d.x, d.y].join(",");
+                                        }).join(" ");
+                                    })
+                                    .style("fill", "0cff00")
+                                    .style("stroke", "0cff00")
+                                    .style("opacity", 1);
+
+
+
 
 
 
