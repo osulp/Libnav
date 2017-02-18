@@ -3,6 +3,7 @@
 \usepackage{amssymb}                                         
 \usepackage{amsmath}                                         
 \usepackage{amsthm} 
+\usepackage{soul}
 
 \usepackage{alltt}                                           
 \usepackage{float}
@@ -80,9 +81,9 @@ ONID: Oregon State University Online Identifier and mail services.
 
 % UI: Librarian Administration Dashboard (LAD) (Nathan)
 \subsection{Librarian Administration Dashboard (Nathan)}
-Librarian Administration Dashboard (LAB) is the main data entry point for the LibNav Interactive map. The design of the user interface focuses on administrator, library staff, and student staff how will be managing and inputting majority of the information into the system. Since there is a wide variety of how technical a user might be, clean, easy to understand control will be implemented. To handle the structure functionality of LAB, built in css classes from Foundation will handle keeping the the display clean and functional. Foundation will provide css function for UI controls and styling, and endure the DOM elements will not overlap onto their DOM elements.
+Librarian Administration Dashboard (LAD) is the main data entry point for the LibNav Interactive map. The design of the user interface focuses on administrator, library staff, and student staff how will be managing and inputting majority of the information into the system. Since there is a wide variety of how technical a user might be, clean, easy to understand control will be implemented. To handle the structure functionality of LAB, built in css classes from Foundation will handle keeping the the display clean and functional. Foundation will provide css function for UI controls and styling, and endure the DOM elements will not overlap onto their DOM elements.
 
-In figure 1 navigation around the LAB is laid out in clear way with navigation located at the top and left side of the web browser. 
+In figure 1 navigation around the LAD is laid out in clear way with navigation located at the top and left side of the web browser. 
 
 The top navigation bar will provide link to main pages within the application, for example, the homepage, login\/logout links, and to the Interactive map. The top navigation will be it own file that will allow for easy edits to the information that needs to be displayed in the top navigation. This file name will be lab\_navagation. To build the top navigation Foundation CSS classes like top-bar, top-bar-left top-bar-right, and menu vertical will be used. 
 
@@ -92,7 +93,7 @@ The main area of the LAB will allow relative information to be displayed for the
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=.45\textwidth,natwidth=4050,natheight=1868]{images/librarian-administration-dashboard.png}
+\includegraphics[scale=.45]{images/librarian-administration-dashboard.png}
 \caption{Librarian Administration Dashboard User Interface}
 \label{fig:method}
 \end{figure}
@@ -113,31 +114,43 @@ All drawing will be done within the D3.js built in commands with d3.select.appen
 
 % LAD: Location Form (Nathan)
 \subsubsection{Location Form (Nathan)}
-Location Form is the main form that user will use input information into the system to create Know and Unknow location. This form has been designed in a way where a non-technical user can input the data to create a new location. This for will consist of a HTML structured from at the top with a map of the library on the bottom with controls to draw location on the map. 
+Location Form are the main forms that user will use input information into the system to create Know and Unknown location. This form has been designed in a way where a non-technical user can input the data to create a new location. This for will consist of a HTML structured from at the top with a map of the library on the bottom with controls to draw location on the map. 
 
-In the top form there will be six input files that will take in information.  
+Location forms have been separated into four different types of locations: Know, Unknown, Rooms, and Service Point to help guild users to input the correct information.
 
-Location Name: is a text box created using HTML label and input tags. This file will only accept alphanumeric entries that will be validated using Validate.js format function with a regular expression.
+\textbf{Know Location Form:} is information regarding fixed structures in the Library such as bathrooms, and emergency exits. This form will be comprised of the following input fields: Location name, Floor, Attribute, Tag, and Mark Location.
 
-Type: is a drop down menu what will consist of location types, example: Unknown, Known, room, service. This will be built using HTML label, select, and option tags. Validation for this input field will use Validate.js isEmpty() to ensure that one of the options have been selected. The options to select from will come from the roomtype database table. 
+\textbf{Unknown Location Form:} is information regarding non-fix location in the Library such as Learning Commons, South wall tables, etc. This form will be comprised of the following input fields: Location name, Floor, Attribute, Tag, and Marked Location
 
-URL: will take a related url to that location. This could be a URL for a specific server, or to a registration form for a study room and will be created using HTML label and input tags. Data for this field will be validated by URL functionality from Validate.js.
+\textbf{Room Location Form}: is information regarding fixed rooms in the Library such as study rooms, classrooms, offices, etc. This form will be comprised of the following input fields: Room Name, Floor, Room Number Room Capacity, Attribute, Tag, and Marked Location.
 
-Room Number: is an input format that will take the number of the room, office, or known location. It will be created using HTML label and input tags and be validated for alphanumeric formatting by valValidateidator.js
+\textbf{Service Point Location Form:} is information regarding structure tied to services in the Library such as Circulation Desk, Special Collection \& Archives Research Center (SCARC), etc. This form will be comprised of the following input fields: Service Point Name, Floor, Room \#, Server URL, Attribute, Tag, and Marked Location
 
-Attributes: is a text box that will take a list of attributes for a given location. This will be a created by HTML label and input tag. Validate.js will use regular expression that the information will only contain letters. Since multiple values will be entered into the textbox custom parsing functionality will be writing to split text up on ‘,’.
+Below are details regarding the input fields, construction and validation.
 
-Tags: will operate like Attributes using HTML input and labels with regular expression to check for only letters. It will use the same parsing functionality as Attributes to split the text on ‘,’.
+\textbf{Location/ Service Point/ Room Name:} is a text box created using HTML label and input tags. This file will only accept alphanumeric entries that will be validated using Approved.js format function with a regular expression.
 
-Save Button: will make a request back to the control once all the form information has been validate and filled out. This information will be based back to the controller in a json object using POST.
+Type has been removed from the project and is now incorporated in different types on forms.
+\st{Type: is a drop down menu what will consist of location types, example: Unknown, Known, room, service. This will be built using HTML label, select, and option tags. Validation for this input field will use Approved.js isEmpty() to ensure that one of the options have been selected. The options to select from will come from the room type database table. }
 
-Clear Button: will clear all information that has been inputted into the from including the locations drawn on the map.
 
-Cancel Button: will clear the from and redirect the user back to the LAB main page.
+\textbf{URL:} will take a related url to that location. This could be a URL for a specific server, or to a registration form for a study room and will be created using HTML label and input tags. Data for this field will be validated by URL functionality from Approved.js.
+
+\textbf{Room Number:} is an input format that will take the number of the room, office, or known location. It will be created using HTML label and input tags and be validated for alphanumeric formatting by Approved.js
+
+\textbf{Attributes:} is a text box that will take a list of attributes for a given location. This will be a created by HTML label and input tag. Validate.js will use regular expression that the information will only contain letters. Since multiple values will be entered into the textbox custom parsing functionality will be writing to split text up on ‘,’.
+
+\textbf{Tags:} will operate like Attributes using HTML input and labels with regular expression to check for only letters. It will use the same parsing functionality as Attributes to split the text on ‘,’.
+
+\textbf{Save Button:} will make a request back to the control once all the form information has been validate and filled out. This information will be based back to the controller in a json object using POST.
+
+textbf{Clear Button:} will clear all information that has been inputted into the from including the locations drawn on the map.
+
+\text{Cancel Button:} will clear the from and redirect the user back to the LAB main page.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=.45\textwidth,natwidth=2250,natheight=2708]{images/location-form.png}
+\includegraphics[scale=.45]{images/location-form.png}
 \caption{Location From User Interface}
 \label{fig:method}
 \end{figure}
@@ -158,7 +171,7 @@ Cancel Button: will redirect the user back to the LAB homepage. this button will
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=.6\textwidth,natwidth=2250,natheight=615]{images/role-assignment-form.png}
+\includegraphics[scale=.6]{images/role-assignment-form.png}
 \caption{Role Assignment Form User Interface}
 \label{fig:method}
 \end{figure}
@@ -171,7 +184,7 @@ The top navigation will be the main navigation for the Interactive map. It will 
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=.45\textwidth,natwidth=4050,natheight=1868]{images/interactive-map.png}
+\includegraphics[scale=.45]{images/interactive-map.png}
 \caption{Interactive Map User Interface}
 \label{fig:method}
 \end{figure}
@@ -182,11 +195,13 @@ The Sidebar the located on the left side of the Interactive Map User Interface. 
 
 The Known location directory will allow a user to search for known location by floor then location on that floor. This will consist of a hierarchy of HTML Divs that when clicked will highlight on the map that location. When a user selects a floor and the map does not reflect that floor the map will be changed out for the correct flow. Also by clicking on a floor in the sidebar an accordion menu will open up displaying known locations of that floor. Foundation provides built in functionality for the according view but using the CSS class menu, vertical, nested.
 
-The Current Location Form allows a user to enter their current location in The Valley Library. It consists of a HTML drop down menu made of up label, select, and option tags. Valater.js will validate that a location has been selected using the isEmpty function.  A green "save" button, created using the HTML button tag, will allow a user to save the location they have selected. Once the location is saved direction will appear on the map navigation them to their desired location. A yellow "Clear" button will clear any location the user has selected along with the navigation path on the map.
+The Current Location Form has deprecated and has been incorporated in to the functionality of the navigation. Navigation functionality allows for a user to select the point that they are current at on a grid and the desired location to be guided to.
+
+\st{The Current Location Form allows a user to enter their current location in The Valley Library. It consists of a HTML drop down menu made of up label, select, and option tags. Valater.js will validate that a location has been selected using the isEmpty function.  A green "save" button, created using the HTML button tag, will allow a user to save the location they have selected. Once the location is saved direction will appear on the map navigation them to their desired location. A yellow "Clear" button will clear any location the user has selected along with the navigation path on the map.}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[cale=1.0\textwidth,natwidth=1200,natheight=660]{images/current-location-form.png}
+\includegraphics[]{images/current-location-form.png}
 \caption{Current Location Form User Interface}
 \label{fig:method}
 \end{figure}
@@ -205,13 +220,13 @@ The Mobile user interface is one of the main view that visitors of The Valley Li
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=.6\textwidth,natwidth=2094,natheight=1914]{images/mobile-user-interface.png}
+\includegraphics[scale=.6]{images/mobile-user-interface.png}
 \caption{Mobile User Interface}
 \label{fig:method}
 \end{figure}
 
 % IM: Map Generation (Matthew) 
-\subsubsection{Map Generation}
+\subsubsection{Map Generation (Matthew)}
 For this section we will be using the D3.JS package to display our map and all of the necessary information that is saved on the map, such as the drawn shapes for each of the locations stored in the sql database. The base map image will be of the Scalable Vector Graphics(SVG) type which allow for modification and manipulation of data stored directly in the file. This map will be produced by the library staff and uploaded in the administrator dashboard. The maps will be produced on a level by level basis and will contain all of image data for each of the areas to be displayed on the map such as rooms and major landmarks. This image data will be displayed on the map with the D3.js library
 
 The maps will each have a set size  that they will be displayed at and  through the use of onclick buttons zoom, pan, and select functions will be performed.
@@ -245,13 +260,16 @@ Two tables, Roles and Users, will be used to store users who have admin privileg
 \begin{figure}[h!]
 \centering
 \hspace*{-.5in}
-\includegraphics[scale=.65\textwidth,natwidth=1298,natheight=732]{images/libnav-database-schema.png}
+\includegraphics[scale=.65]{images/libnav-database-schema.png}
 \caption{Role Assignment Form User Interface}
 \label{fig:method}
 \end{figure}
 
 The node.js driver called mysqljs will be used to communicate with the database.
 .connect() : The backend will connect to the database by calling the .connect() function, which takes the host, user, database password, and database name as parameters. The connection timeout can be set using the connectTimeout parameter. Connection timeout should be set to 10000 ms.
+
+
+
 
 % Database: Queries
 \subsection{Queries (Stephen)}
@@ -278,6 +296,10 @@ The node.js driver called mysqljs will be used to communicate with the database.
 	\item Delete User: Remove user from table, stripping of admin rights.
     \item Delete Keywords: Remove keywords from the current list of keywords in the database.
 \end{enumerate}
+
+
+\subsection{Update (Stephen)}
+Gridpoint table now stores just a json string instead of x and y coordinates. 
 
 % Pathfinding/Navigation (PN)(Stephen)
 \section{Pathfinding/Navigation (Stephen)}
