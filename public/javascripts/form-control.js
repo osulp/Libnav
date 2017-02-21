@@ -106,6 +106,10 @@ function getInputData() {
         }
     }
 
+    data['point'] = getPoints();
+
+
+
     return data;
 }
 
@@ -124,4 +128,20 @@ function loadMap(id) {
 function disableSaveBtn() {
     $('#btn-save').attr('disabled', true);
     $('#btn-save').prop('disabled', true);
+}
+
+function getPoints() {
+    var points = {
+        'y': 250,
+        'x': 250,
+        'width': 200,
+        'height': 200
+    };
+
+    if( points == null){
+        points = {};
+    }
+
+    points = JSON.stringify(points);
+    return points;
 }

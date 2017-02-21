@@ -31,12 +31,16 @@ router.post('/known', function (req, res, next) {
         var data = {
             'floor': req.body.floor,
             'type': 'known',
-            'name': req.body.name
+            'name': req.body.name,
+            'data_point' : req.body.point
+
         };
+
+        console.log(data);
 
         var attributes = req.body.attribute;
         var tags = req.body.tag;
-        var points = req.body.points;
+        // var points = req.body.points;
 
         location.insertLocation(data, function (id) {
 
