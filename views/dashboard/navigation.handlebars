@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ab">
+<head>
+    {{> head }}
+
+    <!-- Map dispaly CSS !-->
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/map-display.css"/>
+</head>
+
+<body>
+    <div id="wrapper">
+        {{> nav }}
+        {{> dashboard/sidebar }}
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+
+                <!-- Page title !-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Defining Navigaiton Grid</h1>
+                        <p>some thing here</p>
+                    </div> <!-- /.col-lg-12 -->
+                </div> <!-- /.row -->
+
+                <div class="row">
+                    <!-- Floor input !-->
+                    <div class="col-lg-3">
+                        <div class="form-group" id="name-group">
+                            <label for="floor">Floor</label>
+                            <select id="floor" name="floor" class="form-control"
+                                    placeholder="floor"
+                                    required autofocus>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5rs>5</option>
+                                <option value=6>6</option>
+                            </select>
+                            <p class="help-block">Enter the floor where location is located.</p>
+                        </div>
+                    </div> <!-- / .col-lg-3 !-->
+
+                    <!-- Defining Paths !-->
+                    <div class="col-lg-3">
+                        <p class="input-label">Defining paths</p>
+                        <div id="btn-walkable" class="btn btn-default">Walkable</div>
+                        <div id="btn-unwalkable" class="btn btn-default">Unwalkable</div>
+                    </div> <!-- col-lg-6 !-->
+
+                    <!-- Defining Paths !-->
+                    <div class="col-lg-3">
+                        <p class="input-label">Test Paths</p>
+                        <div id="btn-test" class="btn btn-default">Test</div>
+                        <div id="btn-clear-test" class="btn btn-default">Clear</div>
+                    </div> <!-- col-lg-6 !-->
+
+                    <!-- Save Grid !-->
+                    <div class="col-lg-3 ">
+                        <p class="input-label ">Submit Grid</p>
+                        <form href="navigation" method="POST" role="form">
+                            <button type="submit" class="btn btn-success" id="btn-save">Save</button>
+                        </form>
+                    </div> <!-- col-lg-6 !-->
+
+
+                </div> <!-- /.row !-->
+
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+        {{> footer }}
+    </div>
+    <!-- /#wrapper -->
+
+    {{> dashboard/javascript }}
+    <script src="/d3/build/d3.min.js"></script>
+    <script src="/lodash/lodash.js"></script>
+    <!-- Stephen put navigation js here for drawing the grid. !-->
+
+
+</body>

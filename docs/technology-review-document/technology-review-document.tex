@@ -1,26 +1,18 @@
 \documentclass[letterpaper,10pt,titlepage, onecolumn, compsoc]{IEEEtran}
-\usepackage{graphicx}                                        
-\usepackage{amssymb}                                         
-\usepackage{amsmath}                                         
+\usepackage{graphicx}                                 
+\usepackage{amssymb}                                   
+\usepackage{amsmath}                                   
 \usepackage{amsthm} 
-
-\usepackage{alltt}                                           
+\usepackage{alltt}                                     
 \usepackage{float}
 \usepackage{color}
 \usepackage{url}
-
 \usepackage{balance}
 \usepackage[TABBOTCAP, tight]{subfigure}
 \usepackage{enumitem}
 \usepackage{pstricks, pst-node}
-
 \usepackage{geometry}
 \geometry{textheight=8.5in, textwidth=6in}
-
-%random comment
-
-%signature page formatting
-
 
 \newcommand{\cred}[1]{{\color{red}#1}}
 \newcommand{\cblue}[1]{{\color{blue}#1}}
@@ -52,13 +44,13 @@ Currently, the Oregon State University Valley Library's flat, un-interactive map
 
 % Intro
 \section{Introduction}
-Thoughout the project, the web applicaton has been broken down into 9 main pieces with each team member taking on three pars. Below is the roles that each team member will take on to ensure that the project is completed on time.
+Throughout the project, the web application has been broken down into 9 main pieces with each team member taking on three pars. Below is the roles that each team member will take on to ensure that the project is completed on time.
 
 In the LibNav project Nathan Healea is tasked with user experience, user Interface design and development and user information. His role here is make sure that users can login into the Librarian Administration Dashboard and session information is saved so that they can interact with the application. He is also responsible for making sure that the Interactive Map is properly displayed across multiple platforms and device and to make sure the the user interface is accessible according to the Oregon State University Web Accessibility.
 
 Stephen Krueger is tasked to oversee database management, user location, and navigation. His role is to make sure the users can find  locations and destinations. User location and navigation are closely tied together. He will also be in charge of database management and operations, specifically the storage and retrieval of data and to also oversee the creation and development of the database schema. 
 
-In the LibNav project Matthew Zakrevsky is in charge of making sure that the web application has a web framework to handle routing, communication between databases and navigation of web pages through correct routing. He is also tasked in developing the map display and data rendering on to the map interface. His third and final task in this develop the templates and layout for the adminstrative dashboard.
+In the LibNav project Matthew Zakrevsky is in charge of making sure that the web application has a web framework to handle routing, communication between databases and navigation of web pages through correct routing. He is also tasked in developing the map display and data rendering on to the map interface. His third and final task in this develop the templates and layout for the administrative dashboard.
 
 % Nathan Healea Section (NHS)
 \section{Nathan Healea}
@@ -85,7 +77,7 @@ For our User Interface the LibNav Project is focusing on three criteria, scalabi
 \begin{center}
 \begin{tabular}{|p{4.25cm}|p{4.25cm}|p{4.25cm}|}
 \hline
-\textbf{Bootstrap}       & \textbf{Foundataion}         & \textbf{Semantic-UI} 
+\textbf{Bootstrap}       & \textbf{Foundation}         & \textbf{Semantic-UI} 
 \\[1ex] \hline
 Responsiveness           & Responsiveness               & Responsiveness                                 \\[1ex] \hline
 HTML Components          & HTML Components              & HTML Components                                \\[1ex] \hline
@@ -98,6 +90,8 @@ Offers Preprocessing CSS & Clean Markup                 & Comprehensive Javascri
 \end{tabular}
 \end{center}
 After consider the functionality offered by each framework, the project will primary use Foundation. Because Foundation is highly used, maintenance update and new features are continually being integrated into the framework. Also after spending sometime going through the showcase for each framework, check responsive  and functionality, Foundation had the smoothest transition from large screen device to smaller screen device. Sites that used Foundation also did not show web element positioning issues, that were present in Bootstrap and Semantic-UI
+
+\subsubsection{Update} during the development of the dashboard, no pre-build dashboard was found that was built using Foundation. Because of this the project will be using Bootstrap as it CSS framework. Bootstrap offer a well designed and develop dashboard that is open source and provides many view layouts to display a variety of information. After some consideration the team also did not want to introduce a new framework to the library since many of there preexisting application are build using bootstrap. 
 
 % Information Sanitation (IS)
 \subsection{Information Sanitation}
@@ -114,6 +108,7 @@ Just like Validate.js, Validator.js is a JavaScript library that provides object
 % IS: Validator.js by Github Chriso
 \subsubsection{Validator.js by Github Chriso}
 Validator.Js, created by Github user Chriso, is a JavaScript library that provides validation and sanitation functionality for frontend web sites. This project is being considered because of its on going development and community. With 104 releases and 120 contributors new features and functionality updates are continuously happening. Validator.js work similar like Validate.js where function are call for each individual piece of information that need to be sanitise or validated. \cite{chriso2016}
+
 
 % IS: Analysis
 \subsubsection{Analysis}
@@ -135,6 +130,9 @@ Shared constraints between Client and Server & Group validation for object attri
 \end{tabular}
 \end{center}
 After considering the different options and the functionality that is provided by each javascript library provide the project will primarily use Validator.js for its validation and sanitization. The reason Validator.js is going to be use do to the way validation is declared and use. Creating a JavaScript object with desired attributes and creating a constraint object that is mapped to the original JavaScript object make for a clean flow of validating.
+
+% IS: Approved.js by Charl
+\subsubsection{update:} After spending some time trying implement Validator.js the team has decided to choose a new JavaScript library in order to do the validation of input forms. ApproveJS, created by Charl G, is an opens source project for input validation. ApprovedJS offers many function like Validator.js but in a less complex and easier to implement. Another nice feature is that error messages are automatically formatted and explains the correct input for the input field.This fracture can also be applied to custom validation check if ApprovedJS does not offer it. because of the reason stated above ApprovedJS will be selected and used for this project.\cite{ApproveJS}
 
 % User Authorization and Session (UAS)
 \subsection{User Authorization and Session}

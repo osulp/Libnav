@@ -11,6 +11,17 @@ window.onload = function () {
         
         var mainMapSVG = d3.select(svgItem.children[1]);
         
+        selectrects(mainMapSVG);
+        selectpolygons(mainMapSVG);
+        selectpolylines(mainMapSVG);
+        selectelipses(mainMapSVG);
+        
+        
+    });
+
+        
+    function selectrects(mainMapSVG){
+        
         //select rectangles
         var rects = mainMapSVG.selectAll("rect");
         
@@ -42,8 +53,10 @@ window.onload = function () {
             this.attributes.getNamedItem("fill").value = "red";          
         });
 
+    }
         
-        
+    function selectpolygons(mainMapSVG){
+
         //polygons
         var polygon = mainMapSVG.selectAll("polygon");
         
@@ -72,7 +85,10 @@ window.onload = function () {
             this.attributes.getNamedItem("fill").value = "red";          
         });
         
-        
+    }
+    
+    function selectpolylines(mainMapSVG){
+
          //polylines
         var polylines = mainMapSVG.selectAll("polyline");
         
@@ -100,6 +116,9 @@ window.onload = function () {
             console.log(points);
             this.attributes.getNamedItem("fill").value = "red";          
         });
+    }
+    
+    function selectelipses(mainMapSVG){
         
         //elipses
         
@@ -131,7 +150,7 @@ window.onload = function () {
             console.log(ellipseInfo);
             this.attributes.getNamedItem("fill").value = "red";          
         });
+    }
         
         
-    });
 };
