@@ -26,7 +26,9 @@ CREATE TABLE IF NOT EXISTS location (
   name        VARCHAR(255),
   room_number INT,
   room_cap    INT,
-  URL         VARCHAR(255)
+  URL         VARCHAR(255),
+  data_point  TEXT
+
 
 );
 
@@ -76,8 +78,8 @@ CREATE TABLE IF NOT EXISTS point (
   y           INT,
   x           INT,
   FOREIGN KEY (location_id) REFERENCES location (id)
-  ON UPDATE CASCADE
-  ON DELETE CASCADE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 
