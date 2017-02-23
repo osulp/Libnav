@@ -73,7 +73,7 @@ exports.insertPoint = function(data){
 };
 
 
-exports.getLocationPoints = function(callback){
+exports.getLocations = function(callback){
     // create database connection
     db.createConnection();
 
@@ -81,9 +81,9 @@ exports.getLocationPoints = function(callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT l.id, l.floor, p.x , p.y FROM location l JOIN point p ON p.location_id = l.id', function (error, results, fields) {
+    db.connection.query('SELECT id, floor, name, type, room_number, room_cap from location', function (error, results, fields) {
         if (error) throw error;
-
+        console.log(results);
         callback(results);
     });
 
