@@ -30,14 +30,10 @@ CREATE TABLE IF NOT EXISTS location (
 
 );
 
-CREATE TABLE IF NOT EXISTS gridpoint (
+CREATE TABLE IF NOT EXISTS grid (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  location_id INT             NOT NULL,
-  x           INT,
-  y           INT,
-  FOREIGN KEY (location_id) REFERENCES location (id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
+  floor       INT             NOT NULL,
+  data        TEXT
 );
 
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
+var navigation = require('../modal/navigation');
 
 
 /* GET home page. */
@@ -156,6 +157,7 @@ router.get('/navigation', function (req, res, next) {
 router.post('/navigation', function (req, res, next) {
     if (req.session.isAuthenticated) {
         console.log(req.body);
+        navigation.getGird
         res.json(JSON.stringify(true));
     } else {
         res.render('error/login');

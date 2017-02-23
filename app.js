@@ -68,8 +68,8 @@ app.use('/lodash', express.static(__dirname + '/node_modules/lodash/'));
 
 
 app.use(logger('dev'));
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+app.use(bodyParser.json({limit:'1000mb'})); // support json encoded bodies
+app.use(bodyParser.urlencoded({extended: true, limit:'1000mb'})); // support encoded bodies
 app.use(cookieParser());
 
 // Populates req.session

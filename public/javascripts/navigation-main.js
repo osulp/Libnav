@@ -6,14 +6,7 @@ Main js file for navigation functionality
 
 *loadGridForNav() - 
 
-
-
-
 */
-
-
-
-$(document).ready(function(){
 
     var rows;
     var walkable = true;
@@ -27,10 +20,10 @@ $(document).ready(function(){
     var finishPos;
     var svg;
     var gridCalc;
+    var path;
+    var finder;
     
-    $("#loadGrid").on("click",function(){
-        main();
-    });
+  
     
     $("#navLine").on("click",function(){
         allRectangles.on('click',null);
@@ -38,7 +31,7 @@ $(document).ready(function(){
     });
     
     
-    function main(){
+    function loadGrid(){
         
         $("#hideGrid").show();
         $("#setWalkTrue").show();
@@ -66,9 +59,6 @@ $(document).ready(function(){
             gridMouse();
         });
         
-         $("#saveGrid").on("click", function () {
-           saveGridPathFinder();
-        });
         
         loadGridForAdmin();
         //loadGridForNavigation();
@@ -210,8 +200,8 @@ $(document).ready(function(){
             }
 
             if (startFlag != true && finishFlag != true) {
-                var finder = new PF.AStarFinder();
-                var path = finder.findPath(startPos[0], startPos[1], finishPos[0], finishPos[1], gridCalc);
+                finder = new PF.AStarFinder();
+                path = finder.findPath(startPos[0], startPos[1], finishPos[0], finishPos[1], gridCalc);
                 startFlag = false;
                 finishFlag = false;
 
@@ -300,6 +290,31 @@ $(document).ready(function(){
             hideGrid();
    });
     
+
+    var clearPaths = function(){
+        startFlag = true;
+        finishFlag = false;
+        
+         for (var x = 1; x < path.length - 1; x++) {
+            var recID = "s-" + path[x][0] + "-" + path[x][1];
+            svg.select("rect[id='" + recID + "']").attr('fill', 'white');
+        }
+
+        for (var x = 0; x < path.length; x++) {
+            var recID = "s-" + path[x][0] + "-" + path[x][1];
+            svg.select("rect[id='" + recID + "']").attr("path", 'false');
+        }
+        
+        var startid = "s-" + startPos[0] + "-" + startPos[1];
+        var finishid = "s-" + finishPos[0] + "-" + finishPos[1];
+        svg.select("rect[id='" + startid + "']").attr("path", 'false').attr('fill','white');
+        svg.select("rect[id='" + finishid + "']").attr("path", 'false').attr('fill','white');
+        
+        startPos = null;
+        finishPos = null;
+        path = null;
+        finder = null;
+    }
     
     var loadGridForNavigation = function(){
 
@@ -323,8 +338,39 @@ $(document).ready(function(){
 
     };
 
-    });    
         
-        
+    var saveGrid = function(){
+        $('form').submit(function(e){
+            var data = {'floor': null,
+                       'grid': null}
+            var url = $('form').attr('href');
+            data['floor'] = $('#floor option:selected').val();
+            data['grid'] = JSON.stringify(gridCalc.nodes);
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: url,
+                data: data
+            })
+            .done(function (data) {
+                console.log(data);
+                var result = JSON.parse(data);
+                if (result) {
+                    // display success message
+                    console.log(result);
+                }
+                else {
+                    // display error message
+                }
+
+            })
+            .fail(function () {
+                console.log("Password Check failed");
+            });   
+            e.preventDefault();
+            return false;
+        });
+    }
 
 
