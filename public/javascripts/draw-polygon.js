@@ -5,6 +5,8 @@
  * Created: 1/16/17
  */
        
+var data;
+
 
 var pointArray = [];
 var result = [];
@@ -24,33 +26,87 @@ $("#map-wrapper").ready(function () {
         
         var mainMapSVG = d3.select(svgItem.children[1]);
 
+        getPoints(function(result){
+             renderPolygons(svgDoc, result);
+        });
+
         document.getElementById('btn-draw').onclick = drawByButton(svgDoc);
-        selectByShape(mainMapSVG);
-        drawAllResults(mainMapSVG);
-
-
+        selectByShape(mainMapSVG)       
     });
 };
 
-function drawAllResults(svg){
+function renderPolygons(svgDoc, result){
+        var svgItem = svgDoc.getElementById("Background");
+        var svg = d3.select(svgItem);
+        var polyLayer = svg.append("g").attr("id", "polygons");
+    
+                var count = 0;
+                var space;
+                var done = 0;
+                var locations = [1, 2,3,4];
+                var id = 1;
+                var pointArray = [];
+                var point;
+                var found = 0;
+
+             /*   for( i = 0 ; i < result.length; i++){ 
+                   for ( j = 0 ; j < locations.length; j++){
+                       if (( result[i].id == locations[j] )){
+                          found = 1;
+                       } else {
+                           locations.push(result[i],id)
+                       }            
+                    } 
+                    found = 0;   
+                }
+             console.log(locations);*/
+
+                for (var j = 0 ; j < locations.length; j++){
+                for( i = 0 ; i < result.length; i++){     
+                        if ((result[i].floor == 1)&&(locations[j] == result[i].id)){
+                            point = {
+                                    "x": result[i].x,
+                                    "y": result[i].y
+                            };
+                            console.log(point);
+                            pointArray.push(point);     
+                        }
+                    }
+                    console.log(pointArray);
+                    svg.append("polygon")
+                                    .attr("class", "data-poly")
+                                    .attr("points", function () {
+                                        return pointArray.map(function (d) {
+                                            return [d.x, d.y].join(",");
+                                        }).join(" ");
+                                    })
+                                    .style("fill", "0cff00")
+                                    .style("stroke", "0cff00")
+                                    .style("opacity", 1);
+                     pointArray = [];
+                }
 
 
+             /*   console.log(pointArray);
+                svg.append("polygon")
+                                    .attr("class", "data-poly")
+                                    .attr("points", function () {
+                                        return pointArray.map(function (d) {
+                                            return [d.x, d.y].join(",");
+                                        }).join(" ");
+                                    })
+                                    .style("fill", "0cff00")
+                                    .style("stroke", "0cff00")
+                                    .style("opacity", 1);*/
 }
+
+
 
 
 
 function selectByShape(mainMapSVG){
 
- /* $("#map-group").ready(function () {
 
-        
-        //select svg
-       var a = document.getElementById("map-wrapper");
-        var svgDoc = a.contentDocument;
-        var svgChildren = svgDoc.childNodes;
-        var svgItem = svgChildren[2];*/
-        
-        //var mainMapSVG = d3.select(svgItem.children[1]);
         
         //select rectangles
         var rects = mainMapSVG.selectAll("rect");
@@ -73,13 +129,19 @@ function selectByShape(mainMapSVG){
         
         //get data on click
         rects.on("click",function(){
-            
-            var x = this.attributes.getNamedItem("x").value;
+            data = {
+                "x" :  this.attributes.getNamedItem("x").value,
+                "y" : this.attributes.getNamedItem("y").value,
+                "width" : this.attributes.getNamedItem("width").value,
+                "height" :  this.attributes.getNamedItem("height").value
+            }
+
+           /* var x = this.attributes.getNamedItem("x").value;
             var y = this.attributes.getNamedItem("y").value;
             var rectW = this.attributes.getNamedItem("width").value;
             var rectH = this.attributes.getNamedItem("height").value;
-            var rectInfo = " x: " + x + " y: " + y + " rectW: " + rectW + " rectH: " + rectH;
-            console.log(rectInfo);
+            var rectInfo = " x: " + x + " y: " + y + " rectW: " + rectW + " rectH: " + rectH;*/
+            console.log(data);
             this.attributes.getNamedItem("fill").value = "red";          
         });
 
@@ -106,8 +168,14 @@ function selectByShape(mainMapSVG){
         });
         
          polygon.on("click",function(){
+             data = {
+                "points" : this.attributes.getNamedItem("points").value
+            }
+
+
+
+            //var points = this.attributes.getNamedItem("points").value;
             
-            var points = this.attributes.getNamedItem("points").value;
 
             console.log(points);
             this.attributes.getNamedItem("fill").value = "red";          
@@ -135,10 +203,15 @@ function selectByShape(mainMapSVG){
         });
         
          polylines.on("click",function(){
-            
-            var points = this.attributes.getNamedItem("points").value;
 
-            console.log(points);
+            data = {
+                "points" : this.attributes.getNamedItem("points").value
+            } 
+
+
+           // var points = this.attributes.getNamedItem("points").value;
+
+            console.log(data);
             this.attributes.getNamedItem("fill").value = "red";          
         });
         
@@ -163,13 +236,19 @@ function selectByShape(mainMapSVG){
         });
         
          ellipse.on("click",function(){
-            
-            var cx = this.attributes.getNamedItem("cx").value;
+            data = {
+                "cx" : this.attributes.getNamedItem("cx").value,
+                "cy" : this.attributes.getNamedItem("cy").value,
+                "rx" : this.attributes.getNamedItem("rx").value,
+                "ry" : this.attributes.getNamedItem("ry").value
+            }
+
+          /*  var cx = this.attributes.getNamedItem("cx").value;
             var cy = this.attributes.getNamedItem("cy").value;
             var rx = this.attributes.getNamedItem("rx").value;
             var ry = this.attributes.getNamedItem("ry").value;
-            var ellipseInfo = " cx: " + cx + " cy: " + cy + " rx: " + rx + " ry: " + ry;
-            console.log(ellipseInfo);
+            var ellipseInfo = " cx: " + cx + " cy: " + cy + " rx: " + rx + " ry: " + ry;*/
+            console.log(data);
             this.attributes.getNamedItem("fill").value = "red";          
         });
         
@@ -185,8 +264,6 @@ function drawByButton (svgDoc){
     var floor = "../floor-6-redesign";
 
     console.log("in drawByButton");
-
-    $("#map-wrapper").ready(function () {
      /*   var a = document.getElementById("map-wrapper");
         console.log(a);
         var svgDoc = a.contentDocument;*/
@@ -200,11 +277,7 @@ function drawByButton (svgDoc){
 
             svg.on("click", function (ev) {
                 console.log('cliking');
-                //var point = d3.mouse(this), p = {x:point[0], y:point[1]};
-                //var $div = $(ev.target);
-                //var offset = $div.offset();
                 pos = d3.mouse(this);
-                //pointArray.push([(ev.clientX-offset.left),(ev.clientY -  offset.top)]);
                 point = {
                     "x": pos[0],
                     "y": pos[1]
@@ -238,7 +311,7 @@ function drawByButton (svgDoc){
                     svg.append("polygon")
                         .attr("class", "drawn-poly")
                         .attr("points", function () {
-                            return pointArray.map(function (d) {
+                         return  data =  pointArray.map(function (d) {
                                 return [d.x, d.y].join(",");
                             }).join(" ");
                         })
@@ -247,6 +320,7 @@ function drawByButton (svgDoc){
                         .style("opacity", .25);
 
                 };
+               console.log(data);
 
                 document.getElementById("btn-clear").onclick = function () {
                     console.log("attempting to remove items")
@@ -262,9 +336,26 @@ function drawByButton (svgDoc){
                 }
             });
 
-        
-    });
+}
 
-};
+
+function getPoints(callback){
+ $.ajax({
+            type: "GET",
+            async: true,
+            url: '/home/location'
+        })
+                .done(function (data) {
+                    console.log(data);
+                    var result = JSON.parse(data);
+                    callback(result);
+                })
+                .fail(function () {
+                    console.log("Ajax Failed.");
+                });
+}
+
+
+
 
 

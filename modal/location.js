@@ -57,6 +57,8 @@ exports.insertTag = function(data){
     db.connection.end();
 };
 
+
+/*
 exports.insertPoint = function(data){
 
     // create database connection
@@ -70,7 +72,23 @@ exports.insertPoint = function(data){
 
     // close connection to database
     db.connection.end();
+};*/
+
+exports.insertPoint = function(data){
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('INSERT INTO point (location_id, x, y) VALUES ?', [data]);
+
+    // close connection to database
+    db.connection.end();
 };
+
 
 
 exports.getLocationPoints = function(callback){
@@ -81,7 +99,8 @@ exports.getLocationPoints = function(callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT l.id, l.floor, p.x , p.y FROM location l JOIN point p ON p.location_id = l.id', function (error, results, fields) {
+   db.connection.query('SELECT l.id, l.floor, p.x , p.y FROM location l JOIN point p ON p.location_id = l.id', function (error, results, fields) {
+     //db.connection.query('SELECT l.id, l.floor, s.shape_data FROM location l JOIN shapes s ON s.location_id = l.id', function (error, results, fields){
         if (error) throw error;
 
         callback(results);
