@@ -43,29 +43,37 @@ function renderPolygons(svgDoc, result){
                 var count = 0;
                 var space;
                 var done = 0;
-                var locations = [];
+                var locations = [1, 2,3,4];
                 var id = 1;
                 var pointArray = [];
                 var point;
+                var found = 0;
 
-                for( i = 0 ; i < result.length; i++){ 
-                    if (locations.indexOf(result[i].id) === -1){
-                        locations.push(result[i].id);
-                    }
-                }    
-                    console.log(locations);
-
-                for( i = 0 ; i < result.length; i++){ 
-                    if ((result[i].floor === 1)&&(result[i].id === id)){
-                        point = {
-                                "x": result[i].y,
-                                "y": result[i].x
-                        };
-                        pointArray.push(point);     
-                    }
+             /*   for( i = 0 ; i < result.length; i++){ 
+                   for ( j = 0 ; j < locations.length; j++){
+                       if (( result[i].id == locations[j] )){
+                          found = 1;
+                       } else {
+                           locations.push(result[i],id)
+                       }            
+                    } 
+                    found = 0;   
                 }
+             console.log(locations);*/
 
-                svg.append("polygon")
+                for (var j = 0 ; j < locations.length; j++){
+                for( i = 0 ; i < result.length; i++){     
+                        if ((result[i].floor == 1)&&(locations[j] == result[i].id)){
+                            point = {
+                                    "x": result[i].x,
+                                    "y": result[i].y
+                            };
+                            console.log(point);
+                            pointArray.push(point);     
+                        }
+                    }
+                    console.log(pointArray);
+                    svg.append("polygon")
                                     .attr("class", "data-poly")
                                     .attr("points", function () {
                                         return pointArray.map(function (d) {
@@ -75,6 +83,25 @@ function renderPolygons(svgDoc, result){
                                     .style("fill", "0cff00")
                                     .style("stroke", "0cff00")
                                     .style("opacity", 1);
+                     pointArray = [];
+                }
+
+
+             /*   console.log(pointArray);
+                svg.append("polygon")
+                                    .attr("class", "data-poly")
+                                    .attr("points", function () {
+                                        return pointArray.map(function (d) {
+                                            return [d.x, d.y].join(",");
+                                        }).join(" ");
+                                    })
+                                    .style("fill", "0cff00")
+                                    .style("stroke", "0cff00")
+                                    .style("opacity", 1);*/
+
+
+                
+                
 
 }
 
@@ -84,16 +111,7 @@ function renderPolygons(svgDoc, result){
 
 function selectByShape(mainMapSVG){
 
- /* $("#map-group").ready(function () {
 
-        
-        //select svg
-       var a = document.getElementById("map-wrapper");
-        var svgDoc = a.contentDocument;
-        var svgChildren = svgDoc.childNodes;
-        var svgItem = svgChildren[2];*/
-        
-        //var mainMapSVG = d3.select(svgItem.children[1]);
         
         //select rectangles
         var rects = mainMapSVG.selectAll("rect");
@@ -156,7 +174,7 @@ function selectByShape(mainMapSVG){
         
          polygon.on("click",function(){
              data = {
-                "points" : this.attributes.getNamedItem("points").value;
+                "points" : this.attributes.getNamedItem("points").value
             }
 
 
@@ -264,11 +282,7 @@ function drawByButton (svgDoc){
 
             svg.on("click", function (ev) {
                 console.log('cliking');
-                //var point = d3.mouse(this), p = {x:point[0], y:point[1]};
-                //var $div = $(ev.target);
-                //var offset = $div.offset();
                 pos = d3.mouse(this);
-                //pointArray.push([(ev.clientX-offset.left),(ev.clientY -  offset.top)]);
                 point = {
                     "x": pos[0],
                     "y": pos[1]
@@ -311,7 +325,7 @@ function drawByButton (svgDoc){
                         .style("opacity", .25);
 
                 };
-               console.log(data);l
+               console.log(data);
 
                 document.getElementById("btn-clear").onclick = function () {
                     console.log("attempting to remove items")

@@ -90,3 +90,9 @@ function formatPoints(points){
     return newpoints;
 
 }
+
+/*function formatpoints (data){
+    var newData = JSON.stringify(data);
+    console.log(newData)
+    return newData;
+}*/
