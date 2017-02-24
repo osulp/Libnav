@@ -4,27 +4,47 @@
  * Author: Nathan Healea, Matthew Zakrevsky
  * Created: 1/16/17
  */
-       
+
+
+function loadMap(id) {
+    var map = '/public/images/floor-' + id + '.svg';
+    d3.xml(map, function (error, xml) {
+        if (error) throw error;
+        $('#map-wrapper').append(xml.documentElement);
+    });
+}  
+
 var data;
 
 
 var pointArray = [];
 var result = [];
 window.onload = function () {
-
-$("#map-wrapper").ready(function () {
+       var id = 1;
+       var map = '/public/images/floor-' + id + '.svg';
+       var svg =  d3.xml(map, function (error, xml) {
+                 if (error) throw error;
+                    $('#map-wrapper').append(xml.documentElement);
+                 });            
+                 
+       //var a = document.getElementById("#map-wrapper");
+       var svgDoc
+      // var svgItem = svgDoc.getElementById("Background");
+       //var mainMapSVG = d3.select;
       /*  var a = document.getElementById("map-wrapper");
         console.log(a);
         var svgDoc = a.contentDocument;
         console.log(svgDoc);
         var svgItem = svgDoc.getElementById("Background");
         var svg = d3.select(svgItem);*/
-        var a = document.getElementById("map-wrapper");
+      /*  var a = document.getElementById("#map-wrapper");
         var svgDoc = a.contentDocument;
         var svgChildren = svgDoc.childNodes;
-        var svgItem = svgChildren[2];
+        //var svgItem = svgChildren[2];*/
         
-        var mainMapSVG = d3.select(svgItem.children[1]);
+        //var mainMapSVG = d3.select(svgItem.children[1]);
+
+        svg.append("#polyLayer");
 
         getPoints(function(result){
              renderPolygons(svgDoc, result);
@@ -32,7 +52,7 @@ $("#map-wrapper").ready(function () {
 
         document.getElementById('btn-draw').onclick = drawByButton(svgDoc);
         selectByShape(mainMapSVG)       
-    });
+   
 };
 
 function renderPolygons(svgDoc, result){
@@ -264,21 +284,27 @@ function selectByShape(mainMapSVG){
 
 
 
-function drawByButton (svgDoc){
+function drawByButton (floor){
     var count = 0;
-    var floor = "../floor-6-redesign";
+     var map = '/public/images/floor-' + floor + '.svg';
+
+    d3.xml(map, function (error, xml) {
+        if (error) throw error;
+        $('#map-wrapper').append(xml.documentElement);
+    });
+
 
     console.log("in drawByButton");
      /*   var a = document.getElementById("map-wrapper");
         console.log(a);
         var svgDoc = a.contentDocument;*/
-        console.log(svgDoc);
+       /* console.log(svgDoc);
         var svgItem = svgDoc.getElementById("Background");
         var svg = d3.select(svgItem);
 
         var polyLayer = svg.append("g").attr("id", "polygons");
 
-        
+        */
 
             svg.on("click", function (ev) {
                 console.log('cliking');
