@@ -15,7 +15,7 @@ CREATE TABLE type (
 
 /*CREATE TABLE Tag (
   id   INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255)
+  name VARCHAR(255)d 
 );*/
 
 
