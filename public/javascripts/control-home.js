@@ -20,7 +20,6 @@ $(function () {
      * Load locations into sidebar
      */
 
-    getKnowLocations();
 
 });
 
@@ -42,6 +41,13 @@ function getKnowLocations() {
                 // display success message
                 fillSidebar(result);
 
+                for(var r in result){
+                    if(result[r].data_point != null) {
+                        console.log(JSON.parse(result[r].data_point));
+                        renderPolygons(svg, JSON.parse(result[r].data_point));
+                    }
+                }
+
             }
             else {
                 // display error message
@@ -61,12 +67,16 @@ function getKnowLocations() {
  */
 function loadMap(id) {
     var map = '/public/images/' + id + '.svg';
-    d3.xml(map, function (error, xml) {
+    d3.text(map, function (error, externalSVG) {
         if (error) throw error;
-        $('#map-wrapper').append(xml.documentElement);
 
-        var svg = d3.select('svg');
+        // select map wrapper
+        var mapwrapper = d3.select('#map-wrapper');
+        mapwrapper.html(externalSVG);
 
+        svg = mapwrapper.select("svg");
+
+        getKnowLocations();
     });
 }
 

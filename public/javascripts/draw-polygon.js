@@ -54,8 +54,9 @@ var result = [];
 
  };*/
 
-function renderPolygons(svgDoc, result) {
-    var svgItem = svgDoc.getElementById("Background");
+function renderPolygons(svg, data) {
+   // delete ?
+    /* var svgItem = svgDoc.getElementById("Background");
     var svg = d3.select(svgItem);
     var polyLayer = svg.append("g").attr("id", "polygons");
 
@@ -66,7 +67,7 @@ function renderPolygons(svgDoc, result) {
     var id = 1;
     var pointArray = [];
     var point;
-    var found = 0;
+    var found = 0;*/
 
     /*   for( i = 0 ; i < result.length; i++){
      for ( j = 0 ; j < locations.length; j++){
@@ -80,7 +81,7 @@ function renderPolygons(svgDoc, result) {
      }
      console.log(locations);*/
 
-    for (var j = 0; j < locations.length; j++) {
+    /*for (var j = 0; j < locations.length; j++) {
         for (i = 0; i < result.length; i++) {
             if ((result[i].floor == 1) && (locations[j] == result[i].id)) {
                 point = {
@@ -90,20 +91,16 @@ function renderPolygons(svgDoc, result) {
                 console.log(point);
                 pointArray.push(point);
             }
-        }
+        }*/
         console.log(pointArray);
         svg.append("polygon")
             .attr("class", "data-poly")
-            .attr("points", function () {
-                return pointArray.map(function (d) {
-                    return [d.x, d.y].join(",");
-                }).join(" ");
-            })
+            .attr("points", data)
             .style("fill", "0cff00")
             .style("stroke", "0cff00")
             .style("opacity", 1);
         pointArray = [];
-    }
+    //}
 
 
     /*   console.log(pointArray);
@@ -371,6 +368,7 @@ function fill() {
     console.log(data);
 
 }
+
 function getPoints(callback) {
     $.ajax({
         type: "GET",
