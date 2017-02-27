@@ -61,8 +61,6 @@
             gridMouse();
         });
 
-        $("#saveGrid").on("click", function () {
-            saveGridPathFinder();
 
         loadGridForAdmin();
         //loadGridForNavigation();
@@ -330,7 +328,7 @@
 
     };
 
-});
+
         
     var saveGrid = function(){
         $('form').submit(function(e){

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+router.get('/mapapi/grid', function (req, res, next) {
+
+    navigation.getGrid(function (results) {
+=======
+>>>>>>> development
 var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
