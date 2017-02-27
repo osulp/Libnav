@@ -20,23 +20,13 @@ $(function () {
         } else {
             $('div.navbar-collapse').removeClass('collapse');
         }
-
-        /*var height = ((this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height) - 1;
-         console.log(height);
-         height = height - topOffset;
-         if (height < 1) height = 1;
-         if (height > topOffset) {
-         $("#page-wrapper").css("min-height", (height) + "px");
-         }*/
     });
 
     var url = window.location;
-    // var element = $('ul.nav a').filter(function() {
-    //     return this.href == url;
-    // }).addClass('active').parent().parent().addClass('in').parent();
+
     var element = $('ul.nav a').filter(function () {
         return this.href == url;
-    })/*.addClass('active').parent()*/;
+    });
 
     while (true) {
         if (element.is('li')) {
@@ -45,13 +35,4 @@ $(function () {
             break;
         }
     }
-
-    /* Applies focues class to any map input field. */
-    /*$('#map-wrapper').mouseover(function () {
-        $(this).click(function() {
-            $(this).addClass('focus');
-        });
-    }).mouseout(function () {
-        $(this).removeClass('focus');
-    })*/
 });

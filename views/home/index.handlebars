@@ -14,6 +14,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
+                        <div id="map-wrapper">
                         <div id="map-group" style=" display:flex">
                             <object type="image/svg+xml" id="map-wrapper" data="/public/images/map-floor-1.svg" style="pointer-events:all;">
                                 Your browser does not support SVG
@@ -51,9 +52,8 @@
     <!-- Navigation js -->
     <script src="/public/javascripts/navigation-main.js"></script>
 
-    
     <!--polygon-hover.js-->
-    <script src="/public/javascripts/polygon-hover.js"></script>
+    <!--<script src="/public/javascripts/polygon-hover.js"></script>-->
 
     <!-- D3 js -->
     <script src="/d3/build/d3.min.js"></script>
@@ -61,21 +61,10 @@
     <!-- Lodash js -->
     <script src="lodash/lodash.js"></script>
 
-    <script>
-        $.ajax({
-            type: "GET",
-            async: true,
-            url: '/home/location'
-        })
-                .done(function (data) {
-                    console.log(data);
-                    var result = JSON.parse(data);
+    <script src="/public/javascripts/draw-polygon.js" ></script>
 
-                })
-                .fail(function () {
-                    console.log("Ajax Failed.");
-                });
-    </script>
+    <!-- Home UI controls JS !-->
+    <script src="/public/javascripts/control-home.js"></script>
 
 
 </body>

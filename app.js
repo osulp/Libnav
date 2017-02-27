@@ -15,6 +15,7 @@ var config = null;
 var routes = require('./routes/home');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
+var mapapi = require('./routes/mapapi');
 var setup = null;
 
 // Defining application
@@ -83,6 +84,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/user', user);
 app.use('/dashboard', dashboard);
+app.use('/mapapi', mapapi);
 
 // set setup script
 try{
