@@ -55,75 +55,41 @@ var result = [];
  };*/
 
 function renderPolygons(svg, data) {
-   // delete ?
-    /* var svgItem = svgDoc.getElementById("Background");
-    var svg = d3.select(svgItem);
-    var polyLayer = svg.append("g").attr("id", "polygons");
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-    var count = 0;
-    var space;
-    var done = 0;
-    var locations = [1, 2, 3, 4];
-    var id = 1;
-    var pointArray = [];
-    var point;
-    var found = 0;*/
 
-    /*   for( i = 0 ; i < result.length; i++){
-     for ( j = 0 ; j < locations.length; j++){
-     if (( result[i].id == locations[j] )){
-     found = 1;
-     } else {
-     locations.push(result[i],id)
-     }
-     }
-     found = 0;
-     }
-     console.log(locations);*/
 
-    /*for (var j = 0; j < locations.length; j++) {
-        for (i = 0; i < result.length; i++) {
-            if ((result[i].floor == 1) && (locations[j] == result[i].id)) {
-                point = {
-                    "x": result[i].x,
-                    "y": result[i].y
-                };
-                console.log(point);
-                pointArray.push(point);
-            }
-        }*/
-        console.log(pointArray);
-        svg.append("polygon")
+
+        svg
+            .append("polygon")
             .attr("class", "data-poly")
             .attr("points", data)
             .style("fill", "0cff00")
             .style("stroke", "0cff00")
-            .style("opacity", 1);
-        pointArray = [];
-    //}
-
-
-    /*   console.log(pointArray);
-     svg.append("polygon")
-     .attr("class", "data-poly")
-     .attr("points", function () {
-     return pointArray.map(function (d) {
-     return [d.x, d.y].join(",");
-     }).join(" ");
-     })
-     .style("fill", "0cff00")
-     .style("stroke", "0cff00")
-     .style("opacity", 1);*/
-
+            .style("opacity", 1)
+            .on("mouseover", function(){
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
+            div.html("Hello World")
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+              div.transition()
+                .duration(500)
+                .style("opacity", 0);
+            });
 
 }
 
 function selectByShape(mainMapSVG) {
 
-
-
     //select rectangles
     var rects = mainMapSVG.selectAll("rect");
+   // rects.attributes.getNamedItem("fill").value = "white";
 
     //give rectangles fill
     _.times(rects._groups[0].length, function (g) {
@@ -149,7 +115,7 @@ function selectByShape(mainMapSVG) {
             "width": this.attributes.getNamedItem("width").value,
             "height": this.attributes.getNamedItem("height").value
         }
-
+        console.log(data);
         /* var x = this.attributes.getNamedItem("x").value;
          var y = this.attributes.getNamedItem("y").value;
          var rectW = this.attributes.getNamedItem("width").value;
@@ -162,10 +128,10 @@ function selectByShape(mainMapSVG) {
 
     //polygons
     var polygon = mainMapSVG.selectAll("polygon");
-
+    console.log(polygon);
 
     _.times(polygon._groups[0].length, function (g) {
-
+       
         polygon._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
     });
@@ -219,7 +185,7 @@ function selectByShape(mainMapSVG) {
         data = {
             "points": this.attributes.getNamedItem("points").value
         }
-
+    console.log(data)
 
         // var points = this.attributes.getNamedItem("points").value;
 
@@ -254,6 +220,7 @@ function selectByShape(mainMapSVG) {
             "rx": this.attributes.getNamedItem("rx").value,
             "ry": this.attributes.getNamedItem("ry").value
         }
+        console.log(data);
 
         /*  var cx = this.attributes.getNamedItem("cx").value;
          var cy = this.attributes.getNamedItem("cy").value;
@@ -369,7 +336,9 @@ function fill() {
 
 }
 
-function getPoints(callback) {
+
+//remove this as needed
+/*function getPoints(callback) {
     $.ajax({
         type: "GET",
         async: true,
@@ -383,9 +352,46 @@ function getPoints(callback) {
         .fail(function () {
             console.log("Ajax Failed.");
         });
+}*/
+
+
+
+function selectLocation(svg){
+    var polygons = svg.selectAll("polygon");
+    var rectangles = svg.selectAll("rect");
+    var paths = svg.selectAll("path")
+
+    /*paths.on("mouseenter", function() {
+        this.attributes.getNamedItem("fill").value = "lightred";
+    })
+    
+     paths.on("mouseleave", function() {
+        this.attributes.getNamedItem("fill").value = "white";
+    })*/
+
+    rectangles.on("mouseenter", function() {
+        this.attributes.getNamedItem("fill").value = "lightred";
+    })
+
+     rectangles.on("mouseleave", function() {
+        this.attributes.getNamedItem("fill").value = "white";
+    })
+ 
+    polygons.on("mouseenter", function() {
+        this.attributes.getNamedItem("fill").value = "lightred";
+    })
+
+     polygons.on("mouseleave", function() {
+          this.attributes.getNamedItem("fill").value = "white";
+     })
+
 }
 
+function popUp(d3Item){
 
 
+
+
+}
 
 

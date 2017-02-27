@@ -107,3 +107,39 @@ exports.getLocations = function(callback){
     // close connection to database
     db.connection.end();
 };
+
+exports.getAttributes = function (callback, location){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('SELECT * from attributes where location = ?', location , function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+}
+
+exports.getTags = function (callback, location){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('SELECT * from tags where location = ? ', location, function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+}

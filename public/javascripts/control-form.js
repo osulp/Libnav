@@ -131,7 +131,7 @@ function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
-        console.log(externalSVG);
+       // console.log(externalSVG);
 
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
@@ -139,7 +139,12 @@ function loadMap(id) {
 
         svg = mapwrapper.select("svg");
 
-        drawByButton(svg);
+        getKnowLocations();
+
+        //selectLocation(svg);
+
+        document.getElementById("btn-draw").onclick = function () {  drawByButton(svg); }
+        selectByShape(svg);
 
         svg.transition().duration(1000).delay(1000)
             .select("circle")
@@ -156,4 +161,36 @@ function getPoints() {
     points = JSON.stringify(data);
     console.log(points);
     return points;
+}
+
+
+function getKnowLocations() {
+    $.ajax({
+        type: "get",
+        async: true,
+        url: '/mapapi/getAllLocation'
+    })
+        .done(function (data) {
+            var result = JSON.parse(data);
+            if (result) {
+
+                // display success message
+
+                for(var r in result){
+                    if(result[r].data_point != null) {
+                        console.log(JSON.parse(result[r].data_point));
+                        renderPolygons(svg, JSON.parse(result[r].data_point));
+                    }
+                }
+
+            }
+            else {
+                // display error message
+                console.log('Location for retrived');
+            }
+
+        })
+        .fail(function () {
+            console.log("Location not retrieved");
+        });
 }

@@ -5,6 +5,8 @@
 
     <!-- Map dispaly CSS !-->
     <link rel="stylesheet" type="text/css" href="/public/stylesheets/map-display.css"/>
+    <!--- tool tip CSS -->
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/tooltips.css"/>
 </head>
 
 <body>
@@ -133,7 +135,13 @@
     {{> dashboard/javascript }}
     <script src="/public/javascripts/draw-polygon.js" ></script>
 
-
     <!-- Form Controls JS !-->
     <script src="/public/javascripts/control-form.js" ></script>
+
+    <!---- lodash file needed for drawpolygon-->
+    <script src="/lodash/lodash.js"></script>
+
+    <!-- tooltip will need to see if npm package exists  --->
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
 </body>
