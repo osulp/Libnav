@@ -1,3 +1,5 @@
+var svg;
+
 $(function () {
 
     loadMap(1);
@@ -25,6 +27,15 @@ $(function () {
         event.preventDefault();
         return false;
     });
+
+    $('#btn-clear').on('click', function(){
+        clear(svg);
+    });
+
+    $('#btn-fill').on('click', function(){
+       fill(svg);
+    })
+
 
 });
 
@@ -109,7 +120,6 @@ function getInputData() {
     data['point'] = getPoints();
 
 
-
     return data;
 }
 
@@ -119,9 +129,21 @@ function getInputData() {
  */
 function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
-    d3.xml(map, function (error, xml) {
+    d3.text(map, function (error, externalSVG) {
         if (error) throw error;
-        $('#map-wrapper').append(xml.documentElement);
+        console.log(externalSVG);
+
+        // select map wrapper
+        var mapwrapper = d3.select('#map-wrapper');
+        mapwrapper.html(externalSVG);
+
+        svg = mapwrapper.select("svg");
+
+        drawByButton(svg);
+
+        svg.transition().duration(1000).delay(1000)
+            .select("circle")
+            .attr("r", 100);
     });
 }
 
@@ -131,17 +153,7 @@ function disableSaveBtn() {
 }
 
 function getPoints() {
-    var points = {
-        'y': 250,
-        'x': 250,
-        'width': 200,
-        'height': 200
-    };
-
-    if( points == null){
-        points = {};
-    }
-
-    points = JSON.stringify(points);
+    points = JSON.stringify(data);
+    console.log(points);
     return points;
 }

@@ -57,6 +57,8 @@ exports.insertTag = function(data){
     db.connection.end();
 };
 
+
+/*
 exports.insertPoint = function(data){
 
     // create database connection
@@ -67,6 +69,21 @@ exports.insertPoint = function(data){
 
     // insert attributes
     db.connection.query('INSERT INTO point (location_id, y, x) VALUES ?', [data]);
+
+    // close connection to database
+    db.connection.end();
+};*/
+
+exports.insertPoint = function(data){
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('INSERT INTO point (location_id, x, y) VALUES ?', [data]);
 
     // close connection to database
     db.connection.end();
@@ -81,7 +98,7 @@ exports.getLocations = function(callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT id, floor, name, type, room_number, room_cap from location', function (error, results, fields) {
+    db.connection.query('SELECT id, floor, name, type, room_number, room_cap, data_point from location', function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);
