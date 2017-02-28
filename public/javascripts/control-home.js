@@ -67,6 +67,8 @@ function loadMap(id) {
 
         var svg = d3.select('svg');
 
+         getKnowLocations();
+
     });
 }
 
