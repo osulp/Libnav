@@ -278,7 +278,7 @@ function clear(svg) {
     count = 0;
 }
 
-function fill(svg, data) {
+function fill(svg) {
     svg.append("polygon")
         .attr("class", "drawn-poly")
         .attr("points", function () {
@@ -289,7 +289,6 @@ function fill(svg, data) {
         .style("fill", "0cff00")
         .style("stroke", "0cff00")
         .style("opacity", .25);
-    console.log(data);
 
 }
 

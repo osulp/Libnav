@@ -799,6 +799,13 @@ table.dataTable thead .sorting:after {
     font-weight: bold;
 }
 
+#map-control{
+    height: 65px;
+}
+#location-draw-controls{
+    margin-top: 5px;
+}
+
 
 
 

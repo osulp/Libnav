@@ -12,7 +12,12 @@ $(function () {
     $('#floor').change(function () {
         // remove the current map
         $('#map-wrapper').empty();
+
+        // load new map
         loadMap($(this).val());
+
+        // hide draw location
+        $('#location-draw-controls').addClass('hidden');
 
 
     });
@@ -34,15 +39,22 @@ $(function () {
     });
 
     // Clears polygon from map
-    $('#btn-clear').on('click', function () {
+    $('#btn-location-clear').on('click', function () {
         clear(svg);
     });
 
     // Fills map polygon
-    $('#btn-fill').on('click', function () {
+    $('#btn-location-fill').on('click', function () {
         console.log("You clicked Fill");
         fill(svg);
     });
+
+    // Btn Draw Location
+    $('#btn-location-draw').on('click', function(){
+        $('#location-draw-controls').toggleClass('hidden');
+
+        drawByButton(svg);
+    })
 
 
 });
@@ -156,7 +168,7 @@ function loadMap(id) {
 
         svg = mapwrapper.select("svg");
 
-        drawByButton(svg);
+
     });
 }
 
@@ -191,6 +203,7 @@ function enableBtns() {
 }
 
 function getPoints() {
+    console.log(data);
     points = JSON.stringify(data);
     return points;
 }
