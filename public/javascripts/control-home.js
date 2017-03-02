@@ -1,6 +1,11 @@
-var knowLocation = null;
+var knownLocations = null;
+var floor = null;
+var svg = null;
 
 $(function () {
+
+    // Setting default floor
+    floor = 'floor-1';
 
     // Initialize the libnav application
     initialize();
@@ -13,6 +18,7 @@ $(function () {
      */
     $('a[id*="floor-"]').on('click', function () {
         console.log(this.id);
+        floor = this.id;
         $('#map-wrapper').empty();
         loadMap(this.id);
     });
@@ -66,11 +72,26 @@ function loadMap(id) {
 
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
+
+        // append svg data
         mapwrapper.html(externalSVG);
 
+        // save svg object
         svg = mapwrapper.select("svg");
 
+        console.log(knownLocations);
+        loadFloorLocation(svg, floor);
     });
+}
+
+function loadFloorLocation(svg, floor){
+    console.log(svg);
+    for (var k in knownLocations) {
+        console.log(knownLocations[k]);
+        if (knownLocations[k].floor == floor.split('-')[1]) {
+            renderPolygons(svg, JSON.parse(knownLocations[k].data_point));
+        }
+    }
 }
 
 /**
@@ -90,13 +111,15 @@ function fillSidebar(locations) {
 
 
 function initialize() {
-    $.when(getKnowLocations()).done(function (json) {
-        knowLocation = JSON.parse(json);
+    $.when(getKnowLocations()).done(function (knowJSON) {
+        knownLocations = JSON.parse(knowJSON);
 
         // display success message
-        fillSidebar(knowLocation);
+        fillSidebar(knownLocations);
 
-        // loads floor 2 map by default
-        loadMap('floor-2');
+        // load map
+        loadMap(floor);
+
+
     });
 }

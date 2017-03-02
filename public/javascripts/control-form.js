@@ -157,10 +157,6 @@ function loadMap(id) {
         svg = mapwrapper.select("svg");
 
         drawByButton(svg);
-
-        svg.transition().duration(1000).delay(1000)
-            .select("circle")
-            .attr("r", 100);
     });
 }
 

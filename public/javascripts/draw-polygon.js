@@ -217,27 +217,8 @@ function selectByShape(mainMapSVG) {
 }
 
 function drawByButton(svg) {
-    // var count = 0;
-    // var map = '/public/images/floor-' + floor + '.svg';
-    //
-    // d3.xml(map, function (error, xml) {
-    //     if (error) throw error;
-    //     $('#map-wrapper').append(xml.documentElement);
-    // });
 
     count = 0;
-
-    console.log("in drawByButton");
-    /*   var a = document.getElementById("map-wrapper");
-     console.log(a);
-     var svgDoc = a.contentDocument;*/
-    /* console.log(svgDoc);
-     var svgItem = svgDoc.getElementById("Background");
-     var svg = d3.select(svgItem);
-
-     var polyLayer = svg.append("g").attr("id", "polygons");
-
-     */
 
     // creates a new polygons layer
     var polyLayer = svg.append("g").attr("id", "polygons");
@@ -245,7 +226,6 @@ function drawByButton(svg) {
 
     // onclick to add points to svg
     svg.on("click", function (ev) {
-        console.log('cliking');
         pos = d3.mouse(this);
         point = {
             "x": pos[0],
@@ -278,13 +258,9 @@ function drawByButton(svg) {
             .style("fill", "0cff00")
             .style("stroke", "0cff00")
             .style("strokeWidth", 0.5);
+
         count++;
 
-        // fill button on click.
-        //document.getElementById("btn-fill").onclick =
-        //console.log(data);
-
-        // document.getElementById("btn-clear").onclick =
     });
 
 }
@@ -303,11 +279,10 @@ function clear(svg) {
 }
 
 function fill(svg, data) {
-    console.log("Filling");
     svg.append("polygon")
         .attr("class", "drawn-poly")
         .attr("points", function () {
-            data = pointArray.map(function (d) {
+            return data = pointArray.map(function (d) {
                 return [d.x, d.y].join(",");
             }).join(" ");
         })
