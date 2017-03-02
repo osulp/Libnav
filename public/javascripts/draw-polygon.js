@@ -55,68 +55,16 @@ var result = [];
  };*/
 
 function renderPolygons(svg, data) {
-   // delete ?
-    /* var svgItem = svgDoc.getElementById("Background");
-    var svg = d3.select(svgItem);
-    var polyLayer = svg.append("g").attr("id", "polygons");
 
-    var count = 0;
-    var space;
-    var done = 0;
-    var locations = [1, 2, 3, 4];
-    var id = 1;
-    var pointArray = [];
-    var point;
-    var found = 0;*/
-
-    /*   for( i = 0 ; i < result.length; i++){
-     for ( j = 0 ; j < locations.length; j++){
-     if (( result[i].id == locations[j] )){
-     found = 1;
-     } else {
-     locations.push(result[i],id)
-     }
-     }
-     found = 0;
-     }
-     console.log(locations);*/
-
-    /*for (var j = 0; j < locations.length; j++) {
-        for (i = 0; i < result.length; i++) {
-            if ((result[i].floor == 1) && (locations[j] == result[i].id)) {
-                point = {
-                    "x": result[i].x,
-                    "y": result[i].y
-                };
-                console.log(point);
-                pointArray.push(point);
-            }
-        }*/
-        console.log(pointArray);
-        svg.append("polygon")
-            .attr("class", "data-poly")
-            .attr("points", data)
-            .style("fill", "0cff00")
-            .style("stroke", "0cff00")
-            .style("opacity", 1);
-        pointArray = [];
-    //}
-
-
-    /*   console.log(pointArray);
-     svg.append("polygon")
-     .attr("class", "data-poly")
-     .attr("points", function () {
-     return pointArray.map(function (d) {
-     return [d.x, d.y].join(",");
-     }).join(" ");
-     })
-     .style("fill", "0cff00")
-     .style("stroke", "0cff00")
-     .style("opacity", 1);*/
-
-
+    svg.append("polygon")
+        .attr("class", "data-poly")
+        .attr("points", data)
+        .style("fill", "0cff00")
+        .style("stroke", "0cff00")
+        .style("opacity", 1);
+    pointArray = [];
 }
+
 
 function selectByShape(mainMapSVG) {
 
@@ -354,7 +302,8 @@ function clear(svg) {
     count = 0;
 }
 
-function fill() {
+function fill(svg, data) {
+    console.log("Filling");
     svg.append("polygon")
         .attr("class", "drawn-poly")
         .attr("points", function () {

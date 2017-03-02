@@ -2,8 +2,13 @@ var svg;
 
 $(function () {
 
+    // Loads Map
     loadMap(1);
 
+    // Initializes save result modal
+    $('#modal-result').modal({'show': false});
+
+    // Changes Floor depending on dropdown selection
     $('#floor').change(function () {
         // remove the current map
         $('#map-wrapper').empty();
@@ -15,7 +20,7 @@ $(function () {
     // When form is submitted
     $('form').submit(function (event) {
 
-        disableSaveBtn();
+        disableBtns();
 
         var url = $('form').attr('href');
 
@@ -28,13 +33,16 @@ $(function () {
         return false;
     });
 
-    $('#btn-clear').on('click', function(){
+    // Clears polygon from map
+    $('#btn-clear').on('click', function () {
         clear(svg);
     });
 
-    $('#btn-fill').on('click', function(){
-       fill(svg);
-    })
+    // Fills map polygon
+    $('#btn-fill').on('click', function () {
+        console.log("You clicked Fill");
+        fill(svg);
+    });
 
 
 });
@@ -45,6 +53,7 @@ $(function () {
  * @param url
  */
 function submitForm(data, url) {
+
     $.ajax({
         type: "POST",
         async: true,
@@ -56,9 +65,19 @@ function submitForm(data, url) {
             if (result) {
                 // display success message
                 console.log(result);
+
+                // shows modal on success
+                $('#modal-result').modal('show');
+                $('#modal-message-success').toggleClass('hidden');
             }
             else {
                 // display error message
+                // shows modal on success
+                $('#modal-result').modal('show');
+                $('#modal-message-warning').toggleClass('hidden');
+
+                // Enable buttons for editing
+                enableBtns();
             }
 
         })
@@ -131,8 +150,6 @@ function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
-        console.log(externalSVG);
-
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
         mapwrapper.html(externalSVG);
@@ -147,13 +164,37 @@ function loadMap(id) {
     });
 }
 
-function disableSaveBtn() {
+function disableBtns() {
+
+    // Disable save button
     $('#btn-save').attr('disabled', true);
     $('#btn-save').prop('disabled', true);
+
+    // Disable clear button
+    $('#btn-clear').attr('disabled', true);
+    $('#btn-clear').prop('disabled', true);
+
+    // Disable delete button
+    $('#btn-cancel').attr('disabled', true);
+    $('#btn-cancel').prop('disabled', true);
+}
+
+function enableBtns() {
+
+    // Disable save button
+    $('#btn-save').attr('disabled', false);
+    $('#btn-save').prop('disabled', false);
+
+    // Disable clear button
+    $('#btn-clear').attr('disabled', false);
+    $('#btn-clear').prop('disabled', false);
+
+    // Disable delete button
+    $('#btn-cancel').attr('disabled', false);
+    $('#btn-cancel').prop('disabled', false);
 }
 
 function getPoints() {
     points = JSON.stringify(data);
-    console.log(points);
     return points;
 }
