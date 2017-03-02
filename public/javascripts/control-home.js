@@ -77,8 +77,6 @@ function loadMap(id) {
         svg = mapwrapper.select("svg");
         
          getKnowLocations();
-
-    });
 }
 
 /**
