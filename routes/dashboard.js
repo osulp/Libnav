@@ -32,7 +32,7 @@ router.post('/known', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'known',
             'name': req.body.name,
-            'data_point' : req.body.point
+            'data_point' : req.body.location
 
         };
 
@@ -40,7 +40,6 @@ router.post('/known', function (req, res, next) {
 
         var attributes = req.body.attribute;
         var tags = req.body.tag;
-        // var points = req.body.points;
 
         location.insertLocation(data, function (id) {
 
@@ -66,24 +65,10 @@ router.post('/known', function (req, res, next) {
                 location.insertTag(tags);
             }
 
-            // insert points into point table
-            /*if(points != ''){
-                // applying id to points
-                for (var p in points) {
-                    points[p][0] = id;
-                }
-
-                // insert attributes into tags.
-                location.insertPoint(points);
-            }*/
+            res.json(JSON.stringify(true));
 
         });
 
-
-        /*console.log(req.body);
-         res.json(JSON.stringify(true));
-         database.connect();
-         console.log(database.connection);*/
 
 
     } else {

@@ -49,7 +49,6 @@
                                     <div class="form-group" id="name-group">
                                         <label for="floor">Floor</label>
                                         <select id="floor" name="floor" class="form-control"
-                                                placeholder="floor"
                                                 required autofocus>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -71,8 +70,8 @@
                                         <label for="number">Room #</label>
                                         <input type="number" id="number" name="number" class="form-control"
                                                placeholder="ex. 201"
-                                                autofocus>
-                                        </input>
+                                               autofocus>
+
                                         <p class="help-block">Enter the room number.</p>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
@@ -81,10 +80,10 @@
                                 <div class="col-lg-6">
                                     <div class="form-group" id="url-group">
                                         <label for="url">Service URL</label>
-                                        <input type="url" id="url" name="capacity" class="form-control"
+                                        <input type="url" id="url" name="url" class="form-control"
                                                placeholder="oregonstate.edu"
-                                                autofocus>
-                                        </input>
+                                               autofocus>
+
                                         <p class="help-block">Enter the service url.</p>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
@@ -98,7 +97,7 @@
                                         <label for="attribute">Attribute</label>
                                         <textarea rows="5" id="attribute" name="attribute" class="form-control"
                                                   placeholder="Lighting, Natural, Electrical, Socket, etc."
-                                                   autofocus></textarea>
+                                                  autofocus></textarea>
                                         <p class="help-block">Enter the attributes the location contains.</p>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
@@ -133,7 +132,8 @@
                                     </div>
 
                                     <div class="form-group" id="map-group">
-                                        <object type="image/svg+xml" id="map-wrapper" data="/public/images/map-floor-1.svg">
+                                        <object type="image/svg+xml" id="map-wrapper"
+                                                data="/public/images/map-floor-1.svg">
                                             Your browser does not support SVG
                                         </object>
                                     </div> <!-- / .form-group !-->
@@ -162,6 +162,6 @@
 
     {{> dashboard/javascript }}
     <!-- Form Control JS !-->
-    <script src="/public/javascripts/control-form.js" ></script>
+    <script src="/public/javascripts/control-form.js"></script>
 
 </body>
