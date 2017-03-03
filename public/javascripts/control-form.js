@@ -1,5 +1,48 @@
 var svg;
 
+/**
+ * Validation rules for all forms
+ * @type {{name: {title: string, required: boolean, alphaNumeric: boolean}, number: {title: string, required: boolean, numeric: boolean}, capacity: {title: string, required: boolean, numeric: boolean}, url: {title: string, required: boolean, url: boolean}}}
+ */
+var rules = {
+    'name': {
+        title: 'Location Name',
+        required: true,
+        format: { regex:/[0-9a-zA-Z ]/}
+    },
+    'floor': {
+        title: 'Floor',
+        required: true,
+        numeric: true
+    },
+    'number': {
+        title: 'Room Number',
+        required: true,
+        numeric: true
+    },
+    'capacity': {
+        title: 'Room Capacity',
+        required: true,
+        numeric: true
+    },
+    'url': {
+        title: 'Service URL',
+        required: false,
+        url: true
+    },
+    'location': {
+        title: 'Location',
+        required: true
+    },
+    'entry': {
+        title: 'Entry Point',
+        required: true
+    }
+};
+
+/**
+ * main form control load
+ */
 $(function () {
 
     // Loads Map
@@ -15,6 +58,9 @@ $(function () {
 
         // load new map
         loadMap($(this).val());
+
+        // clear poly when floor switches
+        clear(svg);
 
         // hide draw location
         $('#location-draw-controls').addClass('hidden');
@@ -32,7 +78,16 @@ $(function () {
         var data = getInputData();
 
         // Submit data
-        submitForm(data, url);
+        //submitForm(data, url);
+
+        if(validateData(data)){
+            // Submit data
+            submitForm(data, url);
+        }
+        else{
+            enableBtns();
+        }
+
 
         event.preventDefault();
         return false;
@@ -45,26 +100,33 @@ $(function () {
 
     // Fills map polygon
     $('#btn-location-fill').on('click', function () {
-        console.log("You clicked Fill");
         fill(svg);
     });
 
     // Btn Draw Location
-    $('#btn-location-draw').on('click', function(){
+    $('#btn-location-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
 
         drawByButton(svg);
+    });
+
+    // Btn saves draw location
+    $('#btn-location-save').on('click', function () {
+        // save data points from drawn location.
     })
 
 
 });
 
 /**
- *
+ * Submits form data using ajax
  * @param data
  * @param url
  */
 function submitForm(data, url) {
+// for testing
+    console.log(data);
+
 
     $.ajax({
         type: "POST",
@@ -75,8 +137,6 @@ function submitForm(data, url) {
         .done(function (data) {
             var result = JSON.parse(data);
             if (result) {
-                // display success message
-                console.log(result);
 
                 // shows modal on success
                 $('#modal-result').modal('show');
@@ -137,19 +197,37 @@ function getInputData() {
     // select all form input and textares
     var inputs = $('form :input:not(:button) ');
 
+    inputs.push(getLocation());
+    inputs.push(getEntry());
+
     // get form input data
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
-        if (input.name == 'tag' || input.name == 'attribute') {
-            data[input.name] = splitText(input.value);
+
+        if (input.name in rules) {
+            /**
+             * validate input
+             * if 'true': save input to data obj
+             * if 'false': save false into data obj
+             */
+            if (validateInput(input)) {
+                data[input.name] = input.value
+            }
+            else {
+                data[input.name] = false;
+            }
         }
-        else {
-            data[input.name] = input.value
+        else if (input.name == 'tag' || input.name == 'attribute') {
+            if(validataSearchAtt(input)){
+                data[input.name] = splitText(input.value);
+            }
+            else{
+                data[input.name] = null;
+            }
+
         }
+
     }
-
-    data['point'] = getPoints();
-
 
     return data;
 }
@@ -172,6 +250,10 @@ function loadMap(id) {
     });
 }
 
+/**
+ * Disables form control button
+ *  for save, clear, and cancel
+ */
 function disableBtns() {
 
     // Disable save button
@@ -187,6 +269,10 @@ function disableBtns() {
     $('#btn-cancel').prop('disabled', true);
 }
 
+/**
+ * Enables form control button
+ *  for save, clear, and cancel
+ */
 function enableBtns() {
 
     // Disable save button
@@ -202,8 +288,119 @@ function enableBtns() {
     $('#btn-cancel').prop('disabled', false);
 }
 
-function getPoints() {
-    console.log(data);
-    points = JSON.stringify(data);
-    return points;
+/**
+ * Gets data points from draw-polygons.js
+ *  for marked locaitons
+ */
+function getLocation() {
+    var input = {
+        name: 'location',
+        value: JSON.stringify(data)
+    };
+    return input;
+}
+
+function getEntry() {
+    var input = {
+        name: 'entry',
+        value: JSON.stringify([1])
+    };
+    return input;
+}
+
+/* - - - - Validation functionality - - - - */
+/**
+ * Shows displays the constrains on the input field.
+ * @param show
+ * @param errors
+ * @param name
+ * @constructor
+ */
+function ShowError(show, errors, name) {
+    var errorhelp = $('#' + name + 'Error');
+    errorhelp.empty();
+    if (!show) {
+        var ul = $('<ul>');
+        for (var e in errors) {
+            ul.append($('<li>', {text: errors[e]}))
+        }
+        errorhelp.append(ul);
+    }
+}
+
+/**
+ * Added CSS styling for input errors and success
+ * @param show
+ * @param name
+ * @constructor
+ */
+function ShowResults(show, name) {
+    var group = $('#' + name + '-group');
+
+    if (show == 'error') {
+        group.addClass('alert alert-danger');
+    }
+    else if (show == 'warning') {
+        group.addClass('alert alert-warning');
+    }
+    else if (show == 'success') {
+        group.removeClass('alert alert-danger');
+        group.removeClass('alert alert-warning');
+        group.addClass('alert alert-success');
+    }
+}
+
+
+function validateInput(input) {
+    // validate input
+    var result = approve.value(input.value, rules[input.name]);
+
+    // Check results of input validation
+    if (result.approved) {
+
+        // success
+        ShowError(result.approved, result.errors, input.name);
+        ShowResults('success', input.name);
+
+        // saves that input is validated
+        //isValid[input.name] = result.approved;
+
+        // save form data
+        //formdata[input.name] = input.value;
+    }
+    else {
+
+        // fail
+        ShowError(result.approved, result.errors, input.name);
+        ShowResults('error', input.name);
+
+        //isValid[input.name] = result.approved;
+    }
+    return result.approved;
+}
+
+function validataSearchAtt(input) {
+    var results = false;
+    if (input.value != '') {
+        results = true;
+        ShowResults('success', input.name);
+    }
+    else {
+        ShowError(0, [input.name + 's are suggested for location'], input.name);
+        ShowResults('warning', input.name);
+    }
+    return results;
+}
+
+function validateData(data){
+    var results = true;
+    for(var d in data){
+        console.log(data[d]);
+        if(!data[d]){
+
+            results = false;
+            break;
+        }
+    }
+    return results;
 }

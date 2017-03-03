@@ -32,7 +32,7 @@ router.post('/known', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'known',
             'name': req.body.name,
-            'data_point' : req.body.point
+            'data_point' : req.body.location
 
         };
 
