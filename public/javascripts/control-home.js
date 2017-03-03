@@ -113,6 +113,8 @@ function fillSidebar(locations) {
 
 function initialize() {
     $.when(getKnowLocations()).done(function (knowJSON) {
+
+        console.log(knowJSON);
         knownLocations = JSON.parse(knowJSON);
 
         // display success message
