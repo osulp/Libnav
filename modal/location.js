@@ -126,7 +126,7 @@ exports.getAttributes = function (callback, location){
     db.connection.end();
 }
 
-exports.getTags = function (callback, location){
+exports.getTags = function (location, callback){
     // create database connection
     db.createConnection();
 

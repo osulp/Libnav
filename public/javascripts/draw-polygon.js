@@ -83,6 +83,11 @@ var div = d3.select("body").append("div")
                 .style("opacity", 0);
             });
 
+            var results = getTags(1,function(result){
+                console.log(result);
+            })
+            
+
 }
 
 
@@ -311,6 +316,27 @@ function fill(svg) {
         .style("opacity", .25);
 
 }
+
+
+function getTags(location,callback){
+  $.ajax({
+        type: "GET",
+        async: true,
+        url: '/mapapi/getTags',
+        data: location
+    })
+        .done(function (data) {
+            console.log(data);
+            var result = JSON.parse(data);
+            callback(result);
+        })
+        .fail(function () {
+            console.log("Ajax Failed.");
+        });
+}
+
+
+
 
 
 //remove this as needed

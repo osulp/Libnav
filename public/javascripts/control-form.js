@@ -252,7 +252,7 @@ function loadMap(id) {
 
 
         getKnowLocations();
-
+       
         //selectLocation(svg);
 
         document.getElementById("btn-draw").onclick = function () {  drawByButton(svg); }
@@ -281,7 +281,6 @@ function disableBtns() {
     $('#btn-cancel').prop('disabled', true);
 }
 
-<<<<<<< HEAD
 function getPoints() {
     points = JSON.stringify(data);
     console.log(points);
@@ -319,7 +318,7 @@ function getKnowLocations() {
             console.log("Location not retrieved");
         });
 }
-=======
+
 /**
  * Enables form control button
  *  for save, clear, and cancel
