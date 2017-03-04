@@ -115,7 +115,13 @@ $(function () {
         // save data points from drawn location.
     })
 
+    $('#btn-navigation-show').on('click', function(){
+                loadGridForKnown(svg); 
+    });
+    
 
+  
+    
 });
 
 /**
@@ -404,3 +410,7 @@ function validateData(data){
     }
     return results;
 }
+
+
+
+

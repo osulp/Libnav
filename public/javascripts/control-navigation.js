@@ -1,0 +1,79 @@
+var svg=null;
+
+
+
+
+
+
+$(function(){
+  
+    loadMap(1);
+    
+  // When form is submitted
+    $('form').submit(function (event) {
+
+        // geting url form form
+        var url = $('form').attr('href');
+        
+        // defining data type
+        var data = {'floor': null,
+                    'grid' : null
+                   }
+        
+        // Adding floor number to data array
+        data['floor'] =  parseInt($('#floor option:selected').val());
+        
+        // adding stringify grid to data array
+        data['grid'] = JSON.stringify(gridCalc.nodes);
+        
+        console.log(data);
+        // submitting data 
+        saveGrid(data, url);
+
+        // prevents native form actions from firing
+        event.preventDefault();
+        return false;
+    });
+
+});
+
+
+function loadMap(id) {
+    var map = '/public/images/floor-' + id + '.svg';
+    d3.text(map, function (error, externalSVG) {
+        if (error) throw error;
+        // select map wrapper
+        var mapwrapper = d3.select('#map-wrapper');
+        mapwrapper.html(externalSVG);
+
+        svg = mapwrapper.select("svg");
+
+        loadGridForAdmin(svg);    
+
+    });
+        
+}
+
+   var saveGrid = function(data, url){
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: url,
+                data: data
+            })
+            .done(function (data) {
+                console.log(data);
+                var result = JSON.parse(data);
+                if (result) {
+                    // display success message
+                    console.log(result);
+                }
+                else {
+                    // display error message
+                }
+
+            })
+            .fail(function () {
+                console.log("Grid not saved");
+            });   
+        }

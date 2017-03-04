@@ -146,8 +146,13 @@ router.get('/navigation', function (req, res, next) {
 /* Post Navigation Grid page */
 router.post('/navigation', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        console.log(req.body);
-        navigation.getGird
+        var data = { 'floor': req.body.floor,
+                'data': req.body.grid};
+        
+        console.log(data['floor']);
+    
+        navigation.insertGrid(data);
+        //navigation.getGird
         res.json(JSON.stringify(true));
     } else {
         res.render('error/login');

@@ -11,6 +11,8 @@ exports.insertGrid = function (data, callback) {
     // insert information into floor table
     db.connection.query('INSERT INTO grid SET ?', data, function (error, results, fields) {
         if (error) throw error;
+        console.log(results);
+        console.log(fields);
     });
 
     // close connection to database
