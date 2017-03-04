@@ -35,12 +35,12 @@
 
     function loadGrid(){
 
-        $("#hideGrid").show();
+      /*  $("#hideGrid").show();
         $("#setWalkTrue").show();
         $("#setWalkFalse").show();
         $("#navLine").show();
         $("#saveGrid").show();
-
+      */
 
         $("#map-group").ready(function () {
             var a = document.getElementById("map-wrapper");
@@ -281,7 +281,6 @@
         hideGrid();
     });
 
-
     var clearPaths = function(){
         startFlag = true;
         finishFlag = false;
@@ -327,8 +326,6 @@
         });
 
     };
-
-
         
     var saveGrid = function(){
         $('form').submit(function(e){

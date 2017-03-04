@@ -1,7 +1,14 @@
+var knownLocations = null;
+var floor = null;
+var svg = null;
+
 $(function () {
 
-    // loads floor 2 map by default
-    loadMap('floor-2');
+    // Setting default floor
+    floor = 'floor-1';
+
+    // Initialize the libnav application
+    initialize();
 
     /*
      * On sidebar navigation click
@@ -11,15 +18,10 @@ $(function () {
      */
     $('a[id*="floor-"]').on('click', function () {
         console.log(this.id);
+        floor = this.id;
         $('#map-wrapper').empty();
         loadMap(this.id);
     });
-
-    /*
-     * Get all know location from database
-     * Load locations into sidebar
-     */
-
 
 });
 
@@ -29,37 +31,35 @@ $(function () {
  * @param url
  */
 function getKnowLocations() {
-    $.ajax({
+    return $.ajax({
         type: "get",
         async: true,
         url: '/mapapi/getAllLocation'
-    })
-        .done(function (data) {
-            var result = JSON.parse(data);
-            if (result) {
+    });
+    /*.done(function (data) {
+     var result = JSON.parse(data);
+     if (result) {
 
-                // display success message
-                fillSidebar(result);
+     // display success message
+     fillSidebar(result);
 
-                for(var r in result){
-                    if(result[r].data_point != null) {
-                        console.log(JSON.parse(result[r].data_point));
-                        renderPolygons(svg, JSON.parse(result[r].data_point));
-                    }
-                }
+     for (var r in result) {
+     if (result[r].data_point != null) {
+     renderPolygons(svg, JSON.parse(result[r].data_point));
+     }
+     }
 
-            }
-            else {
-                // display error message
-                console.log('Location for retrived');
-            }
+     }
+     else {
+     // display error message
+     console.log('Location for retrived');
+     }
 
-        })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });
+     })
+     .fail(function () {
+     console.log("Location not retrieved");
+     });*/
 }
-
 
 /**
  * loads svg map based on id
@@ -72,12 +72,27 @@ function loadMap(id) {
 
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
+
+        // append svg data
         mapwrapper.html(externalSVG);
 
+        // save svg object
         svg = mapwrapper.select("svg");
 
-        getKnowLocations();
+        console.log(knownLocations);
+        loadFloorLocation(svg, floor);
     });
+
+}
+
+function loadFloorLocation(svg, floor){
+    console.log(svg);
+    for (var k in knownLocations) {
+        console.log(knownLocations[k]);
+        if (knownLocations[k].floor == floor.split('-')[1]) {
+            renderPolygons(svg, JSON.parse(knownLocations[k].data_point));
+        }
+    }
 }
 
 /**
@@ -93,4 +108,21 @@ function fillSidebar(locations) {
             )
         )
     }
+}
+
+
+function initialize() {
+    $.when(getKnowLocations()).done(function (knowJSON) {
+
+        console.log(knowJSON);
+        knownLocations = JSON.parse(knowJSON);
+
+        // display success message
+        fillSidebar(knownLocations);
+
+        // load map
+        loadMap(floor);
+
+
+    });
 }

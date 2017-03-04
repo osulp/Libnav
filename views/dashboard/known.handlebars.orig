@@ -186,11 +186,15 @@
     </div>
 
     {{> dashboard/javascript }}
-    <script src="/public/javascripts/draw-polygon.js"></script>
+<<<<<<< HEAD
+    <script src="/public/javascripts/draw-polygon.js" ></script>
         <!-- Pathfinding js-->
     <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+=======
+    <script src="/public/javascripts/draw-polygon.js"></script>
 
     <script src="/approvejs/approve.min.js"></script>
+>>>>>>> 88582bf85f236c90a041c3eb2bf356bbfb61a3c6
 
 
     <!-- Form Controls JS !-->
