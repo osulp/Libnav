@@ -134,7 +134,7 @@ exports.getTags = function (location, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from tags where location = ? ', location, function (error, results, fields) {
+    db.connection.query('SELECT * from tag where location_id = ? ', location, function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);

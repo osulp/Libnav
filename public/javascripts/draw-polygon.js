@@ -83,7 +83,7 @@ var div = d3.select("body").append("div")
                 .style("opacity", 0);
             });
 
-            var results = getTags(1,function(result){
+            var results = getTags("1" ,function(result){
                 console.log(result);
             })
             
@@ -320,10 +320,11 @@ function fill(svg) {
 
 function getTags(location,callback){
   $.ajax({
-        type: "GET",
+        type: "POST",
         async: true,
         url: '/mapapi/getTags',
-        data: location
+        data:{
+            location: location}
     })
         .done(function (data) {
             console.log(data);

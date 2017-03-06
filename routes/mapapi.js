@@ -15,8 +15,10 @@ router.get('/getAllLocation', function (req, res, next) {
 });
 module.exports = router;
 
-router.get("/getTags", function (req, res, next){
-    location.getTags(location, function(results) {
+router.post("/getTags", function (req, res, next){
+    console.log("in get tags")
+    console.log(req.body.location)
+    location.getTags(req.body.location, function(results) {
         res.contentType('json');
         res.json(JSON.stringify(results))
     })
