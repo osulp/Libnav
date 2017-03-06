@@ -303,7 +303,7 @@ function getKnowLocations() {
                 for(var r in result){
                     if(result[r].data_point != null) {
                         console.log(JSON.parse(result[r].data_point));
-                        renderPolygons(svg, JSON.parse(result[r].data_point));
+                        renderPolygons(svg, result[r]);
                     }
                 }
 
@@ -454,4 +454,4 @@ function validateData(data){
     }
     return results;
 }
->>>>>>> 88582bf85f236c90a041c3eb2bf356bbfb61a3c6
+

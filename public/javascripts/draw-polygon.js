@@ -59,34 +59,51 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-
-
+    console.log(data);
+    points =  JSON.parse(data.data_point)
+    var attrs = getAttributes(JSON.parse(data.id) ,function(result){
+                console.log(result);
+                })
+    var tags = getTags(JSON.parse(data.id) ,function(result){
+               console.log(result);
+                })
+    console.log(points)
 
         svg
             .append("polygon")
             .attr("class", "data-poly")
-            .attr("points", data)
+            .attr("points", points)
             .style("fill", "0cff00")
             .style("stroke", "0cff00")
             .style("opacity", 1)
             .on("mouseover", function(){
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-            div.html("Hello World")
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
+                if(tags == null && attrs == null){
+                    div.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    div.html("<div>" + data.name + "</div><div>No tags to be displayed</div><div>No attributes to be displayed</div>")
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px");
+                }else{
+                    div.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    div.html("<div>" + data.name + "</div> \
+                              <div>" + tags + "</div>")
+                                
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px");
+                }
             })
             .on("mouseout", function(d) {
               div.transition()
                 .duration(500)
                 .style("opacity", 0);
-            });
-
-            var results = getTags("1" ,function(result){
-                console.log(result);
             })
-            
+            ;
+
+          
+                
 
 }
 
@@ -327,7 +344,7 @@ function getTags(location,callback){
             location: location}
     })
         .done(function (data) {
-            console.log(data);
+           // console.log(data);
             var result = JSON.parse(data);
             callback(result);
         })
@@ -336,6 +353,24 @@ function getTags(location,callback){
         });
 }
 
+
+function getAttributes(location,callback){
+  $.ajax({
+        type: "POST",
+        async: true,
+        url: '/mapapi/getAttributes',
+        data:{
+            location: location}
+    })
+        .done(function (data) {
+           // console.log(data);
+            var result = JSON.parse(data);
+            callback(result);
+        })
+        .fail(function () {
+            console.log("Ajax Failed.");
+        });
+}
 
 
 

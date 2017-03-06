@@ -108,7 +108,7 @@ exports.getLocations = function(callback){
     db.connection.end();
 };
 
-exports.getAttributes = function (callback, location){
+exports.getAttributes = function ( location, callback){
     // create database connection
     db.createConnection();
 
@@ -116,7 +116,7 @@ exports.getAttributes = function (callback, location){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from attributes where location = ?', location , function (error, results, fields) {
+    db.connection.query('SELECT * from attribute where location_id=? ', location , function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);
@@ -134,7 +134,7 @@ exports.getTags = function (location, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from tag where location_id = ? ', location, function (error, results, fields) {
+    db.connection.query('SELECT * from tag where location_id=? ', location, function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);
