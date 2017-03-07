@@ -6,53 +6,10 @@
  */
 
 
-/*function loadMap(id) {
- var map = '/public/images/floor-' + id + '.svg';
- d3.xml(map, function (error, xml) {
- if (error) throw error;
- $('#map-wrapper').append(xml.documentElement);
- });
- }  */
-
 var data;
 var count;
 var pointArray = [];
 var result = [];
-/*window.onload = function () {
- var id = 1;
- var map = '/public/images/floor-' + id + '.svg';
- var svg = d3.xml(map, function (error, xml) {
- if (error) throw error;
- $('#map-wrapper').append(xml.documentElement);
- });
-
- //var a = document.getElementById("#map-wrapper");
- var svgDoc;
- // var svgItem = svgDoc.getElementById("Background");
- //var mainMapSVG = d3.select;
- /!*  var a = document.getElementById("map-wrapper");
- console.log(a);
- var svgDoc = a.contentDocument;
- console.log(svgDoc);
- var svgItem = svgDoc.getElementById("Background");
- var svg = d3.select(svgItem);*!/
- /!*  var a = document.getElementById("#map-wrapper");
- var svgDoc = a.contentDocument;
- var svgChildren = svgDoc.childNodes;
- //var svgItem = svgChildren[2];*!/
-
- //var mainMapSVG = d3.select(svgItem.children[1]);
-
- svg.append("#polyLayer");
-
- getPoints(function (result) {
- renderPolygons(svgDoc, result);
- });
-
- document.getElementById('btn-draw').onclick = drawByButton(svgDoc);
- selectByShape(mainMapSVG)
-
- };*/
 
 function renderPolygons(svg, data) {
 var div = d3.select("body").append("div")
@@ -106,7 +63,6 @@ var div = d3.select("body").append("div")
                 
 
 }
-
 
 function selectByShape(mainMapSVG) {
 
@@ -334,7 +290,6 @@ function fill(svg) {
 
 }
 
-
 function getTags(location,callback){
   $.ajax({
         type: "POST",
@@ -352,7 +307,6 @@ function getTags(location,callback){
             console.log("Ajax Failed.");
         });
 }
-
 
 function getAttributes(location,callback){
   $.ajax({
@@ -372,40 +326,11 @@ function getAttributes(location,callback){
         });
 }
 
-
-
-
-//remove this as needed
-/*function getPoints(callback) {
-    $.ajax({
-        type: "GET",
-        async: true,
-        url: '/home/location'
-    })
-        .done(function (data) {
-            console.log(data);
-            var result = JSON.parse(data);
-            callback(result);
-        })
-        .fail(function () {
-            console.log("Ajax Failed.");
-        });
-}*/
-
-
-
 function selectLocation(svg){
     var polygons = svg.selectAll("polygon");
     var rectangles = svg.selectAll("rect");
     var paths = svg.selectAll("path")
 
-    /*paths.on("mouseenter", function() {
-        this.attributes.getNamedItem("fill").value = "lightred";
-    })
-    
-     paths.on("mouseleave", function() {
-        this.attributes.getNamedItem("fill").value = "white";
-    })*/
 
     rectangles.on("mouseenter", function() {
         this.attributes.getNamedItem("fill").value = "lightred";

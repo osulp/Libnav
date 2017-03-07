@@ -287,7 +287,6 @@ function getPoints() {
     return points;
 }
 
-
 function getKnowLocations() {
     $.ajax({
         type: "get",
