@@ -8,7 +8,7 @@ var rules = {
     'name': {
         title: 'Location Name',
         required: true,
-        format: { regex:/[0-9a-zA-Z ]/}
+        format: {regex: /[0-9a-zA-Z ]/}
     },
     'floor': {
         title: 'Floor',
@@ -80,11 +80,11 @@ $(function () {
         // Submit data
         //submitForm(data, url);
 
-        if(validateData(data)){
+        if (validateData(data)) {
             // Submit data
             submitForm(data, url);
         }
-        else{
+        else {
             enableBtns();
         }
 
@@ -113,6 +113,11 @@ $(function () {
     // Btn saves draw location
     $('#btn-location-save').on('click', function () {
         // save data points from drawn location.
+    });
+
+    // Btn Select Location
+    $('#btn-location-select').on('click', function () {
+        selectLocation(svg);
     })
 
 
@@ -218,10 +223,10 @@ function getInputData() {
             }
         }
         else if (input.name == 'tag' || input.name == 'attribute') {
-            if(validataSearchAtt(input)){
+            if (validataSearchAtt(input)) {
                 data[input.name] = splitText(input.value);
             }
-            else{
+            else {
                 data[input.name] = null;
             }
 
@@ -241,7 +246,7 @@ function loadMap(id) {
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
 
-       // console.log(externalSVG);
+        // console.log(externalSVG);
 
 
         // select map wrapper
@@ -252,10 +257,12 @@ function loadMap(id) {
 
 
         getKnowLocations();
-       
+
         //selectLocation(svg);
 
-        document.getElementById("btn-draw").onclick = function () {  drawByButton(svg); }
+        document.getElementById("btn-draw").onclick = function () {
+            drawByButton(svg);
+        }
         selectByShape(svg);
 
 
@@ -299,10 +306,10 @@ function getKnowLocations() {
 
                 // display success message
 
-                for(var r in result){
-                    if(result[r].data_point != null) {
+                for (var r in result) {
+                    if (result[r].data_point != null) {
                         console.log(JSON.parse(result[r].data_point));
-                        renderPolygons(svg, result[r]);
+                        //renderPolygons(svg, result[r]);
                     }
                 }
 
@@ -441,11 +448,11 @@ function validataSearchAtt(input) {
     return results;
 }
 
-function validateData(data){
+function validateData(data) {
     var results = true;
-    for(var d in data){
+    for (var d in data) {
         console.log(data[d]);
-        if(!data[d]){
+        if (!data[d]) {
 
             results = false;
             break;
