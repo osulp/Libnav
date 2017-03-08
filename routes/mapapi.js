@@ -21,4 +21,24 @@ router.get('/getAllLocation', function (req, res, next) {
     })
 
 });
+
+
+router.post("/getTags", function (req, res, next){
+    console.log("in get tags")
+    console.log(req.body.location)
+    location.getTags(req.body.location, function(results) {
+        res.contentType('json');
+        res.json(JSON.stringify(results))
+    })
+});
+
+
+
+router.post("/getAttributes", function (req, res, next){
+    location.getAttributes(req.body.location, function(results) {
+        res.contentType('json');
+        console.log(results);
+        res.json(JSON.stringify(results))
+    })
+});
 module.exports = router;

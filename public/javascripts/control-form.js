@@ -8,7 +8,7 @@ var rules = {
     'name': {
         title: 'Location Name',
         required: true,
-        format: { regex:/[0-9a-zA-Z ]/}
+        format: {regex: /[0-9a-zA-Z ]/}
     },
     'floor': {
         title: 'Floor',
@@ -80,11 +80,11 @@ $(function () {
         // Submit data
         //submitForm(data, url);
 
-        if(validateData(data)){
+        if (validateData(data)) {
             // Submit data
             submitForm(data, url);
         }
-        else{
+        else {
             enableBtns();
         }
 
@@ -113,14 +113,16 @@ $(function () {
     // Btn saves draw location
     $('#btn-location-save').on('click', function () {
         // save data points from drawn location.
-    })
-
-    $('#btn-navigation-show').on('click', function(){
-                loadGridForKnown(svg); 
     });
-    
 
-  
+    // Btn Shows navigation grid
+    $('#btn-navigation-show').on('click', function () {
+        loadGridForKnown(svg);
+    });
+
+    $('#btn-navigation-hide').on('click', function(){
+        hideGrid();
+    });
     
 });
 
@@ -224,10 +226,10 @@ function getInputData() {
             }
         }
         else if (input.name == 'tag' || input.name == 'attribute') {
-            if(validataSearchAtt(input)){
+            if (validataSearchAtt(input)) {
                 data[input.name] = splitText(input.value);
             }
-            else{
+            else {
                 data[input.name] = null;
             }
 
@@ -246,11 +248,25 @@ function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
+
+        // console.log(externalSVG);
+
+
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
         mapwrapper.html(externalSVG);
 
         svg = mapwrapper.select("svg");
+
+
+        getKnowLocations();
+
+        //selectLocation(svg);
+
+        document.getElementById("btn-draw").onclick = function () {
+            drawByButton(svg);
+        }
+        selectByShape(svg);
 
 
     });
@@ -273,6 +289,43 @@ function disableBtns() {
     // Disable delete button
     $('#btn-cancel').attr('disabled', true);
     $('#btn-cancel').prop('disabled', true);
+}
+
+function getPoints() {
+    points = JSON.stringify(data);
+    console.log(points);
+    return points;
+}
+
+function getKnowLocations() {
+    $.ajax({
+        type: "get",
+        async: true,
+        url: '/mapapi/getAllLocation'
+    })
+        .done(function (data) {
+            var result = JSON.parse(data);
+            if (result) {
+
+                // display success message
+
+                for (var r in result) {
+                    if (result[r].data_point != null) {
+                        console.log(JSON.parse(result[r].data_point));
+                        renderPolygons(svg, result[r]);
+                    }
+                }
+
+            }
+            else {
+                // display error message
+                console.log('Location for retrived');
+            }
+
+        })
+        .fail(function () {
+            console.log("Location not retrieved");
+        });
 }
 
 /**
@@ -398,11 +451,11 @@ function validataSearchAtt(input) {
     return results;
 }
 
-function validateData(data){
+function validateData(data) {
     var results = true;
-    for(var d in data){
+    for (var d in data) {
         console.log(data[d]);
-        if(!data[d]){
+        if (!data[d]) {
 
             results = false;
             break;
@@ -410,7 +463,3 @@ function validateData(data){
     }
     return results;
 }
-
-
-
-

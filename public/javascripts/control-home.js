@@ -90,7 +90,7 @@ function loadFloorLocation(svg, floor){
     for (var k in knownLocations) {
         console.log(knownLocations[k]);
         if (knownLocations[k].floor == floor.split('-')[1]) {
-            renderPolygons(svg, JSON.parse(knownLocations[k].data_point));
+            renderPolygons(svg, knownLocations[k]);
         }
     }
 }
