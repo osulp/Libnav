@@ -802,7 +802,7 @@ table.dataTable thead .sorting:after {
 #map-control{
     height: 65px;
 }
-#location-draw-controls{
+.controls{
     margin-top: 5px;
 }
 
