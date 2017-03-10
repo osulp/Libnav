@@ -115,6 +115,11 @@ $(function () {
         // Matthew put call to save method here
     });
 
+    // Btn Shows Navigation Controls
+    $('#btn-navigation').on('click',function(){
+        $('#navigation-controls').toggleClass('hidden');
+    });
+
     // Btn Select Location
     $('#btn-location-select').on('click', function () {
         // Matthew put call to select by location method here
@@ -282,10 +287,12 @@ function loadMap(id) {
 
         //selectLocation(svg);
 
-        document.getElementById("btn-draw").onclick = function () {
+        /*document.getElementById("btn-draw").onclick = function () {
             drawByButton(svg);
-        }
-        selectByShape(svg);
+        };*/
+        //selectByShape(svg);
+
+        loadG(svg);
 
 
     });

@@ -109,7 +109,7 @@
                                         <div class="col-lg-12">
                                             <div class="btn btn-default" id="btn-location-draw">Draw Location</div>
                                             <div class="btn btn-default" id="btn-location-select">Select Location</div>
-                                            <div class="row hidden" id="location-draw-controls">
+                                            <div class="row controls hidden" id="location-draw-controls">
                                                 <div class="col-lg-12">
                                                     <div class="btn btn-primary" id="btn-location-fill">Fill</div>
                                                     <div class="btn btn-warning" id="btn-location-clear">Clear</div>
@@ -127,7 +127,8 @@
                                         <p class="input-label">Set Entry Point</p>
                                         <span id="entryError" class="help-block"></span>
                                     </div>
-                                    <div class="row">
+                                    <div class="btn btn-default" id="btn-navigation">Draw Location</div>
+                                    <div class="row controls hidden" id="navigation-controls">
                                         <div class="col-lg-12">
                                             <div class="btn btn-default" id="btn-navigation-show">Show Grid</div>
                                             <div class="btn btn-default" id="btn-navigation-hide">Hide Grid</div>
@@ -190,12 +191,19 @@
     </div>
 
     {{> dashboard/javascript }}
+
+    <!-- Draw Polygons js !-->
     <script src="/public/javascripts/draw-polygon.js"></script>
+
+    <!-- Navigation js !-->
+    <script src="/public/javascripts/navigation-main.js"></script>
 
     <script src="/approvejs/approve.min.js"></script>
 
     <!---- lodash file needed for drawpolygon-->
     <script src="/lodash/lodash.js"></script>
+
+
 
     <!-- Form Controls JS !-->
     <script src="/public/javascripts/control-form.js"></script>
