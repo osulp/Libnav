@@ -8,7 +8,7 @@ var rules = {
     'name': {
         title: 'Location Name',
         required: true,
-        format: { regex:/[0-9a-zA-Z ]/}
+        format: {regex: /[0-9a-zA-Z ]/}
     },
     'floor': {
         title: 'Floor',
@@ -80,11 +80,11 @@ $(function () {
         // Submit data
         //submitForm(data, url);
 
-        if(validateData(data)){
+        if (validateData(data)) {
             // Submit data
             submitForm(data, url);
         }
-        else{
+        else {
             enableBtns();
         }
 
@@ -93,12 +93,12 @@ $(function () {
         return false;
     });
 
-    // Clears polygon from map
+    // Btn Clears polygon from map
     $('#btn-location-clear').on('click', function () {
         clear(svg);
     });
 
-    // Fills map polygon
+    // Btn Fills map polygon
     $('#btn-location-fill').on('click', function () {
         fill(svg);
     });
@@ -106,13 +106,45 @@ $(function () {
     // Btn Draw Location
     $('#btn-location-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-
         drawByButton(svg);
     });
 
     // Btn saves draw location
     $('#btn-location-save').on('click', function () {
         // save data points from drawn location.
+        // Matthew put call to save method here
+    });
+
+    // Btn Shows Navigation Controls
+    $('#btn-navigation').on('click',function(){
+        $('#navigation-controls').toggleClass('hidden');
+    });
+
+    // Btn Select Location
+    $('#btn-location-select').on('click', function () {
+        // Matthew put call to select by location method here
+        //selectLocation(svg);
+    });
+
+    // Btn Show Grid
+    $('#btn-navigation-show').on('click', function () {
+        // Stephen put call to show grid method here
+    });
+
+    // Btn Hide Grid
+    $('#btn-navigation-hide').on('click', function () {
+        // Stephen put call to hid grid method here
+    });
+
+    // Btn Clear Grid
+    $('#btn-navigation-clear').on('click', function () {
+        // Stephen put call to clear entry point method here
+    });
+
+    // Btn Save Entry Point
+    $('#btn-navigation-save').on('click', function () {
+        // Stephen put call to save entity point method here
+        // getEntry();
     })
 
 
@@ -218,10 +250,10 @@ function getInputData() {
             }
         }
         else if (input.name == 'tag' || input.name == 'attribute') {
-            if(validataSearchAtt(input)){
+            if (validataSearchAtt(input)) {
                 data[input.name] = splitText(input.value);
             }
-            else{
+            else {
                 data[input.name] = null;
             }
 
@@ -241,7 +273,7 @@ function loadMap(id) {
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
 
-       // console.log(externalSVG);
+        // console.log(externalSVG);
 
 
         // select map wrapper
@@ -252,11 +284,13 @@ function loadMap(id) {
 
 
         getKnowLocations();
-       
+
         //selectLocation(svg);
 
-        document.getElementById("btn-draw").onclick = function () {  drawByButton(svg); }
-        selectByShape(svg);
+        /*document.getElementById("btn-draw").onclick = function () {
+            drawByButton(svg);
+        };*/
+        //selectByShape(svg);
 
 
     });
@@ -281,11 +315,6 @@ function disableBtns() {
     $('#btn-cancel').prop('disabled', true);
 }
 
-function getPoints() {
-    points = JSON.stringify(data);
-    console.log(points);
-    return points;
-}
 
 function getKnowLocations() {
     $.ajax({
@@ -299,8 +328,8 @@ function getKnowLocations() {
 
                 // display success message
 
-                for(var r in result){
-                    if(result[r].data_point != null) {
+                for (var r in result) {
+                    if (result[r].data_point != null) {
                         console.log(JSON.parse(result[r].data_point));
                         renderPolygons(svg, result[r]);
                     }
@@ -339,7 +368,7 @@ function enableBtns() {
 
 /**
  * Gets data points from draw-polygons.js
- *  for marked locaitons
+ *  for marked locations
  */
 function getLocation() {
     var input = {
@@ -349,6 +378,10 @@ function getLocation() {
     return input;
 }
 
+/**
+ * Gets the entry point for location on grid
+ * @returns {{name: string, value}}
+ */
 function getEntry() {
     var input = {
         name: 'entry',
@@ -399,7 +432,11 @@ function ShowResults(show, name) {
     }
 }
 
-
+/**
+ * Validates all inputs of forms using validation rules.
+ * @param input
+ * @returns {*}
+ */
 function validateInput(input) {
     // validate input
     var result = approve.value(input.value, rules[input.name]);
@@ -428,6 +465,11 @@ function validateInput(input) {
     return result.approved;
 }
 
+/**
+ * Validates Tags and Attributes inputs
+ * @param input
+ * @returns {boolean}
+ */
 function validataSearchAtt(input) {
     var results = false;
     if (input.value != '') {
@@ -441,11 +483,16 @@ function validataSearchAtt(input) {
     return results;
 }
 
-function validateData(data){
+/**
+ * Validates that all required data is inputted before submission of forms
+ * @param data
+ * @returns {boolean}
+ */
+function validateData(data) {
     var results = true;
-    for(var d in data){
+    for (var d in data) {
         console.log(data[d]);
-        if(!data[d]){
+        if (!data[d]) {
 
             results = false;
             break;

@@ -100,6 +100,8 @@ exports.getLocations = function(callback){
     // insert attributes
     db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point from location', function (error, results, fields) {
         if (error) throw error;
+
+
         console.log(results);
         callback(results);
     });
@@ -107,6 +109,25 @@ exports.getLocations = function(callback){
     // close connection to database
     db.connection.end();
 };
+
+/*exports.getLocations = function(id, callback){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('SELECT l.id, l.floor, l.name, l.type, l.url, l.room_number , l.room_cap , l.data_point from location l', function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+};*/
+
 
 exports.getAttributes = function ( location, callback){
     // create database connection
@@ -116,9 +137,11 @@ exports.getAttributes = function ( location, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from attribute where location_id=? ', location , function (error, results, fields) {
+    db.connection.query('SELECT attr from attribute where location_id=? ', location , function (error, results, fields) {
         if (error) throw error;
         console.log(results);
+        console.log(fields);
+
         callback(results);
     });
 
@@ -134,7 +157,7 @@ exports.getTags = function (location, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from tag where location_id=? ', location, function (error, results, fields) {
+    db.connection.query('SELECT attr from tag where location_id=? ', location, function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);

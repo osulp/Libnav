@@ -18,13 +18,23 @@ var div = d3.select("body").append("div")
 
     console.log(data);
     points =  JSON.parse(data.data_point)
-    var attrs = getAttributes(JSON.parse(data.id) ,function(result){
+    var attrsR = getAttributes(JSON.parse(data.id) ,function(result){
                 console.log(result);
                 })
-    var tags = getTags(JSON.parse(data.id) ,function(result){
+    var tagsR = getTags(JSON.parse(data.id) ,function(result){
                console.log(result);
                 })
-    console.log(points)
+    console.log(tagsR)
+
+    var tagArray = []
+    a = 0
+
+        for (var a  in tagsR){
+            tagArray.push(tagsR[a].attr)
+            a++
+        }
+        console.log(tagArray)
+
 
         svg
             .append("polygon")
@@ -34,7 +44,7 @@ var div = d3.select("body").append("div")
             .style("stroke", "0cff00")
             .style("opacity", 1)
             .on("mouseover", function(){
-                if(tags == null && attrs == null){
+                if(tagArray == null && attrs == null){
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
@@ -46,7 +56,7 @@ var div = d3.select("body").append("div")
                         .duration(200)
                         .style("opacity", .9);
                     div.html("<div>" + data.name + "</div> \
-                              <div>" + tags + "</div>")
+                              <div>" + tagArray + "</div>")
                                 
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
@@ -291,9 +301,12 @@ function fill(svg) {
 }
 
 function getTags(location,callback){
+
+    console.log("inside getTags");
+    var temp = false;
   $.ajax({
         type: "POST",
-        async: true,
+        async: false,
         url: '/mapapi/getTags',
         data:{
             location: location}
@@ -301,11 +314,14 @@ function getTags(location,callback){
         .done(function (data) {
            // console.log(data);
             var result = JSON.parse(data);
-            callback(result);
+            temp = result;
         })
         .fail(function () {
             console.log("Ajax Failed.");
         });
+
+    console.log(temp);
+    return temp;
 }
 
 function getAttributes(location,callback){

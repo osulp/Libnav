@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ab">
+<head>
+    {{> head }}
+    <link rel="stylesheet" href="/datatable-bs/css/dataTables.bootstrap.css"/>
+    <!--<link rel="stylesheet" href="/datatable-responsive-bs/css/respnsive.bootstrap.css" />-->
+    <style>
+        #example {
+            max-height: 250px;
+        }
+        a div.btn{
+            margin: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        {{> nav }}
+        {{> dashboard/sidebar }}
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Details {{data}}<span id="name"></span></h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+
+                    <!-- Name !-->
+                    <div id="wrapper-name" class="col-lg-6">
+                        <p class="input-label">
+                            Location Name:
+                        </p>
+                        <span id="data-name"></span>
+                    </div>
+
+                    <!-- floor !-->
+                    <div id="wrapper-floor" class="col-lg-6">
+                        <p class="input-label">
+                            Floor:
+                        </p>
+                        <span id="data-floor"></span>
+                    </div>
+                </div> <!-- /.row !-->
+
+                <div class="row">
+                    <!-- Tags !-->
+                    <div id="wrapper-tags" class="col-lg-6">
+                        <p class="input-label">
+                            Tags:
+                        </p>
+                        <span id="data-tags"></span>
+                    </div>
+
+                    <!-- Attributes !-->
+                    <div id="wrapper-attributes" class="col-lg-6">
+                        <p class="input-label">
+                            Attributes:
+                        </p>
+                        <span id="data-attributes"></span>
+
+                    </div>
+                </div> <!-- /.row !-->
+
+                <div class="row">
+                    <!-- Tags !-->
+                    <div id="wrapper-location" class="col-lg-6">
+                        <p class="input-label">
+                            Location:
+                        </p>
+                        <span id="data-location"></span>
+                    </div>
+
+                    <!-- Attributes !-->
+                    <div id="wrapper-entry" class="col-lg-6">
+                        <p class="input-label">
+                            Entry:
+                        </p>
+                        <span id="data-entry"></span>
+
+                    </div>
+                </div> <!-- /.row !-->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="btn-edit" class="btn btn-warning">Edit</div>
+                        <div id="btn-delete" class="btn btn-danger">Delete</div>
+                    </div>
+                </div> <!-- /.row !-->
+
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+        {{data}}
+
+    </div>
+    <!-- /#wrapper -->
+
+    {{> footer }}
+
+    {{> dashboard/javascript }}
+
+</body>
