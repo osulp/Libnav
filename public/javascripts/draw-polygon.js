@@ -25,17 +25,24 @@ var div = d3.select("body").append("div")
                console.log(result);
                 })
     console.log(tagsR)
+    console.log(attrsR)
 
+    var attrArray = []
     var tagArray = []
-    a = 0
-
-        for (var a  in tagsR){
-            tagArray.push(tagsR[a].attr)
+    var t = 0
+    var a = 0
+        for ( t  in tagsR){
+            tagArray.push(tagsR[t].attr)
+            t++
+        }
+        //console.log(tagArray)
+        
+        for (a in attrsR){
+            attrArray.push(attrsR[a].attr)
             a++
         }
-        console.log(tagArray)
-
-
+     //   console.log(attrArray)
+    
         svg
             .append("polygon")
             .attr("class", "data-poly")
@@ -56,7 +63,8 @@ var div = d3.select("body").append("div")
                         .duration(200)
                         .style("opacity", .9);
                     div.html("<div>" + data.name + "</div> \
-                              <div>" + tagArray + "</div>")
+                              <div> Tags: " + tagArray + "</div>\
+                              <div> Attributes: " + attrArray + "</div>" )
                                 
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
@@ -325,9 +333,10 @@ function getTags(location,callback){
 }
 
 function getAttributes(location,callback){
+  var temp = false
   $.ajax({
         type: "POST",
-        async: true,
+        async: false,
         url: '/mapapi/getAttributes',
         data:{
             location: location}
@@ -335,11 +344,12 @@ function getAttributes(location,callback){
         .done(function (data) {
            // console.log(data);
             var result = JSON.parse(data);
-            callback(result);
+            temp = result
         })
         .fail(function () {
             console.log("Ajax Failed.");
         });
+        return temp;
 }
 
 function selectLocation(svg){
