@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
+var navigation = require('../modal/navigation');
 
-router.get('/mapapi/grid', function (req, res, next) {
 
-    location.getLocationPoints(function (results) {
+router.get('/grid', function (req, res, next) {
 
+     navigation.getGrid(function (results) {
+        res.contentType('json');
+        res.json(JSON.stringify(results));
     });
 });
 

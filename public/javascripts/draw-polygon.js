@@ -109,7 +109,7 @@ function selectByShape(mainMapSVG) {
     var polygon = mainMapSVG.selectAll("polygon");
     console.log(polygon);
 
-    _.times(polygon._groups[0].length, function (g) {
+    _.times(polygon._groups[0].length-1, function (g) {
        
         polygon._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
@@ -134,12 +134,12 @@ function selectByShape(mainMapSVG) {
         //var points = this.attributes.getNamedItem("points").value;
 
 
-        console.log(points);
+        console.log( this.attributes.getNamedItem("points").value);
         this.attributes.getNamedItem("fill").value = "red";
     });
 
 
-    //polylines
+    /*//polylines
     var polylines = mainMapSVG.selectAll("polyline");
 
 
@@ -170,7 +170,7 @@ function selectByShape(mainMapSVG) {
 
         console.log(data);
         this.attributes.getNamedItem("fill").value = "red";
-    });
+    });*/
 
     //elipses
 
