@@ -14,9 +14,7 @@ router.get('/home/location', function (req, res, next) {
         res.contentType('json');
         res.json(JSON.stringify(results));
     })
-
-
-
-
 });
 module.exports = router;
+
+
