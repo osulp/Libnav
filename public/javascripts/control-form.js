@@ -317,11 +317,6 @@ function disableBtns() {
     $('#btn-cancel').prop('disabled', true);
 }
 
-function getPoints() {
-    points = JSON.stringify(data);
-    console.log(points);
-    return points;
-}
 
 function getKnowLocations() {
     $.ajax({
