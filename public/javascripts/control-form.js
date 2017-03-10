@@ -93,12 +93,12 @@ $(function () {
         return false;
     });
 
-    // Clears polygon from map
+    // Btn Clears polygon from map
     $('#btn-location-clear').on('click', function () {
         clear(svg);
     });
 
-    // Fills map polygon
+    // Btn Fills map polygon
     $('#btn-location-fill').on('click', function () {
         fill(svg);
     });
@@ -106,24 +106,43 @@ $(function () {
     // Btn Draw Location
     $('#btn-location-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-
         drawByButton(svg);
     });
 
     // Btn saves draw location
     $('#btn-location-save').on('click', function () {
         // save data points from drawn location.
+        // Matthew put call to save method here
     });
 
-    // Btn Shows navigation grid
+    // Btn Select Location
+    $('#btn-location-select').on('click', function () {
+        // Matthew put call to select by location method here
+        //selectLocation(svg);
+    });
+
+    // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
-        loadGridForKnown(svg);
+        // Stephen put call to show grid method here
     });
 
-    $('#btn-navigation-hide').on('click', function(){
-        hideGrid();
+    // Btn Hide Grid
+    $('#btn-navigation-hide').on('click', function () {
+        // Stephen put call to hid grid method here
     });
-    
+
+    // Btn Clear Grid
+    $('#btn-navigation-clear').on('click', function () {
+        // Stephen put call to clear entry point method here
+    });
+
+    // Btn Save Entry Point
+    $('#btn-navigation-save').on('click', function () {
+        // Stephen put call to save entity point method here
+        // getEntry();
+    })
+
+
 });
 
 /**
@@ -312,7 +331,7 @@ function getKnowLocations() {
                 for (var r in result) {
                     if (result[r].data_point != null) {
                         console.log(JSON.parse(result[r].data_point));
-                        renderPolygons(svg, result[r]);
+                        //renderPolygons(svg, result[r]);
                     }
                 }
 
@@ -349,7 +368,7 @@ function enableBtns() {
 
 /**
  * Gets data points from draw-polygons.js
- *  for marked locaitons
+ *  for marked locations
  */
 function getLocation() {
     var input = {
@@ -359,6 +378,10 @@ function getLocation() {
     return input;
 }
 
+/**
+ * Gets the entry point for location on grid
+ * @returns {{name: string, value}}
+ */
 function getEntry() {
     var input = {
         name: 'entry',
@@ -409,7 +432,11 @@ function ShowResults(show, name) {
     }
 }
 
-
+/**
+ * Validates all inputs of forms using validation rules.
+ * @param input
+ * @returns {*}
+ */
 function validateInput(input) {
     // validate input
     var result = approve.value(input.value, rules[input.name]);
@@ -438,6 +465,11 @@ function validateInput(input) {
     return result.approved;
 }
 
+/**
+ * Validates Tags and Attributes inputs
+ * @param input
+ * @returns {boolean}
+ */
 function validataSearchAtt(input) {
     var results = false;
     if (input.value != '') {
@@ -451,6 +483,11 @@ function validataSearchAtt(input) {
     return results;
 }
 
+/**
+ * Validates that all required data is inputted before submission of forms
+ * @param data
+ * @returns {boolean}
+ */
 function validateData(data) {
     var results = true;
     for (var d in data) {
@@ -463,3 +500,4 @@ function validateData(data) {
     }
     return results;
 }
+

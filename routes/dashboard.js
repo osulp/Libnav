@@ -33,7 +33,8 @@ router.post('/known', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'known',
             'name': req.body.name,
-            'data_point' : req.body.location
+            'data_point' : req.body.location,
+            'entry_point' : req.body.entry
 
         };
 
@@ -88,9 +89,54 @@ router.get('/unknown', function (req, res, next) {
 
 /* Post Unknown Location page */
 router.post('/unknown', function (req, res, next) {
-    if (req.session.isAuthenticated) {
+    if (1) {
         console.log(req.body);
-        res.json(JSON.stringify(true));
+
+        // defining know data
+        var data = {
+            'floor': req.body.floor,
+            'type': 'unknown',
+            'name': req.body.name,
+            'data_point' : req.body.location,
+            'entry_point' : req.body.entry
+
+        };
+
+        console.log(data);
+
+        var attributes = req.body.attribute;
+        var tags = req.body.tag;
+
+        location.insertLocation(data, function (id) {
+
+            // applying id to attributes
+            if (attributes != null) {
+                for (var att in attributes) {
+                    attributes[att][0] = id;
+                    console.log(attributes[att]);
+                }
+                location.insertAttribute(attributes);
+
+            }
+
+            // insuring attributes into attribute.
+            if (tags != null) {
+
+                // applying id to tags
+                for (var att in tags) {
+                    tags[att][0] = id;
+                }
+
+                // insert attributes into tags.
+                location.insertTag(tags);
+            }
+
+            res.json(JSON.stringify(true));
+
+        });
+
+
+
     } else {
         res.render('error/login');
     }
@@ -154,6 +200,15 @@ router.post('/navigation', function (req, res, next) {
         navigation.insertGrid(data);
         //navigation.getGird
         res.json(JSON.stringify(true));
+    } else {
+        res.render('error/login');
+    }
+});
+
+/* details of location */
+router.get('/details/:id', function(req, res, next){
+    if (req.session.isAuthenticated) {
+        res.render('dashboard/details', {session: true, data: req.params.id})
     } else {
         res.render('error/login');
     }
