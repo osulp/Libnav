@@ -331,7 +331,7 @@ function getKnowLocations() {
                 for (var r in result) {
                     if (result[r].data_point != null) {
                         console.log(JSON.parse(result[r].data_point));
-                        //renderPolygons(svg, result[r]);
+                        renderPolygons(svg, result[r]);
                     }
                 }
 
