@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS location (
   name        VARCHAR(255),
   room_number INT,
   room_cap    INT,
-  URL         VARCHAR(255),
+  url         VARCHAR(255),
   data_point  TEXT,
   entry_point TEXT
 

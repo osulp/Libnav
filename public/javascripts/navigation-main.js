@@ -19,6 +19,7 @@ var allRectangles;
 var entryPoint;
 var startPos;
 var finishPos;
+var floorGridFromDB;
 var grid;
 var svgnav;
 var gridCalc;
@@ -85,7 +86,7 @@ var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
      });
 
      });*/
-    if(floorGridFromDB==null){
+    if(floorGridFromDB==null || floorGridFromDB===undefined){
         setGridPathFinder(squaresColumn,squaresRow,grid);
     }else{
         setGridPathFinderFromDB(squaresColumn, squaresRow, grid);
