@@ -16,10 +16,11 @@ var finishFlag = false;
 var notWalkFlag = false;
 var isDragging = false;
 var allRectangles;
+var entryPoint;
 var startPos;
 var finishPos;
 var grid;
-var svg;
+var svgnav;
 var gridCalc;
 var path;
 var finder;
@@ -46,10 +47,28 @@ var setGridPathFinder = function (squaresColumn, squaresRow, grid) {
     });
 };
 
-var saveGridPathFinder = function () {
-    var saveThis = gridCalc;
-    console.log(gridCalc);
+var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
+    //set grid
+    gridCalc = new PF.Grid(squaresColumn, squaresRow);
+    gridCalc.nodes = floorGridFromDB;
+    //nonwalk
+    _.times(squaresColumn, function (n) {
+
+        _.times(squaresRow, function (m) {
+            if(floorGridFromDB[m][n].walkable){
+                var recID = "s-" + n + "-" + m;
+                grid.select("rect[id='" + recID + "']").attr('fill', 'blue');
+            }
+            else{
+                var recID = "s-" + n + "-" + m;
+                grid.select("rect[id='" + recID + "']").attr('fill', 'red');
+            }
+        });
+
+    });
 };
+
+
 
 var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
 
@@ -66,11 +85,24 @@ var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
      });
 
      });*/
-
-    setGridPathFinder(squaresColumn, squaresRow, grid)
+    if(floorGridFromDB==null){
+        setGridPathFinder(squaresColumn,squaresRow,grid);
+    }else{
+        setGridPathFinderFromDB(squaresColumn, squaresRow, grid);
+    }
 };
 
 var hideGrid = function () {
+    grid.attr("display","none");
+    grid.attr("z-index","-1");
+};
+
+var showGrid = function () {
+    grid.attr("display","initial");
+    grid.attr("z-index","1");
+};
+
+var hideGrid2 = function () {
 
     allRectangles.attr("stroke", 'none');
     allRectangles.each(function () {
@@ -87,8 +119,8 @@ var hideGrid = function () {
 var drawGrid = function () {
 
     var square = 12,
-        w = svg.attributes.width.value,
-        h = svg.attributes.height.value;
+        w = svgnav.attributes.width.value,
+        h = svgnav.attributes.height.value;
 
     w = w.slice(0, -2);
     h = h.slice(0, -2);
@@ -102,7 +134,6 @@ var drawGrid = function () {
     var squaresColumn = _.round(h / square);
 
 
-    getGridPathFinder(squaresColumn, squaresRow, grid);
 
     // loop over number of columns
     _.times(squaresColumn, function (n) {
@@ -129,7 +160,8 @@ var drawGrid = function () {
             .attr("stroke-width", ".5");
 
     });
-        
+    
+    getGridPathFinder(squaresColumn, squaresRow, grid);
     allRectangles = grid.selectAll('rect');
 };
 
@@ -200,6 +232,12 @@ function drawLineTest() {
  });
  */
 
+
+var drawGridFromDB = function() {
+
+    
+}
+
 var gridMouse = function () {
 
     var makeWalkMouseDown = allRectangles.on('mousedown', function () {
@@ -245,6 +283,10 @@ var markPoints = function () {
 
         lastPoint = this.id;
         grid.select("rect[id='" + this.id + "']").attr('fill', 'blue').attr("fill-opacity", ".8");
+        
+        entryPoint = this.id; 
+
+        
 
     });
 };
@@ -277,7 +319,7 @@ var clearPaths = function () {
 var loadGridForNavigation = function (svgi) {
 
     if (svgi != undefined) {
-        svg = svgi._groups[0][0];
+        svgnav = svgi._groups[0][0];
 
         $("#navGrid").ready(function () {
 
@@ -291,7 +333,7 @@ var loadGridForNavigation = function (svgi) {
 var loadGridForAdmin = function (svgi) {
 
     if (svgi != undefined) {
-        svg = svgi._groups[0][0];
+        svgnav = svgi._groups[0][0];
 
         $("#setWalkTrue").on("click", function () {
             walkable = true;
@@ -318,10 +360,11 @@ var loadGridForAdmin = function (svgi) {
 var loadGridForKnown = function (svgi) {
 
     if (svgi != undefined) {
-        svg = svgi._groups[0][0];
+        svgnav = svgi._groups[0][0];
         $("#navGrid").ready(function () {
             drawGrid();
-                markPoints();
+            markPoints();
+            hideGrid();
         });
     }
 

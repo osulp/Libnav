@@ -117,18 +117,18 @@ $(function () {
 
     // Btn Select Location
     $('#btn-location-select').on('click', function () {
-        // Matthew put call to select by location method here
-        //selectLocation(svg);
+        selectByShape(svg);
     });
+
 
     // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
-        // Stephen put call to show grid method here
+        showGrid();
     });
 
     // Btn Hide Grid
     $('#btn-navigation-hide').on('click', function () {
-        // Stephen put call to hid grid method here
+        hideGrid();
     });
 
     // Btn Clear Grid
@@ -279,6 +279,8 @@ function loadMap(id) {
 
 
         getKnowLocations();
+        loadGridForKnown(svg);
+
 
         //selectLocation(svg);
 
@@ -385,7 +387,7 @@ function getLocation() {
 function getEntry() {
     var input = {
         name: 'entry',
-        value: JSON.stringify([1])
+        value: entryPoint
     };
     return input;
 }

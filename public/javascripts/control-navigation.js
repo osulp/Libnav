@@ -1,5 +1,5 @@
 var svg=null;
-
+var floorGridFromDB;
 
 
 
@@ -8,7 +8,7 @@ var svg=null;
 $(function(){
   
     loadMap(1);
-    
+    getGridFromDB();
   // When form is submitted
     $('form').submit(function (event) {
 
@@ -35,6 +35,9 @@ $(function(){
         return false;
     });
 
+    
+    
+    
 });
 
 
@@ -47,8 +50,6 @@ function loadMap(id) {
         mapwrapper.html(externalSVG);
 
         svg = mapwrapper.select("svg");
-
-        loadGridForAdmin(svg);    
 
     });
         
@@ -77,3 +78,34 @@ function loadMap(id) {
                 console.log("Grid not saved");
             });   
         }
+   
+   
+function getGridFromDB() {
+    $.ajax({
+        type: "get",
+        async: true,
+        url: '/mapapi/grid'
+    })
+        .done(function (data) {
+            var result = JSON.parse(data);
+            if (result) {
+
+                // display success message
+                if(result.length!=0){
+                floorGridFromDB = JSON.parse(result[0].data);
+                console.log(floorGridFromDB);
+                }
+
+                loadGridForAdmin(svg);    
+
+            }
+            else {
+                // display error message
+                console.log('Location for retrived');
+            }
+
+        })
+        .fail(function () {
+            console.log("Location not retrieved");
+        });
+}

@@ -7,7 +7,7 @@ exports.insertGrid = function (data, callback) {
 
     // connect to database
     db.connection.connect();
-
+    console.log(data);
     // insert information into floor table
     db.connection.query('INSERT INTO grid SET ?', data, function (error, results, fields) {
         if (error) throw error;
@@ -20,3 +20,20 @@ exports.insertGrid = function (data, callback) {
 
 };
 
+exports.getGrid = function(callback){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('SELECT * FROM grid', function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+};
