@@ -49,8 +49,6 @@
     var saveGridPathFinder = function () {
         var saveThis = gridCalc;
         console.log(gridCalc);
-
-
     }
 
     var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
@@ -133,11 +131,8 @@
                 .attr("stroke-width", ".5");
 
         });
-
-
+        
         allRectangles = grid.selectAll('rect');
-
-
     };
 
     function drawLineTest() {
@@ -289,7 +284,7 @@
             $("#navGrid").ready(function () {
 
                 drawGrid();
-                drawLine(start,finish);
+                //drawLine(start,finish);
             });
         }
 
@@ -328,7 +323,7 @@
             svg = svgi._groups[0][0];
             $("#navGrid").ready(function () {
                 drawGrid();
-                markPoints()
+                markPoints();
             });
         }
 
