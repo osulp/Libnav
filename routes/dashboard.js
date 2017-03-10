@@ -24,7 +24,7 @@ router.get('/known', function (req, res, next) {
 
 /* Post Know Location page */
 router.post('/known', function (req, res, next) {
-    if (1) {
+    if (req.session.isAuthenticated) {
         console.log(req.body);
 
         // defining know data
@@ -88,7 +88,7 @@ router.get('/unknown', function (req, res, next) {
 
 /* Post Unknown Location page */
 router.post('/unknown', function (req, res, next) {
-    if (1) {
+    if (req.session.isAuthenticated) {
         console.log(req.body);
 
         // defining know data
@@ -154,7 +154,54 @@ router.get('/room', function (req, res, next) {
 router.post('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
         console.log(req.body);
-        res.json(JSON.stringify(true));
+
+        // defining know data
+        var data = {
+            'floor': req.body.floor,
+            'type': 'room',
+            'name': req.body.name,
+            'room_number' : req.body.number,
+            'room_cap' : req.body.capacity,
+            'data_point' : req.body.location,
+            'entry_point' : req.body.entry
+
+        };
+
+        console.log(data);
+
+        var attributes = req.body.attribute;
+        var tags = req.body.tag;
+
+        location.insertLocation(data, function (id) {
+
+            // applying id to attributes
+            if (attributes != null) {
+                for (var att in attributes) {
+                    attributes[att][0] = id;
+                    console.log(attributes[att]);
+                }
+                location.insertAttribute(attributes);
+
+            }
+
+            // insuring attributes into attribute.
+            if (tags != null) {
+
+                // applying id to tags
+                for (var att in tags) {
+                    tags[att][0] = id;
+                }
+
+                // insert attributes into tags.
+                location.insertTag(tags);
+            }
+
+            res.json(JSON.stringify(true));
+
+        });
+
+
+
     } else {
         res.render('error/login');
     }
@@ -163,7 +210,55 @@ router.post('/room', function (req, res, next) {
 /* Get Service Point Location page */
 router.get('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/servicepoint', {session: true})
+        console.log(req.body);
+
+        // defining know data
+        var data = {
+            'floor': req.body.floor,
+            'type': 'servicepoint',
+            'name': req.body.name,
+            'room_num' : req.body.number,
+            'url' : req.body.url,
+            'data_point' : req.body.location,
+            'entry_point' : req.body.entry
+
+        };
+
+        console.log(data);
+
+        var attributes = req.body.attribute;
+        var tags = req.body.tag;
+
+        location.insertLocation(data, function (id) {
+
+            // applying id to attributes
+            if (attributes != null) {
+                for (var att in attributes) {
+                    attributes[att][0] = id;
+                    console.log(attributes[att]);
+                }
+                location.insertAttribute(attributes);
+
+            }
+
+            // insuring attributes into attribute.
+            if (tags != null) {
+
+                // applying id to tags
+                for (var att in tags) {
+                    tags[att][0] = id;
+                }
+
+                // insert attributes into tags.
+                location.insertTag(tags);
+            }
+
+            res.json(JSON.stringify(true));
+
+        });
+
+
+
     } else {
         res.render('error/login');
     }

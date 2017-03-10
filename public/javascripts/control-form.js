@@ -292,8 +292,6 @@ function loadMap(id) {
         };*/
         //selectByShape(svg);
 
-        loadG(svg);
-
 
     });
 }

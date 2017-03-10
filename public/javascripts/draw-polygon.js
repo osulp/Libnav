@@ -291,9 +291,12 @@ function fill(svg) {
 }
 
 function getTags(location,callback){
+
+    console.log("inside getTags");
+    var temp = false;
   $.ajax({
         type: "POST",
-        async: true,
+        async: false,
         url: '/mapapi/getTags',
         data:{
             location: location}
@@ -301,11 +304,14 @@ function getTags(location,callback){
         .done(function (data) {
            // console.log(data);
             var result = JSON.parse(data);
-            callback(result);
+            temp = result;
         })
         .fail(function () {
             console.log("Ajax Failed.");
         });
+
+    console.log(temp);
+    return temp;
 }
 
 function getAttributes(location,callback){

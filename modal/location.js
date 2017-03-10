@@ -100,6 +100,8 @@ exports.getLocations = function(callback){
     // insert attributes
     db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point from location', function (error, results, fields) {
         if (error) throw error;
+
+
         console.log(results);
         callback(results);
     });
@@ -135,9 +137,11 @@ exports.getAttributes = function ( location, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from attribute where location_id=? ', location , function (error, results, fields) {
+    db.connection.query('SELECT attr from attribute where location_id=? ', location , function (error, results, fields) {
         if (error) throw error;
         console.log(results);
+        console.log(fields);
+
         callback(results);
     });
 
@@ -153,7 +157,7 @@ exports.getTags = function (location, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * from tag where location_id=? ', location, function (error, results, fields) {
+    db.connection.query('SELECT attr from tag where location_id=? ', location, function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);
