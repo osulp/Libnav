@@ -1,4 +1,5 @@
 var db = require('../classes/database');
+var async = require('async');
 
 exports.insertLocation = function (data, callback) {
     var results = null;
@@ -57,22 +58,6 @@ exports.insertTag = function(data){
     db.connection.end();
 };
 
-
-/*
-exports.insertPoint = function(data){
-
-    // create database connection
-    db.createConnection();
-
-    // connect to database
-    db.connection.connect();
-
-    // insert attributes
-    db.connection.query('INSERT INTO point (location_id, y, x) VALUES ?', [data]);
-
-    // close connection to database
-    db.connection.end();
-};*/
 
 exports.insertPoint = function(data){
 
@@ -165,4 +150,51 @@ exports.getTags = function (location, callback){
 
     // close connection to database
     db.connection.end();
-}
+};
+
+exports.getLocationById = function(id, callback){
+    var tagQuery = 'SELECT attr from tag where location_id=?';
+    var attrQuery = 'SELECT attr from attribute where location_id=?';
+    var locationQuery = 'SELECT * from location where id=?';
+
+    var location = {};
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    async.parallel([
+        function(parallel_done){
+            db.connection.query(locationQuery, id, function(error, result){
+                if(error) return parallel_done(error);
+                location.info = result;
+                parallel_done();
+
+            })
+        },
+        function(parallel_done){
+            db.connection.query(tagQuery, id, function(error, result){
+                if(error) return parallel_done(error);
+                location.tags = result;
+                parallel_done();
+
+            })
+        },
+        function(parallel_done){
+            db.connection.query(attrQuery, id, function(error, result){
+                if(error) return parallel_done(error);
+                location.attr = result;
+                parallel_done();
+
+            })
+        }
+    ],
+    function(error){
+        if(error) console.log(error);
+        db.connection.end();
+        callback(location);
+    });
+    
+};

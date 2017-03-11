@@ -296,7 +296,12 @@ router.post('/navigation', function (req, res, next) {
 /* details of location */
 router.get('/details/:id', function(req, res, next){
     if (req.session.isAuthenticated) {
-        res.render('dashboard/details', {session: true, data: req.params.id})
+
+      location.getLocationById(req.params.id, function(data){
+            console.log(data);
+        });
+
+        //res.render('dashboard/details', {session: true, data: req.params.id})
     } else {
         res.render('error/login');
     }
