@@ -32,8 +32,8 @@ router.post('/known', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'known',
             'name': req.body.name,
-            'data_point' : req.body.location,
-            'entry_point' : req.body.entry
+            'data_point': req.body.location,
+            'entry_point': req.body.entry
 
         };
 
@@ -69,7 +69,6 @@ router.post('/known', function (req, res, next) {
             res.json(JSON.stringify(true));
 
         });
-
 
 
     } else {
@@ -96,8 +95,8 @@ router.post('/unknown', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'unknown',
             'name': req.body.name,
-            'data_point' : req.body.location,
-            'entry_point' : req.body.entry
+            'data_point': req.body.location,
+            'entry_point': req.body.entry
 
         };
 
@@ -133,7 +132,6 @@ router.post('/unknown', function (req, res, next) {
             res.json(JSON.stringify(true));
 
         });
-
 
 
     } else {
@@ -160,10 +158,10 @@ router.post('/room', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'room',
             'name': req.body.name,
-            'room_number' : req.body.number,
-            'room_cap' : req.body.capacity,
-            'data_point' : req.body.location,
-            'entry_point' : req.body.entry
+            'room_number': req.body.number,
+            'room_cap': req.body.capacity,
+            'data_point': req.body.location,
+            'entry_point': req.body.entry
 
         };
 
@@ -199,7 +197,6 @@ router.post('/room', function (req, res, next) {
             res.json(JSON.stringify(true));
 
         });
-
 
 
     } else {
@@ -217,10 +214,10 @@ router.get('/servicepoint', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'servicepoint',
             'name': req.body.name,
-            'room_num' : req.body.number,
-            'url' : req.body.url,
-            'data_point' : req.body.location,
-            'entry_point' : req.body.entry
+            'room_num': req.body.number,
+            'url': req.body.url,
+            'data_point': req.body.location,
+            'entry_point': req.body.entry
 
         };
 
@@ -256,7 +253,6 @@ router.get('/servicepoint', function (req, res, next) {
             res.json(JSON.stringify(true));
 
         });
-
 
 
     } else {
@@ -294,14 +290,28 @@ router.post('/navigation', function (req, res, next) {
 });
 
 /* details of location */
-router.get('/details/:id', function(req, res, next){
+router.get('/details/:id', function (req, res, next) {
     if (req.session.isAuthenticated) {
 
-      location.getLocationById(req.params.id, function(data){
-            console.log(data);
+        /*location.getLocationById(req.params.id, function(results){
+         res.render('dashboard/details', {session: true, data:results})
+         });*/
+
+        res.render('dashboard/details', {session: true, data: req.params.id})
+    } else {
+        res.render('error/login');
+    }
+});
+
+/* details of location */
+router.get('/details/data/:id', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+
+        location.getLocationById(req.params.id, function (results) {
+
+            res.json(JSON.stringify(results));
         });
 
-        //res.render('dashboard/details', {session: true, data: req.params.id})
     } else {
         res.render('error/login');
     }

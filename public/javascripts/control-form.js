@@ -186,7 +186,7 @@ function submitForm(data, url) {
 
         })
         .fail(function () {
-            console.log("Password Check failed");
+            console.log("Form submit failed");
         });
 }
 

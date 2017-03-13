@@ -167,7 +167,7 @@ exports.getLocationById = function(id, callback){
 
     async.parallel([
         function(parallel_done){
-            db.connection.query(locationQuery, id, function(error, result){
+            db.connection.query(locationQuery, id, function(error, result, fields){
                 if(error) return parallel_done(error);
                 location.info = result;
                 parallel_done();
@@ -175,7 +175,7 @@ exports.getLocationById = function(id, callback){
             })
         },
         function(parallel_done){
-            db.connection.query(tagQuery, id, function(error, result){
+            db.connection.query(tagQuery, id, function(error, result,  fields){
                 if(error) return parallel_done(error);
                 location.tags = result;
                 parallel_done();
@@ -183,7 +183,7 @@ exports.getLocationById = function(id, callback){
             })
         },
         function(parallel_done){
-            db.connection.query(attrQuery, id, function(error, result){
+            db.connection.query(attrQuery, id, function(error, result, fields){
                 if(error) return parallel_done(error);
                 location.attr = result;
                 parallel_done();
