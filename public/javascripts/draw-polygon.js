@@ -18,69 +18,62 @@ var div = d3.select("body").append("div")
 
     console.log(data);
     points =  JSON.parse(data.data_point)
-    var attrsR = getAttributes(JSON.parse(data.id) ,function(result){
-                console.log(result);
-                })
-    var tagsR = getTags(JSON.parse(data.id) ,function(result){
-               console.log(result);
-                })
-    console.log(tagsR)
-    console.log(attrsR)
+    
+   
 
     var attrArray = []
-    var tagArray = []
-    var t = 0
-    var a = 0
-        for ( t  in tagsR){
-            tagArray.push(tagsR[t].attr)
-            t++
-        }
-        //console.log(tagArray)
-        
-        for (a in attrsR){
-            attrArray.push(attrsR[a].attr)
-            a++
-        }
+    
+  
      //   console.log(attrArray)
     
-        svg
+       var foo = svg.append('g').attr('class', 'newLayer')/*.append('text')
+                .attr("x", 200)
+                .attr("y", 100)
+                .style("fill", "black")
+                .style("font-size", "20px")
+                .attr("dy", ".35em")
+                .attr("text-anchor", "middle")
+                .style("pointer-events", "none")
+                .text("hello world")*/
+            .text("hello world")
+                .style('fill', 'black')
             .append("polygon")
-            .attr("class", "data-poly")
+            .attr("class", "data-poly "+ data.name +"" )
             .attr("points", points)
-            .style("fill", "0cff00")
-            .style("stroke", "0cff00")
-            .style("opacity", 1)
             .on("mouseover", function(){
-                if(tagArray == null && attrs == null){
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    div.html("<div>" + data.name + "</div><div>No tags to be displayed</div><div>No attributes to be displayed</div>")
+                    div.html(formatToolTipHTML(data.id, data.name))
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
-                }else{
-                    div.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    div.html("<div>" + data.name + "</div> \
-                              <div> Tags: " + tagArray + "</div>\
-                              <div> Attributes: " + attrArray + "</div>" )
-                                
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px");
-                }
             })
             .on("mouseout", function(d) {
               div.transition()
                 .duration(500)
                 .style("opacity", 0);
             })
+            .style("fill", "0cff00")
+            .style("stroke", "0cff00")
+            .style("opacity", 0.5) 
+    
             ;
 
-          
-                
+        d3.selectAll()
+/*
+     foo.append('g').append("text")
+        .style("font-size", "20px")
+        .attr('dy', '1em')
+        .attr("text-anchor", "middle")
+        .style("pointer-events", "none")
+        .text(data.name);*/
+
+        console.log(foo)
 
 }
+
+
+
 
 function selectByShape(mainMapSVG) {
 
@@ -305,8 +298,57 @@ function fill(svg) {
         .style("fill", "0cff00")
         .style("stroke", "0cff00")
         .style("opacity", .25);
+}
+
+function formatToolTipHTML(location, name){
+    var tags = cleanUpTags(location)
+    var attrs = cleanUpAttrs(location)
+
+    if (tags == null && attrs == null){
+    return "<div>"+ name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>" 
+    }else{
+        return "<div>"+ name + "</div><div>Tags:"+ tags + "</div><div>Attributes:" + attrs + "</div>" 
+    }
+}
+
+
+function cleanUpTags(location){
+    var tagArray = []
+    var t = 0
+    var tagsR = getTags(location ,function(result){
+               console.log(result);
+                })
+
+    for ( t  in tagsR){
+            tagArray.push(tagsR[t].attr)
+            t++
+        }
+
+   return tagArray;     
+
 
 }
+
+function cleanUpAttrs(location){
+
+    var attrsR = getAttributes(location ,function(result){
+                console.log(result);
+                })
+
+    var attrArray = []
+    var a = 0
+        
+        for (a in attrsR){
+            attrArray.push(attrsR[a].attr)
+            a++
+        }
+
+   return attrArray     
+}
+
+
+
+
 
 function getTags(location,callback){
 
