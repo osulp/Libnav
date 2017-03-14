@@ -146,8 +146,6 @@ $(function () {
         // Stephen put call to save entity point method here
         // getEntry();
     })
-
-
 });
 
 /**
