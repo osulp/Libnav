@@ -186,7 +186,7 @@ function submitForm(data, url) {
 
         })
         .fail(function () {
-            console.log("Password Check failed");
+            console.log("Form submit failed");
         });
 }
 
@@ -333,7 +333,7 @@ function getKnowLocations() {
                 for (var r in result) {
                     if (result[r].data_point != null) {
                         console.log(JSON.parse(result[r].data_point));
-                        //renderPolygons(svg, result[r]);
+                        renderPolygons(svg, result[r]);
                     }
                 }
 
