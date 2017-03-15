@@ -8,7 +8,8 @@
         #example {
             max-height: 250px;
         }
-        a div.btn{
+
+        a div.btn {
             margin: 2px;
         }
     </style>
@@ -24,7 +25,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Details {{data}}<span id="name"></span></h1>
+                        <h1 class="page-header">Details<span id="name"></span></h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -33,15 +34,27 @@
                 <div class="row">
 
                     <!-- Name !-->
-                    <div id="wrapper-name" class="col-lg-6">
+                    <div id="wrapper-name" class="col-lg-12">
                         <p class="input-label">
                             Location Name:
                         </p>
                         <span id="data-name"></span>
                     </div>
 
+                </div> <!-- /.row !-->
+
+                <div class="row">
+
+                    <!-- Type !-->
+                    <div id="wrapper-type" class="col-lg-6 col-md-6">
+                        <p class="input-label">
+                            Type:
+                        </p>
+                        <span id="data-type"></span>
+                    </div>
+
                     <!-- floor !-->
-                    <div id="wrapper-floor" class="col-lg-6">
+                    <div id="wrapper-floor" class="col-lg-6 col-md-6">
                         <p class="input-label">
                             Floor:
                         </p>
@@ -50,8 +63,40 @@
                 </div> <!-- /.row !-->
 
                 <div class="row">
+
+                    <!-- Room Number !-->
+                    <div id="wrapper-room_number" class="col-lg-6 col-md-6">
+                        <p class="input-label">
+                            Room Number:
+                        </p>
+                        <span id="data-room_number"></span>
+                    </div>
+
+                    <!-- Room Capacity  !-->
+                    <div id="wrapper-room_cap" class="col-lg-6 col-md-6">
+                        <p class="input-label">
+                            Room Capacity:
+                        </p>
+                        <span id="data-room_cap"></span>
+                    </div>
+                </div> <!-- /.row !-->
+
+
+                <div class="row">
+
+                    <!-- URL !-->
+                    <div id="wrapper-url" class="col-lg-12">
+                        <p class="input-label">
+                            url:
+                        </p>
+                        <span id="data-url"></span>
+                    </div>
+
+                </div> <!-- /.row !-->
+
+                <div class="row">
                     <!-- Tags !-->
-                    <div id="wrapper-tags" class="col-lg-6">
+                    <div id="wrapper-tags" class="col-lg-6 col-md-6">
                         <p class="input-label">
                             Tags:
                         </p>
@@ -59,7 +104,7 @@
                     </div>
 
                     <!-- Attributes !-->
-                    <div id="wrapper-attributes" class="col-lg-6">
+                    <div id="wrapper-attributes" class="col-lg-6 col-md-6">
                         <p class="input-label">
                             Attributes:
                         </p>
@@ -69,22 +114,15 @@
                 </div> <!-- /.row !-->
 
                 <div class="row">
-                    <!-- Tags !-->
-                    <div id="wrapper-location" class="col-lg-6">
-                        <p class="input-label">
-                            Location:
-                        </p>
-                        <span id="data-location"></span>
-                    </div>
 
-                    <!-- Attributes !-->
-                    <div id="wrapper-entry" class="col-lg-6">
+                    <!-- Location and entry point !-->
+                    <div id="wrapper-location" class="col-lg-12">
                         <p class="input-label">
-                            Entry:
+                            Map Location:
                         </p>
-                        <span id="data-entry"></span>
-
                     </div>
+                    <div id="map-wrapper"></div>
+
                 </div> <!-- /.row !-->
 
                 <div class="row">
@@ -100,7 +138,6 @@
         </div>
         <!-- /#page-wrapper -->
 
-        {{data}}
 
     </div>
     <!-- /#wrapper -->
@@ -108,5 +145,94 @@
     {{> footer }}
 
     {{> dashboard/javascript }}
+
+    <script src="/public/javascripts/draw-polygon.js"></script>
+
+    <script>
+        var id = {{ data }};
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "/dashboard/details/data/" + id
+        })
+                .done(function (data) {
+                    var result = JSON.parse(data);
+                    console.log(result);
+
+                    // write location info to page
+                    for (var i in result.info) {
+                        for (var k in result.info[i]) {
+                            if (result.info[i][k] != null || k != 'point') {
+                                $('#data-' + k).text(result.info[i][k]);
+                            }
+                            else {
+                                $('#wrapper-' + k).addClass('hidden');
+                            }
+                            console.log([k] + ": " + result.info[i][k]);
+
+                        }
+                    }
+
+                    // write attributes
+                    var attrOutput = [];
+                    for (var a in result.attr) {
+                        for (var k in result.attr[a]) {
+                            if (result.attr[a][k] != null) {
+                                attrOutput.push(result.attr[a][k]);
+                            }
+                        }
+                    }
+                    if (attrOutput != null) {
+                        $('#data-attributes').text(attrOutput.join(', '));
+                    }
+                    else {
+                        $('#data-attributes').addClass('hidden');
+                    }
+
+                    // write tags
+                    var tagOutput = [];
+                    for (var t in result.tags) {
+                        for (var k in result.tags[t]) {
+                            if (result.tags[t][k] != null) {
+                                tagOutput.push(result.tags[t][k]);
+                            }
+                        }
+                    }
+                    if (attrOutput != null) {
+                        $('#data-tags').text(tagOutput.join(', '));
+                    }
+                    else {
+                        $('#data-tags').addClass('hidden');
+                    }
+
+
+
+
+                })
+                .fail(function () {
+                    console.log("Data gathering failed");
+                });
+
+        function loadmap(id, data){
+            // load map
+            var map = '/public/images/floor-' + id + '.svg';
+            d3.text(map, function (error, externalSVG) {
+                if (error) throw error;
+
+                // console.log(externalSVG);
+
+
+                // select map wrapper
+                var mapwrapper = d3.select('#map-wrapper');
+                mapwrapper.html(externalSVG);
+
+                svg = mapwrapper.select("svg");
+
+                renderPolygons(svg, data);
+
+
+            });
+        }
+    </script>
 
 </body>

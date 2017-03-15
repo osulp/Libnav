@@ -18,51 +18,62 @@ var div = d3.select("body").append("div")
 
     console.log(data);
     points =  JSON.parse(data.data_point)
-    var attrs = getAttributes(JSON.parse(data.id) ,function(result){
-                console.log(result);
-                })
-    var tags = getTags(JSON.parse(data.id) ,function(result){
-               console.log(result);
-                })
-    console.log(points)
+    
+   
 
-        svg
+    var attrArray = []
+    
+  
+     //   console.log(attrArray)
+    
+       var foo = svg.append('g').attr('class', 'newLayer')/*.append('text')
+                .attr("x", 200)
+                .attr("y", 100)
+                .style("fill", "black")
+                .style("font-size", "20px")
+                .attr("dy", ".35em")
+                .attr("text-anchor", "middle")
+                .style("pointer-events", "none")
+                .text("hello world")*/
+            .text("hello world")
+                .style('fill', 'black')
             .append("polygon")
-            .attr("class", "data-poly")
+            .attr("class", "data-poly "+ data.name +"" )
             .attr("points", points)
-            .style("fill", "0cff00")
-            .style("stroke", "0cff00")
-            .style("opacity", 1)
             .on("mouseover", function(){
-                if(tags == null && attrs == null){
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    div.html("<div>" + data.name + "</div><div>No tags to be displayed</div><div>No attributes to be displayed</div>")
+                    div.html(formatToolTipHTML(data.id, data.name))
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
-                }else{
-                    div.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    div.html("<div>" + data.name + "</div> \
-                              <div>" + tags + "</div>")
-                                
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px");
-                }
             })
             .on("mouseout", function(d) {
               div.transition()
                 .duration(500)
                 .style("opacity", 0);
             })
+            .style("fill", "0cff00")
+            .style("stroke", "0cff00")
+            .style("opacity", 0.5) 
+    
             ;
 
-          
-                
+        d3.selectAll()
+/*
+     foo.append('g').append("text")
+        .style("font-size", "20px")
+        .attr('dy', '1em')
+        .attr("text-anchor", "middle")
+        .style("pointer-events", "none")
+        .text(data.name);*/
+
+        console.log(foo)
 
 }
+
+
+
 
 function selectByShape(mainMapSVG) {
 
@@ -287,8 +298,57 @@ function fill(svg) {
         .style("fill", "0cff00")
         .style("stroke", "0cff00")
         .style("opacity", .25);
+}
+
+function formatToolTipHTML(location, name){
+    var tags = cleanUpTags(location)
+    var attrs = cleanUpAttrs(location)
+
+    if (tags == null && attrs == null){
+    return "<div>"+ name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>" 
+    }else{
+        return "<div>"+ name + "</div><div>Tags:"+ tags + "</div><div>Attributes:" + attrs + "</div>" 
+    }
+}
+
+
+function cleanUpTags(location){
+    var tagArray = []
+    var t = 0
+    var tagsR = getTags(location ,function(result){
+               console.log(result);
+                })
+
+    for ( t  in tagsR){
+            tagArray.push(tagsR[t].attr)
+            t++
+        }
+
+   return tagArray;     
+
 
 }
+
+function cleanUpAttrs(location){
+
+    var attrsR = getAttributes(location ,function(result){
+                console.log(result);
+                })
+
+    var attrArray = []
+    var a = 0
+        
+        for (a in attrsR){
+            attrArray.push(attrsR[a].attr)
+            a++
+        }
+
+   return attrArray     
+}
+
+
+
+
 
 function getTags(location,callback){
 
@@ -315,9 +375,10 @@ function getTags(location,callback){
 }
 
 function getAttributes(location,callback){
+  var temp = false
   $.ajax({
         type: "POST",
-        async: true,
+        async: false,
         url: '/mapapi/getAttributes',
         data:{
             location: location}
@@ -325,11 +386,12 @@ function getAttributes(location,callback){
         .done(function (data) {
            // console.log(data);
             var result = JSON.parse(data);
-            callback(result);
+            temp = result
         })
         .fail(function () {
             console.log("Ajax Failed.");
         });
+        return temp;
 }
 
 function selectLocation(svg){
