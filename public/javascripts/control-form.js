@@ -157,7 +157,6 @@ function submitForm(data, url) {
 // for testing
     console.log(data);
 
-
     $.ajax({
         type: "POST",
         async: true,
@@ -271,27 +270,14 @@ function loadMap(id) {
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
 
-        // console.log(externalSVG);
-
-
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
         mapwrapper.html(externalSVG);
 
         svg = mapwrapper.select("svg");
 
-
-        getKnowLocations();
+        getKnowLocations(id);
         loadGridForKnown(svg);
-
-
-        //selectLocation(svg);
-
-        /*document.getElementById("btn-draw").onclick = function () {
-            drawByButton(svg);
-        };*/
-        //selectByShape(svg);
-
 
     });
 }
@@ -316,7 +302,7 @@ function disableBtns() {
 }
 
 
-function getKnowLocations() {
+function getKnowLocations(id) {
     $.ajax({
         type: "get",
         async: true,
@@ -329,9 +315,9 @@ function getKnowLocations() {
                 // display success message
 
                 for (var r in result) {
-                    if (result[r].data_point != null) {
-                        console.log(JSON.parse(result[r].data_point));
-                        //renderPolygons(svg, result[r]);
+                    if (result[r].data_point != null && result[r].floor == id) {
+
+                        renderPolygons(svg, result[r]);
                     }
                 }
 
