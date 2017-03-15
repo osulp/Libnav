@@ -81,6 +81,8 @@ function loadMap(id) {
 
         console.log(knownLocations);
         loadFloorLocation(svg, floor);
+        // load naviagiton
+
     });
 
 }
