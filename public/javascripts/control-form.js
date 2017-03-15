@@ -128,6 +128,7 @@ $(function () {
 
     // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
+        console.log("Showing Grid");
         showGrid();
     });
 

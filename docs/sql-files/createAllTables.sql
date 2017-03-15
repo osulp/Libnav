@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS tag (
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS point (
+/*CREATE TABLE IF NOT EXISTS point (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   location_id INT             NOT NULL,
   y           INT,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS point (
   FOREIGN KEY (location_id) REFERENCES location (id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-);
+);*/
 
 
 /*CREATE TABLE roles (
