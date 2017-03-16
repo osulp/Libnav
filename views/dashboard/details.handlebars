@@ -132,7 +132,6 @@
                     </div>
                 </div> <!-- /.row !-->
 
-
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -157,19 +156,16 @@
         })
                 .done(function (data) {
                     var result = JSON.parse(data);
-                    console.log(result);
-
+                    
                     // write location info to page
                     for (var i in result.info) {
                         for (var k in result.info[i]) {
-                            if (result.info[i][k] != null || k != 'point') {
+                            if (result.info[i][k] != null && k != 'point') {
                                 $('#data-' + k).text(result.info[i][k]);
                             }
                             else {
                                 $('#wrapper-' + k).addClass('hidden');
                             }
-                            console.log([k] + ": " + result.info[i][k]);
-
                         }
                     }
 
@@ -204,9 +200,6 @@
                     else {
                         $('#data-tags').addClass('hidden');
                     }
-
-
-
 
                 })
                 .fail(function () {

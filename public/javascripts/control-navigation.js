@@ -105,6 +105,8 @@ function getGridFromDB() {
 
             }
             else {
+
+                loadGridForAdmin(svg);
                 // display error message
                 console.log('Location for retrived');
             }

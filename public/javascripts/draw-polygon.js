@@ -12,74 +12,68 @@ var pointArray = [];
 var result = [];
 
 function renderPolygons(svg, data) {
-var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     console.log(data);
-    points =  JSON.parse(data.data_point)
-    
-   
+    points = JSON.parse(data.data_point)
+
 
     var attrArray = []
-    
-  
-     //   console.log(attrArray)
-    
-       var foo = svg.append('g').attr('class', 'newLayer')/*.append('text')
-                .attr("x", 200)
-                .attr("y", 100)
-                .style("fill", "black")
-                .style("font-size", "20px")
-                .attr("dy", ".35em")
-                .attr("text-anchor", "middle")
-                .style("pointer-events", "none")
-                .text("hello world")*/
-            .text("hello world")
-                .style('fill', 'black')
-            .append("polygon")
-            .attr("class", "data-poly "+ data.name +"" )
-            .attr("points", points)
-            .on("mouseover", function(){
-                    div.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    div.html(formatToolTipHTML(data.id, data.name))
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-              div.transition()
+
+
+    //   console.log(attrArray)
+
+    var foo = svg.append('g').attr('class', 'newLayer')
+    /*.append('text')
+     .attr("x", 200)
+     .attr("y", 100)
+     .style("fill", "black")
+     .style("font-size", "20px")
+     .attr("dy", ".35em")
+     .attr("text-anchor", "middle")
+     .style("pointer-events", "none")
+     .text("hello world")*/
+        .append("polygon")
+        .attr("class", "data-poly " + data.name + "")
+        .attr("points", points)
+        .on("mouseover", function () {
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
+            div.html(formatToolTipHTML(data.id, data.name))
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", function (d) {
+            div.transition()
                 .duration(500)
                 .style("opacity", 0);
-            })
-            .style("fill", "0cff00")
-            .style("stroke", "0cff00")
-            .style("opacity", 0.5) 
-    
-            ;
+        })
+        .style("fill", "0cff00")
+        .style("stroke", "0cff00")
+        .style("opacity", 0.5);
 
-        d3.selectAll()
-/*
-     foo.append('g').append("text")
-        .style("font-size", "20px")
-        .attr('dy', '1em')
-        .attr("text-anchor", "middle")
-        .style("pointer-events", "none")
-        .text(data.name);*/
+    svg.append("polygon")
+        .text("hello world")
+        .style('z-index', 100)
+        .style('fill', 'black');
 
-        console.log(foo)
+
+    d3.selectAll();
+
+
+    console.log(foo)
 
 }
-
-
 
 
 function selectByShape(mainMapSVG) {
 
     //select rectangles
     var rects = mainMapSVG.selectAll("rect");
-   // rects.attributes.getNamedItem("fill").value = "white";
+    // rects.attributes.getNamedItem("fill").value = "white";
 
     //give rectangles fill
     _.times(rects._groups[0].length, function (g) {
@@ -121,7 +115,7 @@ function selectByShape(mainMapSVG) {
     console.log(polygon);
 
     _.times(polygon._groups[0].length-1, function (g) {
-       
+
         polygon._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
     });
@@ -175,7 +169,7 @@ function selectByShape(mainMapSVG) {
         data = {
             "points": this.attributes.getNamedItem("points").value
         }
-    console.log(data)
+        console.log(data)
 
         // var points = this.attributes.getNamedItem("points").value;
 
@@ -300,69 +294,67 @@ function fill(svg) {
         .style("opacity", .25);
 }
 
-function formatToolTipHTML(location, name){
+function formatToolTipHTML(location, name) {
     var tags = cleanUpTags(location)
     var attrs = cleanUpAttrs(location)
 
-    if (tags == null && attrs == null){
-    return "<div>"+ name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>" 
-    }else{
-        return "<div>"+ name + "</div><div>Tags:"+ tags + "</div><div>Attributes:" + attrs + "</div>" 
+    if (tags == null && attrs == null) {
+        return "<div>" + name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>"
+    } else {
+        return "<div>" + name + "</div><div>Tags:" + tags + "</div><div>Attributes:" + attrs + "</div>"
     }
 }
 
 
-function cleanUpTags(location){
+function cleanUpTags(location) {
     var tagArray = []
     var t = 0
-    var tagsR = getTags(location ,function(result){
-               console.log(result);
-                })
+    var tagsR = getTags(location, function (result) {
+        console.log(result);
+    })
 
-    for ( t  in tagsR){
-            tagArray.push(tagsR[t].attr)
-            t++
-        }
+    for (t  in tagsR) {
+        tagArray.push(tagsR[t].attr)
+        t++
+    }
 
-   return tagArray;     
+    return tagArray;
 
 
 }
 
-function cleanUpAttrs(location){
+function cleanUpAttrs(location) {
 
-    var attrsR = getAttributes(location ,function(result){
-                console.log(result);
-                })
+    var attrsR = getAttributes(location, function (result) {
+        console.log(result);
+    })
 
     var attrArray = []
     var a = 0
-        
-        for (a in attrsR){
-            attrArray.push(attrsR[a].attr)
-            a++
-        }
 
-   return attrArray     
+    for (a in attrsR) {
+        attrArray.push(attrsR[a].attr)
+        a++
+    }
+
+    return attrArray
 }
 
 
-
-
-
-function getTags(location,callback){
+function getTags(location, callback) {
 
     console.log("inside getTags");
     var temp = false;
-  $.ajax({
+    $.ajax({
         type: "POST",
         async: false,
         url: '/mapapi/getTags',
-        data:{
-            location: location}
+        data: {
+            location: location
+        }
     })
         .done(function (data) {
-           // console.log(data);
+            // console.log(data);
             var result = JSON.parse(data);
             temp = result;
         })
@@ -374,53 +366,52 @@ function getTags(location,callback){
     return temp;
 }
 
-function getAttributes(location,callback){
-  var temp = false
-  $.ajax({
+function getAttributes(location, callback) {
+    var temp = false
+    $.ajax({
         type: "POST",
         async: false,
         url: '/mapapi/getAttributes',
-        data:{
-            location: location}
+        data: {
+            location: location
+        }
     })
         .done(function (data) {
-           // console.log(data);
+            // console.log(data);
             var result = JSON.parse(data);
             temp = result
         })
         .fail(function () {
             console.log("Ajax Failed.");
         });
-        return temp;
+    return temp;
 }
 
-function selectLocation(svg){
+function selectLocation(svg) {
     var polygons = svg.selectAll("polygon");
     var rectangles = svg.selectAll("rect");
     var paths = svg.selectAll("path")
 
 
-    rectangles.on("mouseenter", function() {
+    rectangles.on("mouseenter", function () {
         this.attributes.getNamedItem("fill").value = "lightred";
     })
 
-     rectangles.on("mouseleave", function() {
+    rectangles.on("mouseleave", function () {
         this.attributes.getNamedItem("fill").value = "white";
     })
- 
-    polygons.on("mouseenter", function() {
+
+    polygons.on("mouseenter", function () {
         this.attributes.getNamedItem("fill").value = "lightred";
     })
 
-     polygons.on("mouseleave", function() {
-          this.attributes.getNamedItem("fill").value = "white";
-     })
+    polygons.on("mouseleave", function () {
+        this.attributes.getNamedItem("fill").value = "white";
+    })
 
 }
 
-function popUp(d3Item){
-
-
+function popUp(d3Item) {
 
 
 }

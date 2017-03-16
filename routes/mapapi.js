@@ -6,6 +6,7 @@ var navigation = require('../modal/navigation');
 
 router.get('/grid', function (req, res, next) {
 
+    console.log("at /dashboard/grid");
      navigation.getGrid(function (results) {
         res.contentType('json');
         res.json(JSON.stringify(results));
@@ -18,7 +19,6 @@ router.get('/grid', function (req, res, next) {
 router.get('/getAllLocation', function (req, res, next) {
 
     location.getLocations(function (results) {
-
         res.contentType('json');
         res.json(JSON.stringify(results));
     })
@@ -27,8 +27,7 @@ router.get('/getAllLocation', function (req, res, next) {
 
 
 router.post("/getTags", function (req, res, next){
-    console.log("in get tags")
-    console.log(req.body.location)
+
     location.getTags(req.body.location, function(results) {
         res.contentType('json');
         res.json(JSON.stringify(results))
@@ -40,7 +39,6 @@ router.post("/getTags", function (req, res, next){
 router.post("/getAttributes", function (req, res, next){
     location.getAttributes(req.body.location, function(results) {
         res.contentType('json');
-        console.log(results);
         res.json(JSON.stringify(results))
     })
 });
