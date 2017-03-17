@@ -122,18 +122,19 @@ $(function () {
 
     // Btn Select Location
     $('#btn-location-select').on('click', function () {
-        // Matthew put call to select by location method here
-        //selectLocation(svg);
+        selectByShape(svg);
     });
+
 
     // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
-        // Stephen put call to show grid method here
+        console.log("Showing Grid");
+        showGrid();
     });
 
     // Btn Hide Grid
     $('#btn-navigation-hide').on('click', function () {
-        // Stephen put call to hid grid method here
+        hideGrid();
     });
 
     // Btn Clear Grid
@@ -146,8 +147,6 @@ $(function () {
         // Stephen put call to save entity point method here
         // getEntry();
     })
-
-
 });
 
 /**
@@ -158,7 +157,6 @@ $(function () {
 function submitForm(data, url) {
 // for testing
     console.log(data);
-
 
     $.ajax({
         type: "POST",
@@ -186,7 +184,7 @@ function submitForm(data, url) {
 
         })
         .fail(function () {
-            console.log("Password Check failed");
+            console.log("Form submit failed");
         });
 }
 
@@ -273,25 +271,14 @@ function loadMap(id) {
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
 
-        // console.log(externalSVG);
-
-
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
         mapwrapper.html(externalSVG);
 
         svg = mapwrapper.select("svg");
 
-
-        getKnowLocations();
-
-        //selectLocation(svg);
-
-        /*document.getElementById("btn-draw").onclick = function () {
-            drawByButton(svg);
-        };*/
-        //selectByShape(svg);
-
+        getKnowLocations(id);
+        loadGridForKnown(svg);
 
     });
 }
@@ -316,7 +303,7 @@ function disableBtns() {
 }
 
 
-function getKnowLocations() {
+function getKnowLocations(id) {
     $.ajax({
         type: "get",
         async: true,
@@ -329,8 +316,9 @@ function getKnowLocations() {
                 // display success message
 
                 for (var r in result) {
-                    if (result[r].data_point != null) {
-                        console.log(JSON.parse(result[r].data_point));
+
+                    if (result[r].data_point != null && result[r].floor == id) {
+
                         renderPolygons(svg, result[r]);
                     }
                 }
@@ -385,7 +373,7 @@ function getLocation() {
 function getEntry() {
     var input = {
         name: 'entry',
-        value: JSON.stringify([1])
+        value: entryPoint
     };
     return input;
 }

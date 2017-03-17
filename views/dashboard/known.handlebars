@@ -33,6 +33,7 @@
 
                         <form href="known" method="POST" role="form">
 
+                            <!-- Name & Floor !-->
                             <div class="row">
 
                                 <!-- Location name input !-->
@@ -64,8 +65,9 @@
                                         <span id="floorError" class="help-block"></span>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
-                            </div> <!-- / .row !-->
+                            </div> <!-- / Name & Floor !-->
 
+                            <!-- Attribute & Tags !-->
                             <div class="row">
 
                                 <!-- Attributes Input !-->
@@ -91,8 +93,9 @@
                                         <span id="tagError" class="help-block"></span>
                                     </div>
                                 </div> <!-- / .col-lg-6 !-->
-                            </div> <!-- / .row !-->
+                            </div> <!-- / Attribute & Tags !-->
 
+                            <!-- Mark Location & Entry Point !-->
                             <div class="row">
 
                                 <!-- Map Location Input!-->
@@ -138,13 +141,16 @@
                                     </div>
                                 </div>
 
-                            </div><!-- / .row !-->
+                            </div> <!-- / Mark Location & Entry Point !-->
+
+                            <!-- Map & Grid !-->
                             <div class="form-group" id="map-group">
+                                <section id="grid" style="position:absolute"></section>
+
                                 <div id="map-wrapper">
 
                                 </div>
-
-                            </div> <!-- / .form-group !-->
+                            </div> <!-- / Map & Grid !-->
 
                             <!-- Form Control !-->
                             <p class="input-label">Form Options</p>
@@ -153,7 +159,7 @@
                             <button class="btn btn-danger" id="btn-cancel">Cancel</button>
                         </form>
                     </div> <!-- col-lg-6 !-->
-                </div> <!-- /.row !-->
+                </div> <!-- / Form .row !-->
 
 
             </div>
@@ -192,21 +198,24 @@
 
     {{> dashboard/javascript }}
 
+    <!-- ApprovedJS !-->
+    <script src="/approvejs/approve.min.js"></script>
+
+    <!-- Pathfinding js-->
+    <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+
+    <!-- LodashJS !-->
+    <script src="/lodash/lodash.js"></script>
+
     <!-- Draw Polygons js !-->
     <script src="/public/javascripts/draw-polygon.js"></script>
 
-    <!-- Navigation js !-->
+    <!-- Navigation Controls !-->
     <script src="/public/javascripts/navigation-main.js"></script>
 
-    <script src="/approvejs/approve.min.js"></script>
-
-    <!---- lodash file needed for drawpolygon-->
-    <script src="/lodash/lodash.js"></script>
-
-
-
     <!-- Form Controls JS !-->
-    <script src="/public/javascripts/control-form.js"></script>
+    <script src="/public/javascripts/control-form.js" ></script>
+
 
 
 </body>
