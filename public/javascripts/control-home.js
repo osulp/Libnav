@@ -1,6 +1,8 @@
 var knownLocations = null;
 var floor = null;
 var svg = null;
+var searchTerm = null;
+
 
 $(function () {
 
@@ -10,6 +12,9 @@ $(function () {
     // Initialize the libnav application
     initialize();
 
+    // get all terms for searching
+    searchableTerms = getSearchTerms();
+
     /*
      * On sidebar navigation click
      *  remove the current map
@@ -17,12 +22,26 @@ $(function () {
      *  load corresponding floor.
      */
     $('a[id*="floor-"]').on('click', function () {
-        console.log(this.id);
         floor = this.id;
         $('#map-wrapper').empty();
         loadMap(this.id);
 
     });
+
+    $('#input-search').keyup(function(event){
+        if($('#input-search').val() != searchTerm){
+
+            console.log($(this).val());
+
+        }
+        searchTerm = $('#input-search').val();
+        fuseSearch(searchTerm);
+        console.log(searchResults);
+        
+        for(var s in searchResults){
+
+        }
+    })
 
 });
 
@@ -44,7 +63,6 @@ function getGridFromDB() {
                 // display success message
                 if(result.length!=0){
                 floorGridFromDB = JSON.parse(result[0].data);
-                console.log(floorGridFromDB);
                 }
 
                 loadGridForNavigation(svg);    
@@ -76,29 +94,6 @@ function getKnowLocations() {
         async: true,
         url: '/mapapi/getAllLocation'
     });
-    /*.done(function (data) {
-     var result = JSON.parse(data);
-     if (result) {
-
-     // display success message
-     fillSidebar(result);
-
-     for (var r in result) {
-     if (result[r].data_point != null) {
-     renderPolygons(svg, JSON.parse(result[r].data_point));
-     }
-     }
-
-     }
-     else {
-     // display error message
-     console.log('Location for retrived');
-     }
-
-     })
-     .fail(function () {
-     console.log("Location not retrieved");
-     });*/
 }
 
 /**
@@ -118,8 +113,6 @@ function loadMap(id) {
 
         // save svg object
         svg = mapwrapper.select("svg");
-
-        console.log(knownLocations);
         loadFloorLocation(svg, floor);
         getGridFromDB();
 
@@ -128,9 +121,7 @@ function loadMap(id) {
 }
 
 function loadFloorLocation(svg, floor){
-    console.log(svg);
     for (var k in knownLocations) {
-        console.log(knownLocations[k]);
         if (knownLocations[k].floor == floor.split('-')[1]) {
             renderPolygons(svg, knownLocations[k]);
         }
@@ -159,7 +150,6 @@ function fillSidebar(locations) {
 function initialize() {
     $.when(getKnowLocations()).done(function (knowJSON) {
 
-        console.log(knowJSON);
         knownLocations = JSON.parse(knowJSON);
 
         // display success message

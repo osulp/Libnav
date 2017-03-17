@@ -220,7 +220,7 @@ function drawLineTest() {
  var drawLine = function(){
 
      var finder = new PF.AStarFinder();
-     var path = finder.findPath("0", "15",  "15", "30", gridCalc);
+     var path = finder.findPath("24", "12",  "35", "21", gridCalc);
 
 
      for (var x = 0; x < path.length; x++) {

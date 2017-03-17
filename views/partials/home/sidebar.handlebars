@@ -4,7 +4,7 @@
         <ul class="nav" id="side-menu">
             <li class="sidebar-search">
                 <div class="input-group custom-search-form">
-                    <input type="text" class="form-control" placeholder="Search...">
+                    <input type="text" id="input-search" class="form-control" placeholder="Search...">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">
                             <i class="fa fa-search"></i>
@@ -12,6 +12,11 @@
                     </span>
                 </div>
                 <!-- /input-group -->
+            </li>
+            <li id="search-results-wrapper" class="hidden">
+                <a href="#" id="search-results">Search Results<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" id="search-results-ul">
+                </ul>
             </li>
             <li>
                 <a href="#" id="floor-1">Floor 1<span class="fa arrow"></span></a>

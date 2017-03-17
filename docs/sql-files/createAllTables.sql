@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS location (
 CREATE TABLE IF NOT EXISTS grid (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   floor       INT             NOT NULL,
-  data        TEXT
+  data        LONGTEXT
 );
 
 
