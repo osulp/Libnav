@@ -202,7 +202,7 @@ exports.getLocationById = function(id, callback){
 
 exports.getSearch = function( callback){
     var tagQuery = 'SELECT id as "tagid", location_id as "id", attr from tag';
-    var attrQuery = 'SELECTid as "attrid", location_id as "id", attr from attribute ';
+    var attrQuery = 'SELECT id as "attrid", location_id as "id", attr from attribute ';
     var locationQuery = 'SELECT id, name, floor, room_number, room_cap from location ';
 
     var location = [];
