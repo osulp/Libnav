@@ -21,9 +21,49 @@ $(function () {
         floor = this.id;
         $('#map-wrapper').empty();
         loadMap(this.id);
+
     });
 
 });
+
+
+
+/**
+  * Gets Navigation Grid from database
+  */
+function getGridFromDB() {
+    $.ajax({
+        type: "get",
+        async: true,
+        url: '/mapapi/grid'
+    })
+        .done(function (data) {
+            var result = JSON.parse(data);
+            if (result) {
+
+                // display success message
+                if(result.length!=0){
+                floorGridFromDB = JSON.parse(result[0].data);
+                console.log(floorGridFromDB);
+                }
+
+                loadGridForNavigation(svg);    
+
+            }
+            else {
+
+                loadGridForNavigation(svg);
+                // display error message
+                console.log('Location for retrived');
+            }
+
+        })
+        .fail(function () {
+            console.log("Location not retrieved");
+        });
+}
+
+
 
 /**
  * Ajax call to get all know location from database
@@ -81,7 +121,7 @@ function loadMap(id) {
 
         console.log(knownLocations);
         loadFloorLocation(svg, floor);
-        // load naviagiton
+        getGridFromDB();
 
     });
 
