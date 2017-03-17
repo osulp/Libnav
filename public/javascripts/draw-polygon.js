@@ -38,7 +38,7 @@ var div = d3.select("body").append("div")
             .text("hello world")
                 .style('fill', 'black')
             .append("polygon")
-            .attr("class", "data-poly "+ data.id +"" )
+            .attr("id", "poly-"+ data.id +"" )
             .attr("points", points)
             .on("mouseover", function(){
                     div.transition()

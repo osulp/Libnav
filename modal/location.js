@@ -201,11 +201,11 @@ exports.getLocationById = function(id, callback){
 
 
 exports.getSearch = function( callback){
-    var tagQuery = 'SELECT * from tag';
-    var attrQuery = 'SELECT * from attribute ';
-    var locationQuery = 'SELECT * from location ';
+    var tagQuery = 'SELECT id as "tagid", location_id as "id", attr from tag';
+    var attrQuery = 'SELECTid as "attrid", location_id as "id", attr from attribute ';
+    var locationQuery = 'SELECT id, name, floor, room_number, room_cap from location ';
 
-    var location = {};
+    var location = [];
 
     // create database connection
     db.createConnection();
@@ -217,7 +217,11 @@ exports.getSearch = function( callback){
         function(parallel_done){
             db.connection.query(locationQuery, function(error, result){
                 if(error) return parallel_done(error);
-                location.info = result;
+                //location.info = result;
+                for(var r in result){
+                    console.log(result[r]);
+                    location.push(result[r]);
+                }
                 parallel_done();
 
             })
@@ -225,7 +229,11 @@ exports.getSearch = function( callback){
         function(parallel_done){
             db.connection.query(tagQuery, function(error, result){
                 if(error) return parallel_done(error);
-                location.tags = result;
+                for(var r in result){
+                    console.log(result[r]);
+                    location.push(result[r]);
+                }
+                //location.tags = result;
                 parallel_done();
 
             })
@@ -233,7 +241,12 @@ exports.getSearch = function( callback){
         function(parallel_done){
             db.connection.query(attrQuery, function(error, result){
                 if(error) return parallel_done(error);
-                location.attr =  result;
+                for(var r in result){
+                    console.log(result[r]);
+                    location.push(result[r]);
+                }
+
+                //location.attr =  result;
                 parallel_done();
 
             })

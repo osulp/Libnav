@@ -10,9 +10,9 @@ function queryDatabase(){
     })
         .done(function (data) {
            console.log(data);
-           //result = JSON.parse(data)
-           //temp = result;
-           temp = data
+           result = JSON.parse(data)
+           temp = result;
+           //temp = data
         })
         .fail(function () {
             console.log("Ajax Failed.")
@@ -22,33 +22,29 @@ function queryDatabase(){
 
 
 function selectShapeByName(svg,id){
-    var p = d3.selectAll('.tool');
-
+    var p = d3.selectAll('#poly-' + id);
 
     p.style('fill', 'blue')
 
     var result = queryDatabase();
-    console.log(result)
-    console.log(result.tags)
-
 
    // console.log(result.tags[0])
-    searchWithFuse('dhs', result);
+    searchWithFuse('example', result);
 
 }
 
 
 function searchWithFuse(searchString, objToSearch){
- var options = {
-  shouldSort: true,
-  threshold: 0.0,
-  location: 0,
-  distance: 100,
-  verbose: true,
-  maxPatternLength: 32,
-  minMatchCharLength: 3,
-  keys: ["attr"]
-}
+     var options = {
+      shouldSort: true,
+      threshold: 0.0,
+      location: 0,
+      distance: 100,
+      verbose: false,
+      maxPatternLength: 32,
+      minMatchCharLength: 3,
+      keys: ["attr", "name", "floor", "room_number", "room_cap"]
+    }
 
     
     var fuse = new Fuse(objToSearch, options); // "list" is the item array
