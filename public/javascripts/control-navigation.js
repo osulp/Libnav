@@ -9,6 +9,7 @@ $(function(){
   
     loadMap(1);
     getGridFromDB();
+
   // When form is submitted
     $('form').submit(function (event) {
 
@@ -50,12 +51,15 @@ function loadMap(id) {
         mapwrapper.html(externalSVG);
 
         svg = mapwrapper.select("svg");
+       //loadGridForAdmin(svg);    
+
 
     });
         
 }
 
    var saveGrid = function(data, url){
+       if(data!=undefined){
             $.ajax({
                 type: "POST",
                 async: true,
@@ -78,6 +82,7 @@ function loadMap(id) {
                 console.log("Grid not saved");
             });   
         }
+   }
    
    
 function getGridFromDB() {

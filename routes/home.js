@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
+var navigation = require('../modal/navigation');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

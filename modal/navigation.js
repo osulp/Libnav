@@ -7,7 +7,7 @@ exports.insertGrid = function (data, callback) {
 
     // connect to database
     db.connection.connect();
-    console.log(data);
+    console.log("insertGrid modal", data);
     // insert information into floor table
     db.connection.query('INSERT INTO grid SET ?', data, function (error, results, fields) {
         if (error) throw error;
