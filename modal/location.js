@@ -198,3 +198,51 @@ exports.getLocationById = function(id, callback){
     });
     
 };
+
+
+exports.getSearch = function( callback){
+    var tagQuery = 'SELECT * from tag';
+    var attrQuery = 'SELECT * from attribute ';
+    var locationQuery = 'SELECT * from location ';
+
+    var location = {};
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    async.parallel([
+        function(parallel_done){
+            db.connection.query(locationQuery, function(error, result){
+                if(error) return parallel_done(error);
+                location.info = result;
+                parallel_done();
+
+            })
+        },
+        function(parallel_done){
+            db.connection.query(tagQuery, function(error, result){
+                if(error) return parallel_done(error);
+                location.tags = result;
+                parallel_done();
+
+            })
+        },
+        function(parallel_done){
+            db.connection.query(attrQuery, function(error, result){
+                if(error) return parallel_done(error);
+                location.attr =  result;
+                parallel_done();
+
+            })
+        }
+    ],
+    function(error){
+        if(error) console.log(error);
+        db.connection.end();
+        callback(location);
+    });
+    
+};

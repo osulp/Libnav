@@ -38,7 +38,7 @@ var div = d3.select("body").append("div")
             .text("hello world")
                 .style('fill', 'black')
             .append("polygon")
-            .attr("class", "data-poly "+ data.name +"" )
+            .attr("class", "data-poly "+ data.id +"" )
             .attr("points", points)
             .on("mouseover", function(){
                     div.transition()
@@ -316,7 +316,7 @@ function cleanUpTags(location){
     var tagArray = []
     var t = 0
     var tagsR = getTags(location ,function(result){
-               console.log(result);
+              // console.log(result);
                 })
 
     for ( t  in tagsR){
@@ -332,7 +332,7 @@ function cleanUpTags(location){
 function cleanUpAttrs(location){
 
     var attrsR = getAttributes(location ,function(result){
-                console.log(result);
+                //console.log(result);
                 })
 
     var attrArray = []
@@ -370,7 +370,7 @@ function getTags(location,callback){
             console.log("Ajax Failed.");
         });
 
-    console.log(temp);
+    //console.log(temp);
     return temp;
 }
 

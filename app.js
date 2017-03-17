@@ -68,7 +68,8 @@ app.use('/datatable-bs', express.static(__dirname + '/node_modules/datatables.ne
 app.use('/datatable-responsive', express.static(__dirname + '/node_modules/datatables.net-responsive/'));
 app.use('/datatable-responsive-bs', express.static(__dirname + '/node_modules/datatables.net-responsive-bs/'));
 
-
+//fuse.js
+app.use('/fuse',  express.static(__dirname + '/node_modules/fuse.js'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 

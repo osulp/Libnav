@@ -92,6 +92,9 @@ function loadFloorLocation(svg, floor){
         if (knownLocations[k].floor == floor.split('-')[1]) {
             renderPolygons(svg, knownLocations[k]);
         }
+
+        selectShapeByName(svg, 'tool tip room');
+
     }
 }
 
@@ -122,6 +125,7 @@ function initialize() {
 
         // load map
         loadMap(floor);
+
 
 
     });
