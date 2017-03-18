@@ -37,7 +37,7 @@ $(function () {
         searchTerm = $('#input-search').val();
         fuseSearch(searchTerm);
         console.log(searchResults);
-        
+
         for(var s in searchResults){
 
         }
