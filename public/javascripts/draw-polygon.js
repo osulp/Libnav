@@ -24,15 +24,7 @@ function renderPolygons(svg, data) {
 
      //   console.log(attrArray)
     
-       var foo = svg.append('g').attr('class', 'newLayer')/*.append('text')
-                .attr("x", 200)
-                .attr("y", 100)
-                .style("fill", "black")
-                .style("font-size", "20px")
-                .attr("dy", ".35em")
-                .attr("text-anchor", "middle")
-                .style("pointer-events", "none")
-                .text("hello world")*/
+       var foo = svg.append('g').attr('class', 'newLayer')
             .text("hello world")
                 .style('fill', 'black')
             .append("polygon")
@@ -100,6 +92,14 @@ function selectByShape(mainMapSVG) {
             "width": this.attributes.getNamedItem("width").value,
             "height": this.attributes.getNamedItem("height").value
         }
+        //points go clockwise with point 1 being top left
+        var points = {
+            'point1': ""+  this.attributes.getNamedItem("x").value + " " + this.attributes.getNamedItem("y").value + "",
+            'point2' : "" + (this.attributes.getNamedItem("x").value + this.attributes.getNamedItem("width").value) + " " + this.attributes.getNamedItem("y").value + "",
+            'point3' :  "" + this.attributes.getNamedItem("x").value  + " " + (this.attributes.getNamedItem("y").value - this.attributes.getNamedItem("height").value)  + "",
+            'point4' :  "" + (this.attributes.getNamedItem("x").value + this.attributes.getNamedItem("width").value) + " " + (this.attributes.getNamedItem("y").value - this.attributes.getNamedItem("height").value)  + ""
+        }
+
         console.log(data);
         /* var x = this.attributes.getNamedItem("x").value;
          var y = this.attributes.getNamedItem("y").value;
@@ -357,33 +357,5 @@ function getAttributes(location, callback) {
     return temp;
 }
 
-function selectLocation(svg) {
-    var polygons = svg.selectAll("polygon");
-    var rectangles = svg.selectAll("rect");
-    var paths = svg.selectAll("path")
-
-
-    rectangles.on("mouseenter", function () {
-        this.attributes.getNamedItem("fill").value = "lightred";
-    })
-
-    rectangles.on("mouseleave", function () {
-        this.attributes.getNamedItem("fill").value = "white";
-    })
-
-    polygons.on("mouseenter", function () {
-        this.attributes.getNamedItem("fill").value = "lightred";
-    })
-
-    polygons.on("mouseleave", function () {
-        this.attributes.getNamedItem("fill").value = "white";
-    })
-
-}
-
-function popUp(d3Item) {
-
-
-}
 
 
