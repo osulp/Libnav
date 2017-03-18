@@ -29,18 +29,36 @@ $(function () {
     });
 
     $('#input-search').keyup(function(event){
-        if($('#input-search').val() != searchTerm){
+        var input = $('#input-search').val();
+        var searchWrapper = $('#search-results-wrapper');
+        var searchUl = $('#search-results-ul');
+        var visible = searchWrapper.hasClass('hidden');
 
-            console.log($(this).val());
+        if( input != searchTerm && input != "" ){
 
+            if(visible){
+                searchWrapper.removeClass('hidden');
+            }
+
+            // remove old results
+            searchUl.empty();
+
+            // show results dropdown
+            searchWrapper.removeClass('hidden');
+
+            searchTerm = $('#input-search').val();
+            fuseSearch(searchTerm);
+
+            for(var s in searchResults){
+                searchUl.append('<li><a href="#">' + searchResults[s] + '</a></li>');
+            }
         }
-        searchTerm = $('#input-search').val();
-        fuseSearch(searchTerm);
-        console.log(searchResults);
-
-        for(var s in searchResults){
-
+        else if(input == ""){
+            // Hide search results dropdown
+            searchWrapper.addClass('hidden');
+            searchUl.empty();
         }
+
     })
 
 });
@@ -80,8 +98,6 @@ function getGridFromDB() {
             console.log("Location not retrieved");
         });
 }
-
-
 
 /**
  * Ajax call to get all know location from database
