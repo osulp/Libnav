@@ -2,6 +2,16 @@
 <html lang="ab">
 <head>
     {{> head }}
+    <link rel="stylesheet" href="/datatable-bs/css/dataTables.bootstrap.css"/>
+    <!--<link rel="stylesheet" href="/datatable-responsive-bs/css/respnsive.bootstrap.css" />-->
+    <style>
+        #example {
+            max-height: 250px;
+        }
+        a div.btn{
+            margin: 2px;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,11 +24,18 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Blank</h1>
+                        <h1 class="page-header">Libnav Administration Dashboard</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <table id="example" class="display" width="100%"></table>
+                    </div>
+                </div>
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -29,5 +46,69 @@
     {{> footer }}
 
     {{> dashboard/javascript }}
+
+    <!-- Datatables !-->
+    <script src="/datatable/js/jquery.dataTables.js"></script>
+    <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
+    <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
+    <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "get",
+                async: true,
+                url: '/mapapi/getAllLocation'
+            }).done(function (dataJSON) {
+                var data = JSON.parse(dataJSON);
+                var tableData = [];
+                for (var d in data) {
+                    tableData.push(
+                            [
+                                data[d].id,
+                                data[d].name,
+                                data[d].floor,
+                                data[d].type,
+                                function () {
+
+                                    if (data[d].room_num == null) {
+                                        return '-'
+                                    } else {
+                                        return data[d].room_num;
+                                    }
+                                }
+                                ,
+                                function () {
+
+                                    if (data[d].room_cap == null) {
+                                        return '-'
+                                    } else {
+                                        return data[d].room_cap;
+                                    }
+                                },
+                                    '<a href="/dashboard/details/' + data[d].id + '"><div class="btn btn-default">Detail</div></a>' +
+                                    '<a href="/dashboard/edit/' + data[d].id + '"><div class="btn btn-warning">edit</div></a>' +
+                                    '<a href="/dashboard/delete/' + data[d].id + '"><div class="btn btn-danger">Detail</div></a>'
+                            ])
+                }
+
+                console.log(data);
+                console.log(tableData);
+                $('#example').DataTable({
+                    data: tableData,
+                    columns: [
+                        {title: "Id"},
+                        {title: "Name"},
+                        {title: "Floor"},
+                        {title: "Type"},
+                        {title: "Room #"},
+                        {title: "Room Capacity"},
+                        {title: "Options"}
+                    ]
+                });
+            });
+
+        });
+    </script>
 
 </body>

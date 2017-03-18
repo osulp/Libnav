@@ -2,6 +2,8 @@
 <html lang="ab">
 <head>
     {{> head }}
+     <!--- tool tip CSS -->
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/tooltips.css"/>
 </head>
 </html>
 <body>
@@ -14,23 +16,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <button class="btn" id="loadGrid">Load Grid</button>
-                        <button style="display:none"  class="btn" id="navLine">Nav Line</button>
-                        <button style="display:none" class="btn" id="setWalkTrue">Set Walkable</button>
-                        <button style="display:none" class="btn" id="setWalkFalse">Set Unwalkable</button>
-                        <button style="display:none" class="btn" id="hideGrid">Hide Grid</button>
-                        <button style="display:none" class="btn" id="saveGrid">Save Grid</button>
-                        <div id="map-group" style=" display:flex">
-                            <object type="image/svg+xml" id="map-wrapper" data="/public/images/map-floor-1.svg" style="pointer-events:all;">
-                                Your browser does not support SVG
-                            </object>
-                            <section id="grid" style="position:absolute"></section>
-                        </div> <!-- / #map-group !-->
-
-                        <div id="mapDiv" style="display:flex">
+                        <div id="map-wrapper">
 
                         </div>
-
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -57,9 +45,8 @@
     <!-- Navigation js -->
     <script src="/public/javascripts/navigation-main.js"></script>
 
-    
     <!--polygon-hover.js-->
-    <script src="/public/javascripts/polygon-hover.js"></script>
+    <!--<script src="/public/javascripts/polygon-hover.js"></script>-->
 
     <!-- D3 js -->
     <script src="/d3/build/d3.min.js"></script>
@@ -67,21 +54,10 @@
     <!-- Lodash js -->
     <script src="lodash/lodash.js"></script>
 
-    <script>
-        $.ajax({
-            type: "GET",
-            async: true,
-            url: '/home/location'
-        })
-                .done(function (data) {
-                    console.log(data);
-                    var result = JSON.parse(data);
+    <script src="/public/javascripts/draw-polygon.js" ></script>
 
-                })
-                .fail(function () {
-                    console.log("Ajax Failed.");
-                });
-    </script>
+    <!-- Home UI controls JS !-->
+    <script src="/public/javascripts/control-home.js"></script>
 
 
 </body>

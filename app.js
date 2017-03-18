@@ -15,6 +15,7 @@ var config = null;
 var routes = require('./routes/home');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
+var mapapi = require('./routes/mapapi');
 var setup = null;
 
 // Defining application
@@ -55,12 +56,17 @@ app.use('/fontawesome', express.static(__dirname + '/node_modules/font-awesome/'
 app.use('/metismenu', express.static(__dirname + '/node_modules/metismenu/dist'));
 // Pathfinding.js
 app.use('/pathfinding', express.static(__dirname + '/node_modules/pathfinding'));
-//d3.js
+// D3.js
 app.use('/d3', express.static(__dirname+ '/node_modules/d3'));
-// approve.js
+// Approve.js
 app.use('/approvejs', express.static(__dirname + '/node_modules/approvejs/dist/'));
-//lodash
+// Lodash
 app.use('/lodash', express.static(__dirname + '/node_modules/lodash/'));
+// Datatables
+app.use('/datatable', express.static(__dirname + '/node_modules/datatables.net/'));
+app.use('/datatable-bs', express.static(__dirname + '/node_modules/datatables.net-bs/'));
+app.use('/datatable-responsive', express.static(__dirname + '/node_modules/datatables.net-responsive/'));
+app.use('/datatable-responsive-bs', express.static(__dirname + '/node_modules/datatables.net-responsive-bs/'));
 
 
 // uncomment after placing your favicon in /public
@@ -83,6 +89,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/user', user);
 app.use('/dashboard', dashboard);
+app.use('/mapapi', mapapi);
 
 // set setup script
 try{
