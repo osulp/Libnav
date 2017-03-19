@@ -2,7 +2,7 @@
 <html lang="ab">
 <head>
     {{> head }}
-     <!--- tool tip CSS -->
+    <!--- tool tip CSS -->
     <link rel="stylesheet" type="text/css" href="/public/stylesheets/tooltips.css"/>
 </head>
 </html>
@@ -16,20 +16,37 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
+                        <!-- Navigation Grid !-->
+                        <div id="navGrid">
+                            <section id="grid" style="position:absolute"></section>
+                        </div>
+                        <!-- / #navGrid !-->
+
+                        <!-- #Map-Wrapper !-->
                         <div id="map-wrapper">
 
+                            <!-- Map Group !-->
+                            <div id="map-group" style=" display:flex">
+                            </div>
+                            <!-- / #map-group !-->
+
                         </div>
+                        <!-- /#map-wrapper-->
+
                     </div>
-                    <!-- /.col-lg-12 -->
+                    <!-- /.col-lg-12 !-->
                 </div>
                 <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- / .container-fluid -->
+
         </div>
-        <!-- /#page-wrapper -->
+        <!-- / #page-wrapper !-->
         {{> footer }}
     </div>
     <!-- /#wrapper -->
+
+
 
     {{> home/javascript }}
 
@@ -54,7 +71,15 @@
     <!-- Lodash js -->
     <script src="lodash/lodash.js"></script>
 
-    <script src="/public/javascripts/draw-polygon.js" ></script>
+    <!-- polygon drawing scripts <-->
+    <script src="/public/javascripts/draw-polygon.js"></script>
+
+
+    <!-- main search package -->
+    <script src="/fuse/src/fuse.min.js"></script>
+
+    <!-- main searching script -->
+    <script src="/public/javascripts/search.js"></script>
 
     <!-- Home UI controls JS !-->
     <script src="/public/javascripts/control-home.js"></script>

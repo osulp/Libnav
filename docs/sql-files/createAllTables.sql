@@ -15,7 +15,7 @@ CREATE TABLE type (
 
 /*CREATE TABLE Tag (
   id   INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255)
+  name VARCHAR(255)d 
 );*/
 
 
@@ -33,14 +33,10 @@ CREATE TABLE IF NOT EXISTS location (
 
 );
 
-CREATE TABLE IF NOT EXISTS gridpoint (
+CREATE TABLE IF NOT EXISTS grid (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  location_id INT             NOT NULL,
-  x           INT,
-  y           INT,
-  FOREIGN KEY (location_id) REFERENCES location (id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
+  floor       INT             NOT NULL,
+  data        LONGTEXT
 );
 
 
@@ -73,7 +69,7 @@ CREATE TABLE IF NOT EXISTS tag (
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS point (
+/*CREATE TABLE IF NOT EXISTS point (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   location_id INT             NOT NULL,
   y           INT,
@@ -81,7 +77,7 @@ CREATE TABLE IF NOT EXISTS point (
   FOREIGN KEY (location_id) REFERENCES location (id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-);
+);*/
 
 
 /*CREATE TABLE roles (

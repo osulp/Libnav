@@ -198,3 +198,64 @@ exports.getLocationById = function(id, callback){
     });
     
 };
+
+
+exports.getSearch = function( callback){
+    var tagQuery = 'SELECT id as "tagid", location_id as "id", attr from tag';
+    var attrQuery = 'SELECT id as "attrid", location_id as "id", attr from attribute ';
+    var locationQuery = 'SELECT id, name, floor, room_number, room_cap from location ';
+
+    var location = [];
+
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    async.parallel([
+        function(parallel_done){
+            db.connection.query(locationQuery, function(error, result){
+                if(error) return parallel_done(error);
+                //location.info = result;
+                for(var r in result){
+                    console.log(result[r]);
+                    location.push(result[r]);
+                }
+                parallel_done();
+
+            })
+        },
+        function(parallel_done){
+            db.connection.query(tagQuery, function(error, result){
+                if(error) return parallel_done(error);
+                for(var r in result){
+                    console.log(result[r]);
+                    location.push(result[r]);
+                }
+                //location.tags = result;
+                parallel_done();
+
+            })
+        },
+        function(parallel_done){
+            db.connection.query(attrQuery, function(error, result){
+                if(error) return parallel_done(error);
+                for(var r in result){
+                    console.log(result[r]);
+                    location.push(result[r]);
+                }
+
+                //location.attr =  result;
+                parallel_done();
+
+            })
+        }
+    ],
+    function(error){
+        if(error) console.log(error);
+        db.connection.end();
+        callback(location);
+    });
+    
+};

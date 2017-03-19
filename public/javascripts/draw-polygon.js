@@ -12,16 +12,16 @@ var pointArray = [];
 var result = [];
 
 function renderPolygons(svg, data) {
-var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     console.log(data);
-    points =  JSON.parse(data.data_point)
-    
-   
+    points = JSON.parse(data.data_point)
+
 
     var attrArray = []
+
        var foo = svg.append('g').attr('class', 'newLayer')/*.append('text')
                 .attr("x", 200)
                 .attr("y", 100)
@@ -34,7 +34,7 @@ var div = d3.select("body").append("div")
             .text("hello world")
                 .style('fill', 'black')
             .append("polygon")
-            .attr("class", "data-poly "+ data.name +"" )
+            .attr("id", "poly-"+ data.id +"" )
             .attr("points", points)
             .on("mouseover", function(){
                     div.transition()
@@ -46,36 +46,33 @@ var div = d3.select("body").append("div")
             })
             .on("mouseout", function(d) {
               div.transition()
+
                 .duration(500)
                 .style("opacity", 0);
-            })
-            .style("fill", "0cff00")
-            .style("stroke", "0cff00")
-            .style("opacity", 0.5) 
-    
-            ;
+        })
+        .style("fill", "0cff00")
+        .style("stroke", "0cff00")
+        .style("opacity", 0.5);
 
-        d3.selectAll()
-/*
-     foo.append('g').append("text")
-        .style("font-size", "20px")
-        .attr('dy', '1em')
-        .attr("text-anchor", "middle")
-        .style("pointer-events", "none")
-        .text(data.name);*/
+    svg.append("polygon")
+        .text("hello world")
+        .style('z-index', 100)
+        .style('fill', 'black');
 
-        console.log(foo)
+
+    d3.selectAll();
+
+
+    console.log(foo)
 
 }
-
-
 
 
 function selectByShape(mainMapSVG) {
 
     //select rectangles
     var rects = mainMapSVG.selectAll("rect");
-   // rects.attributes.getNamedItem("fill").value = "white";
+    // rects.attributes.getNamedItem("fill").value = "white";
 
     //give rectangles fill
     _.times(rects._groups[0].length, function (g) {
@@ -95,12 +92,36 @@ function selectByShape(mainMapSVG) {
 
     //get data on click
     rects.on("click", function () {
-        data = {
+        var values = {
             "x": this.attributes.getNamedItem("x").value,
             "y": this.attributes.getNamedItem("y").value,
             "width": this.attributes.getNamedItem("width").value,
             "height": this.attributes.getNamedItem("height").value
         }
+
+        var p = {
+            point1: {
+                x: values.x,
+                y: values.y
+            },
+             point2: {
+                x: Number(values.x) + Number(values.width),
+                y: values.y
+            },
+              point3: {
+                 x: Number(values.x) + Number(values.width),
+                y: Number(values.y) + Number(values.height)
+               
+            },
+            point4: {
+                x: values.x,
+                y: Number(values.y) + Number(values.height)
+            }
+        };
+
+        data = p.point1.x + ',' + p.point1.y + ' ' +  p.point2.x + ',' + p.point2.y + ' '
+             +  p.point3.x + ',' + p.point3.y + ' ' +  p.point4.x + ',' + p.point4.y 
+
         console.log(data);
         /* var x = this.attributes.getNamedItem("x").value;
          var y = this.attributes.getNamedItem("y").value;
@@ -116,8 +137,8 @@ function selectByShape(mainMapSVG) {
     var polygon = mainMapSVG.selectAll("polygon");
     console.log(polygon);
 
-    _.times(polygon._groups[0].length, function (g) {
-       
+    _.times(polygon._groups[0].length-1, function (g) {
+
         polygon._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
     });
@@ -141,46 +162,11 @@ function selectByShape(mainMapSVG) {
         //var points = this.attributes.getNamedItem("points").value;
 
 
-        console.log(points);
-        this.attributes.getNamedItem("fill").value = "red";
-    });
-
-
-    //polylines
-    var polylines = mainMapSVG.selectAll("polyline");
-
-
-    _.times(polylines._groups[0].length, function (g) {
-
-        polylines._groups[0][g].attributes.getNamedItem("fill").value = "white";
-
-    });
-
-    polylines.on("mouseenter", function () {
-
-        this.attributes.getNamedItem("fill").value = "yellow";
-
-    });
-
-    polylines.on("mouseleave", function () {
-        this.attributes.getNamedItem("fill").value = "white";
-    });
-
-    polylines.on("click", function () {
-
-        data = {
-            "points": this.attributes.getNamedItem("points").value
-        }
-    console.log(data)
-
-        // var points = this.attributes.getNamedItem("points").value;
-
-        console.log(data);
+        console.log( this.attributes.getNamedItem("points").value);
         this.attributes.getNamedItem("fill").value = "red";
     });
 
     //elipses
-
     var ellipse = mainMapSVG.selectAll("ellipse");
 
 
@@ -296,69 +282,71 @@ function fill(svg) {
         .style("opacity", .25);
 }
 
-function formatToolTipHTML(location, name){
+function formatToolTipHTML(location, name) {
     var tags = cleanUpTags(location)
     var attrs = cleanUpAttrs(location)
 
-    if (tags == null && attrs == null){
-    return "<div>"+ name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>" 
-    }else{
-        return "<div>"+ name + "</div><div>Tags:"+ tags + "</div><div>Attributes:" + attrs + "</div>" 
+    if (tags == null && attrs == null) {
+        return "<div>" + name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>"
+    } else {
+        return "<div>" + name + "</div><div>Tags:" + tags + "</div><div>Attributes:" + attrs + "</div>"
     }
 }
 
 
-function cleanUpTags(location){
+function cleanUpTags(location) {
     var tagArray = []
     var t = 0
+
     var tagsR = getTags(location ,function(result){
-               console.log(result);
+              // console.log(result);
                 })
 
-    for ( t  in tagsR){
-            tagArray.push(tagsR[t].attr)
-            t++
-        }
 
-   return tagArray;     
+    for (t  in tagsR) {
+        tagArray.push(tagsR[t].attr)
+        t++
+    }
+
+    return tagArray;
 
 
 }
 
-function cleanUpAttrs(location){
+function cleanUpAttrs(location) {
+
 
     var attrsR = getAttributes(location ,function(result){
-                console.log(result);
+                //console.log(result);
                 })
+
 
     var attrArray = []
     var a = 0
-        
-        for (a in attrsR){
-            attrArray.push(attrsR[a].attr)
-            a++
-        }
 
-   return attrArray     
+    for (a in attrsR) {
+        attrArray.push(attrsR[a].attr)
+        a++
+    }
+
+    return attrArray
 }
 
 
-
-
-
-function getTags(location,callback){
+function getTags(location, callback) {
 
     console.log("inside getTags");
     var temp = false;
-  $.ajax({
+    $.ajax({
         type: "POST",
         async: false,
         url: '/mapapi/getTags',
-        data:{
-            location: location}
+        data: {
+            location: location
+        }
     })
         .done(function (data) {
-           // console.log(data);
+            // console.log(data);
             var result = JSON.parse(data);
             temp = result;
         })
@@ -366,57 +354,56 @@ function getTags(location,callback){
             console.log("Ajax Failed.");
         });
 
-    console.log(temp);
+    //console.log(temp);
     return temp;
 }
 
-function getAttributes(location,callback){
-  var temp = false
-  $.ajax({
+function getAttributes(location, callback) {
+    var temp = false
+    $.ajax({
         type: "POST",
         async: false,
         url: '/mapapi/getAttributes',
-        data:{
-            location: location}
+        data: {
+            location: location
+        }
     })
         .done(function (data) {
-           // console.log(data);
+            // console.log(data);
             var result = JSON.parse(data);
             temp = result
         })
         .fail(function () {
             console.log("Ajax Failed.");
         });
-        return temp;
+    return temp;
 }
 
-function selectLocation(svg){
+function selectLocation(svg) {
     var polygons = svg.selectAll("polygon");
     var rectangles = svg.selectAll("rect");
     var paths = svg.selectAll("path")
 
 
-    rectangles.on("mouseenter", function() {
+    rectangles.on("mouseenter", function () {
         this.attributes.getNamedItem("fill").value = "lightred";
     })
 
-     rectangles.on("mouseleave", function() {
+    rectangles.on("mouseleave", function () {
         this.attributes.getNamedItem("fill").value = "white";
     })
- 
-    polygons.on("mouseenter", function() {
+
+    polygons.on("mouseenter", function () {
         this.attributes.getNamedItem("fill").value = "lightred";
     })
 
-     polygons.on("mouseleave", function() {
-          this.attributes.getNamedItem("fill").value = "white";
-     })
+    polygons.on("mouseleave", function () {
+        this.attributes.getNamedItem("fill").value = "white";
+    })
 
 }
 
-function popUp(d3Item){
-
-
+function popUp(d3Item) {
 
 
 }

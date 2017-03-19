@@ -68,14 +68,15 @@ app.use('/datatable-bs', express.static(__dirname + '/node_modules/datatables.ne
 app.use('/datatable-responsive', express.static(__dirname + '/node_modules/datatables.net-responsive/'));
 app.use('/datatable-responsive-bs', express.static(__dirname + '/node_modules/datatables.net-responsive-bs/'));
 
-
+//fuse.js
+app.use('/fuse',  express.static(__dirname + '/node_modules/fuse.js'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 
 app.use(logger('dev'));
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+app.use(bodyParser.json({limit:'10000mb'})); // support json encoded bodies
+app.use(bodyParser.urlencoded({extended: true, limit:'10000mb'})); // support encoded bodies
 app.use(cookieParser());
 
 // Populates req.session

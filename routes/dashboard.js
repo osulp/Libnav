@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
+var navigation = require('../modal/navigation');
 
 
 /* GET home page. */
@@ -207,6 +208,15 @@ router.post('/room', function (req, res, next) {
 /* Get Service Point Location page */
 router.get('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
+        res.render('dashboard/servicepoint', {session: true})
+    } else {
+        res.render('error/login');
+    }
+});
+
+/* Post Service Point Location page */
+router.post('/servicepoint', function (req, res, next) {
+    if (req.session.isAuthenticated) {
         console.log(req.body);
 
         // defining know data
@@ -214,7 +224,7 @@ router.get('/servicepoint', function (req, res, next) {
             'floor': req.body.floor,
             'type': 'servicepoint',
             'name': req.body.name,
-            'room_num': req.body.number,
+            'room_number': req.body.number,
             'url': req.body.url,
             'data_point': req.body.location,
             'entry_point': req.body.entry
@@ -258,16 +268,7 @@ router.get('/servicepoint', function (req, res, next) {
     } else {
         res.render('error/login');
     }
-});
 
-/* Post Service Point Location page */
-router.post('/servicepoint', function (req, res, next) {
-    if (req.session.isAuthenticated) {
-        console.log(req.body);
-        res.json(JSON.stringify(true));
-    } else {
-        res.render('error/login');
-    }
 });
 
 /* Get Navigation Grid  page */
@@ -282,7 +283,15 @@ router.get('/navigation', function (req, res, next) {
 /* Post Navigation Grid page */
 router.post('/navigation', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        console.log(req.body);
+        var data = {
+            'floor': req.body.floor,
+            'data': req.body.grid
+        };
+
+        console.log(data['floor']);
+
+        navigation.insertGrid(data);
+        //navigation.getGird
         res.json(JSON.stringify(true));
     } else {
         res.render('error/login');
