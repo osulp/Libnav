@@ -4,9 +4,7 @@ var location = require('../modal/location');
 var navigation = require('../modal/navigation');
 
 
-router.get('/grid', function (req, res, next) {
-
-    console.log("at /dashboard/grid");
+router.get('/grids', function (req, res, next) {
      navigation.getGrid(function (results) {
         res.contentType('json');
         res.json(JSON.stringify(results));
