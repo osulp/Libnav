@@ -11,6 +11,60 @@ var count;
 var pointArray = [];
 var result = [];
 
+
+var start = false;
+var end = false;
+
+
+
+
+var getNavPoints = function(svg){
+    
+    
+    if(start){
+        svg.select("start").style("fill","blue").style("opacity",.5);
+    }else{
+
+    }
+
+    if(end){
+        svg.select("end").style("fill","red").style("opacity",.5);
+    }else{
+
+    }
+
+    if((start && end) && end!=end && start!=start){
+        var point1;
+        var point2;
+
+    }
+    
+    
+}
+
+
+function getEntryPoint(location, callback) {
+    var temp = false
+    $.ajax({
+        type: "POST",
+        async: false,
+        url: '/mapapi/getEntryPoint',
+        data: {
+            location: location
+        }
+    })
+        .done(function (data) {
+            // console.log(data);
+            var result = JSON.parse(data);
+            temp = result
+        })
+        .fail(function () {
+            console.log("Ajax Failed.");
+        });
+    return temp;
+}
+
+
 function renderPolygons(svg, data) {
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -46,10 +100,20 @@ function renderPolygons(svg, data) {
             })
             .on("mouseout", function(d) {
               div.transition()
-
+                
                 .duration(500)
                 .style("opacity", 0);
         })
+        .on("click",function(){
+            if(!start && !end){
+                start = this.id;
+            }else if(!end && end!=start){
+                end = this.id;
+                getNavPoints(svg);
+            }else{
+                end = false;
+            }
+        });
         .style("fill", "0cff00")
         .style("stroke", "0cff00")
         .style("opacity", 0.5);

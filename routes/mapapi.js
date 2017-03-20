@@ -47,4 +47,11 @@ router.post("/getAttributes", function (req, res, next){
         res.json(JSON.stringify(results))
     })
 });
+
+router.post("/getEntryPoint", function (req, res, next){
+    location.getEntryPoint(req.body.location, function(results) {
+        res.contentType('json');
+        res.json(JSON.stringify(results))
+    })
+});
 module.exports = router;
