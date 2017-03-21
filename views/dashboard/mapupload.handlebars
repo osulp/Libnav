@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ab">
+<head>
+    {{> head }}
+
+    <!-- Map dispaly CSS !-->
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/map-display.css"/>
+</head>
+
+<body>
+    <div id="wrapper">
+        {{> nav }}
+        {{> dashboard/sidebar }}
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+
+                <!-- Page title !-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Map Upload Form</h1>
+                        <p>Upload New Maps</p>
+                    </div> <!-- /.col-lg-12 -->
+                </div> <!-- /.row -->
+
+                <!-- Form !-->
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form name="imageUp" href="unknown" method="POST" role="form">
+
+                            <!-- Name & Floor !-->
+                            <div class="row">
+
+                                <!-- Location name input !-->
+                                <div class="col-lg-6">
+                                     <input id="imgUpload" type="file" />
+                                </div> <!-- / .col-lg-6 !-->
+
+                                <br>
+                            <!-- Form Control !-->
+                            <p class="input-label">Form Options</p>
+                            <button type="submit" class="btn btn-success" id="btn-save">Save</button>
+                        </form>
+                    </div> <!-- col-lg-6 !-->
+                </div> <!-- /.row !-->
+
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+        {{> footer }}
+    </div>
+    <!-- /#wrapper -->
+
+
+
+
+    {{> dashboard/javascript }}
+
+    <!-- ApprovedJS !-->
+    <script src="/approvejs/approve.min.js"></script>
+
+    <!-- Pathfinding js-->
+    <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+
+    <!-- LodashJS !-->
+    <script src="/lodash/lodash.js"></script>
+
+    <!-- Draw Polygons js !-->
+    <script src="/public/javascripts/draw-polygon.js"></script>
+
+    <!-- Navigation Controls !-->
+    <script src="/public/javascripts/navigation-main.js"></script>
+
+    <!-- Form Controls JS !-->
+    <script src="/public/javascripts/control-mapUpload.js" ></script>
+
+
+</body>

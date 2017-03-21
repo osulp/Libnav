@@ -81,12 +81,33 @@ $(function () {
  * @returns {*}
  */
 function getGrids() {
-    return $.ajax({
+    $.ajax({
         type: "get",
         async: true,
         url: '/mapapi/grids'
     })
+        .done(function (data) {
+            var result = JSON.parse(data);
+            grids = result;
+            if (result) {
+
+                // display success message
+                if (result.length != 0) {
+                    
+                    floorGridFromDB = JSON.parse(result[0].data);
+                    console.log(floorGridFromDB);
+                }
+            }
+            else {
+                // display error message
+                console.log('Location for retrived');
+            }
+        })
+        .fail(function () {
+            console.log("Location not retrieved");
+        });
 }
+
 
 /**
  * Ajax call to get all know location from database
@@ -121,7 +142,6 @@ function loadMap() {
         svg = mapwrapper.select("svg");
         loadLocationByFloor(svg, floor);
         // loadgird(id)
-
         //getGridFromDB();
 
     });
@@ -167,7 +187,6 @@ function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
         locations = JSON.parse(locationJSON[0]);
-        grids = JSON.parse(gridJSON[0]);
 
         // display success message
         fillSidebar(locations);

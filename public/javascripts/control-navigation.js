@@ -1,12 +1,14 @@
 var svg = null;
 var floorGridFromDB;
 
+// Contains array of grid objects
+var grids = null;
+
 
 $(function () {
 
     loadMap(1);
-    //getGridFromDB();
-
+    getGrids();
     // When form is submitted
     $('form').submit(function (event) {
 
@@ -34,6 +36,7 @@ $(function () {
         return false;
     });
 
+    loadGridForAdmin();
 
 });
 
@@ -68,7 +71,6 @@ function loadMap(id) {
         // save svg object
         svg = mapwrapper.select("svg");
         // loadFloorLocation(svg, floor);
-        getGridFromDB();
 
     });
 
@@ -101,11 +103,16 @@ var saveGrid = function (data, url) {
 }
 
 
-function getGridFromDB() {
+/**
+ * Gets all grids from database
+ * @returns {*}
+ */
+
+function getGrids() {
     $.ajax({
         type: "get",
         async: true,
-        url: '/mapapi/grid'
+        url: '/mapapi/grids'
     })
         .done(function (data) {
             var result = JSON.parse(data);

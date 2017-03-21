@@ -23,7 +23,6 @@ router.get('/getAllLocation', function (req, res, next) {
 
 });
 
-
 router.get('/getSearch', function(req, res,next){
     location.getSearch(function (results) {
         res.contentType('json');
