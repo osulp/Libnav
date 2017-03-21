@@ -73,7 +73,6 @@ var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
 };
 
 
-
 var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
 
 
@@ -89,11 +88,12 @@ var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
      });
 
      });*/
-    if(floorGridFromDB==null || floorGridFromDB===undefined){
+        setGridPathFinderFromDB(squaresColumn, squaresRow, grid);
+
+  /*  if(floorGridFromDB==null || floorGridFromDB===undefined){
         setGridPathFinder(squaresColumn,squaresRow,grid);
     }else{
-        setGridPathFinderFromDB(squaresColumn, squaresRow, grid);
-    }
+    }*/
 };
 
 var hideGrid = function () {
@@ -217,10 +217,23 @@ function drawLineTest() {
 }
 
 
- var drawLine = function(){
+ var drawLine = function(point1, point2){
 
+     
+     var pos1 = point1[0].entry_point.split('-');
+     var row1 = pos1[1];
+     var col1 = pos1[2];
+     var pos2 = point2[0].entry_point.split('-');
+     var row2 = pos2[1];
+     var col2 = pos2[2];
+     
      var finder = new PF.AStarFinder();
-     var path = finder.findPath("24", "12",  "35", "21", gridCalc);
+     if(gridCalc == null || gridCalc===undefined){
+        setGridPathFinderFromDB();
+        var path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+     }else{
+        var path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+     }
 
 
      for (var x = 0; x < path.length; x++) {
@@ -241,7 +254,6 @@ function drawLineTest() {
 
 
 var gridMouse = function () {
-
     var makeWalkMouseDown = allRectangles.on('mousedown', function () {
         isDragging = true;
     });
@@ -267,6 +279,16 @@ var gridMouse = function () {
         isDragging = false;
         if (!wasDragging) {
         }
+    });
+    
+    allRectangles.each(function(){
+        var pos = this.id.split('-');
+        var row = pos[1];
+        var col = pos[2];
+        var thisRec = grid.select("rect[id='" + this.id + "']").attr('fill', 'blue');
+        thisRec.attr("walkable", true);
+        gridCalc.setWalkableAt(row, col, true);
+        
     });
 };
 
@@ -319,7 +341,7 @@ var clearPaths = function () {
 };
 
 
-var loadGridForNavigation = function (svgi) {
+var loadGridForNavigation = function (svgi, point1, point2) {
 
     if (svgi != undefined) {
         svgnav = svgi._groups[0][0];
@@ -328,7 +350,7 @@ var loadGridForNavigation = function (svgi) {
             
             isHomeNav = true;
             drawGrid();
-            drawLine();
+            drawLine(point1, point2);
         });
     }
 

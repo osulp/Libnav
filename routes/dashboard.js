@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
 var navigation = require('../modal/navigation');
-
+var multer = require('multer');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -325,6 +325,33 @@ router.get('/details/data/:id', function (req, res, next) {
         res.render('error/login');
     }
 });
+
+
+/* Get Map Upload   page */
+router.get('/mapupload', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+        res.render('dashboard/mapupload', {session: true})
+    } else {
+        res.render('error/login');
+    }
+});
+
+
+
+var uploading = multer({
+  dest:'../public/images/',
+  limits: {fileSize: 1000000, files:1},
+});
+
+
+router.post('/mapupload', uploading.any(), function(req, res,next) {
+ console.log(req.body, 'Body');
+ console.log(req.files, 'files');
+ res.end();
+
+    
+});
+
 
 
 module.exports = router;

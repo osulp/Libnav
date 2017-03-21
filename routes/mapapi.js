@@ -1,4 +1,4 @@
-var express = require('express');
+ var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
 var navigation = require('../modal/navigation');
@@ -23,7 +23,6 @@ router.get('/getAllLocation', function (req, res, next) {
 
 });
 
-
 router.get('/getSearch', function(req, res,next){
     location.getSearch(function (results) {
         res.contentType('json');
@@ -41,6 +40,13 @@ router.post("/getTags", function (req, res, next){
 
 router.post("/getAttributes", function (req, res, next){
     location.getAttributes(req.body.location, function(results) {
+        res.contentType('json');
+        res.json(JSON.stringify(results))
+    })
+});
+
+router.post("/getEntryPoint", function (req, res, next){
+    location.getEntryPoint(req.body.location, function(results) {
         res.contentType('json');
         res.json(JSON.stringify(results))
     })
