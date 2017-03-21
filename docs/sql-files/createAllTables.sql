@@ -1,23 +1,3 @@
-/*CREATE TABLE floor (
-  id   INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255)
-);*/
-
-CREATE TABLE type (
-  id   INT AUTO_INCREMENT PRIMARY KEY,
-  type VARCHAR(255)
-);
-
-/*CREATE TABLE Attributes (
-  id   INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255)
-);*/
-
-/*CREATE TABLE Tag (
-  id   INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255)d 
-);*/
-
 
 CREATE TABLE IF NOT EXISTS location (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -27,29 +7,9 @@ CREATE TABLE IF NOT EXISTS location (
   room_number INT,
   room_cap    INT,
   url         VARCHAR(255),
-  data_point  TEXT,
-  entry_point TEXT
-
-
+  data_point  LONGTEXT,
+  entry_point LONGTEXT
 );
-
-CREATE TABLE IF NOT EXISTS grid (
-  id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  floor       INT             NOT NULL,
-  data        LONGTEXT
-);
-
-
-/*CREATE TABLE IF NOT EXISTS locationtag (
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  FOREIGN KEY (location_id) REFERENCES location (id),
-  FOREIGN KEY (tag_id) REFERENCES Tag (id)
-  ON UPDATE CASCADE
-  ON DELETE CASCADE,
-  FOREIGN KEY (floor_id) REFERENCES floor (id)
-  ON UPDATE CASCADE
-  ON DELETE CASCADE
-);*/
 
 CREATE TABLE IF NOT EXISTS attribute (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -69,16 +29,11 @@ CREATE TABLE IF NOT EXISTS tag (
     ON DELETE CASCADE
 );
 
-/*CREATE TABLE IF NOT EXISTS point (
+CREATE TABLE IF NOT EXISTS grid (
   id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  location_id INT             NOT NULL,
-  y           INT,
-  x           INT,
-  FOREIGN KEY (location_id) REFERENCES location (id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-);*/
-
+  floor       INT             NOT NULL,
+  data        LONGTEXT
+);
 
 /*CREATE TABLE roles (
   id   INT AUTO_INCREMENT PRIMARY KEY,
