@@ -279,7 +279,7 @@ function loadMap(id) {
         svg = mapwrapper.select("svg");
 
         getKnowLocations(id);
-        loadGridForKnown(svg);
+        //loadGridForKnown(svg);
 
     });
 }
@@ -374,7 +374,7 @@ function getLocation() {
 function getEntry() {
     var input = {
         name: 'entry',
-        value: entryPoint
+        value: "temp"
     };
     return input;
 }
