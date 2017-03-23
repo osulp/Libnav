@@ -285,7 +285,7 @@ var gridMouse = function () {
         }
     });
     
-    allRectangles.each(function(){
+/*    allRectangles.each(function(){
         var pos = this.id.split('-');
         var row = pos[1];
         var col = pos[2];
@@ -293,7 +293,7 @@ var gridMouse = function () {
         thisRec.attr("walkable", true);
         gridCalc.setWalkableAt(row, col, true);
         
-    });
+    });*/
 };
 
 var markPoints = function () {
