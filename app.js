@@ -7,6 +7,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fileUpload = require('express-fileupload');
 
 var config = null;
 
@@ -67,6 +68,9 @@ app.use('/datatable', express.static(__dirname + '/node_modules/datatables.net/'
 app.use('/datatable-bs', express.static(__dirname + '/node_modules/datatables.net-bs/'));
 app.use('/datatable-responsive', express.static(__dirname + '/node_modules/datatables.net-responsive/'));
 app.use('/datatable-responsive-bs', express.static(__dirname + '/node_modules/datatables.net-responsive-bs/'));
+app.use('/express-fileupload', express.static(__dirname + '/node_modules/file-upload'));;
+app.use('/mv', express.static(__dirname + '/node_modules/mv'));;
+
 
 //fuse.js
 app.use('/fuse',  express.static(__dirname + '/node_modules/fuse.js'));
@@ -130,5 +134,8 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
+
+
+
 
 module.exports = app;

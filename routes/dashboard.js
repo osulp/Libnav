@@ -3,6 +3,9 @@ var router = express.Router();
 var location = require('../modal/location');
 var navigation = require('../modal/navigation');
 var multer = require('multer');
+var fs = require('fs');
+var mv = require('mv');
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -337,20 +340,27 @@ router.get('/mapupload', function (req, res, next) {
 });
 
 
-
-var uploading = multer({
-  dest:'../public/images/',
-  limits: {fileSize: 1000000, files:1},
-});
-
-
-router.post('/mapupload', uploading.any(), function(req, res,next) {
- console.log(req.body, 'Body');
- console.log(req.files, 'files');
- res.end();
-
+router.post('/mapupload', function(req, res) {
+ 
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
+  var sampleFile = req.body.image;
+    console.log(sampleFile);
+ 
+  // Use the mv() method to place the file somewhere on your server 
+  /*mv(sampleFile, __dirname+ '/../public/images/', function(err) {
+    if (err)
+      return res.status(500).send(err);
+ 
+    res.send('File uploaded!');
+  });*/
+    
+  fs.writeFile("image.jpg", sampleFile, (err) => {
+  if (err) throw err;
+  console.log('It\'s saved!');
+}); 
     
 });
+
 
 
 

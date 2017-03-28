@@ -1,39 +1,42 @@
 var data; 
-var imgUpload;
-
 
 $(function () {
 
     // When form is submitted
     $('form').submit(function (event) {
-       
-        //setting svg as data
+
+        var data = event.currentTarget["0"].files["0"];
+  
+        var url = "/dashboard/mapupload";
+        
+        uploadImg(data,url);
+
+    });
+});
+
+
+
+
+var uploadImg = function (data, url) {
+
+    var formData = new FormData();
+    formData.append('file', data);
     
-           $.ajax({
-            type: "POST",
+    if (data != undefined) {
+        $.ajax({
+            type: 'POST',
             async: true,
-            url: "/dashboard/mapupload",
-            data: imgUpload,
-            name: 'image'
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: "multipart/form-data",
+            mimeType: 'multipart/form-data', 
         })
             .done(function (data) {
-               console.log('data');
+                console.log(data);
             })
             .fail(function () {
                 console.log("Grid not saved");
             });
-        
-        
-
-        // prevents native form actions from firing
-        event.preventDefault();
-        return false;
-    });
-
-});
-
-$('#imgUpload').change(function(){
-
-     imgUpload = this.value;
-    
-});
+    }
+}

@@ -52,6 +52,9 @@ var setGridPathFinder = function (squaresColumn, squaresRow, grid) {
 var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
     //set grid
     gridCalc = new PF.Grid(squaresColumn, squaresRow);
+    if(floorGridFromDB==null || floorGridFromDB ===undefined){
+        setGridPathFinder(squaresColumn, squaresRow, grid);
+    }else{
     gridCalc.nodes = floorGridFromDB;
     if(isHomeNav==false){
         //nonwalk
@@ -69,6 +72,7 @@ var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
             });
 
         });
+    }
     }
 };
 
@@ -281,7 +285,7 @@ var gridMouse = function () {
         }
     });
     
-    allRectangles.each(function(){
+/*    allRectangles.each(function(){
         var pos = this.id.split('-');
         var row = pos[1];
         var col = pos[2];
@@ -289,7 +293,7 @@ var gridMouse = function () {
         thisRec.attr("walkable", true);
         gridCalc.setWalkableAt(row, col, true);
         
-    });
+    });*/
 };
 
 var markPoints = function () {

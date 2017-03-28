@@ -279,7 +279,7 @@ function loadMap(id) {
         svg = mapwrapper.select("svg");
 
         getKnowLocations(id);
-        //loadGridForKnown(svg);
+        loadGridForKnown(svg);
 
     });
 }
