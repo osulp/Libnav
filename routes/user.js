@@ -7,13 +7,18 @@ var CASAuthentication = require('cas-authentication');
 // Create a new instance of CASAuthentication. 
 var cas = new CASAuthentication({
     cas_url     : 'https://login.oregonstate.edu/cas/login',
-    service_url : '10.214.154.52:3000/user/login/cas'
+    service_url : 'http://fw-libnav.eecs.oregonstate.edu:3000/user/login/cas'
 });
 
 
 /* GET user login */
 router.get('/login', function (req, res, next) {
     res.redirect(cas.cas_url);
+});
+
+/* GET user login */
+router.get('/login/cas', function (req, res, next) {
+    res.json(JSON.stringify(req.body()));
 });
 
 /* POST user login */
@@ -26,6 +31,8 @@ router.post('/login', function (req, res, next) {
 router.get('/login/master', function (req, res, next) {
     res.render('user/login');
 });
+
+
 
 /* POST user login for master */
 router.post('/login/master', function (req, res, next) {
