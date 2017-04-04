@@ -1,24 +1,35 @@
 var express = require('express');
 var router = express.Router();
 var user = require('../classes/user');
-var CASAuthentication = require('cas-authentication');
-
-
-// Create a new instance of CASAuthentication. 
-var cas = new CASAuthentication({
-    cas_url     : 'https://login.oregonstate.edu/cas/login',
-    service_url : 'http://fw-libnav.eecs.oregonstate.edu:3000/user/login/cas'
-});
-
+var request = require('request');
+var parseString = require('xml2js').parseString;
 
 /* GET user login */
-router.get('/login', function (req, res, next) {
-    res.redirect(cas.cas_url);
+//router.get('/login', cas.bounce_redirect);
+router.get('/login', function(req, res, next){
+	res.redirect('https://login.oregonstate.edu/cas/login?service=http://fw-libnav.eecs.oregonstate.edu:3000/user/cas/validate');
 });
 
 /* GET user login */
-router.get('/login/cas', function (req, res, next) {
-    res.json(JSON.stringify(req.body()));
+router.get('/cas/validate', function (req, res, next) {
+	request('https://login.oregonstate.edu/cas/serviceValidate?ticket=' + 
+		req.query.ticket + 
+		'&service=http://fw-libnav.eecs.oregonstate.edu:3000/user/cas/validate',
+		function(error, responce, body){
+			parseString(body, {trim: true}, function (err, result) {
+				console.dir(result);
+				console.dir(result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0]);
+			});
+		});
+	//https://login.oregonstate.edu/cas/serviceValidate?ticket=ST-1-klasfKF398FLKaa&service=http://example.oregonstate.edu
+
+});
+
+router.get('/cas/authorize', function(req,res,next){
+	console.log('/cas/authorize');
+	console.log(req.body);
+	console.log(req.query);
+
 });
 
 /* POST user login */

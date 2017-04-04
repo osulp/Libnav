@@ -320,3 +320,5 @@ jspm_packages
 
 /config/config.json
 *.tar
+
+sftp-config.json
