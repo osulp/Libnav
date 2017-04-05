@@ -165,6 +165,7 @@ function submitForm(data, url) {
         data: data
     })
         .done(function (data) {
+            console.log(data)
             var result = JSON.parse(data);
             if (result) {
 
