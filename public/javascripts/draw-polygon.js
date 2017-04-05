@@ -11,6 +11,13 @@ var count;
 var pointArray = [];
 var result = [];
 
+/*****************************
+ * renderPolygons
+ * arguments:
+ * svg: object containing XML data from the map
+ * data: object containing information about the location to be drawn on the map
+ * Return: none
+ *****************************/
 function renderPolygons(svg, data) {
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -19,18 +26,11 @@ function renderPolygons(svg, data) {
     console.log(data);
     points = JSON.parse(data.data_point)
 
+    console.log(points[0])
 
     var attrArray = []
 
-       var foo = svg.append('g').attr('class', 'newLayer')/*.append('text')
-                .attr("x", 200)
-                .attr("y", 100)
-                .style("fill", "black")
-                .style("font-size", "20px")
-                .attr("dy", ".35em")
-                .attr("text-anchor", "middle")
-                .style("pointer-events", "none")
-                .text("hello world")*/
+       var foo = svg.append('g').attr('class', 'newLayer')
             .text("hello world")
                 .style('fill', 'black')
             .append("polygon")
@@ -54,24 +54,50 @@ function renderPolygons(svg, data) {
         .style("stroke", "0cff00")
         .style("opacity", 0.5);
 
-    svg.append("polygon")
-        .text("hello world")
-        .style('z-index', 100)
-        .style('fill', 'black');
 
-
-    d3.selectAll();
-
-
-    console.log(foo)
+    var g = getCenter(points);
+    svg.append('text')
+        .attr('x', g.x )
+        .attr('y', g.y)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .text(data.name)
 
 }
 
+function getCenter(points){
+    var points = points.split(" ");
+    
+    console.log(points)
 
-function selectByShape(mainMapSVG) {
+
+    var point1 = points[0].split(",");
+    console.log(point1[0]);
+    console.log(point1[1]);
+    var point2 =  points[2].split(",");
+
+    var center = {
+        'x' : (Number(point1[0]) + Number(point2[0]))/2,
+        'y' : (Number(point1[1]) + Number(point2[1]))/2
+    }
+
+    return center;
+}
+
+
+
+/*****************************
+ * selecByShape
+ * arguments:
+ * svg: object containing XML data from the map
+ * Return: none
+ * This function will derive data for the location forms in order to make it so that the 
+ * shape data is saved to the database. Must derive the corners for all rectangles and ellipses
+ *****************************/
+function selectByShape(svg) {
 
     //select rectangles
-    var rects = mainMapSVG.selectAll("rect");
+    var rects = svg.selectAll("rect");
     // rects.attributes.getNamedItem("fill").value = "white";
 
     //give rectangles fill
@@ -82,7 +108,7 @@ function selectByShape(mainMapSVG) {
     });
 
     rects.on("mouseenter", function () {
-        this.attributes.getNamedItem("fill").value = "lightblue";
+        this.attributes.getNamedItem("fill").value = "#5bc0de";
     });
 
     rects.on("mouseleave", function () {
@@ -90,8 +116,8 @@ function selectByShape(mainMapSVG) {
     });
 
 
-    //get data on click
-    rects.on("click", function () {
+    //get data from map
+        rects.on("click", function () {
         var values = {
             "x": this.attributes.getNamedItem("x").value,
             "y": this.attributes.getNamedItem("y").value,
@@ -99,6 +125,7 @@ function selectByShape(mainMapSVG) {
             "height": this.attributes.getNamedItem("height").value
         }
 
+        //derive each corner in x,y coordinates
         var p = {
             point1: {
                 x: values.x,
@@ -119,33 +146,30 @@ function selectByShape(mainMapSVG) {
             }
         };
 
+        //save coordinates for the form in the form "x,y x,y x,y x,y"
         data = p.point1.x + ',' + p.point1.y + ' ' +  p.point2.x + ',' + p.point2.y + ' '
              +  p.point3.x + ',' + p.point3.y + ' ' +  p.point4.x + ',' + p.point4.y 
 
-        console.log(data);
-        /* var x = this.attributes.getNamedItem("x").value;
-         var y = this.attributes.getNamedItem("y").value;
-         var rectW = this.attributes.getNamedItem("width").value;
-         var rectH = this.attributes.getNamedItem("height").value;
-         var rectInfo = " x: " + x + " y: " + y + " rectW: " + rectW + " rectH: " + rectH;*/
+    
+     
         console.log(data);
         this.attributes.getNamedItem("fill").value = "red";
     });
 
 
     //polygons
-    var polygon = mainMapSVG.selectAll("polygon");
+    var polygon = svg.selectAll("polygon");
     console.log(polygon);
 
-    _.times(polygon._groups[0].length-1, function (g) {
+  /*  _.times(polygon._groups[0].length-1, function (g) {
 
         polygon._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
-    });
+    });*/
 
     polygon.on("mouseenter", function () {
 
-        this.attributes.getNamedItem("fill").value = "lightgreen";
+        this.attributes.getNamedItem("fill").value = "#5cb85c";
 
     });
 
@@ -167,7 +191,7 @@ function selectByShape(mainMapSVG) {
     });
 
     //elipses
-    var ellipse = mainMapSVG.selectAll("ellipse");
+    var ellipse = svg.selectAll("ellipse");
 
 
     _.times(ellipse._groups[0].length, function (g) {
@@ -178,27 +202,50 @@ function selectByShape(mainMapSVG) {
 
     ellipse.on("mouseenter", function () {
 
-        this.attributes.getNamedItem("fill").value = "lightred";
+        this.attributes.getNamedItem("fill").value = "#428bca";
 
     });
     ellipse.on("mouseleave", function () {
         this.attributes.getNamedItem("fill").value = "white";
     });
 
+
+    //derives a polygon based upon the ellipse's attributes
     ellipse.on("click", function () {
-        data = {
+        var ellipseVal =  {
             "cx": this.attributes.getNamedItem("cx").value,
             "cy": this.attributes.getNamedItem("cy").value,
             "rx": this.attributes.getNamedItem("rx").value,
             "ry": this.attributes.getNamedItem("ry").value
         }
-        console.log(data);
+        
+        //determines x,y coordinates
+        var corners = {
+            point1 : {
+                  'x' : Number(ellipseVal.cx) - Number(ellipseVal.rx),
+                  'y' :  Number(ellipseVal.cy) - Number(ellipseVal.ry)
+            },
+             point2 : {
+                  'x' : Number(ellipseVal.cx) + Number(ellipseVal.rx),
+                  'y' :  Number(ellipseVal.cy) - Number(ellipseVal.ry)
+            },
+             point3 : {
+                  'x' : Number(ellipseVal.cx) + Number(ellipseVal.rx),
+                  'y' :  Number(ellipseVal.cy) + Number(ellipseVal.ry)
+            },
+            point4 : {
+                  'x' : Number(ellipseVal.cx) - Number(ellipseVal.rx),
+                  'y' :  Number(ellipseVal.cy) + Number(ellipseVal.ry)
+            }
+            
+            }
 
-        /*  var cx = this.attributes.getNamedItem("cx").value;
-         var cy = this.attributes.getNamedItem("cy").value;
-         var rx = this.attributes.getNamedItem("rx").value;
-         var ry = this.attributes.getNamedItem("ry").value;
-         var ellipseInfo = " cx: " + cx + " cy: " + cy + " rx: " + rx + " ry: " + ry;*/
+
+            //produces test tring in form "x,y x,y x,y x,y"
+            data = corners.point1.x + ',' + corners.point1.y + ' ' +  corners.point2.x + ',' + corners.point2.y + ' '
+             
+             +  corners.point3.x + ',' + corners.point3.y + ' ' +  corners.point4.x + ',' + corners.point4.y 
+    
         console.log(data);
         this.attributes.getNamedItem("fill").value = "red";
     });
@@ -207,6 +254,13 @@ function selectByShape(mainMapSVG) {
     //});
 }
 
+/*****************************
+ * drawByButton
+ * arguments:
+ * svg: object containing XML data from the map
+ * Return: none
+ * Allows for shapes to be drawn point by point
+ *****************************/
 function drawByButton(svg) {
 
     count = 0;
@@ -293,7 +347,11 @@ function formatToolTipHTML(location, name) {
     }
 }
 
-
+/*****************************
+ * cleanUpTag
+ * location: the id of a location in the database
+ * takes all tags from a query and combines into a string for use in the tool tip
+ *******************************/
 function cleanUpTags(location) {
     var tagArray = []
     var t = 0
@@ -310,9 +368,14 @@ function cleanUpTags(location) {
 
     return tagArray;
 
-
 }
 
+
+/*****************************
+ * cleanUpAttrs
+ * location: the id of a location in the database
+ * takes all attributes from a query and combines into a string for use in the tool tip
+ *******************************/
 function cleanUpAttrs(location) {
 
 
@@ -332,7 +395,12 @@ function cleanUpAttrs(location) {
     return attrArray
 }
 
-
+/*****************************
+ * getTags
+ * location: the id of a location in the database
+ * callback: javascript callback to return the query results for  the cleanUpTags function 
+ * queries the database for all tags with the matching location id
+ *******************************/
 function getTags(location, callback) {
 
     console.log("inside getTags");
@@ -358,6 +426,12 @@ function getTags(location, callback) {
     return temp;
 }
 
+/*****************************
+ * getAttributes
+ * location: the id of a location in the database
+ * callback: javascript callback to return the query results for  the cleanUpAttrs function 
+ * queries the database for all attributes with the matching location id
+ *******************************/
 function getAttributes(location, callback) {
     var temp = false
     $.ajax({
@@ -378,34 +452,4 @@ function getAttributes(location, callback) {
         });
     return temp;
 }
-
-function selectLocation(svg) {
-    var polygons = svg.selectAll("polygon");
-    var rectangles = svg.selectAll("rect");
-    var paths = svg.selectAll("path")
-
-
-    rectangles.on("mouseenter", function () {
-        this.attributes.getNamedItem("fill").value = "lightred";
-    })
-
-    rectangles.on("mouseleave", function () {
-        this.attributes.getNamedItem("fill").value = "white";
-    })
-
-    polygons.on("mouseenter", function () {
-        this.attributes.getNamedItem("fill").value = "lightred";
-    })
-
-    polygons.on("mouseleave", function () {
-        this.attributes.getNamedItem("fill").value = "white";
-    })
-
-}
-
-function popUp(d3Item) {
-
-
-}
-
 

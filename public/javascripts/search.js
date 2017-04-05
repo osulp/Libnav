@@ -26,12 +26,7 @@ function getSearchTerms(){
         return terms;
 }
 
-function selectShapeByName(svg, id){
-    var p = d3.selectAll('#poly-' + id);
 
-    p.style('fill', 'blue')
-
-}
 
 function fuseSearch(searchString){
     searchResults = {};
@@ -85,3 +80,8 @@ function returnAllNames(id){
 
 }
 
+function selectShapeByName(svg, id){
+    var p = d3.selectAll('#poly-' + id);
+    p.style('fill', 'blue')
+
+}
