@@ -65,7 +65,7 @@ exports.checkUser = function(onid, callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT * FROM user WHERE onid = ?', onid, function (error, results, fields) {
+    db.connection.query('SELECT * FROM user WHERE onid = ? LIMIT 1', onid, function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);

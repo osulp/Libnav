@@ -6,40 +6,52 @@ var request = require('request');
 var parseString = require('xml2js').parseString;
 
 /* GET user login */
-//router.get('/login', cas.bounce_redirect);
 router.get('/login', function(req, res, next){
-	res.redirect('https://login.oregonstate.edu/cas/login?service=http://fw-libnav.eecs.oregonstate.edu:3000/user/cas/validate');
+	res.redirect('https://login.oregonstate.edu/cas/login?service=http://fw-libnav.eecs.oregonstate.edu:3000/user/login/authenticate');
+	
+
 });
 
 /* GET user login */
-router.get('/cas/validate', function (req, res, next) {
+router.get('/login/authenticate', function (req, res, next) {
+
+	console.log(req.query.ticket);
+
 
 	// makes requres to cas with token to get session infomation
 	request('https://login.oregonstate.edu/cas/serviceValidate?ticket=' + 
 		req.query.ticket + 
-		'&service=http://fw-libnav.eecs.oregonstate.edu:3000/user/cas/validate',
+		'&service=http://fw-libnav.eecs.oregonstate.edu:3000/user/login/authenticate',
 		function(error, responce, body){
 
 			// parse cas xml
 			parseString(body, {trim: true}, function (err, result) {
-				// retrives onid from cas xml
-				console.log(result);
-				var onid = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
 
-				console.log(onid);
+				// retrives onid from cas xml
+				var onid = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
+				console.log(onid)
+
+				// Query database for matching onids
 				userModal.checkUser(onid,function(result){
-					console.log(result);
-					if(result != null){
-						req.session.isAuthenticated = true;
+					for(var r in result){
+						console.log(result[r].onid + ' ? ' + onid );
+						if(result[r].onid == onid){
+							req.session.isAuthenticated = true;
+						}
+					}
+
+					if (req.session.isAuthenticated) {
 						res.render('dashboard/index', {session: true});
 					} else {
 						res.render('error/login');
 
 					}
+
 				});
 			});
 		});
 	//https://login.oregonstate.edu/cas/serviceValidate?ticket=ST-1-klasfKF398FLKaa&service=http://example.oregonstate.edu
+
 
 });
 

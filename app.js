@@ -9,6 +9,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fileUpload = require('express-fileupload');
 
+
+
 var config = null;
 
 
@@ -90,6 +92,10 @@ app.use(session({
     saveUninitialized: false, // don't create session until something stored
     secret: 'keyboard cat'
 }));
+
+// Cas Setup
+
+
 
 // setting routes
 app.use('/', routes);
