@@ -21,7 +21,7 @@ exports.insertUser = function (data, callback) {
 
 };
 
-exports.deleteUuser = function(callback){
+exports.deleteUser = function(id, callback){
     // create database connection
     db.createConnection();
 
@@ -29,7 +29,7 @@ exports.deleteUuser = function(callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('DELETE FROM user where id = ?', function (error, results, fields) {
+    db.connection.query('DELETE FROM user WHERE id = ?', id, function (error, results, fields) {
         if (error) throw error;
         console.log(results);
         callback(results);

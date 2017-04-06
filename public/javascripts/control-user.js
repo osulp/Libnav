@@ -1,5 +1,3 @@
-var svg;
-
 /**
  * Validation rules for all forms
  * @type {{name: {title: string, required: boolean, alphaNumeric: boolean}, number: {title: string, required: boolean, numeric: boolean}, capacity: {title: string, required: boolean, numeric: boolean}, url: {title: string, required: boolean, url: boolean}}}
@@ -28,7 +26,9 @@ var svg;
  */
  $(function () {
 
-    getUsers();
+    // initialize ui with data
+    initialize(); 
+
     // Initializes save result modal
     $('#modal-result').modal({'show': false});
 
@@ -37,6 +37,7 @@ var svg;
         clearInputs();
         enableBtns();
         resetModal();
+        updateTable();
     })
 
     // When form is submitted
@@ -66,6 +67,17 @@ var svg;
 
 });
 
+ /** Initilizes user form with data */
+ function initialize(){
+
+
+   $.when(getUsers()).done(function(userJSON){
+    var users = JSON.parse(userJSON);
+    users = modifyUserData(users);
+    buildUserTable(users);
+})
+}
+
 /**
  * Submits form data using ajax
  * @param data
@@ -82,24 +94,23 @@ var svg;
         console.log(data);
         var result = JSON.parse(data);
         if (result) {
+            // shows modal on success
+            $('#modal-result').modal('show');
+            $('#modal-message-success').toggleClass('hidden');
+        }
+        else {
+            // display error message
+            // shows modal on success
+            $('#modal-result').modal('show');
+            $('#modal-message-warning').toggleClass('hidden');
 
-                    // shows modal on success
-                    $('#modal-result').modal('show');
-                    $('#modal-message-success').toggleClass('hidden');
-                }
-                else {
-                    // display error message
-                    // shows modal on success
-                    $('#modal-result').modal('show');
-                    $('#modal-message-warning').toggleClass('hidden');
+            // Enable buttons for editing
+            enableBtns();
+        }
 
-                    // Enable buttons for editing
-                    enableBtns();
-                }
-
-            })
+    })
     .fail(function () {
-        console.log("Form submit failed");
+        console.log("ERROR: insert user ajax call failed");
     });
 }
 
@@ -212,32 +223,54 @@ var svg;
 }
 
 /* - - - - Datatable functionality - - - - */
-function getUsers(){
-    $.ajax({
+
+function updateTable(){
+    $('#user-table tbody').empty();
+    $.when(getUsers()).done(function(userJSON){
+        var users = JSON.parse(userJSON);
+        users = modifyUserData(users);
+        buildUserTable(users);
+    })
+}
+/**
+ * Gets all user from database
+ * @return Json of user objects
+ */
+ function getUsers(){
+    return $.ajax({
         type: "GET",
         async: true,
         url: '/userapi/get'
-    })
-    .done(function (data) {
-        console.log(data)
-        var result = JSON.parse(data);
-        result = modifyUserData(result);
-        console.log(result);
-        buildUserTable(result);
-
-    })
-    .fail(function () {
-        console.log("Form submit failed");
     });
+}
+
+/**
+ * Deletes user from database with id
+ * @param  {[int]} id [id of user]
+ * @return {[json]} results of sql query
+ */
+ function deleteUser(id){
+    $.ajax({
+        type: "GET",
+        async: true,
+        url: '/userapi/delete/' + id
+    })
+    .done(function(results){
+        $('#user-row-' + id).remove()
+    })
+    .fail(function(){
+        console.log("ERROR: delte user ajax call failed");
+    })
 }
 
 /**
  * Builds table of users
  * @param  {[type]}
  */
-function buildUserTable(data){
+ function buildUserTable(data){
     $('#user-table').dataTable({           
         destroy: true,
+        "order": [[0, "dec"]],
         data: data,
         "columns": [
         {"data": "id"},
@@ -251,6 +284,7 @@ function buildUserTable(data){
     // Btn delete user
     $('#user-table').on('click', '[id*="btn-delete"]', function(){
         var id = this.id.replace('btn-delete-', '');
+        deleteUser(id);
     });
 }
 /**
@@ -258,7 +292,7 @@ function buildUserTable(data){
  * @param  {[type]}  
  * @return {[type]} 
  */
-function modifyUserData(data){
+ function modifyUserData(data){
     for(var d in data){
         data[d]['options'] = '<div id="btn-delete-'+ data[d]['id'] + '" class="btn btn-danger">Delete</div>';
         data[d]['DT_RowId'] = 'user-row-' + data[d]['id'];
@@ -350,7 +384,6 @@ function modifyUserData(data){
  function validateData(data) {
     var results = true;
     for (var d in data) {
-        console.log(data[d]);
         if (!data[d]) {
 
             results = false;
