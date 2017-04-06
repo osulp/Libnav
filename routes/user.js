@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var user = require('../classes/user');
-var userModal = require('../module/user');
+var userModal = require('../modal/user');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
@@ -23,12 +23,15 @@ router.get('/cas/validate', function (req, res, next) {
 			// parse cas xml
 			parseString(body, {trim: true}, function (err, result) {
 				// retrives onid from cas xml
+				console.log(result);
 				var onid = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
 
-				userModal.checkUser(onid,function(results){
-					if(results != null){
+				console.log(onid);
+				userModal.checkUser(onid,function(result){
+					console.log(result);
+					if(result != null){
 						req.session.isAuthenticated = true;
-						res.render('/dashboard', {session: true});
+						res.render('dashboard/index', {session: true});
 					} else {
 						res.render('error/login');
 
