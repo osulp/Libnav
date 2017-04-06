@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <didv id="wrapper">
+    <div id="wrapper">
         {{> nav }}
         {{> dashboard/sidebar }}
 
@@ -25,7 +25,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Users</h1>
+                        <h1 class="page-header">Users Permissions</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -72,8 +72,6 @@
                                         <span id="onidError" class="help-block"></span>
                                     </div>
                                 </div> <!-- / last name !-->
-                         
-
 
                                 <div class="col-md-3">
                                     <!-- Form Control !-->
@@ -88,17 +86,25 @@
 
                 <div class="row">
                     <div class="col-lg-12">
+                        <h2>Current Users</h2>
 
-                        <table id="example" class="display" width="100%"></table>
-                    </div>
-                </div>
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
+                        <table id="user-table" class="table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>First</th>
+                                    <th>Last</th>
+                                    <th>Onid</th>
+                                    <th>Options</th>
+                                </tr> 
+                            </thead>
+                        </table>
+                    </div> <!-- /.col-lg-12 !-->
+                </div> <!-- /.row !-->
+            </div><!-- /.container-fluid -->
+        </div><!-- /#page-wrapper -->
         {{> footer }}
-    </div>
-    <!-- /#wrapper -->
+    </div> <!-- /#wrapper -->
 
     <!-- Result Modal -->
     <div id="modal-result" class="modal fade" role="dialog">
@@ -106,44 +112,47 @@
 
             <!-- Modal content-->
             <div class="modal-content">
+                <!-- Mmodal header !-->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Save Status</h4>
-                </div>
+                </div> <!-- / Modal Header !-->
+
+                <!-- Modal Body !-->
                 <div class="modal-body">
                     <h4 id="modal-message-success" class="alert alert-success hidden">User has been saved</h4>
-                    <h4 id="modal-message-warning" class="alert alert-warning hidden">An error occurred and user
-                        was not saved</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="/dashboard" class="btn btn-default">Back to Dashboard</a>
-                        <button id="btn-model-new" type="button" class="btn btn-primary" data-dismiss="modal">New User
-                        </button>
-                        <button id="btn-model-close" type="button" class="btn btn-warning" data-dismiss="modal">Close
-                        </button>
-                    </div>
-                </div>
+                    <h4 id="modal-message-warning" class="alert alert-warning hidden">An error occurred and user was not saved</h4>
+                </div> <!-- / Modal Body !-->
 
-            </div>
-        </div>
+                <!-- Modal Footer !-->
+                <div class="modal-footer">
+                    <a href="/dashboard" class="btn btn-default">Back to Dashboard</a>
+                    <button id="btn-model-new" type="button" class="btn btn-primary" data-dismiss="modal">New User
+                    </button>
+                    <button id="btn-model-close" type="button" class="btn btn-warning" data-dismiss="modal">Close
+                    </button>
+                </div> <!-- / modal footer !-->
+            </div> <!-- /modal content !-->
+        </div> <!-- /.modal-dialog !-->
+    </div> <!-- /#modal-results !-->
 
 
-        {{> dashboard/javascript }}
+    {{> dashboard/javascript }}
 
-        <!-- ApprovedJS !-->
-        <script src="/approvejs/approve.min.js"></script>
+    <!-- ApprovedJS !-->
+    <script src="/approvejs/approve.min.js"></script>
 
-        <!-- Form Controls JS !-->
-        <script src="/public/javascripts/control-user.js"></script>
+    <!-- Form Controls JS !-->
+    <script src="/public/javascripts/control-user.js"></script>
 
-        <!-- Datatables !-->
-        <script src="/datatable/js/jquery.dataTables.js"></script>
-        <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
-        <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
-        <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
+    <!-- Datatables !-->
+    <script src="/datatable/js/jquery.dataTables.js"></script>
+    <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
+    <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
+    <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
 
-        <script>
+    <script>
 
-        </script>
+    </script>
 
-    </body>
+</body>

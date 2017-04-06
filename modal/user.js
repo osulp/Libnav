@@ -39,7 +39,7 @@ exports.deleteUuser = function(callback){
     db.connection.end();
 };
 
-exports.getUser = function(callback){
+exports.getUsers = function(callback){
     // create database connection
     db.createConnection();
 

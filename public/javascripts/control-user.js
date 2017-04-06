@@ -28,7 +28,7 @@ var svg;
  */
  $(function () {
 
-
+    getUsers();
     // Initializes save result modal
     $('#modal-result').modal({'show': false});
 
@@ -38,7 +38,6 @@ var svg;
         enableBtns();
         resetModal();
     })
-
 
     // When form is submitted
     $('form').submit(function (event) {
@@ -73,38 +72,35 @@ var svg;
  * @param url
  */
  function submitForm(data, url) {
-// for testing
-console.log(data);
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: url,
+        data: data
+    })
+    .done(function (data) {
+        console.log(data);
+        var result = JSON.parse(data);
+        if (result) {
 
-$.ajax({
-    type: "POST",
-    async: true,
-    url: url,
-    data: data
-})
-.done(function (data) {
-    console.log(data)
-    var result = JSON.parse(data);
-    if (result) {
+                    // shows modal on success
+                    $('#modal-result').modal('show');
+                    $('#modal-message-success').toggleClass('hidden');
+                }
+                else {
+                    // display error message
+                    // shows modal on success
+                    $('#modal-result').modal('show');
+                    $('#modal-message-warning').toggleClass('hidden');
 
-                // shows modal on success
-                $('#modal-result').modal('show');
-                $('#modal-message-success').toggleClass('hidden');
-            }
-            else {
-                // display error message
-                // shows modal on success
-                $('#modal-result').modal('show');
-                $('#modal-message-warning').toggleClass('hidden');
+                    // Enable buttons for editing
+                    enableBtns();
+                }
 
-                // Enable buttons for editing
-                enableBtns();
-            }
-
-        })
-.fail(function () {
-    console.log("Form submit failed");
-});
+            })
+    .fail(function () {
+        console.log("Form submit failed");
+    });
 }
 
 
@@ -166,7 +162,7 @@ $.ajax({
 /**
  * Resets resutls modal messages
  */
-function resetModal(){
+ function resetModal(){
     if(!$('#modal-message-success').hasClass('hidden')){
         $('#modal-message-success').toggleClass('hidden');
     }
@@ -214,6 +210,62 @@ function resetModal(){
     $('#btn-cancel').attr('disabled', false);
     $('#btn-cancel').prop('disabled', false);
 }
+
+/* - - - - Datatable functionality - - - - */
+function getUsers(){
+    $.ajax({
+        type: "GET",
+        async: true,
+        url: '/userapi/get'
+    })
+    .done(function (data) {
+        console.log(data)
+        var result = JSON.parse(data);
+        result = modifyUserData(result);
+        console.log(result);
+        buildUserTable(result);
+
+    })
+    .fail(function () {
+        console.log("Form submit failed");
+    });
+}
+
+/**
+ * Builds table of users
+ * @param  {[type]}
+ */
+function buildUserTable(data){
+    $('#user-table').dataTable({           
+        destroy: true,
+        data: data,
+        "columns": [
+        {"data": "id"},
+        {"data": "first"},
+        {"data": "last"},
+        {"data": "onid"},
+        {"data": "options"}
+        ]
+    });
+
+    // Btn delete user
+    $('#user-table').on('click', '[id*="btn-delete"]', function(){
+        var id = this.id.replace('btn-delete-', '');
+    });
+}
+/**
+ * Addes a row id and buttons to user object
+ * @param  {[type]}  
+ * @return {[type]} 
+ */
+function modifyUserData(data){
+    for(var d in data){
+        data[d]['options'] = '<div id="btn-delete-'+ data[d]['id'] + '" class="btn btn-danger">Delete</div>';
+        data[d]['DT_RowId'] = 'user-row-' + data[d]['id'];
+    }
+    return data;
+}
+
 
 /* - - - - Validation functionality - - - - */
 /**
@@ -278,11 +330,6 @@ function resetModal(){
         ShowError(result.approved, result.errors, input.name);
         ShowResults('success', input.name);
 
-        // saves that input is validated
-        //isValid[input.name] = result.approved;
-
-        // save form data
-        //formdata[input.name] = input.value;
     }
     else {
 
