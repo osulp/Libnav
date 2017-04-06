@@ -49,9 +49,6 @@
 
         var data = getInputData();
 
-        // Submit data
-        //submitForm(data, url);
-
         if (validateData(data)) {
             // Submit data
             submitForm(data, url);
@@ -69,8 +66,6 @@
 
  /** Initilizes user form with data */
  function initialize(){
-
-
    $.when(getUsers()).done(function(userJSON){
     var users = JSON.parse(userJSON);
     users = modifyUserData(users);
@@ -183,7 +178,6 @@
 }
 
 
-
 /**
  * Disables form control button
  *  for save, clear, and cancel
@@ -289,8 +283,8 @@ function updateTable(){
 }
 /**
  * Addes a row id and buttons to user object
- * @param  {[type]}  
- * @return {[type]} 
+ * @param  {[list of js objects]}  
+ * @return {[list of js objects]} 
  */
  function modifyUserData(data){
     for(var d in data){

@@ -56,3 +56,21 @@ exports.getUsers = function(callback){
     // close connection to database
     db.connection.end();
 };
+
+exports.checkUser = function(onid, callback){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('SELECT * FROM user WHERE onid = ?', onid, function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+};
