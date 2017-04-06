@@ -5,39 +5,7 @@ var svg;
  * @type {{name: {title: string, required: boolean, alphaNumeric: boolean}, number: {title: string, required: boolean, numeric: boolean}, capacity: {title: string, required: boolean, numeric: boolean}, url: {title: string, required: boolean, url: boolean}}}
  */
 var rules = {
-    'name': {
-        title: 'Location Name',
-        required: true,
-        format: {regex: /[0-9a-zA-Z ]/}
-    },
-    'floor': {
-        title: 'Floor',
-        required: true,
-        numeric: true
-    },
-    'number': {
-        title: 'Room Number',
-        required: true,
-        numeric: true
-    },
-    'capacity': {
-        title: 'Room Capacity',
-        required: true,
-        numeric: true
-    },
-    'url': {
-        title: 'Service URL',
-        required: false,
-        url: true
-    },
-    'location': {
-        title: 'Location',
-        required: true
-    },
-    'entry': {
-        title: 'Entry Point',
-        required: true
-    },
+    
     'first':{
         title: 'Frist name',
         required: true,
@@ -60,28 +28,10 @@ var rules = {
  */
 $(function () {
 
-    // Loads Map
-    loadMap(1);
 
     // Initializes save result modal
     $('#modal-result').modal({'show': false});
 
-    // Changes Floor depending on dropdown selection
-    $('#floor').change(function () {
-        // remove the current map
-        $('#map-wrapper').empty();
-
-        // load new map
-        loadMap($(this).val());
-
-        // clear poly when floor switches
-        clear(svg);
-
-        // hide draw location
-        $('#location-draw-controls').addClass('hidden');
-
-
-    });
 
     // When form is submitted
     $('form').submit(function (event) {
@@ -108,60 +58,6 @@ $(function () {
         return false;
     });
 
-    // Btn Clears polygon from map
-    $('#btn-location-clear').on('click', function () {
-        clear(svg);
-    });
-
-    // Btn Fills map polygon
-    $('#btn-location-fill').on('click', function () {
-        fill(svg);
-    });
-
-    // Btn Draw Location
-    $('#btn-location-draw').on('click', function () {
-        $('#location-draw-controls').toggleClass('hidden');
-        drawByButton(svg);
-    });
-
-    // Btn saves draw location
-    $('#btn-location-save').on('click', function () {
-        // save data points from drawn location.
-        // Matthew put call to save method here
-    });
-
-    // Btn Shows Navigation Controls
-    $('#btn-navigation').on('click',function(){
-        $('#navigation-controls').toggleClass('hidden');
-    });
-
-    // Btn Select Location
-    $('#btn-location-select').on('click', function () {
-        selectByShape(svg);
-    });
-
-
-    // Btn Show Grid
-    $('#btn-navigation-show').on('click', function () {
-        console.log("Showing Grid");
-        showGrid();
-    });
-
-    // Btn Hide Grid
-    $('#btn-navigation-hide').on('click', function () {
-        hideGrid();
-    });
-
-    // Btn Clear Grid
-    $('#btn-navigation-clear').on('click', function () {
-        // Stephen put call to clear entry point method here
-    });
-
-    // Btn Save Entry Point
-    $('#btn-navigation-save').on('click', function () {
-        // Stephen put call to save entity point method here
-        // getEntry();
-    })
 });
 
 /**
@@ -204,35 +100,6 @@ function submitForm(data, url) {
         });
 }
 
-/**
- * splits text in to array
- * removes no alphanumeric characters
- * @param text
- * @returns {Array}
- */
-function splitText(text) {
-    var newtext = null;
-
-    if (text != ' ') {
-
-        // remove non alphanumeric characters and replace with space
-        text = text.replace(/[^0-9a-zA-Z, ]/gi, '');
-
-        // split text on ',' and ' '
-        text = text.split(/[ ,]+/);
-
-        // creating new text vairiable
-        newtext = [];
-
-        // scanning parsed text for empty strings.
-        for (var t in text) {
-            if (text[t] != "") {
-                newtext.push([null, text[t]]);
-            }
-        }
-    }
-    return newtext;
-}
 
 /**
  * Gets input data from form
@@ -242,9 +109,6 @@ function getInputData() {
     var data = {};
     // select all form input and textares
     var inputs = $('form :input:not(:button) ');
-
-    inputs.push(getLocation());
-    inputs.push(getEntry());
 
     // get form input data
     for (var i = 0; i < inputs.length; i++) {
@@ -263,40 +127,10 @@ function getInputData() {
                 data[input.name] = false;
             }
         }
-        else if (input.name == 'tag' || input.name == 'attribute') {
-            if (validataSearchAtt(input)) {
-                data[input.name] = splitText(input.value);
-            }
-            else {
-                data[input.name] = null;
-            }
-
-        }
 
     }
 
     return data;
-}
-
-/**
- * loads svg map based on id
- * @param id
- */
-function loadMap(id) {
-    var map = '/public/images/floor-' + id + '.svg';
-    d3.text(map, function (error, externalSVG) {
-        if (error) throw error;
-
-        // select map wrapper
-        var mapwrapper = d3.select('#map-wrapper');
-        mapwrapper.html(externalSVG);
-
-        svg = mapwrapper.select("svg");
-
-        getKnowLocations(id);
-        loadGridForKnown(svg);
-
-    });
 }
 
 /**
@@ -318,39 +152,6 @@ function disableBtns() {
     $('#btn-cancel').prop('disabled', true);
 }
 
-
-function getKnowLocations(id) {
-    $.ajax({
-        type: "get",
-        async: true,
-        url: '/mapapi/getAllLocation'
-    })
-        .done(function (data) {
-            var result = JSON.parse(data);
-            if (result) {
-
-                // display success message
-
-                for (var r in result) {
-
-                    if (result[r].data_point != null && result[r].floor == id) {
-
-                        renderPolygons(svg, result[r]);
-                    }
-                }
-
-            }
-            else {
-                // display error message
-                console.log('Location for retrived');
-            }
-
-        })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });
-}
-
 /**
  * Enables form control button
  *  for save, clear, and cancel
@@ -368,30 +169,6 @@ function enableBtns() {
     // Disable delete button
     $('#btn-cancel').attr('disabled', false);
     $('#btn-cancel').prop('disabled', false);
-}
-
-/**
- * Gets data points from draw-polygons.js
- *  for marked locations
- */
-function getLocation() {
-    var input = {
-        name: 'location',
-        value: JSON.stringify(data)
-    };
-    return input;
-}
-
-/**
- * Gets the entry point for location on grid
- * @returns {{name: string, value}}
- */
-function getEntry() {
-    var input = {
-        name: 'entry',
-        value: "temp"
-    };
-    return input;
 }
 
 /* - - - - Validation functionality - - - - */
@@ -467,24 +244,6 @@ function validateInput(input) {
         //isValid[input.name] = result.approved;
     }
     return result.approved;
-}
-
-/**
- * Validates Tags and Attributes inputs
- * @param input
- * @returns {boolean}
- */
-function validataSearchAtt(input) {
-    var results = false;
-    if (input.value != '') {
-        results = true;
-        ShowResults('success', input.name);
-    }
-    else {
-        ShowError(0, [input.name + 's are suggested for location'], input.name);
-        ShowResults('warning', input.name);
-    }
-    return results;
 }
 
 /**

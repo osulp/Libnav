@@ -307,12 +307,12 @@ router.get('/details/:id', function (req, res, next) {
 
         /*location.getLocationById(req.params.id, function(results){
          res.render('dashboard/details', {session: true, data:results})
-         });*/
+     });*/
 
-        res.render('dashboard/details', {session: true, data: req.params.id})
-    } else {
-        res.render('error/login');
-    }
+     res.render('dashboard/details', {session: true, data: req.params.id})
+ } else {
+    res.render('error/login');
+}
 });
 
 /* details of location */
@@ -329,8 +329,34 @@ router.get('/details/data/:id', function (req, res, next) {
     }
 });
 
+/* Get User page */
+router.get('/user', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+        res.render('dashboard/user', {session: true});
+    } else {
+        res.render('error/login');
+    }
+});
 
-/* Get Map Upload   page */
+/* Get User page */
+router.post('/user', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+
+        // defining know data
+        var data = {
+            'fist': req.body.first,
+            'last': req.body.last,
+            'onid': req.body.onid,
+        };
+        console.log(data);
+
+
+    } else {
+        res.render('error/login');
+    }
+});
+
+/* Get Map Upload page */
 router.get('/mapupload', function (req, res, next) {
     if (req.session.isAuthenticated) {
         res.render('dashboard/mapupload', {session: true})
@@ -339,29 +365,24 @@ router.get('/mapupload', function (req, res, next) {
     }
 });
 
-
 router.post('/mapupload', function(req, res) {
- 
+
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
   var sampleFile = req.body.image;
-    console.log(sampleFile);
- 
+  console.log(sampleFile);
+
   // Use the mv() method to place the file somewhere on your server 
   /*mv(sampleFile, __dirname+ '/../public/images/', function(err) {
     if (err)
       return res.status(500).send(err);
  
     res.send('File uploaded!');
-  });*/
-    
-  fs.writeFile("image.jpg", sampleFile, (err) => {
-  if (err) throw err;
-  console.log('It\'s saved!');
+});*/
+
+fs.writeFile("image.jpg", sampleFile, (err) => {
+    if (err) throw err;
+    console.log('It\'s saved!');
 }); 
-    
 });
-
-
-
 
 module.exports = router;

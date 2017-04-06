@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ab">
+<head>
+    {{> head }}
+    <link rel="stylesheet" href="/datatable-bs/css/dataTables.bootstrap.css"/>
+    <!--<link rel="stylesheet" href="/datatable-responsive-bs/css/respnsive.bootstrap.css" />-->
+    <style>
+        #example {
+            max-height: 250px;
+        }
+
+        a div.btn {
+            margin: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        {{> nav }}
+        {{> dashboard/sidebar }}
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Users</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+
+                <!-- User Permission Form !-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form href="user" method="POST" role="form">
+                            <div class="row">
+                                <!-- First name input !-->
+                                <div class="col-md-3">
+                                    <div class="form-group" id="first-group">
+                                        <label for="first">First Name</label>
+                                        <input type="text" id="first" name="first" class="form-control"
+                                        placeholder="first name"
+                                        autofocus>
+                                        <p class="help-block">Enter user first name.</p>
+                                        <span id="firstError" class="help-block"></span>
+                                    </div>
+                                </div> <!-- / First name !-->
+
+                                <!-- Last name input !-->
+                                <div class="col-md-3">
+                                    <div class="form-group" id="last-group">
+                                        <label for="last">Last Name</label>
+                                        <input type="text" id="last" name="last" class="form-control"
+                                        placeholder="last name"
+                                        autofocus>
+                                        <p class="help-block">Enter user last name.</p>
+                                        <span id="lastError" class="help-block"></span>
+                                    </div>
+                                </div> <!-- / last name !-->
+
+                                <!-- omid name input !-->
+                                <div class="col-md-3">
+                                    <div class="form-group" id="onid-group">
+                                        <label for="onid">Onid Name</label>
+                                        <input type="text" id="onid" name="onid" class="form-control"
+                                        placeholder="onid name"
+                                        autofocus>
+                                        <p class="help-block">Enter user Onid.</p>
+                                        <span id="onidError" class="help-block"></span>
+                                    </div>
+                                </div> <!-- / last name !-->
+
+                                <div class="col-md-3">
+                                    <!-- Form Control !-->
+                                    <p class="input-label">Form Options</p>
+                                    <button type="submit" class="btn btn-success" id="btn-save">Save</button>
+                                    <button type="reset" class="btn btn-warning" id="btn-clear">Clear</button>
+                                    <button class="btn btn-danger" id="btn-cancel">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <table id="example" class="display" width="100%"></table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+        {{> footer }}
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Result Modal -->
+    <div id="modal-result" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Save Status</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 id="modal-message-success" class="alert alert-success hidden">Your location has been saved</h4>
+                    <h4 id="modal-message-warning" class="alert alert-warning hidden">An error occurred and you location
+                        was not saved</h4>
+                </div>
+                <div class="modal-footer">
+                    <a href="/dashboard" class="btn btn-default">Back to Dashboard</a>
+                    <button id="btn-model-close" type="button" class="btn btn-warning" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    {{> dashboard/javascript }}
+
+    <!-- ApprovedJS !-->
+    <script src="/approvejs/approve.min.js"></script>
+
+    <!-- Form Controls JS !-->
+    <script src="/public/javascripts/control-user.js" ></script>
+
+    <!-- Datatables !-->
+    <script src="/datatable/js/jquery.dataTables.js"></script>
+    <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
+    <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
+    <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
+
+    <script>
+
+    </script>
+
+</body>
