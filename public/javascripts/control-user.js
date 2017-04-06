@@ -4,8 +4,8 @@ var svg;
  * Validation rules for all forms
  * @type {{name: {title: string, required: boolean, alphaNumeric: boolean}, number: {title: string, required: boolean, numeric: boolean}, capacity: {title: string, required: boolean, numeric: boolean}, url: {title: string, required: boolean, url: boolean}}}
  */
-var rules = {
-    
+ var rules = {
+
     'first':{
         title: 'Frist name',
         required: true,
@@ -26,11 +26,18 @@ var rules = {
 /**
  * main form control load
  */
-$(function () {
+ $(function () {
 
 
     // Initializes save result modal
     $('#modal-result').modal({'show': false});
+
+    //  New user butten even handler
+    $('#btn-model-new').on('click', function(){
+        clearInputs();
+        enableBtns();
+        resetModal();
+    })
 
 
     // When form is submitted
@@ -65,20 +72,20 @@ $(function () {
  * @param data
  * @param url
  */
-function submitForm(data, url) {
+ function submitForm(data, url) {
 // for testing
-    console.log(data);
+console.log(data);
 
-    $.ajax({
-        type: "POST",
-        async: true,
-        url: url,
-        data: data
-    })
-        .done(function (data) {
-            console.log(data)
-            var result = JSON.parse(data);
-            if (result) {
+$.ajax({
+    type: "POST",
+    async: true,
+    url: url,
+    data: data
+})
+.done(function (data) {
+    console.log(data)
+    var result = JSON.parse(data);
+    if (result) {
 
                 // shows modal on success
                 $('#modal-result').modal('show');
@@ -95,9 +102,9 @@ function submitForm(data, url) {
             }
 
         })
-        .fail(function () {
-            console.log("Form submit failed");
-        });
+.fail(function () {
+    console.log("Form submit failed");
+});
 }
 
 
@@ -105,7 +112,7 @@ function submitForm(data, url) {
  * Gets input data from form
  * @returns {{}}
  */
-function getInputData() {
+ function getInputData() {
     var data = {};
     // select all form input and textares
     var inputs = $('form :input:not(:button) ');
@@ -120,7 +127,7 @@ function getInputData() {
              * if 'true': save input to data obj
              * if 'false': save false into data obj
              */
-            if (validateInput(input)) {
+             if (validateInput(input)) {
                 data[input.name] = input.value
             }
             else {
@@ -134,10 +141,47 @@ function getInputData() {
 }
 
 /**
+ * Gets input data from form
+ * @returns {{}}
+ */
+ function clearInputs() {
+    var data = {};
+    // select all form input and textares
+    var inputs = $('form :input:not(:button) ');
+
+    // get form input data
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+
+        // reset input value
+        input.value = "";
+
+        // reset results
+        ShowResults('clear', input.name);
+    }
+
+    return data;
+}
+
+/**
+ * Resets resutls modal messages
+ */
+function resetModal(){
+    if(!$('#modal-message-success').hasClass('hidden')){
+        $('#modal-message-success').toggleClass('hidden');
+    }
+    if(!$('#modal-message-warning').hasClass('hidden')){
+        $('#modal-message-warning').toggleClass('hidden');
+    }
+}
+
+
+
+/**
  * Disables form control button
  *  for save, clear, and cancel
  */
-function disableBtns() {
+ function disableBtns() {
 
     // Disable save button
     $('#btn-save').attr('disabled', true);
@@ -156,7 +200,7 @@ function disableBtns() {
  * Enables form control button
  *  for save, clear, and cancel
  */
-function enableBtns() {
+ function enableBtns() {
 
     // Disable save button
     $('#btn-save').attr('disabled', false);
@@ -179,7 +223,7 @@ function enableBtns() {
  * @param name
  * @constructor
  */
-function ShowError(show, errors, name) {
+ function ShowError(show, errors, name) {
     var errorhelp = $('#' + name + 'Error');
     errorhelp.empty();
     if (!show) {
@@ -193,23 +237,28 @@ function ShowError(show, errors, name) {
 
 /**
  * Added CSS styling for input errors and success
- * @param show
+ * @param status
  * @param name
  * @constructor
  */
-function ShowResults(show, name) {
+ function ShowResults(status, name) {
     var group = $('#' + name + '-group');
 
-    if (show == 'error') {
+    if (status == 'error') {
         group.addClass('alert alert-danger');
     }
-    else if (show == 'warning') {
+    else if (status == 'warning') {
         group.addClass('alert alert-warning');
     }
-    else if (show == 'success') {
+    else if (status == 'success') {
         group.removeClass('alert alert-danger');
         group.removeClass('alert alert-warning');
         group.addClass('alert alert-success');
+    }
+    else if(status == 'clear'){
+        group.removeClass('alert alert-danger');
+        group.removeClass('alert alert-warning');
+        group.removeClass('alert alert-success');
     }
 }
 
@@ -218,7 +267,7 @@ function ShowResults(show, name) {
  * @param input
  * @returns {*}
  */
-function validateInput(input) {
+ function validateInput(input) {
     // validate input
     var result = approve.value(input.value, rules[input.name]);
 
@@ -251,7 +300,7 @@ function validateInput(input) {
  * @param data
  * @returns {boolean}
  */
-function validateData(data) {
+ function validateData(data) {
     var results = true;
     for (var d in data) {
         console.log(data[d]);

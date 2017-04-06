@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var location = require('../modal/location');
 var navigation = require('../modal/navigation');
+var user = require('../modal/user');
 var multer = require('multer');
 var fs = require('fs');
 var mv = require('mv');
@@ -344,11 +345,16 @@ router.post('/user', function (req, res, next) {
 
         // defining know data
         var data = {
-            'fist': req.body.first,
-            'last': req.body.last,
             'onid': req.body.onid,
+            'first': req.body.first,
+            'last': req.body.last
+            
         };
         console.log(data);
+        user.insertUser(data, function(results){
+            console.log(results);
+            res.json(JSON.stringify(true));
+        });
 
 
     } else {

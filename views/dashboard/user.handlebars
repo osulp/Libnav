@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="wrapper">
+    <didv id="wrapper">
         {{> nav }}
         {{> dashboard/sidebar }}
 
@@ -36,13 +36,14 @@
                     <div class="col-lg-12">
                         <form href="user" method="POST" role="form">
                             <div class="row">
+
                                 <!-- First name input !-->
                                 <div class="col-md-3">
                                     <div class="form-group" id="first-group">
                                         <label for="first">First Name</label>
                                         <input type="text" id="first" name="first" class="form-control"
                                         placeholder="first name"
-                                        autofocus>
+                                        autofocus />
                                         <p class="help-block">Enter user first name.</p>
                                         <span id="firstError" class="help-block"></span>
                                     </div>
@@ -54,30 +55,31 @@
                                         <label for="last">Last Name</label>
                                         <input type="text" id="last" name="last" class="form-control"
                                         placeholder="last name"
-                                        autofocus>
+                                        autofocus />
                                         <p class="help-block">Enter user last name.</p>
                                         <span id="lastError" class="help-block"></span>
                                     </div>
                                 </div> <!-- / last name !-->
 
-                                <!-- omid name input !-->
+                                <!-- onid name input !-->
                                 <div class="col-md-3">
                                     <div class="form-group" id="onid-group">
                                         <label for="onid">Onid Name</label>
                                         <input type="text" id="onid" name="onid" class="form-control"
                                         placeholder="onid name"
-                                        autofocus>
+                                        autofocus />
                                         <p class="help-block">Enter user Onid.</p>
                                         <span id="onidError" class="help-block"></span>
                                     </div>
                                 </div> <!-- / last name !-->
+                         
+
 
                                 <div class="col-md-3">
                                     <!-- Form Control !-->
                                     <p class="input-label">Form Options</p>
                                     <button type="submit" class="btn btn-success" id="btn-save">Save</button>
                                     <button type="reset" class="btn btn-warning" id="btn-clear">Clear</button>
-                                    <button class="btn btn-danger" id="btn-cancel">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -109,37 +111,39 @@
                     <h4 class="modal-title">Save Status</h4>
                 </div>
                 <div class="modal-body">
-                    <h4 id="modal-message-success" class="alert alert-success hidden">Your location has been saved</h4>
-                    <h4 id="modal-message-warning" class="alert alert-warning hidden">An error occurred and you location
+                    <h4 id="modal-message-success" class="alert alert-success hidden">User has been saved</h4>
+                    <h4 id="modal-message-warning" class="alert alert-warning hidden">An error occurred and user
                         was not saved</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/dashboard" class="btn btn-default">Back to Dashboard</a>
+                        <button id="btn-model-new" type="button" class="btn btn-primary" data-dismiss="modal">New User
+                        </button>
+                        <button id="btn-model-close" type="button" class="btn btn-warning" data-dismiss="modal">Close
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <a href="/dashboard" class="btn btn-default">Back to Dashboard</a>
-                    <button id="btn-model-close" type="button" class="btn btn-warning" data-dismiss="modal">Close
-                    </button>
-                </div>
+
             </div>
-
         </div>
-    </div>
 
 
-    {{> dashboard/javascript }}
+        {{> dashboard/javascript }}
 
-    <!-- ApprovedJS !-->
-    <script src="/approvejs/approve.min.js"></script>
+        <!-- ApprovedJS !-->
+        <script src="/approvejs/approve.min.js"></script>
 
-    <!-- Form Controls JS !-->
-    <script src="/public/javascripts/control-user.js" ></script>
+        <!-- Form Controls JS !-->
+        <script src="/public/javascripts/control-user.js"></script>
 
-    <!-- Datatables !-->
-    <script src="/datatable/js/jquery.dataTables.js"></script>
-    <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
-    <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
-    <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
+        <!-- Datatables !-->
+        <script src="/datatable/js/jquery.dataTables.js"></script>
+        <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
+        <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
+        <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
 
-    <script>
+        <script>
 
-    </script>
+        </script>
 
-</body>
+    </body>
