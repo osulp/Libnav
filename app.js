@@ -7,6 +7,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fileUpload = require('express-fileupload');
+
+
 
 var config = null;
 
@@ -16,6 +19,7 @@ var routes = require('./routes/home');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
 var mapapi = require('./routes/mapapi');
+var userapi = require('./routes/userapi');
 var setup = null;
 
 // Defining application
@@ -67,6 +71,9 @@ app.use('/datatable', express.static(__dirname + '/node_modules/datatables.net/'
 app.use('/datatable-bs', express.static(__dirname + '/node_modules/datatables.net-bs/'));
 app.use('/datatable-responsive', express.static(__dirname + '/node_modules/datatables.net-responsive/'));
 app.use('/datatable-responsive-bs', express.static(__dirname + '/node_modules/datatables.net-responsive-bs/'));
+app.use('/express-fileupload', express.static(__dirname + '/node_modules/file-upload'));;
+app.use('/mv', express.static(__dirname + '/node_modules/mv'));;
+
 
 //fuse.js
 app.use('/fuse',  express.static(__dirname + '/node_modules/fuse.js'));
@@ -86,12 +93,16 @@ app.use(session({
     secret: 'keyboard cat'
 }));
 
+// Cas Setup
+
+
+
 // setting routes
 app.use('/', routes);
 app.use('/user', user);
 app.use('/dashboard', dashboard);
 app.use('/mapapi', mapapi);
-
+app.use('/userapi', userapi);
 // set setup script
 try{
     app.use('/setup', setup);
@@ -130,5 +141,8 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
+
+
+
 
 module.exports = app;

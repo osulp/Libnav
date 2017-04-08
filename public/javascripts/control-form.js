@@ -37,6 +37,21 @@ var rules = {
     'entry': {
         title: 'Entry Point',
         required: true
+    },
+    'first':{
+        title: 'Frist name',
+        required: true,
+        alpha: true,
+    },
+    'last':{
+        title: 'Last name',
+        required: true,
+        alpha: true,
+    },
+    'onid':{
+        title: 'Onid',
+        required: true,
+        alpha: true,
     }
 };
 
@@ -382,7 +397,7 @@ function getLocation() {
 function getEntry() {
     var input = {
         name: 'entry',
-        value: entryPoint
+        value: "temp"
     };
     return input;
 }

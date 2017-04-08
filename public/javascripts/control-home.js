@@ -1,16 +1,27 @@
-var knownLocations = null;
+// Contains array of locaiton objects
+var locations = null;
+
+// Contains the id of the current floor
 var floor = null;
+
+// Contains floor svg object
 var svg = null;
+
+// Contains array of object from database
 var searchTerm = null;
 
+// Contains array of grid objects
+var grids = null;
 
 $(function () {
 
     // Setting default floor
-    floor = 'floor-1';
+    floor = '1';
 
     // Initialize the libnav application
     initialize();
+
+    // get all grid()
 
     // get all terms for searching
     searchableTerms = getSearchTerms();
@@ -22,9 +33,10 @@ $(function () {
      *  load corresponding floor.
      */
     $('a[id*="floor-"]').on('click', function () {
-        floor = this.id;
+        floor = this.id.split('-')[1];
         $('#map-wrapper').empty();
-        loadMap(this.id);
+        $('#navgrid').empty();
+        loadMap();
 
     });
 
@@ -64,60 +76,59 @@ $(function () {
 });
 
 
-
 /**
-  * Gets Navigation Grid from database
-  */
-function getGridFromDB() {
+ * Gets all grids from database
+ * @returns {*}
+ */
+function getGrids() {
     $.ajax({
         type: "get",
         async: true,
-        url: '/mapapi/grid'
+        url: '/mapapi/grids'
     })
         .done(function (data) {
             var result = JSON.parse(data);
+            grids = result;
             if (result) {
 
                 // display success message
-                if(result.length!=0){
-                floorGridFromDB = JSON.parse(result[0].data);
+                if (result.length != 0) {
+                    
+                    floorGridFromDB = JSON.parse(result[0].data);
+                    console.log(floorGridFromDB);
                 }
-
-                loadGridForNavigation(svg);    
-
             }
             else {
-
-                loadGridForNavigation(svg);
                 // display error message
                 console.log('Location for retrived');
             }
-
         })
         .fail(function () {
             console.log("Location not retrieved");
         });
 }
 
+
 /**
  * Ajax call to get all know location from database
  * @param data
  * @param url
  */
-function getKnowLocations() {
+function getLocations() {
     return $.ajax({
         type: "get",
-        async: true,
+        async: false,
         url: '/mapapi/getAllLocation'
     });
 }
+
 
 /**
  * loads svg map based on id
  * @param id
  */
-function loadMap(id) {
-    var map = '/public/images/' + id + '.svg';
+function loadMap() {
+    var map = '/public/images/floor-' + floor + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
 
@@ -129,17 +140,23 @@ function loadMap(id) {
 
         // save svg object
         svg = mapwrapper.select("svg");
-        loadFloorLocation(svg, floor);
-        getGridFromDB();
+        loadLocationByFloor(svg, floor);
+        // loadgird(id)
+        //getGridFromDB();
 
     });
 
 }
 
-function loadFloorLocation(svg, floor){
-    for (var k in knownLocations) {
-        if (knownLocations[k].floor == floor.split('-')[1]) {
-            renderPolygons(svg, knownLocations[k]);
+/**
+ * Loads the locations for the current selected floor
+ * @param svg
+ * @param floor
+ */
+function loadLocationByFloor(svg, floor){
+    for (var l in locations) {
+        if (locations[l].floor == floor) {
+            renderPolygons(svg, locations[l]);
         }
 
         selectShapeByName(svg, 'tool tip room');
@@ -151,25 +168,28 @@ function loadFloorLocation(svg, floor){
  *  Display know location in the sidebar of the home page
  * @param locations
  */
-function fillSidebar(locations) {
-
+function fillSidebar() {
+    console.log("inside locaiton");
     for (var l in locations) {
-        $('#navsb-floor-' + locations[l].floor).append(
-            $('<li>').append(
-                $('<a>', {text: locations[l].name, href: '#'})
+
+        if(locations[l]['type'] == 'known') {
+            $('#navsb-floor-' + locations[l].floor).append(
+                $('<li>').append(
+                    $('<a>', {text: locations[l].name, href: '#'})
+                )
             )
-        )
+        }
     }
 }
 
 
 function initialize() {
-    $.when(getKnowLocations()).done(function (knowJSON) {
+    $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
-        knownLocations = JSON.parse(knowJSON);
+        locations = JSON.parse(locationJSON[0]);
 
         // display success message
-        fillSidebar(knownLocations);
+        fillSidebar(locations);
 
         // load map
         loadMap(floor);
