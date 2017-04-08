@@ -106,8 +106,16 @@ $(function () {
     // Btn Draw Location
     $('#btn-location-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-        drawByButton(svg);
+       drawByButton(svg);
+    
     });
+
+     $('#btn-box-draw').on('click', function () {
+        $('#location-draw-controls').toggleClass('hidden');
+    
+       drawByBox(svg);
+    });
+
 
     // Btn saves draw location
     $('#btn-location-save').on('click', function () {

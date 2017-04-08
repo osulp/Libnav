@@ -30,11 +30,6 @@ function renderPolygons(svg, data) {
 
     var attrArray = []
 
-<<<<<<< HEAD
-     //   console.log(attrArray)
-    
-=======
->>>>>>> b6989ef317edeb961147e1c1270c4fe17f133deb
        var foo = svg.append('g').attr('class', 'newLayer')
             .text("hello world")
                 .style('fill', 'black')
@@ -470,3 +465,86 @@ function getAttributes(location, callback) {
     return temp;
 }
 
+
+function drawByBox(svg){
+  var point1 = null;
+  var point2 = null;
+  var polyLayer = svg.append("g").attr("id", "polygons");
+
+
+  /*  var drag = d3.behavior.drag()
+        .on("drag", function(d,i) {
+            d.x += d3.event.dx
+            d.y += d3.event.dy
+            d3.select(this).attr("transform", function(d,i){
+                return "translate(" + [ d.x,d.y ] + ")"
+            })
+        });*/
+
+     svg.on("click", function (ev) {
+        pos = d3.mouse(this);
+        if (point1 == null){
+        point1 = {
+            "x": pos[0],
+            "y": pos[1]
+            
+        }
+           polyLayer.append("circle")
+            .attr("class", "click-circle")
+            //.attr("transform", "translate("+ p.x+ ","+ p.y+")")
+            .attr('cx', point1.x)
+            .attr('cy', point1.y)
+            .attr("r", "5")
+            .style("fill", "000000");
+
+        } else {
+            point2= {
+            "x": pos[0],
+            "y": pos[1]
+        }
+           polyLayer.append("circle")
+            .attr("class", "click-circle")
+            //.attr("transform", "translate("+ p.x+ ","+ p.y+")")
+            .attr('cx', point2.x)
+            .attr('cy', point2.y)
+            .attr("r", "5")
+            .style("fill", "000000");
+
+        }
+          if (point1 != null && point2 != null){
+        console.log()
+        var points =  deriveCorners(point1, point2)
+        drawSpace(svg, points)
+        data = points;
+        }
+
+        });
+
+  
+}
+
+function deriveCorners(point1, point2){
+
+    var point3 = {
+        'x' : point1.x,
+        'y' : point2.y 
+    }
+
+    var point4 = {
+        'x' : point2.x,
+        'y' : point1.y 
+    }
+
+    var points = point1.x + ',' + point1.y + ' '  + point4.x + ','+ point4.y +  ' ' + point2.x + ',' + point2.y + ' '  + point3.x + ',' + point3.y + ' '
+
+return points;
+}
+
+
+function drawSpace(svg,points){
+    svg.append('polygon')
+        .attr('class', 'drawn-poly')
+        .attr('points', points)
+        .style('fill', 'blue')
+        .style('opacity', 0.5)
+}
