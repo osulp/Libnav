@@ -12,7 +12,7 @@ var pointArray = [];
 var result = [];
 var start = false;
 var end = false;
-
+var show  =false;
 
 
 
@@ -88,20 +88,24 @@ function renderPolygons(svg, data) {
             .append("polygon")
             .attr("id", "poly-"+ data.id +"" )
             .attr("points", points)
-            .on("mouseover", function(){
+            .on("click", function(){
+                    if (!show){
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
                     div.html(formatToolTipHTML(data.id, data.name))
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-              div.transition()
+                        show = true;
+                    }else{
+                         div.transition()
                 
-                .duration(500)
-                .style("opacity", 0);
-        })
+                         .duration(500)
+                        .style("opacity", 0);
+                        show = false;
+                    }
+            })
+              /*
         .on("click",function(){
             if(!start && !end){
                 start = this.id;
@@ -110,8 +114,8 @@ function renderPolygons(svg, data) {
                 getNavPoints(svg);
             }else{
                 end = false;
-            }
-        })
+            } 
+        }) */
         .style("fill", "0cff00")
         .style("stroke", "0cff00")
         .style("opacity", 0.5);
@@ -415,9 +419,13 @@ function formatToolTipHTML(location, name) {
     var attrs = cleanUpAttrs(location)
 
     if (tags == null && attrs == null) {
-        return "<div>" + name + "</div><div>Tags:No tags available </div><div>Attributes: No attributes available </div>"
+        return "<div>" + name + "</div><div>Tags:No tags available </div> \
+                <div>Attributes: No attributes available </div>"
     } else {
-        return "<div>" + name + "</div><div>Tags:" + tags + "</div><div>Attributes:" + attrs + "</div>"
+        return '<div>' + name + '</div><div>Tags:' + tags + '</div>\
+                <div>Attributes:' + attrs + '</div>\
+                <div class="btn btn-success" id="start-"'+location +'>Start Here</div>\
+                <div class="btn btn-danger" id="end-"'+location +'>End Here</div>'
     }
 }
 
