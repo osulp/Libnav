@@ -10,8 +10,13 @@ $(function () {
         var url = "/dashboard/mapupload";
         
         uploadImg(data,url);
-
+        
+        event.preventDefault();
+        
+        return false;
     });
+    
+    
 });
 
 
