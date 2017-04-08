@@ -25,7 +25,7 @@ var getNavPoints = function(svg){
     }
 
     if(end){
-        svg.select(end).style("fill","red").style("opacity",.5);
+    svg.select(end).style("fill","red").style("opacity",.5);
     }
 
     if((start && end)){
@@ -35,7 +35,8 @@ var getNavPoints = function(svg){
         var point2 = getEntryPoint(location2[1]);
         console.log(point1);
         console.log(point2);
-        loadGridForNavigation(svg, point1, point2);
+        drawGrid(svg._groups[0][0]);
+        drawLine(point1,point2);
     }
     
     
