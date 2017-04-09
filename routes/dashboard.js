@@ -285,7 +285,7 @@ router.get('/navigation', function (req, res, next) {
 });
 
 /* Post Navigation Grid page */
-router.post('/navigation', function (req, res, next) {
+router.post('/navigation/save', function (req, res, next) {
     if (req.session.isAuthenticated) {
         var data = {
             'floor': req.body.floor,
@@ -293,8 +293,24 @@ router.post('/navigation', function (req, res, next) {
         };
 
         console.log(data['floor']);
-
         navigation.insertGrid(data);
+        //navigation.getGird
+        res.json(JSON.stringify(true));
+    } else {
+        res.render('error/login');
+    }
+});
+
+/* Post Navigation Grid page */
+router.post('/navigation/update', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+        var data = {
+            'floor': req.body.floor,
+            'data': req.body.grid
+        };
+
+        console.log(data['floor']);
+        navigation.updateGrid(data);
         //navigation.getGird
         res.json(JSON.stringify(true));
     } else {

@@ -25,25 +25,10 @@ var notWalkFlag = false;
 var loadGridForAdmin = function (svgi) {
 
     if (svgi != undefined) {
-        svgnav = svgi._groups[0][0];
-
-        $("#setWalkTrue").on("click", function () {
-            var allRectangles = grid.selectAll('rect');
-            walkable = true;
-            allRectangles.on("click", null);
-            gridMouse();
-        });
-
-        $("#setWalkFalse").on("click", function () {
-            var allRectangles = grid.selectAll('rect');
-            walkable = false;
-            allRectangles.on("click", null);
-            gridMouse();
-        });
-
+   
         $("#navGrid").ready(function () {
 
-            drawGrid(svgnav);
+            drawGrid(svgi);
             gridMouse();
 
         });
@@ -55,9 +40,9 @@ var loadGridForAdmin = function (svgi) {
 var loadGridForKnown = function (svgi) {
 
     if (svgi != undefined) {
-        svgnav = svgi._groups[0][0];
+     
         $("#navGrid").ready(function () {
-            drawGrid(svgnav);
+            drawGrid(svgi);
             markPoints();
             hideGridForKnown();
         });
@@ -68,6 +53,7 @@ var loadGridForKnown = function (svgi) {
 /*Takes svg */
 var drawGrid = function (svgP) {
 
+    svgP = svgP._groups[0][0];
     if(svgP!=null){
         var w = svgP.attributes.width.value;
         var h = svgP.attributes.height.value;    
@@ -85,7 +71,7 @@ var drawGrid = function (svgP) {
     
     // create the svg
     grid = d3.select('#grid').append('svg');
-    grid.attr("width", w).attr("height", h);
+    grid.attr("width", w).attr("height", h).attr("class","navGrid");
 
     // calculate number of rows and columns
     var squaresRow = _.round(w / square)+1;
@@ -113,7 +99,7 @@ var drawGrid = function (svgP) {
             })
             .attr('y', n * square)
             .attr("stroke", 'black')
-            .attr("stroke-width", ".5");
+            .attr("stroke-width", ".2");
 
     });
     
@@ -146,16 +132,19 @@ var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
     gridCalc.nodes = floorGridFromDB;
     if(isHomeNav==false){
         //nonwalk
-        _.times(squaresColumn, function (n) {
-
-            _.times(squaresRow, function (m) {
-                if(floorGridFromDB[m][n].walkable){
-                    var recID = "s-" + n + "-" + m;
-                    grid.select("rect[id='" + recID + "']").attr('fill', 'green');
-                }
-                else{
-                    var recID = "s-" + n + "-" + m;
-                    grid.select("rect[id='" + recID + "']").attr('fill', 'white');
+        _.times(floorGridFromDB.length, function (n) {
+            _.times(floorGridFromDB.length, function (m) {
+                if(floorGridFromDB[m][n]===undefined){
+                   
+                }else{
+                    if(floorGridFromDB[m][n].walkable){
+                        var recID = "s-" + n + "-" + m;
+                        grid.select("rect[id='" + recID + "']").attr('fill', 'blue').attr('fill-opacity',.2);
+                    }
+                    else{
+                        var recID = "s-" + n + "-" + m;
+                        grid.select("rect[id='" + recID + "']").attr('fill', 'red').attr('fill-opacity',.2);
+                    }
                 }
             });
 
@@ -320,11 +309,11 @@ var gridMouse = function () {
         var col = pos[2];
         if (isDragging) {
             if (walkable) {
-                var thisRec = grid.select("rect[id='" + this.id + "']").attr('fill', 'green');
+                var thisRec = grid.select("rect[id='" + this.id + "']").attr('fill', 'green').attr('fill-opacity',.5);
                 thisRec.attr("walkable", true);
                 gridCalc.setWalkableAt(row, col, true);
             } else {
-                grid.select("rect[id='" + this.id + "']").attr('fill', 'white').attr('fill-opacity', '.4');
+                grid.select("rect[id='" + this.id + "']").attr('fill', 'white').attr('fill-opacity', '.1');
                 gridCalc.setWalkableAt(row, col, false);
             }
         }
@@ -344,7 +333,6 @@ var markPoints = function () {
     var lastPoint;
     var allRectangles = grid.selectAll('rect');
 
-
     allRectangles.on('click', function (d, i) {
 
         var pos = this.id.split('-');
@@ -359,10 +347,14 @@ var markPoints = function () {
         
         entryPoint = this.id; 
 
-        
-
     });
 };
+
+
+var deleteGrid = function(){
+    $(".navGrid").remove();
+}
+
 
 $("#navLine").on("click", function () {
     var allRectangles = grid.selectAll('rect');

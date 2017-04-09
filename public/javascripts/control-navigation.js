@@ -1,19 +1,73 @@
 var svg = null;
 var floorGridFromDB;
+var allGrids = null;
+var gridSave = "navigation/save";
+var gridUpdate = "navigation/update";
 
-// Contains array of grid objects
-var grids = null;
+
+
+
 
 
 $(function () {
 
-    loadMap(1);
-    getGrids();
+    $.when(getGrids()).done(function(gridJSON){
+                var result = JSON.parse(gridJSON);
+                if (result) {
+                    // display success message
+                    console.log(result);
+                    allGrids = result;
+                    floorGridFromDB = JSON.parse(result[0].data);
+                }
+                else {
+                    // display error message
+                }
+        loadMap(1);
+    })
+    
+         $("#setWalkTrue").on("click", function () {
+            var allRectangles = grid.selectAll('rect');
+            walkable = true;
+            allRectangles.on("click", null);
+            gridMouse();
+        });
+
+        $("#setWalkFalse").on("click", function () {
+            var allRectangles = grid.selectAll('rect');
+            walkable = false;
+            allRectangles.on("click", null);
+            gridMouse();
+        });
+    
+        $("#floorSelect").change(function(){
+        deleteGrid();
+        for(var g in allGrids){
+            if(allGrids[g].floor == this.value){
+                floorGridFromDB = JSON.parse(allGrids[g].data);
+                break;
+            }else{
+                floorGridFromDB = null;
+            }
+        }
+        loadMap(parseInt(this.value));            
+        });
+
+    
+    
     // When form is submitted
     $('form').submit(function (event) {
-
-        // geting url form form
-        var url = $('form').attr('href');
+        var currFloor = $("#floorSelect").val();
+        currFloor = parseInt(currFloor);
+        for(var g in allGrids){
+            if(allGrids[g].floor == currFloor){
+                url = gridUpdate;
+                break;
+            }
+            else{
+                url = gridSave;
+            }
+        }
+        
 
         // defining data type
         var data = {
@@ -22,7 +76,7 @@ $(function () {
         }
 
         // Adding floor number to data array
-        data['floor'] = parseInt($('#floor option:selected').val());
+        data['floor'] = currFloor;
 
         // adding stringify grid to data array
         data['grid'] = JSON.stringify(gridCalc.nodes);
@@ -36,7 +90,6 @@ $(function () {
         return false;
     });
 
-    loadGridForAdmin();
 
 });
 
@@ -71,6 +124,8 @@ function loadMap(id) {
         // save svg object
         svg = mapwrapper.select("svg");
         // loadFloorLocation(svg, floor);
+        drawGrid(svg);
+        gridMouse();
 
     });
 
@@ -109,19 +164,19 @@ var saveGrid = function (data, url) {
  */
 
 function getGrids() {
-    $.ajax({
+    return $.ajax({
         type: "get",
         async: true,
         url: '/mapapi/grids'
-    })
-        .done(function (data) {
+    });
+        /*.done(function (data) {
             var result = JSON.parse(data);
             if (result) {
 
                 // display success message
                 if (result.length != 0) {
+                    console.log(result);
                     floorGridFromDB = JSON.parse(result[0].data);
-                    console.log(floorGridFromDB);
                 }
 
                 loadGridForAdmin(svg);
@@ -137,5 +192,5 @@ function getGrids() {
         })
         .fail(function () {
             console.log("Location not retrieved");
-        });
+        });*/
 }
