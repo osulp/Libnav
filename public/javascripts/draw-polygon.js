@@ -161,29 +161,43 @@ function getCenter(points){
  * shape data is saved to the database. Must derive the corners for all rectangles and ellipses
  *****************************/
 function selectByShape(svg) {
+var oldColor = null;
+var rectSelected = false;
+var polySelected = false;
+var ellSelected
 
     //select rectangles
     var rects = svg.selectAll("rect");
     // rects.attributes.getNamedItem("fill").value = "white";
 
     //give rectangles fill
-    _.times(rects._groups[0].length, function (g) {
+   /* _.times(rects._groups[0].length, function (g) {
 
         rects._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
-    });
+    });*/
 
     rects.on("mouseenter", function () {
+        if(this.attributes.getNamedItem("fill").value != "none"){
+            oldColor = this.attributes.getNamedItem("fill").value
+        }
         this.attributes.getNamedItem("fill").value = "#5bc0de";
     });
 
     rects.on("mouseleave", function () {
-        this.attributes.getNamedItem("fill").value = "white";
+        if(rectSelected){
+            this.attributes.getNamedItem("fill").value = "red"
+        } else if (oldColor && !rectSelected){
+            this.attributes.getNamedItem("fill").value = oldColor;
+            oldColor = null;
+        } else {
+        this.attributes.getNamedItem("fill").value = "none";
+        }
     });
-
 
     //get data from map
         rects.on("click", function () {
+        rectSelected = true;
         var values = {
             "x": this.attributes.getNamedItem("x").value,
             "y": this.attributes.getNamedItem("y").value,
@@ -246,23 +260,32 @@ function selectByShape(svg) {
     });*/
 
     polygon.on("mouseenter", function () {
-
+        if(!this.attributes.getNamedItem("fill").value ){
+            oldColor = this.attributes.getNamedItem("fill").value
+        }
+        
         this.attributes.getNamedItem("fill").value = "#5cb85c";
 
     });
 
     polygon.on("mouseleave", function () {
+      if(polySelected){
+            this.attributes.getNamedItem("fill").value = "red"
+        } else if (oldColor && !polySelected){
+            this.attributes.getNamedItem("fill").value = oldColor;
+            oldColor = null;
+        } else {
         this.attributes.getNamedItem("fill").value = "white";
-    });
+        }
+    })
 
     polygon.on("click", function () {
+        polySelected = true;
         data = {
             "points": this.attributes.getNamedItem("points").value
         }
 
-
         //var points = this.attributes.getNamedItem("points").value;
-
 
         console.log( this.attributes.getNamedItem("points").value);
         this.attributes.getNamedItem("fill").value = "red";
@@ -272,24 +295,34 @@ function selectByShape(svg) {
     var ellipse = svg.selectAll("ellipse");
 
 
-    _.times(ellipse._groups[0].length, function (g) {
+  /*  _.times(ellipse._groups[0].length, function (g) {
 
         ellipse._groups[0][g].attributes.getNamedItem("fill").value = "white";
 
-    });
+    });*/
 
     ellipse.on("mouseenter", function () {
-
+        if(this.attributes.getNamedItem("fill").value ){
+            oldColor = this.attributes.getNamedItem("fill").value
+        }
         this.attributes.getNamedItem("fill").value = "#428bca";
 
     });
     ellipse.on("mouseleave", function () {
+        if(ellSelected){
+            this.attributes.getNamedItem("fill").value = "red"
+        } else if (oldColor && !ellSelected){
+            this.attributes.getNamedItem("fill").value = oldColor;
+            oldColor = null;
+        } else {
         this.attributes.getNamedItem("fill").value = "white";
+        }        
     });
 
 
     //derives a polygon based upon the ellipse's attributes
     ellipse.on("click", function () {
+        ellSelected = true;
         var ellipseVal =  {
             "cx": this.attributes.getNamedItem("cx").value,
             "cy": this.attributes.getNamedItem("cy").value,
