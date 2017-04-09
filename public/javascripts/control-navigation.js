@@ -13,7 +13,7 @@ $(function () {
 
     $.when(getGrids()).done(function(gridJSON){
                 var result = JSON.parse(gridJSON);
-                if (result) {
+                if (result && result.length!=0) {
                     // display success message
                     console.log(result);
                     allGrids = result;
