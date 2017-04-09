@@ -6,24 +6,24 @@
  */
 
 
-var data;
-var count;
-var pointArray = [];
-var result = [];
-var start = false;
-var end = false;
-var show  =false;
+ var data;
+ var count;
+ var pointArray = [];
+ var result = [];
+ var start = false;
+ var end = false;
+ var show  =false;
 
 
 
-var getNavPoints = function(svg){
-    
+ function getNavPoints(svg){
+
     if(start){
-    svg.select(start).style("fill","blue").style("opacity",.5);
+        svg.select(start).style("fill","blue").style("opacity",.5);
     }
 
     if(end){
-    svg.select(end).style("fill","red").style("opacity",.5);
+        svg.select(end).style("fill","red").style("opacity",.5);
     }
 
     if((start && end)){
@@ -51,14 +51,14 @@ function getEntryPoint(location, callback) {
             location: location
         }
     })
-        .done(function (data) {
+    .done(function (data) {
             // console.log(data);
             var result = JSON.parse(data);
             temp = result
         })
-        .fail(function () {
-            console.log("Ajax Failed.");
-        });
+    .fail(function () {
+        console.log("Ajax Failed.");
+    });
     return temp;
 }
 
@@ -71,10 +71,12 @@ function getEntryPoint(location, callback) {
  * data: object containing information about the location to be drawn on the map
  * Return: none
  *****************************/ 
-function renderPolygons(svg, data) {
-    var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
+ function renderPolygons(svg, data) {
+    // var div = d3.select("body").append("div")
+    // .attr("class", "tooltip")
+    // .style("opacity", 0);
+    $('body').append(createTooltip(data));
+
 
     console.log(data);
     points = JSON.parse(data.data_point)
@@ -83,58 +85,45 @@ function renderPolygons(svg, data) {
 
     var attrArray = []
 
-       var foo = svg.append('g').attr('class', 'newLayer')
-            .text("hello world")
-                .style('fill', 'black')
-            .append("polygon")
-            .attr("id", "poly-"+ data.id +"" )
-            .attr("points", points)
-            .on("click", function(){
-                    if (!show){
-                    div.transition()
-                        .duration(200)
-                        .style("opacity", 1);
-                    div.html(formatToolTipHTML(data.id, data.name))
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px");
-                        show = true;
-                    }else{
-                         div.transition()
-                
-                         .duration(500)
-                        .style("opacity", 0);
-                        show = false;
-                    }
-            })
-              /*
-        .on("click",function(){
-            if(!start && !end){
-                start = this.id;
-            }else if(!end && end!=start){
-                end = this.id;
-                getNavPoints(svg);
-            }else{
-                end = false;
-            } 
-        }) */
-        .style("fill", "0cff00")
-        .style("stroke", "0cff00")
-        .style("opacity", 0.5);
+    var foo = svg.append('g').attr('class', 'newLayer')
+    .text("hello world")
+    .style('fill', 'black')
+    .append("polygon")
+    .attr("id", "poly-"+ data.id +"" )
+    .attr("points", points)
+    .on("click", function(){
+        var div = $('#tooltip-' + data.id);
+
+        if (div.hasClass('hidden')){
+            
+            div.css('position', 'absolute');
+            div.css('top', (d3.event.pageY - 28) + "px");
+            div.css('left', (d3.event.pageX) + "px");
+            div.removeClass('hidden');
+
+
+        }else{
+            div.addClass('hidden');
+     }
+ })
+    .style("fill", "0cff00")
+    .style("stroke", "0cff00")
+    .style("opacity", 0.5);
 
 
     var g = getCenter(points);
     svg.append('text')
-        .attr('x', g.x )
-        .attr('y', g.y)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '16px')
-        .text(data.name)
+    .attr('x', g.x )
+    .attr('y', g.y)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '16px')
+    .text(data.name)
 
 }
 
 function getCenter(points){
     var points = points.split(" ");
-    
+
     console.log(points)
 
 
@@ -161,7 +150,7 @@ function getCenter(points){
  * This function will derive data for the location forms in order to make it so that the 
  * shape data is saved to the database. Must derive the corners for all rectangles and ellipses
  *****************************/
-function selectByShape(svg) {
+ function selectByShape(svg) {
 
     //select rectangles
     var rects = svg.selectAll("rect");
@@ -184,7 +173,7 @@ function selectByShape(svg) {
 
 
     //get data from map
-        rects.on("click", function () {
+    rects.on("click", function () {
         var values = {
             "x": this.attributes.getNamedItem("x").value,
             "y": this.attributes.getNamedItem("y").value,
@@ -200,36 +189,33 @@ function selectByShape(svg) {
             'point4' :  "" + (this.attributes.getNamedItem("x").value + this.attributes.getNamedItem("width").value) + " " + (this.attributes.getNamedItem("y").value - this.attributes.getNamedItem("height").value)  + ""
         }
 
-        console.log(data);
-
-
         //derive each corner in x,y coordinates
         var p = {
             point1: {
                 x: values.x,
                 y: values.y
             },
-             point2: {
+            point2: {
                 x: Number(values.x) + Number(values.width),
                 y: values.y
             },
-              point3: {
-                 x: Number(values.x) + Number(values.width),
-                y: Number(values.y) + Number(values.height)
-               
-            },
-            point4: {
-                x: values.x,
-                y: Number(values.y) + Number(values.height)
-            }
-        };
+            point3: {
+               x: Number(values.x) + Number(values.width),
+               y: Number(values.y) + Number(values.height)
+
+           },
+           point4: {
+            x: values.x,
+            y: Number(values.y) + Number(values.height)
+        }
+    };
 
         //save coordinates for the form in the form "x,y x,y x,y x,y"
         data = p.point1.x + ',' + p.point1.y + ' ' +  p.point2.x + ',' + p.point2.y + ' '
-             +  p.point3.x + ',' + p.point3.y + ' ' +  p.point4.x + ',' + p.point4.y 
+        +  p.point3.x + ',' + p.point3.y + ' ' +  p.point4.x + ',' + p.point4.y 
 
-    
-     
+
+
 
         console.log(data);
         this.attributes.getNamedItem("fill").value = "red";
@@ -238,13 +224,6 @@ function selectByShape(svg) {
 
     //polygons
     var polygon = svg.selectAll("polygon");
-    console.log(polygon);
-
-  /*  _.times(polygon._groups[0].length-1, function (g) {
-
-        polygon._groups[0][g].attributes.getNamedItem("fill").value = "white";
-
-    });*/
 
     polygon.on("mouseenter", function () {
 
@@ -301,36 +280,34 @@ function selectByShape(svg) {
         //determines x,y coordinates
         var corners = {
             point1 : {
-                  'x' : Number(ellipseVal.cx) - Number(ellipseVal.rx),
-                  'y' :  Number(ellipseVal.cy) - Number(ellipseVal.ry)
-            },
-             point2 : {
-                  'x' : Number(ellipseVal.cx) + Number(ellipseVal.rx),
-                  'y' :  Number(ellipseVal.cy) - Number(ellipseVal.ry)
-            },
-             point3 : {
-                  'x' : Number(ellipseVal.cx) + Number(ellipseVal.rx),
-                  'y' :  Number(ellipseVal.cy) + Number(ellipseVal.ry)
-            },
-            point4 : {
-                  'x' : Number(ellipseVal.cx) - Number(ellipseVal.rx),
-                  'y' :  Number(ellipseVal.cy) + Number(ellipseVal.ry)
-            }
-            
-            }
+              'x' : Number(ellipseVal.cx) - Number(ellipseVal.rx),
+              'y' :  Number(ellipseVal.cy) - Number(ellipseVal.ry)
+          },
+          point2 : {
+              'x' : Number(ellipseVal.cx) + Number(ellipseVal.rx),
+              'y' :  Number(ellipseVal.cy) - Number(ellipseVal.ry)
+          },
+          point3 : {
+              'x' : Number(ellipseVal.cx) + Number(ellipseVal.rx),
+              'y' :  Number(ellipseVal.cy) + Number(ellipseVal.ry)
+          },
+          point4 : {
+              'x' : Number(ellipseVal.cx) - Number(ellipseVal.rx),
+              'y' :  Number(ellipseVal.cy) + Number(ellipseVal.ry)
+          }
+
+      }
 
 
             //produces test tring in form "x,y x,y x,y x,y"
             data = corners.point1.x + ',' + corners.point1.y + ' ' +  corners.point2.x + ',' + corners.point2.y + ' '
-             
-             +  corners.point3.x + ',' + corners.point3.y + ' ' +  corners.point4.x + ',' + corners.point4.y 
-    
-        console.log(data);
-        this.attributes.getNamedItem("fill").value = "red";
-    });
 
+            +  corners.point3.x + ',' + corners.point3.y + ' ' +  corners.point4.x + ',' + corners.point4.y 
 
-    //});
+            console.log(data);
+            this.attributes.getNamedItem("fill").value = "red";
+        });
+
 }
 
 /*****************************
@@ -340,7 +317,8 @@ function selectByShape(svg) {
  * Return: none
  * Allows for shapes to be drawn point by point
  *****************************/
-function drawByButton(svg) {
+
+ function drawByButton(svg) {
 
     count = 0;
 
@@ -364,7 +342,7 @@ function drawByButton(svg) {
 
         // create representation of position clicked by user
         polyLayer.append("circle")
-            .attr("class", "click-circle")
+        .attr("class", "click-circle")
             //.attr("transform", "translate("+ p.x+ ","+ p.y+")")
             .attr('cx', point.x)
             .attr('cy', point.y)
@@ -374,14 +352,14 @@ function drawByButton(svg) {
 
         // connect lines between points drawn on map
         svg.append("line")
-            .attr("class", "click-line")
-            .attr("x1", pointArray[count].x)
-            .attr("y1", pointArray[count].y)
-            .attr("x2", pointArray[(count + 1)].x)
-            .attr("y2", pointArray[(count + 1)].y)
-            .style("fill", "0cff00")
-            .style("stroke", "0cff00")
-            .style("strokeWidth", 0.5);
+        .attr("class", "click-line")
+        .attr("x1", pointArray[count].x)
+        .attr("y1", pointArray[count].y)
+        .attr("x2", pointArray[(count + 1)].x)
+        .attr("y2", pointArray[(count + 1)].y)
+        .style("fill", "0cff00")
+        .style("stroke", "0cff00")
+        .style("strokeWidth", 0.5);
 
         count++;
 
@@ -404,29 +382,113 @@ function clear(svg) {
 
 function fill(svg) {
     svg.append("polygon")
-        .attr("class", "drawn-poly")
-        .attr("points", function () {
-            return data = pointArray.map(function (d) {
-                return [d.x, d.y].join(",");
-            }).join(" ");
+    .attr("class", "drawn-poly")
+    .attr("points", function () {
+        return data = pointArray.map(function (d) {
+            return [d.x, d.y].join(",");
+        }).join(" ");
+    })
+    .style("fill", "0cff00")
+    .style("stroke", "0cff00")
+    .style("opacity", .25);
+}
+function createTooltip(data){
+    var locationTags = cleanUpTags(data.id)
+    var locationAttrs = cleanUpAttrs(data.id)
+    var tooltip = $('<div>',{
+        'id': 'tooltip-' + data.id,
+        'class': 'location-tooltip hidden'
+    });
+
+    var close= $('<div>',{
+        'id': 'close-' + data.id,
+        'class': 'close',
+        'text': 'X'
+    })
+
+    var name = $('<div>',{
+        'id': 'row'
+    }).append(
+        $('<div>',{
+            'id': 'col-md-12'
+        }).append(
+            $('<h4>',{
+                'text': data.name
+            })
+        )
+    );
+
+    // Create html structure to hold locaiton attributes
+    var attributes = $('<div>',{
+        'class': 'col-md-6'
+    }).append('<h5><strong>Attributes</strong></h5>');
+
+    // appending attributes
+    for(a in locationAttrs){
+        attributes.append(
+            '<p>' + locationAttrs[a] + '</p>');
+    }
+
+    // Create html structure to hold locaiton tags
+    var tags = $('<div>',{
+        'class': 'col-md-6'
+    }).append('<h5><strong>Tags</strong></h5>');
+
+    // appending atgs
+    for(t in locationTags){
+        tags.append(
+            '<p>' + locationTags[t] + '</p>');
+    }
+
+    var startBtn = $('<div>',{
+        'class': 'col-md-6'
+    }).append(
+        $('<div>',{
+            'id': 'start-' + data.id,
+            'class': 'btn btn-success',
+            'text': 'Start Here'
+
         })
-        .style("fill", "0cff00")
-        .style("stroke", "0cff00")
-        .style("opacity", .25);
+    );
+
+    var endBtn = $('<div>',{
+        'class': 'col-md-6'
+    }).append(
+        $('<div>',{
+            'id': 'start-' + data.id,
+            'class': 'btn btn-danger',
+            'text': 'End Here'
+
+        })
+    );
+
+    // Adding content to tooltip
+    tooltip.append(
+        close,
+        name,
+        $('<div>',{'class': 'row'}).append(attributes, tags),
+        $('<div>',{'class': 'row'}).append(startBtn, endBtn)
+
+
+    );
+
+
+    return tooltip;
+
 }
 
-function formatToolTipHTML(location, name) {
-    var tags = cleanUpTags(location)
-    var attrs = cleanUpAttrs(location)
+/*function createTooltip(data) {
+    var tags = cleanUpTags(data.id)
+    var attrs = cleanUpAttrs(data.id)
     var nameRow = '<div class="row">' + 
-                    '<div class="col-md-12">' + 
-                        '<h4>' + name + '</h4>' +
-                    '</div>' + 
-                   '</div>';
+    '<div class="col-md-12">' + 
+    '<h4>' + data.name + '</h4>' +
+    '</div>' + 
+    '</div>';
     var tooltipAttrs = '<div class="col-md-6">' +
-                            '<h5><strong>Attributes</strong></h5>';
+    '<h5><strong>Attributes</strong></h5>';
     var tooltipTags = '<div class="col-md-6">' + 
-                        '<h5><strong>Tags</strong></h5>';
+    '<h5><strong>Tags</strong></h5>';
     var tagAttributesRow = '';
     var btnRow = '';
 
@@ -447,16 +509,28 @@ function formatToolTipHTML(location, name) {
 
     // Creating navigation buttons
     btnRow = '<div class="row">' +
-                '<div class="col-md-6">' + 
-                    '<div class="btn btn-success" id="start-"'+location +'>Start Here</div>' +
-                '</div>' +
-                '<div class="col-md-6">' + 
-                    '<div class="btn btn-danger" id="end-"'+location +'>End Here</div>' +
-                '</div>' +
-            '</div>'
+    '<div class="col-md-6">' + 
+    '<div class="btn btn-success" id="start-' + data.id +'">Start Here</div>' +
+    '</div>' +
+    '<div class="col-md-6">' + 
+    '<div class="btn btn-danger" id="end-' + data.id +'">End Here</div>' +
+    '</div>' +
+    '</div>'
 
-    return nameRow + tagAttributesRow + btnRow;
+    return '<div id="tooltip-' +  data.id + '" class="location-tooltip hidden">' + nameRow + tagAttributesRow + btnRow + '</div>';
+}*/
 
+function navigaitonBtn(){
+
+    // Start button on click event
+    $('[id*="start-"]').on('click', function(){
+        console.log(this.id);
+    });
+
+    // End butten on click event
+    $('[id*="end-"]').on('click', function(){
+        console.log(this.id);
+    });
 }
 
 /*****************************
@@ -464,13 +538,13 @@ function formatToolTipHTML(location, name) {
  * location: the id of a location in the database
  * takes all tags from a query and combines into a string for use in the tool tip
  *******************************/
-function cleanUpTags(location) {
+ function cleanUpTags(location) {
     var tagArray = []
     var t = 0
 
     var tagsR = getTags(location ,function(result){
               // console.log(result);
-                })
+          })
 
 
     for (t  in tagsR) {
@@ -488,12 +562,12 @@ function cleanUpTags(location) {
  * location: the id of a location in the database
  * takes all attributes from a query and combines into a string for use in the tool tip
  *******************************/
-function cleanUpAttrs(location) {
+ function cleanUpAttrs(location) {
 
 
     var attrsR = getAttributes(location ,function(result){
                 //console.log(result);
-                })
+            })
 
 
     var attrArray = []
@@ -513,7 +587,7 @@ function cleanUpAttrs(location) {
  * callback: javascript callback to return the query results for  the cleanUpTags function 
  * queries the database for all tags with the matching location id
  *******************************/
-function getTags(location, callback) {
+ function getTags(location, callback) {
 
     console.log("inside getTags");
     var temp = false;
@@ -525,14 +599,14 @@ function getTags(location, callback) {
             location: location
         }
     })
-        .done(function (data) {
+    .done(function (data) {
             // console.log(data);
             var result = JSON.parse(data);
             temp = result;
         })
-        .fail(function () {
-            console.log("Ajax Failed.");
-        });
+    .fail(function () {
+        console.log("Ajax Failed.");
+    });
 
     //console.log(temp);
     return temp;
@@ -544,7 +618,7 @@ function getTags(location, callback) {
  * callback: javascript callback to return the query results for  the cleanUpAttrs function 
  * queries the database for all attributes with the matching location id
  *******************************/
-function getAttributes(location, callback) {
+ function getAttributes(location, callback) {
     var temp = false
     $.ajax({
         type: "POST",
@@ -554,14 +628,14 @@ function getAttributes(location, callback) {
             location: location
         }
     })
-        .done(function (data) {
+    .done(function (data) {
             // console.log(data);
             var result = JSON.parse(data);
             temp = result
         })
-        .fail(function () {
-            console.log("Ajax Failed.");
-        });
+    .fail(function () {
+        console.log("Ajax Failed.");
+    });
     return temp;
 }
 
@@ -572,25 +646,16 @@ function drawByBox(svg){
   var polyLayer = svg.append("g").attr("id", "polygons");
 
 
-  /*  var drag = d3.behavior.drag()
-        .on("drag", function(d,i) {
-            d.x += d3.event.dx
-            d.y += d3.event.dy
-            d3.select(this).attr("transform", function(d,i){
-                return "translate(" + [ d.x,d.y ] + ")"
-            })
-        });*/
-
-     svg.on("click", function (ev) {
-        pos = d3.mouse(this);
-        if (point1 == null){
+  svg.on("click", function (ev) {
+    pos = d3.mouse(this);
+    if (point1 == null){
         point1 = {
             "x": pos[0],
             "y": pos[1]
-            
+
         }
-           polyLayer.append("circle")
-            .attr("class", "click-circle")
+        polyLayer.append("circle")
+        .attr("class", "click-circle")
             //.attr("transform", "translate("+ p.x+ ","+ p.y+")")
             .attr('cx', point1.x)
             .attr('cy', point1.y)
@@ -599,10 +664,10 @@ function drawByBox(svg){
 
         } else {
             point2= {
-            "x": pos[0],
-            "y": pos[1]
-        }
-           polyLayer.append("circle")
+                "x": pos[0],
+                "y": pos[1]
+            }
+            polyLayer.append("circle")
             .attr("class", "click-circle")
             //.attr("transform", "translate("+ p.x+ ","+ p.y+")")
             .attr('cx', point2.x)
@@ -611,16 +676,16 @@ function drawByBox(svg){
             .style("fill", "000000");
 
         }
-          if (point1 != null && point2 != null){
-        console.log()
-        var points =  deriveCorners(point1, point2)
-        drawSpace(svg, points)
-        data = points;
+        if (point1 != null && point2 != null){
+            console.log()
+            var points =  deriveCorners(point1, point2)
+            drawSpace(svg, points)
+            data = points;
         }
 
-        });
+    });
 
-  
+
 }
 
 function deriveCorners(point1, point2){
@@ -637,14 +702,14 @@ function deriveCorners(point1, point2){
 
     var points = point1.x + ',' + point1.y + ' '  + point4.x + ','+ point4.y +  ' ' + point2.x + ',' + point2.y + ' '  + point3.x + ',' + point3.y + ' '
 
-return points;
+    return points;
 }
 
 
 function drawSpace(svg,points){
     svg.append('polygon')
-        .attr('class', 'drawn-poly')
-        .attr('points', points)
-        .style('fill', 'blue')
-        .style('opacity', 0.5)
+    .attr('class', 'drawn-poly')
+    .attr('points', points)
+    .style('fill', 'blue')
+    .style('opacity', 0.5)
 }
