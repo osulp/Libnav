@@ -400,7 +400,7 @@ function getLocation() {
 function getEntry() {
     var input = {
         name: 'entry',
-        value: "temp"
+        value: entryPoint
     };
     return input;
 }

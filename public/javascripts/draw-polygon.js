@@ -33,7 +33,7 @@ var getNavPoints = function(svg){
         var point2 = getEntryPoint(location2[1]);
         console.log(point1);
         console.log(point2);
-        drawGrid(svg._groups[0][0]);
+        drawGrid(svg);
         drawLine(point1,point2);
     }
     
