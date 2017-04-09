@@ -93,7 +93,7 @@ function renderPolygons(svg, data) {
                     if (!show){
                     div.transition()
                         .duration(200)
-                        .style("opacity", .9);
+                        .style("opacity", 1);
                     div.html(formatToolTipHTML(data.id, data.name))
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
@@ -418,16 +418,45 @@ function fill(svg) {
 function formatToolTipHTML(location, name) {
     var tags = cleanUpTags(location)
     var attrs = cleanUpAttrs(location)
+    var nameRow = '<div class="row">' + 
+                    '<div class="col-md-12">' + 
+                        '<h4>' + name + '</h4>' +
+                    '</div>' + 
+                   '</div>';
+    var tooltipAttrs = '<div class="col-md-6">' +
+                            '<h5><strong>Attributes</strong></h5>';
+    var tooltipTags = '<div class="col-md-6">' + 
+                        '<h5><strong>Tags</strong></h5>';
+    var tagAttributesRow = '';
+    var btnRow = '';
 
-    if (tags == null && attrs == null) {
-        return "<div>" + name + "</div><div>Tags:No tags available </div> \
-                <div>Attributes: No attributes available </div>"
-    } else {
-        return '<div>' + name + '</div><div>Tags:' + tags + '</div>\
-                <div>Attributes:' + attrs + '</div>\
-                <div class="btn btn-success" id="start-"'+location +'>Start Here</div>\
-                <div class="btn btn-danger" id="end-"'+location +'>End Here</div>'
+    // Adding Attributes
+    for(var a in attrs){
+        tooltipAttrs += '<p>' + attrs[a] + '</p>';
     }
+    tooltipAttrs += '</div>';
+
+    // Adding Tags
+    for(var t in tags){
+        tooltipTags += '<p>' + tags[t] + '</p>';
+    }
+    tooltipTags += '</div>';
+
+    // Creating Tag and Attribute columns into row
+    tagAttributesRow = '<div class="row">' +tooltipAttrs + tooltipTags + '</div>';
+
+    // Creating navigation buttons
+    btnRow = '<div class="row">' +
+                '<div class="col-md-6">' + 
+                    '<div class="btn btn-success" id="start-"'+location +'>Start Here</div>' +
+                '</div>' +
+                '<div class="col-md-6">' + 
+                    '<div class="btn btn-danger" id="end-"'+location +'>End Here</div>' +
+                '</div>' +
+            '</div>'
+
+    return nameRow + tagAttributesRow + btnRow;
+
 }
 
 /*****************************
