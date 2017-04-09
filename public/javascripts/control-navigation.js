@@ -1,8 +1,8 @@
 var svg = null;
 var floorGridFromDB;
 var allGrids = null;
-var gridSave = "navigation/save";
-var gridUpdate = "navigation/update";
+var gridUpdate = 'navigation/update';
+var url = 'navigation/save'
 
 
 
@@ -56,15 +56,16 @@ $(function () {
     
     // When form is submitted
     $('form').submit(function (event) {
+
+        // get curretn floor value
         var currFloor = $("#floorSelect").val();
         currFloor = parseInt(currFloor);
+
+        // check if grid exist
         for(var g in allGrids){
             if(allGrids[g].floor == currFloor){
                 url = gridUpdate;
                 break;
-            }
-            else{
-                url = gridSave;
             }
         }
         
