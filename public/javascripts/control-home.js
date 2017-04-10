@@ -73,6 +73,14 @@ $(function () {
 
     })
 
+
+    $('#nagivation-start').on('click', function(){
+        if(startPos != null && endPos != null){
+            drawGrid(svg);
+            drawLine(startPos,endPos);
+        }
+    })
+
 });
 
 

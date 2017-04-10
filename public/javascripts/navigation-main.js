@@ -263,10 +263,10 @@ var clearPaths = function () {
 /*given two points, navigate from point 1 to point 2*/ 
 var drawLine = function(point1, point2){
   
-     var pos1 = point1[0].entry_point.split('-');
+     var pos1 = point1.entry_point.split('-');
      var row1 = pos1[1];
      var col1 = pos1[2];
-     var pos2 = point2[0].entry_point.split('-');
+     var pos2 = point2.entry_point.split('-');
      var row2 = pos2[1];
      var col2 = pos2[2];
      

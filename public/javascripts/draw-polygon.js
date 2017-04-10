@@ -13,6 +13,8 @@
  var start = false;
  var end = false;
  var show  =false;
+ var startPos = null;
+ var endPos = null;
 
 
 
@@ -455,7 +457,7 @@ function createTooltip(data){
         'class': 'col-md-6'
     }).append(
         $('<div>',{
-            'id': 'start-' + data.id,
+            'id': 'end-' + data.id,
             'class': 'btn btn-danger',
             'text': 'End Here'
 
@@ -482,16 +484,51 @@ function createTooltip(data){
  */
 function tooltipBtn(){
     var id = null;
+    var startLable = $('#start-location');
+    var endLable = $('#end-location')
 
     // Start button on click event
     $('[id*="start-"]').on('click', function(){
-        console.log(this.id.split('-')[1]);
-        id = this.id.replace('start-');
+
+        // parse id 
+        id = this.id.split('start-')[1];
+
+        // find locaiton object
+        locationObj = findObj(id);
+
+        // write location name to start-locaiton lable
+        if(startLable.text() == ""){
+            startLable.text(locationObj.name);
+        }
+        else{
+            startLable.empty()
+            startLable.text(locationObj.name);
+        }
+
+
+        startPos = locationObj;
+
     });
 
     // End butten on click event
     $('[id*="end-"]').on('click', function(){
-        id = this.id.split('-')[1];
+        // parse id 
+        id = this.id.split('end-')[1];
+
+        // find locaiton object
+        locationObj = findObj(id);
+
+        // write location name to start-locaiton lable
+        if(endLable.text() == ""){
+            endLable.text(locationObj.name);
+        }
+        else{
+            endLable.empty()
+            endLable.text(locationObj.name);
+        }
+
+
+        endPos = locationObj;
     });
 
     // End butten on click event
@@ -500,6 +537,17 @@ function tooltipBtn(){
         console.log(id);
         $('#tooltip-' + id).addClass('hidden');
     });
+}
+
+function findObj(id){
+    var result = false;
+    for(var l in locations){
+        if(locations[l].id == parseInt(id)){
+            result = locations[l];
+        }
+    }
+    return result;
+
 }
 
 /*****************************
