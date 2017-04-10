@@ -477,59 +477,28 @@ function createTooltip(data){
 
 }
 
-/*function createTooltip(data) {
-    var tags = cleanUpTags(data.id)
-    var attrs = cleanUpAttrs(data.id)
-    var nameRow = '<div class="row">' + 
-    '<div class="col-md-12">' + 
-    '<h4>' + data.name + '</h4>' +
-    '</div>' + 
-    '</div>';
-    var tooltipAttrs = '<div class="col-md-6">' +
-    '<h5><strong>Attributes</strong></h5>';
-    var tooltipTags = '<div class="col-md-6">' + 
-    '<h5><strong>Tags</strong></h5>';
-    var tagAttributesRow = '';
-    var btnRow = '';
-
-    // Adding Attributes
-    for(var a in attrs){
-        tooltipAttrs += '<p>' + attrs[a] + '</p>';
-    }
-    tooltipAttrs += '</div>';
-
-    // Adding Tags
-    for(var t in tags){
-        tooltipTags += '<p>' + tags[t] + '</p>';
-    }
-    tooltipTags += '</div>';
-
-    // Creating Tag and Attribute columns into row
-    tagAttributesRow = '<div class="row">' +tooltipAttrs + tooltipTags + '</div>';
-
-    // Creating navigation buttons
-    btnRow = '<div class="row">' +
-    '<div class="col-md-6">' + 
-    '<div class="btn btn-success" id="start-' + data.id +'">Start Here</div>' +
-    '</div>' +
-    '<div class="col-md-6">' + 
-    '<div class="btn btn-danger" id="end-' + data.id +'">End Here</div>' +
-    '</div>' +
-    '</div>'
-
-    return '<div id="tooltip-' +  data.id + '" class="location-tooltip hidden">' + nameRow + tagAttributesRow + btnRow + '</div>';
-}*/
-
-function navigaitonBtn(){
+/**
+ * creates click events for all buttons in tooltips
+ */
+function tooltipBtn(){
+    var id = null;
 
     // Start button on click event
     $('[id*="start-"]').on('click', function(){
-        console.log(this.id);
+        console.log(this.id.split('-')[1]);
+        id = this.id.replace('start-');
     });
 
     // End butten on click event
     $('[id*="end-"]').on('click', function(){
-        console.log(this.id);
+        id = this.id.split('-')[1];
+    });
+
+    // End butten on click event
+    $('[id*="close-"]').on('click', function(){
+        id = this.id.split('-')[1];
+        console.log(id);
+        $('#tooltip-' + id).addClass('hidden');
     });
 }
 

@@ -159,9 +159,11 @@ function loadLocationByFloor(svg, floor){
             renderPolygons(svg, locations[l]);
         }
 
-        selectShapeByName(svg, 'tool tip room');
+
+        //selectShapeByName(svg, 'tool tip room');
 
     }
+    tooltipBtn();
 }
 
 /**
