@@ -73,6 +73,14 @@ $(function () {
 
     })
 
+
+    $('#nagivation-start').on('click', function(){
+        if(startPos != null && endPos != null){
+            drawGrid(svg);
+            drawLine(startPos,endPos);
+        }
+    })
+
 });
 
 
@@ -159,9 +167,11 @@ function loadLocationByFloor(svg, floor){
             renderPolygons(svg, locations[l]);
         }
 
-        selectShapeByName(svg, 'tool tip room');
+
+        //selectShapeByName(svg, 'tool tip room');
 
     }
+    tooltipBtn();
 }
 
 /**

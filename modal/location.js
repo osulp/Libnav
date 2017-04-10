@@ -83,7 +83,7 @@ exports.getLocations = function(callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point from location', function (error, results, fields) {
+    db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point, entry_point from location', function (error, results, fields) {
         if (error) throw error;
 
 

@@ -76,6 +76,9 @@ $(function () {
 
         // clear poly when floor switches
         clear(svg);
+        
+        //close grid
+        hideGridForKnown();
 
         // hide draw location
         $('#location-draw-controls').addClass('hidden');
@@ -157,7 +160,7 @@ $(function () {
 
     // Btn Hide Grid
     $('#btn-navigation-hide').on('click', function () {
-        hideGrid();
+        hideGridForKnown();
     });
 
     // Btn Clear Grid
@@ -397,7 +400,7 @@ function getLocation() {
 function getEntry() {
     var input = {
         name: 'entry',
-        value: "temp"
+        value: entryPoint
     };
     return input;
 }
