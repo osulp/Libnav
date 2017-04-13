@@ -77,6 +77,8 @@ function getEntryPoint(location, callback) {
     // var div = d3.select("body").append("div")
     // .attr("class", "tooltip")
     // .style("opacity", 0);
+    // 
+    console.log(data);
     $('body').append(createTooltip(data));
 
 

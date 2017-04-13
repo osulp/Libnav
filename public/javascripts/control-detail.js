@@ -11,11 +11,9 @@ $(function(){
     $.when(getLocationInfo(id)).done(function(locationJSON){
         locationData = JSON.parse(locationJSON);
 
-        displayLocation(locationData['info']);
-        writeAttributes(locationData['attr']);
-        writeTags(locationData['tags']);
+        displayLocation(locationData);
 
-        loadmap(locationData['info'][0]['floor'], locationData['info'][0]);
+        loadmap(locationData['floor'], locationData);
     });
 
     // Delete btn onclick event
@@ -38,17 +36,21 @@ function getLocationInfo(id){
 };
 
 
-function displayLocation(info) {
+function displayLocation(location) {
 	// write location info to page
-	for (var i in info) {
-		for (var k in info[i]) {
-			if (info[i][k] != null && k != 'point') {
-				$('#data-' + k).text(info[i][k]);
-			}
-			else {
-				$('#wrapper-' + k).addClass('hidden');
-			}
-		}
+	for (var a in location) {
+        if(a == 'attr'){
+            writeAttributes(location[a]);
+        }
+        else if (a == 'tags'){
+            writeTags(location[a]);
+        }
+        else if (location[a] != null && a != 'point'){
+            $('#data-' + a).text(location[a]);
+        }
+        else{
+            $('#wrapper-' + a).addClass('hidden');
+        }
 	}
 }
 
@@ -57,11 +59,7 @@ function writeAttributes(attr){
     // write attributes
     var attrOutput = [];
     for (var a in attr) {
-    	for (var k in attr[a]) {
-    		if (attr[a][k] != null) {
-    			attrOutput.push(attr[a][k]);
-    		}
-    	}
+        attrOutput.push(attr[a]);
     }
     if (attrOutput != null) {
     	$('#data-attributes').text(attrOutput.join(', '));
@@ -75,11 +73,7 @@ function writeTags(tags){
     // write tags
     var tagOutput = [];
     for (var t in tags) {
-    	for (var k in tags[t]) {
-    		if (tags[t][k] != null) {
-    			tagOutput.push(tags[t][k]);
-    		}
-    	}
+        tagOutput.push(tags[t]);
     }
     if (tagOutput != null) {
     	$('#data-tags').text(tagOutput.join(', '));
@@ -87,7 +81,6 @@ function writeTags(tags){
     else {
     	$('#data-tags').addClass('hidden');
     }
-
 
 }
 
