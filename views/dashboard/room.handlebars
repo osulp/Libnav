@@ -197,31 +197,7 @@
     </div>
     <!-- /#wrapper -->
 
-
-    <!-- Result Modal -->
-    <div id="modal-result" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Save Status</h4>
-                </div>
-                <div class="modal-body">
-                    <h4 id="modal-message-success" class="alert alert-success hidden">Your location has been saved</h4>
-                    <h4 id="modal-message-warning" class="alert alert-warning hidden">An error occurred and you location
-                        was not saved</h4>
-                </div>
-                <div class="modal-footer">
-                    <a href="/dashboard" class="btn btn-default">Back to Dashboard</a>
-                    <button id="btn-model-close" type="button" class="btn btn-warning" data-dismiss="modal">Close
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    {{> dashboard/confimationmodal }}
 
     {{> dashboard/javascript }}
 

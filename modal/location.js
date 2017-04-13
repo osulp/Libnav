@@ -113,6 +113,26 @@ exports.getLocations = function(callback){
     db.connection.end();
 };*/
 
+exports.deleteLocationById = function(id, callback){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('DELETE FROM location where id=? ', id , function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        console.log(fields);
+
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+}
+
 
 exports.getEntryPoint = function ( location, callback){
     // create database connection

@@ -268,7 +268,6 @@ router.post('/servicepoint', function (req, res, next) {
 
         });
 
-
     } else {
         res.render('error/login');
     }
@@ -291,8 +290,6 @@ router.post('/navigation/save', function (req, res, next) {
             'floor': req.body.floor,
             'data': req.body.grid
         };
-
-        console.log(data['floor']);
         navigation.insertGrid(data);
         //navigation.getGird
         res.json(JSON.stringify(true));
@@ -308,8 +305,6 @@ router.post('/navigation/update', function (req, res, next) {
             'floor': req.body.floor,
             'data': req.body.grid
         };
-
-        console.log(data['floor']);
         navigation.updateGrid(data);
         //navigation.getGird
         res.json(JSON.stringify(true));
@@ -321,15 +316,10 @@ router.post('/navigation/update', function (req, res, next) {
 /* details of location */
 router.get('/details/:id', function (req, res, next) {
     if (req.session.isAuthenticated) {
-
-        /*location.getLocationById(req.params.id, function(results){
-         res.render('dashboard/details', {session: true, data:results})
-     });*/
-
-     res.render('dashboard/details', {session: true, data: req.params.id})
- } else {
-    res.render('error/login');
-}
+        res.render('dashboard/details', {session: true, data: req.params.id})
+    } else {
+        res.render('error/login');
+    }
 });
 
 /* details of location */
@@ -337,8 +327,28 @@ router.get('/details/data/:id', function (req, res, next) {
     if (req.session.isAuthenticated) {
 
         location.getLocationById(req.params.id, function (results) {
-
+            res.contentType('json');
             res.json(JSON.stringify(results));
+        });
+
+    } else {
+        res.render('error/login');
+    }
+});
+
+router.get('/location/delete/:id', function (req, res, next) {
+    if (req.session.isAuthenticated) {
+
+        location.deleteLocationById(req.params.id, function (results) {
+            var result = false;
+            console.log(results["affectedRows"]);
+            if(results["affectedRows"] >= 1){
+                result = true;
+            }
+            res.contentType('json');
+            res.json(JSON.stringify(result));
+
+            
         });
 
     } else {
@@ -393,18 +403,10 @@ router.post('/mapupload', function(req, res) {
   var sampleFile = req.body.image;
   console.log(sampleFile);
 
-  // Use the mv() method to place the file somewhere on your server 
-  /*mv(sampleFile, __dirname+ '/../public/images/', function(err) {
-    if (err)
-      return res.status(500).send(err);
- 
-    res.send('File uploaded!');
-});*/
-
-fs.writeFile("image.jpg", sampleFile, (err) => {
+  fs.writeFile("image.jpg", sampleFile, (err) => {
     if (err) throw err;
     console.log('It\'s saved!');
-}); 
+    }); 
 });
 
 module.exports = router;

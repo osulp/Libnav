@@ -116,12 +116,10 @@
                 <div class="row">
 
                     <!-- Location and entry point !-->
-                    <div id="wrapper-location" class="col-lg-12">
-                        <p class="input-label">
-                            Map Location:
-                        </p>
+                    <div id="map-wrapper">
+
                     </div>
-                    <div id="map-wrapper"></div>
+                    <!-- /#map-wrapper-->
 
                 </div> <!-- /.row !-->
 
@@ -136,96 +134,25 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-
+        {{> footer }}
 
     </div>
     <!-- /#wrapper -->
 
-    {{> footer }}
+    
+    {{> dashboard/deletemodal}}
+
+    {{> dashboard/confimationmodal}}
 
     {{> dashboard/javascript }}
-
-    <script src="/public/javascripts/draw-polygon.js"></script>
-
     <script>
         var id = {{ data }};
-        $.ajax({
-            type: "GET",
-            async: true,
-            url: "/dashboard/details/data/" + id
-        })
-                .done(function (data) {
-                    var result = JSON.parse(data);
-                    
-                    // write location info to page
-                    for (var i in result.info) {
-                        for (var k in result.info[i]) {
-                            if (result.info[i][k] != null && k != 'point') {
-                                $('#data-' + k).text(result.info[i][k]);
-                            }
-                            else {
-                                $('#wrapper-' + k).addClass('hidden');
-                            }
-                        }
-                    }
-
-                    // write attributes
-                    var attrOutput = [];
-                    for (var a in result.attr) {
-                        for (var k in result.attr[a]) {
-                            if (result.attr[a][k] != null) {
-                                attrOutput.push(result.attr[a][k]);
-                            }
-                        }
-                    }
-                    if (attrOutput != null) {
-                        $('#data-attributes').text(attrOutput.join(', '));
-                    }
-                    else {
-                        $('#data-attributes').addClass('hidden');
-                    }
-
-                    // write tags
-                    var tagOutput = [];
-                    for (var t in result.tags) {
-                        for (var k in result.tags[t]) {
-                            if (result.tags[t][k] != null) {
-                                tagOutput.push(result.tags[t][k]);
-                            }
-                        }
-                    }
-                    if (attrOutput != null) {
-                        $('#data-tags').text(tagOutput.join(', '));
-                    }
-                    else {
-                        $('#data-tags').addClass('hidden');
-                    }
-
-                })
-                .fail(function () {
-                    console.log("Data gathering failed");
-                });
-
-        function loadmap(id, data){
-            // load map
-            var map = '/public/images/floor-' + id + '.svg';
-            d3.text(map, function (error, externalSVG) {
-                if (error) throw error;
-
-                // console.log(externalSVG);
-
-
-                // select map wrapper
-                var mapwrapper = d3.select('#map-wrapper');
-                mapwrapper.html(externalSVG);
-
-                svg = mapwrapper.select("svg");
-
-                renderPolygons(svg, data);
-
-
-            });
-        }
+        
     </script>
+
+    <script src="/public/javascripts/draw-polygon.js"></script>
+    <script src="/public/javascripts/control-detail.js"></script>
+
+    
 
 </body>
