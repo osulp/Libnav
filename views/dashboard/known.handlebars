@@ -24,36 +24,36 @@
                         <h1 class="page-header">Known Location Form</h1>
                         <p>Known locations are fixed structures in the Library such as bathrooms, emergency exits,
                             etc. </p>
-                    </div> <!-- /.col-lg-12 -->
-                </div> <!-- /.row -->
+                        </div> <!-- /.col-lg-12 -->
+                    </div> <!-- /.row -->
 
-                <!-- Form !-->
-                <div class="row">
-                    <div class="col-lg-12">
+                    <!-- Form !-->
+                    <div class="row">
+                        <div class="col-lg-12">
 
-                        <form href="known" method="POST" role="form">
+                            <form href="known" method="POST" role="form">
 
-                            <!-- Name & Floor !-->
-                            <div class="row">
+                                <!-- Name & Floor !-->
+                                <div class="row">
 
-                                <!-- Location name input !-->
-                                <div class="col-lg-6">
-                                    <div class="form-group" id="name-group">
-                                        <label for="name">Location Name</label>
-                                        <input type="text" id="name" name="name" class="form-control"
-                                               placeholder="location name"
-                                               autofocus>
-                                        <p class="help-block">Enter the name of the location being created.</p>
-                                        <span id="nameError" class="help-block"></span>
-                                    </div>
-                                </div> <!-- / .col-lg-6 !-->
+                                    <!-- Location name input !-->
+                                    <div class="col-lg-6">
+                                        <div class="form-group" id="name-group">
+                                            <label for="name">Location Name</label>
+                                            <input type="text" id="name" name="name" class="form-control"
+                                            placeholder="location name"
+                                            autofocus>
+                                            <p class="help-block">Enter the name of the location being created.</p>
+                                            <span id="nameError" class="help-block"></span>
+                                        </div>
+                                    </div> <!-- / .col-lg-6 !-->
 
-                                <!-- Floor input !-->
-                                <div class="col-lg-6">
-                                    <div class="form-group" id="floor-group">
-                                        <label for="floor">Floor</label>
-                                        <select id="floor" name="floor" class="form-control"
-                                                autofocus>
+                                    <!-- Floor input !-->
+                                    <div class="col-lg-6">
+                                        <div class="form-group" id="floor-group">
+                                            <label for="floor">Floor</label>
+                                            <select id="floor" name="floor" class="form-control"
+                                            autofocus>
                                             <option value=1>1</option>
                                             <option value=2>2</option>
                                             <option value=3>3</option>
@@ -75,8 +75,8 @@
                                     <div class="form-group" id="attribute-group">
                                         <label for="attribute">Attribute</label>
                                         <textarea rows="5" id="attribute" name="attribute" class="form-control"
-                                                  placeholder="Lighting, Natural, Electrical, Socket, etc."
-                                                  autofocus></textarea>
+                                        placeholder="Lighting, Natural, Electrical, Socket, etc."
+                                        autofocus></textarea>
                                         <p class="help-block">Enter the attributes the location contains.</p>
                                         <span id="attributeError" class="help-block"></span>
                                     </div>
@@ -87,8 +87,8 @@
                                     <div class="form-group" id="tag-group">
                                         <label for="tag">Tag</label>
                                         <textarea rows="5" id="tag" name="tag" class="form-control"
-                                                  placeholder="Learning Corner, Circulation Desk, etc."
-                                                  autofocus></textarea>
+                                        placeholder="Learning Corner, Circulation Desk, etc."
+                                        autofocus></textarea>
                                         <p class="help-block">Enter the tag used to identify the location.</p>
                                         <span id="tagError" class="help-block"></span>
                                     </div>
@@ -176,8 +176,10 @@
 
     {{> dashboard/javascript }}
 
- 
-  
+    
+
+    
+    
     <!-- Draw Polygons js !-->
     <script src="/public/javascripts/draw-polygon.js"></script>
 
@@ -196,7 +198,17 @@
     <!-- Form Controls JS !-->
     <script src="/public/javascripts/control-form.js" ></script>
 
+    <script>
+        var data = {{{data}}}
+        var locationOBJ  = null;
+        if( data != null){
+            locationOBJ = data;
 
+            loadLocation(locationOBJ);
+
+        }
+        
+    </script>
 
 
 </body>

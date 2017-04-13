@@ -516,3 +516,12 @@ function validateData(data) {
     return results;
 }
 
+function loadLocation(location){
+    console.log(location);
+    var ignoreAttrs = ['id', 'entry_point', 'data_point']
+    var attrDict = {'name': 'name', 'floor': 'floor', 'room_cap': 'capacity', 'room_num': 'number'}
+
+    
+    
+}
+

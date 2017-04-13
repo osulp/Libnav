@@ -6,7 +6,7 @@ $(function(){
 
     // Initialze modal
     confirmModal = $('#modal-delete').modal({'show': false});
-    onfirmModal = $('#modal-result').modal({'show': false});
+    resultModal = $('#modal-result').modal({'show': false});
     
     $.when(getLocationInfo(id)).done(function(locationJSON){
         locationData = JSON.parse(locationJSON);

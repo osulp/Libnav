@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 /* Get Known Location page */
 router.get('/known', function (req, res, next) {
     if (1) {
-        res.render('dashboard/known', {session: true});
+        res.render('dashboard/known', {session: true, data:"null"});
     } else {
         res.render('error/login');
 
@@ -84,7 +84,7 @@ router.post('/known', function (req, res, next) {
 /* Get Unknown Location page */
 router.get('/unknown', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/unknown', {session: true})
+        res.render('dashboard/unknown', {session: true, data:"null"})
     } else {
         res.render('error/login');
     }
@@ -147,7 +147,7 @@ router.post('/unknown', function (req, res, next) {
 /* Get Room Location page */
 router.get('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/room', {session: true})
+        res.render('dashboard/room', {session: true, data:"null"})
     } else {
         res.render('error/login');
     }
@@ -212,7 +212,7 @@ router.post('/room', function (req, res, next) {
 /* Get Service Point Location page */
 router.get('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/servicepoint', {session: true})
+        res.render('dashboard/servicepoint', {session: true, data:"null"})
     } else {
         res.render('error/login');
     }
@@ -271,13 +271,12 @@ router.post('/servicepoint', function (req, res, next) {
     } else {
         res.render('error/login');
     }
-
 });
 
 /* Get Navigation Grid  page */
 router.get('/navigation', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        res.render('dashboard/navigation', {session: true})
+        res.render('dashboard/navigation', {session: true, data:null})
     } else {
         res.render('error/login');
     }
@@ -313,7 +312,7 @@ router.post('/navigation/update', function (req, res, next) {
     }
 });
 
-/* details of location */
+/* Get Details of location */
 router.get('/details/:id', function (req, res, next) {
     if (req.session.isAuthenticated) {
         res.render('dashboard/details', {session: true, data: req.params.id})
@@ -322,7 +321,7 @@ router.get('/details/:id', function (req, res, next) {
     }
 });
 
-/* details of location */
+/* Get Details dat of location */
 router.get('/details/data/:id', function (req, res, next) {
     if (req.session.isAuthenticated) {
 
@@ -336,6 +335,7 @@ router.get('/details/data/:id', function (req, res, next) {
     }
 });
 
+/* Get Delete Location with id */
 router.get('/location/delete/:id', function (req, res, next) {
     if (req.session.isAuthenticated) {
 
@@ -355,6 +355,22 @@ router.get('/location/delete/:id', function (req, res, next) {
         res.render('error/login');
     }
 });
+
+router.get('/location/edit/:id', function (req, res, next) {if (req.session.isAuthenticated) {
+
+        location.getLocationById(req.params.id, function(location){
+
+            res.locals.data = JSON.stringify(location);
+            console.log(location);
+            res.render('dashboard/' + location['type'], 
+                {   session: true})
+        });
+
+    } else {
+        res.render('error/login');
+    }
+});
+
 
 /* Get User page */
 router.get('/user', function (req, res, next) {
@@ -397,6 +413,7 @@ router.get('/mapupload', function (req, res, next) {
     }
 });
 
+/* Post Map Upload Page */
 router.post('/mapupload', function(req, res) {
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
