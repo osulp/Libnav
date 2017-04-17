@@ -30,17 +30,52 @@ function getSearchTerms(){
 
 function fuseSearch(searchString){
     searchResults = {};
-     var options = {
-      shouldSort: true,
-      threshold: 0.0,
-      location: 0,
-      distance: 100,
-      verbose: false,
-      maxPatternLength: 32,
-      minMatchCharLength: 3,
-      keys: ["attr", "name", "floor", "room_number", "room_cap"]
-    }
-
+    
+   if (searchString.length < 4) {
+        var options = {
+        shouldSort: true,
+        threshold: 0.50,
+        location: 0,
+        distance: 100,
+        verbose: false,
+        maxPatternLength: 32,
+        minMatchCharLength: 3,
+        keys: ["attr", "name", "floor", "room_number", "room_cap"]
+        }
+    } else if(searchString.length < 7){
+        var options = {
+            shouldSort: true,
+            threshold: 0.40,
+            location: 0,
+            distance: 100,
+            verbose: false,
+            maxPatternLength: 32,
+            minMatchCharLength: 5,
+            keys: ["attr", "name", "floor", "room_number", "room_cap"]
+        }
+     } else if (searchString.length > 8) {
+         var options = {
+            shouldSort: true,
+            threshold: 0.20,
+            location: 0,
+            distance: 100,
+            verbose: false,
+            maxPatternLength: 32,
+            minMatchCharLength: 5,
+            keys: ["attr", "name", "floor", "room_number", "room_cap"] 
+         }
+     }else {
+           var options = {
+            shouldSort: true,
+            threshold: 0.50,
+            location: 0,
+            distance: 100,
+            verbose: false,
+            maxPatternLength: 32,
+            minMatchCharLength: 3,
+            keys: ["attr", "name", "floor", "room_number", "room_cap"] 
+         }
+     }
     
     var fuse = new Fuse(searchObjs, options); // "list" is the item array
     var result = fuse.search(searchString);

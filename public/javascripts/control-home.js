@@ -62,7 +62,8 @@ $(function () {
             fuseSearch(searchTerm);
 
             for(var s in searchResults){
-                searchUl.append('<li><a href="#">' + searchResults[s] + '</a></li>');
+                console.log(s)
+                searchUl.append('<li><a href="#" id="location-'+s+'">' + searchResults[s] + '</a></li>');
             }
         }
         else if(input == ""){

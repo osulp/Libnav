@@ -162,9 +162,6 @@ function getCenter(points){
  *****************************/
 function selectByShape(svg) {
 var oldColor = null;
-var rectSelected = false;
-var polySelected = false;
-var ellSelected
 
     //select rectangles
     var rects = svg.selectAll("rect");
@@ -185,9 +182,7 @@ var ellSelected
     });
 
     rects.on("mouseleave", function () {
-        if(rectSelected){
-            this.attributes.getNamedItem("fill").value = "red"
-        } else if (oldColor && !rectSelected){
+        if (oldColor){
             this.attributes.getNamedItem("fill").value = oldColor;
             oldColor = null;
         } else {
@@ -197,7 +192,11 @@ var ellSelected
 
     //get data from map
         rects.on("click", function () {
-        rectSelected = true;
+     
+        this.attributes.getNamedItem("fill").value = "red"
+        oldColor = "red"
+
+
         var values = {
             "x": this.attributes.getNamedItem("x").value,
             "y": this.attributes.getNamedItem("y").value,
@@ -245,7 +244,7 @@ var ellSelected
      
 
         console.log(data);
-        this.attributes.getNamedItem("fill").value = "red";
+    
     });
 
 
@@ -269,9 +268,7 @@ var ellSelected
     });
 
     polygon.on("mouseleave", function () {
-      if(polySelected){
-            this.attributes.getNamedItem("fill").value = "red"
-        } else if (oldColor && !polySelected){
+       if (oldColor){
             this.attributes.getNamedItem("fill").value = oldColor;
             oldColor = null;
         } else {
@@ -280,7 +277,11 @@ var ellSelected
     })
 
     polygon.on("click", function () {
-        polySelected = true;
+      
+        this.attributes.getNamedItem("fill").value = "red"
+        oldColor = "red"
+
+
         data = {
             "points": this.attributes.getNamedItem("points").value
         }
@@ -288,7 +289,6 @@ var ellSelected
         //var points = this.attributes.getNamedItem("points").value;
 
         console.log( this.attributes.getNamedItem("points").value);
-        this.attributes.getNamedItem("fill").value = "red";
     });
 
     //elipses
@@ -309,9 +309,7 @@ var ellSelected
 
     });
     ellipse.on("mouseleave", function () {
-        if(ellSelected){
-            this.attributes.getNamedItem("fill").value = "red"
-        } else if (oldColor && !ellSelected){
+        if (oldColor){
             this.attributes.getNamedItem("fill").value = oldColor;
             oldColor = null;
         } else {
@@ -322,7 +320,10 @@ var ellSelected
 
     //derives a polygon based upon the ellipse's attributes
     ellipse.on("click", function () {
-        ellSelected = true;
+        
+        this.attributes.getNamedItem("fill").value = "red"
+        oldColor = "red"
+
         var ellipseVal =  {
             "cx": this.attributes.getNamedItem("cx").value,
             "cy": this.attributes.getNamedItem("cy").value,
@@ -358,7 +359,7 @@ var ellSelected
              +  corners.point3.x + ',' + corners.point3.y + ' ' +  corners.point4.x + ',' + corners.point4.y 
     
         console.log(data);
-        this.attributes.getNamedItem("fill").value = "red";
+        
     });
 
 
