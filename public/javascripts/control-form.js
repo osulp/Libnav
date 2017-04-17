@@ -1,10 +1,11 @@
 var svg;
+var update = false;
 
 /**
  * Validation rules for all forms
  * @type {{name: {title: string, required: boolean, alphaNumeric: boolean}, number: {title: string, required: boolean, numeric: boolean}, capacity: {title: string, required: boolean, numeric: boolean}, url: {title: string, required: boolean, url: boolean}}}
  */
-var rules = {
+ var rules = {
     'name': {
         title: 'Location Name',
         required: true,
@@ -52,13 +53,16 @@ var rules = {
         title: 'Onid',
         required: true,
         alpha: true,
+    },
+    'type':{
+
     }
 };
 
 /**
  * main form control load
  */
-$(function () {
+ $(function () {
 
     // Loads Map
     loadMap(1);
@@ -90,8 +94,14 @@ $(function () {
     $('form').submit(function (event) {
 
         disableBtns();
-
         var url = $('form').attr('href');
+
+        // check if we are update a location
+        if(update){
+            url = '/update'
+        }
+
+         
 
         var data = getInputData();
 
@@ -124,14 +134,14 @@ $(function () {
     // Btn Draw Location
     $('#btn-location-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-       drawByButton(svg);
-    
+        drawByButton(svg);
+
     });
 
-     $('#btn-box-draw').on('click', function () {
+    $('#btn-box-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-    
-       drawByBox(svg);
+
+        drawByBox(svg);
     });
 
 
@@ -180,20 +190,20 @@ $(function () {
  * @param data
  * @param url
  */
-function submitForm(data, url) {
+ function submitForm(data, url) {
 // for testing
-    console.log(data);
+console.log(data);
 
-    $.ajax({
-        type: "POST",
-        async: true,
-        url: url,
-        data: data
-    })
-        .done(function (data) {
-            console.log(data)
-            var result = JSON.parse(data);
-            if (result) {
+$.ajax({
+    type: "POST",
+    async: true,
+    url: url,
+    data: data
+})
+.done(function (data) {
+    console.log(data)
+    var result = JSON.parse(data);
+    if (result) {
 
                 // shows modal on success
                 $('#modal-result').modal('show');
@@ -210,9 +220,9 @@ function submitForm(data, url) {
             }
 
         })
-        .fail(function () {
-            console.log("Form submit failed");
-        });
+.fail(function () {
+    console.log("Form submit failed");
+});
 }
 
 /**
@@ -221,7 +231,7 @@ function submitForm(data, url) {
  * @param text
  * @returns {Array}
  */
-function splitText(text) {
+ function splitText(text) {
     var newtext = null;
 
     if (text != ' ') {
@@ -249,7 +259,7 @@ function splitText(text) {
  * Gets input data from form
  * @returns {{}}
  */
-function getInputData() {
+ function getInputData() {
     var data = {};
     // select all form input and textares
     var inputs = $('form :input:not(:button) ');
@@ -267,7 +277,7 @@ function getInputData() {
              * if 'true': save input to data obj
              * if 'false': save false into data obj
              */
-            if (validateInput(input)) {
+             if (validateInput(input)) {
                 data[input.name] = input.value
             }
             else {
@@ -293,7 +303,7 @@ function getInputData() {
  * loads svg map based on id
  * @param id
  */
-function loadMap(id) {
+ function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
@@ -314,7 +324,7 @@ function loadMap(id) {
  * Disables form control button
  *  for save, clear, and cancel
  */
-function disableBtns() {
+ function disableBtns() {
 
     // Disable save button
     $('#btn-save').attr('disabled', true);
@@ -336,9 +346,9 @@ function getKnowLocations(id) {
         async: true,
         url: '/mapapi/getAllLocation'
     })
-        .done(function (data) {
-            var result = JSON.parse(data);
-            if (result) {
+    .done(function (data) {
+        var result = JSON.parse(data);
+        if (result) {
 
                 // display success message
 
@@ -357,16 +367,16 @@ function getKnowLocations(id) {
             }
 
         })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });
+    .fail(function () {
+        console.log("Location not retrieved");
+    });
 }
 
 /**
  * Enables form control button
  *  for save, clear, and cancel
  */
-function enableBtns() {
+ function enableBtns() {
 
     // Disable save button
     $('#btn-save').attr('disabled', false);
@@ -385,7 +395,7 @@ function enableBtns() {
  * Gets data points from draw-polygons.js
  *  for marked locations
  */
-function getLocation() {
+ function getLocation() {
     var input = {
         name: 'location',
         value: JSON.stringify(data)
@@ -397,7 +407,7 @@ function getLocation() {
  * Gets the entry point for location on grid
  * @returns {{name: string, value}}
  */
-function getEntry() {
+ function getEntry() {
     var input = {
         name: 'entry',
         value: entryPoint
@@ -413,7 +423,7 @@ function getEntry() {
  * @param name
  * @constructor
  */
-function ShowError(show, errors, name) {
+ function ShowError(show, errors, name) {
     var errorhelp = $('#' + name + 'Error');
     errorhelp.empty();
     if (!show) {
@@ -431,7 +441,7 @@ function ShowError(show, errors, name) {
  * @param name
  * @constructor
  */
-function ShowResults(show, name) {
+ function ShowResults(show, name) {
     var group = $('#' + name + '-group');
 
     if (show == 'error') {
@@ -452,7 +462,7 @@ function ShowResults(show, name) {
  * @param input
  * @returns {*}
  */
-function validateInput(input) {
+ function validateInput(input) {
     // validate input
     var result = approve.value(input.value, rules[input.name]);
 
@@ -485,7 +495,7 @@ function validateInput(input) {
  * @param input
  * @returns {boolean}
  */
-function validataSearchAtt(input) {
+ function validataSearchAtt(input) {
     var results = false;
     if (input.value != '') {
         results = true;
@@ -503,7 +513,7 @@ function validataSearchAtt(input) {
  * @param data
  * @returns {boolean}
  */
-function validateData(data) {
+ function validateData(data) {
     var results = true;
     for (var d in data) {
         console.log(data[d]);
@@ -517,11 +527,36 @@ function validateData(data) {
 }
 
 function loadLocation(location){
-    console.log(location);
-    var ignoreAttrs = ['id', 'entry_point', 'data_point']
-    var attrDict = {'name': 'name', 'floor': 'floor', 'room_cap': 'capacity', 'room_num': 'number'}
 
-    
-    
-}
+    update = true;
+    var ignoreAttrs = ['id', 'entry_point', 'data_point']
+    var attrDict = {
+        'name': 'name', 
+        'floor': 'floor', 
+        'room_cap': 'capacity', 
+        'room_num': 'number', 
+        'attr': 'attribute',
+        'tags': 'tag'}
+
+        for(var a in location){
+            console.log(a);
+            console.log(a in attrDict && !(a in ignoreAttrs));
+            if( a in attrDict && !(a in ignoreAttrs)){
+                console.log(a)
+                if(a == 'attr' || a == 'tags'){
+                    var text = [];
+                    for(var at in location[a]){
+                        text.push(location[a][at])
+                        console.log(location[a][at]);
+                    }
+                    $('#' + attrDict[a]).val(text.join(', '));
+                }else{
+                    $('#' + attrDict[a]).val(location[a]);
+                }
+            }
+        }
+
+
+
+    }
 

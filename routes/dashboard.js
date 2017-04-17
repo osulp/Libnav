@@ -35,7 +35,7 @@ router.post('/known', function (req, res, next) {
         // defining know data
         var data = {
             'floor': req.body.floor,
-            'type': 'known',
+            'type': req.body.type,
             'name': req.body.name,
             'data_point': req.body.location,
             'entry_point': req.body.entry
@@ -98,7 +98,7 @@ router.post('/unknown', function (req, res, next) {
         // defining know data
         var data = {
             'floor': req.body.floor,
-            'type': 'unknown',
+            'type': req.body.type,
             'name': req.body.name,
             'data_point': req.body.location,
             'entry_point': req.body.entry
@@ -161,7 +161,7 @@ router.post('/room', function (req, res, next) {
         // defining know data
         var data = {
             'floor': req.body.floor,
-            'type': 'room',
+            'type': req.body.type,
             'name': req.body.name,
             'room_number': req.body.number,
             'room_cap': req.body.capacity,
@@ -181,7 +181,6 @@ router.post('/room', function (req, res, next) {
             if (attributes != null) {
                 for (var att in attributes) {
                     attributes[att][0] = id;
-                    console.log(attributes[att]);
                 }
                 location.insertAttribute(attributes);
 
@@ -226,7 +225,7 @@ router.post('/servicepoint', function (req, res, next) {
         // defining know data
         var data = {
             'floor': req.body.floor,
-            'type': 'servicepoint',
+            'type': req.body.type,
             'name': req.body.name,
             'room_number': req.body.number,
             'url': req.body.url,

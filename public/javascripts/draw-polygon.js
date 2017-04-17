@@ -33,8 +33,6 @@
         var location2 = end.split("-")
         var point1 = getEntryPoint(location1[1]);
         var point2 = getEntryPoint(location2[1]);
-        console.log(point1);
-        console.log(point2);
         drawGrid(svg);
         drawLine(point1,point2);
     }
@@ -78,14 +76,14 @@ function getEntryPoint(location, callback) {
     // .attr("class", "tooltip")
     // .style("opacity", 0);
     // 
-    console.log(data);
+    //console.log(data);
     $('body').append(createTooltip(data));
 
 
-    console.log(data);
+    //console.log(data);
     points = JSON.parse(data.data_point)
 
-    console.log(points[0])
+    //console.log(points[0])
 
     var attrArray = []
 
@@ -128,12 +126,12 @@ function getEntryPoint(location, callback) {
 function getCenter(points){
     var points = points.split(" ");
 
-    console.log(points)
+    //console.log(points)
 
 
     var point1 = points[0].split(",");
-    console.log(point1[0]);
-    console.log(point1[1]);
+    //console.log(point1[0]);
+    //console.log(point1[1]);
     var point2 =  points[2].split(",");
 
     var center = {
@@ -236,7 +234,7 @@ function getCenter(points){
 
 
 
-        console.log(data);
+        //console.log(data);
         this.attributes.getNamedItem("fill").value = "red";
     });
 
@@ -272,7 +270,7 @@ function getCenter(points){
 
         //var points = this.attributes.getNamedItem("points").value;
 
-        console.log( this.attributes.getNamedItem("points").value);
+        //console.log( this.attributes.getNamedItem("points").value);
         this.attributes.getNamedItem("fill").value = "red";
     });
 
@@ -342,7 +340,7 @@ function getCenter(points){
 
             +  corners.point3.x + ',' + corners.point3.y + ' ' +  corners.point4.x + ',' + corners.point4.y 
 
-            console.log(data);
+            //console.log(data);
             this.attributes.getNamedItem("fill").value = "red";
         });
 
@@ -564,7 +562,7 @@ function createTooltip(data){
     // End butten on click event
     $('[id*="close-"]').on('click', function(){
         id = this.id.split('-')[1];
-        console.log(id);
+        //console.log(id);
         $('#tooltip-' + id).addClass('hidden');
     });
 }
@@ -636,7 +634,7 @@ function findObj(id){
  *******************************/
  function getTags(location, callback) {
 
-    console.log("inside getTags");
+    //console.log("inside getTags");
     var temp = false;
     $.ajax({
         type: "POST",
@@ -724,7 +722,7 @@ function drawByBox(svg){
 
         }
         if (point1 != null && point2 != null){
-            console.log()
+            //console.log()
             var points =  deriveCorners(point1, point2)
             drawSpace(svg, points)
             data = points;
