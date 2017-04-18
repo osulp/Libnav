@@ -22,38 +22,36 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Known Location Form</h1>
-                        <p>Known locations are fixed structures in the Library such as bathrooms, emergency exits,
-                            etc. </p>
-                        </div> <!-- /.col-lg-12 -->
-                    </div> <!-- /.row -->
+                        <p>Known locations are fixed structures in the Library such as bathrooms, emergency exits, etc. </p>
+                    </div> <!-- /.col-lg-12 -->
+                </div> <!-- /.row -->
 
-                    <!-- Form !-->
-                    <div class="row">
-                        <div class="col-lg-12">
+                <!-- Form !-->
+                <div class="row">
+                    <div class="col-lg-12">
 
-                            <form href="known" method="POST" role="form">
+                        <form  href="known" method="POST" role="form">
 
-                                <!-- Name & Floor !-->
-                                <div class="row">
+                            <!-- Name & Floor !-->
+                            <div class="row">
 
-                                    <!-- Location name input !-->
-                                    <div class="col-lg-6">
-                                        <div class="form-group" id="name-group">
-                                            <label for="name">Location Name</label>
-                                            <input type="text" id="name" name="name" class="form-control"
-                                            placeholder="location name"
-                                            autofocus>
-                                            <p class="help-block">Enter the name of the location being created.</p>
-                                            <span id="nameError" class="help-block"></span>
-                                        </div>
-                                    </div> <!-- / .col-lg-6 !-->
+                                <!-- Location name input !-->
+                                <div class="col-lg-6">
+                                    <div class="form-group" id="name-group">
+                                        <label for="name">Location Name</label>
+                                        <input type="text" id="name" name="name" class="form-control"
+                                        placeholder="location name"
+                                        autofocus>
+                                        <p class="help-block">Enter the name of the location being created.</p>
+                                        <span id="nameError" class="help-block"></span>
+                                    </div>
+                                </div> <!-- / .col-lg-6 !-->
 
-                                    <!-- Floor input !-->
-                                    <div class="col-lg-6">
-                                        <div class="form-group" id="floor-group">
-                                            <label for="floor">Floor</label>
-                                            <select id="floor" name="floor" class="form-control"
-                                            autofocus>
+                                <!-- Floor input !-->
+                                <div class="col-lg-3">
+                                    <div class="form-group" id="floor-group">
+                                        <label for="floor">Floor</label>
+                                        <select id="floor" name="floor" class="form-control" autofocus > 
                                             <option value=1>1</option>
                                             <option value=2>2</option>
                                             <option value=3>3</option>
@@ -64,7 +62,32 @@
                                         <p class="help-block">Enter the floor where location is located.</p>
                                         <span id="floorError" class="help-block"></span>
                                     </div>
-                                </div> <!-- / .col-lg-6 !-->
+                                </div> <!-- / .col-lg-3 !-->
+
+                                <!-- dispay Optison input !-->
+                                <div class="col-lg-3">
+                                    <div class="row" >
+                                        <div class="col-lg-12">
+                                            <div class="form-group" id="color-group">
+                                                <label for="color" >Color </label>
+                                                <input id="color" type="color" name="color" value="#33b5e5" style="float:right;"/>
+                                                <p class="help-block">Enter the color of the locaiton.</p>
+                                                <span id="colorError" class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" >
+                                        <div class="col-lg-12">
+                                            <div class="from-group" id="display-group">
+                                                <p class="input-label">Display Location Name </p>
+                                                <label class="radio-inline"><input type="radio" id="display-true" name="display" value="true" checked="checked"> Yes</label>
+                                                <label class="radio-inline"><input type="radio" id="display-false" name="display" value="false">No</label>
+                                                <p class="help-block">Hide the location on map.</p>
+                                                <span id="displayError" class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- / .col-lg-3 !-->
                             </div> <!-- / Name & Floor !-->
 
                             <!-- Attribute & Tags !-->
@@ -141,7 +164,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div> <!-- / Mark Location & Entry Point !-->
 
                             <!-- Map & Grid !-->
@@ -160,14 +182,10 @@
                             <button type="reset" class="btn btn-warning" id="btn-clear">Clear</button>
                             <button class="btn btn-danger" id="btn-cancel">Cancel</button>
                         </form>
-                    </div> <!-- col-lg-6 !-->
+                    </div> <!-- col-lg-12 !-->
                 </div> <!-- / Form .row !-->
-
-
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
+            </div><!-- /.container-fluid -->
+        </div><!-- /#page-wrapper -->
         {{> footer }}
     </div>
     <!-- /#wrapper -->
@@ -177,10 +195,10 @@
 
     {{> dashboard/javascript }}
 
-    
 
-    
-    
+
+
+
     <!-- Draw Polygons js !-->
     <script src="/public/javascripts/draw-polygon.js"></script>
 
@@ -208,7 +226,7 @@
             loadLocation(locationOBJ);
 
         }
-        
+
     </script>
 
 

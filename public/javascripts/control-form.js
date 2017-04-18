@@ -55,7 +55,13 @@ var update = false;
         alpha: true,
     },
     'type':{
-
+        title: 'Location Type',
+    },
+    'display': {
+        title: 'Dispaly Locaiton'
+    },
+    'color':{
+        title: 'Location Color',
     }
 };
 
@@ -101,7 +107,7 @@ var update = false;
             url = '/update'
         }
 
-         
+
 
         var data = getInputData();
 
@@ -164,7 +170,6 @@ var update = false;
 
     // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
-        console.log("Showing Grid");
         showGrid();
     });
 
@@ -191,38 +196,36 @@ var update = false;
  * @param url
  */
  function submitForm(data, url) {
-// for testing
-console.log(data);
+    // for testing
+    console.log(data);
 
-$.ajax({
-    type: "POST",
-    async: true,
-    url: url,
-    data: data
-})
-.done(function (data) {
-    console.log(data)
-    var result = JSON.parse(data);
-    if (result) {
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: url,
+        data: data
+    }).done(function (data) {
+        console.log(data)
+        var result = JSON.parse(data);
+        if (result) {
 
-                // shows modal on success
-                $('#modal-result').modal('show');
-                $('#modal-message-success').toggleClass('hidden');
-            }
-            else {
-                // display error message
-                // shows modal on success
-                $('#modal-result').modal('show');
-                $('#modal-message-warning').toggleClass('hidden');
+            // shows modal on success
+            $('#modal-result').modal('show');
+            $('#modal-message-success').toggleClass('hidden');
+        }
+        else {
+            // display error message
+            // shows modal on success
+            $('#modal-result').modal('show');
+            $('#modal-message-warning').toggleClass('hidden');
 
-                // Enable buttons for editing
-                enableBtns();
-            }
+            // Enable buttons for editing
+            enableBtns();
+        }
 
-        })
-.fail(function () {
-    console.log("Form submit failed");
-});
+    }).fail(function () {
+        console.log("Form submit failed");
+    });
 }
 
 /**
@@ -248,7 +251,7 @@ $.ajax({
         // scanning parsed text for empty strings.
         for (var t in text) {
             if (text[t] != "") {
-                newtext.push([null, text[t]]);
+                newtext.push(text[t]);
             }
         }
     }
@@ -271,7 +274,21 @@ $.ajax({
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
 
-        if (input.name in rules) {
+
+        if (input.name == 'display'){
+            console.log(input.checked);
+            if(input.checked == true && validateInput(input)){
+                if(input.value == 'true'){
+                    console.log("DISPLAY: " + input.value);
+                    data[input.name] = 1;
+                }
+                else if (input.value == 'false'){
+                    console.log("DISPLAY: " + input.value);
+                    data[input.name] = 0;
+                }
+            }
+        }
+        else if (input.name in rules) {
             /**
              * validate input
              * if 'true': save input to data obj
@@ -286,13 +303,14 @@ $.ajax({
         }
         else if (input.name == 'tag' || input.name == 'attribute') {
             if (validataSearchAtt(input)) {
-                data[input.name] = splitText(input.value);
+                data[input.name] = JSON.stringify(splitText(input.value));
             }
             else {
                 data[input.name] = null;
             }
 
         }
+        
 
     }
 
@@ -472,12 +490,6 @@ function getKnowLocations(id) {
         // success
         ShowError(result.approved, result.errors, input.name);
         ShowResults('success', input.name);
-
-        // saves that input is validated
-        //isValid[input.name] = result.approved;
-
-        // save form data
-        //formdata[input.name] = input.value;
     }
     else {
 
@@ -485,7 +497,6 @@ function getKnowLocations(id) {
         ShowError(result.approved, result.errors, input.name);
         ShowResults('error', input.name);
 
-        //isValid[input.name] = result.approved;
     }
     return result.approved;
 }
@@ -516,8 +527,8 @@ function getKnowLocations(id) {
  function validateData(data) {
     var results = true;
     for (var d in data) {
-        console.log(data[d]);
-        if (!data[d]) {
+        // check for valid infor except for the display fields.
+        if (!data[d] && d != 'display') {
 
             results = false;
             break;
@@ -526,7 +537,11 @@ function getKnowLocations(id) {
     return results;
 }
 
-function loadLocation(location){
+/**
+ * Load a location for editing
+ * @param  {location object } location [description]
+ */
+ function loadLocation(location){
 
     update = true;
     var ignoreAttrs = ['id', 'entry_point', 'data_point']
@@ -536,27 +551,22 @@ function loadLocation(location){
         'room_cap': 'capacity', 
         'room_num': 'number', 
         'attr': 'attribute',
-        'tags': 'tag'}
+        'tags': 'tag'
+    }
 
-        for(var a in location){
-            console.log(a);
-            console.log(a in attrDict && !(a in ignoreAttrs));
-            if( a in attrDict && !(a in ignoreAttrs)){
-                console.log(a)
-                if(a == 'attr' || a == 'tags'){
-                    var text = [];
-                    for(var at in location[a]){
-                        text.push(location[a][at])
-                        console.log(location[a][at]);
-                    }
-                    $('#' + attrDict[a]).val(text.join(', '));
-                }else{
-                    $('#' + attrDict[a]).val(location[a]);
+    for(var a in location){
+        console.log(a in attrDict && !(a in ignoreAttrs));
+        if( a in attrDict && !(a in ignoreAttrs)){
+            if(a == 'attr' || a == 'tags'){
+                var text = [];
+                for(var at in location[a]){
+                    text.push(location[a][at])
                 }
+                $('#' + attrDict[a]).val(text.join(', '));
+            }else{
+                $('#' + attrDict[a]).val(location[a]);
             }
         }
-
-
-
     }
+}
 

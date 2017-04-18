@@ -428,6 +428,8 @@ function fill(svg) {
     .style("stroke", "0cff00")
     .style("opacity", .25);
 }
+
+
 function createTooltip(data){
     var locationTags = cleanUpTags(data.id)
     var locationAttrs = cleanUpAttrs(data.id)
@@ -636,7 +638,7 @@ function findObj(id){
 
     //console.log("inside getTags");
     var temp = false;
-    $.ajax({
+    /* $.ajax({
         type: "POST",
         async: false,
         url: '/mapapi/getTags',
@@ -653,8 +655,8 @@ function findObj(id){
         console.log("Ajax Failed.");
     });
 
-    //console.log(temp);
-    return temp;
+    //console.log(temp); */
+    return "Hello World";
 }
 
 /*****************************
@@ -665,7 +667,7 @@ function findObj(id){
  *******************************/
  function getAttributes(location, callback) {
     var temp = false
-    $.ajax({
+    /*$.ajax({
         type: "POST",
         async: false,
         url: '/mapapi/getAttributes',
@@ -680,8 +682,8 @@ function findObj(id){
         })
     .fail(function () {
         console.log("Ajax Failed.");
-    });
-    return temp;
+    });*/
+    return "Hello World!";
 }
 
 

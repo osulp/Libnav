@@ -806,6 +806,10 @@ table.dataTable thead .sorting:after {
     margin-top: 5px;
 }
 
+label.inline-lable{
+    margin-right: 20px!important;
+}
+
 /* ---- btn Styleing ----*/
 .btn-group-wrap {
     text-align: center;

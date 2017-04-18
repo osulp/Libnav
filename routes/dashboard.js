@@ -37,6 +37,10 @@ router.post('/known', function (req, res, next) {
             'floor': req.body.floor,
             'type': req.body.type,
             'name': req.body.name,
+            'color' : req.body.color,
+            'display' : req.body.display,
+            'tag' : req.body.tag,
+            'attribute' : req.body.attribute,
             'data_point': req.body.location,
             'entry_point': req.body.entry
 
@@ -44,12 +48,9 @@ router.post('/known', function (req, res, next) {
 
         console.log(data);
 
-        var attributes = req.body.attribute;
-        var tags = req.body.tag;
-
         location.insertLocation(data, function (id) {
 
-            // applying id to attributes
+            /* // applying id to attributes
             if (attributes != null) {
                 for (var att in attributes) {
                     attributes[att][0] = id;
@@ -69,7 +70,7 @@ router.post('/known', function (req, res, next) {
 
                 // insert attributes into tags.
                 location.insertTag(tags);
-            }
+            }*/
 
             res.json(JSON.stringify(true));
 
@@ -100,6 +101,8 @@ router.post('/unknown', function (req, res, next) {
             'floor': req.body.floor,
             'type': req.body.type,
             'name': req.body.name,
+            'tag' : req.body.tag,
+            'attribute' : req.body.attribute,
             'data_point': req.body.location,
             'entry_point': req.body.entry
 
@@ -112,7 +115,7 @@ router.post('/unknown', function (req, res, next) {
 
         location.insertLocation(data, function (id) {
 
-            // applying id to attributes
+            /* // applying id to attributes
             if (attributes != null) {
                 for (var att in attributes) {
                     attributes[att][0] = id;
@@ -132,11 +135,11 @@ router.post('/unknown', function (req, res, next) {
 
                 // insert attributes into tags.
                 location.insertTag(tags);
-            }
+            } */
 
             res.json(JSON.stringify(true));
 
-        });
+        }); 
 
 
     } else {
@@ -165,6 +168,8 @@ router.post('/room', function (req, res, next) {
             'name': req.body.name,
             'room_number': req.body.number,
             'room_cap': req.body.capacity,
+            'tag' : req.body.tag,
+            'attribute' : req.body.attribute,
             'data_point': req.body.location,
             'entry_point': req.body.entry
 
@@ -177,7 +182,7 @@ router.post('/room', function (req, res, next) {
 
         location.insertLocation(data, function (id) {
 
-            // applying id to attributes
+            /* // applying id to attributes
             if (attributes != null) {
                 for (var att in attributes) {
                     attributes[att][0] = id;
@@ -196,7 +201,7 @@ router.post('/room', function (req, res, next) {
 
                 // insert attributes into tags.
                 location.insertTag(tags);
-            }
+            }*/ 
 
             res.json(JSON.stringify(true));
 
@@ -229,6 +234,8 @@ router.post('/servicepoint', function (req, res, next) {
             'name': req.body.name,
             'room_number': req.body.number,
             'url': req.body.url,
+            'tag' : req.body.tag,
+            'attribute' : req.body.attribute,
             'data_point': req.body.location,
             'entry_point': req.body.entry
 
@@ -241,7 +248,7 @@ router.post('/servicepoint', function (req, res, next) {
 
         location.insertLocation(data, function (id) {
 
-            // applying id to attributes
+            /* // applying id to attributes
             if (attributes != null) {
                 for (var att in attributes) {
                     attributes[att][0] = id;
@@ -261,7 +268,7 @@ router.post('/servicepoint', function (req, res, next) {
 
                 // insert attributes into tags.
                 location.insertTag(tags);
-            }
+            }*/
 
             res.json(JSON.stringify(true));
 
