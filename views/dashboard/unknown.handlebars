@@ -47,11 +47,10 @@
                                 </div> <!-- / .col-lg-6 !-->
 
                                 <!-- Floor input !-->
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group" id="floor-group">
                                         <label for="floor">Floor</label>
-                                        <select id="floor" name="floor" class="form-control"
-                                                autofocus>
+                                        <select id="floor" name="floor" class="form-control" autofocus > 
                                             <option value=1>1</option>
                                             <option value=2>2</option>
                                             <option value=3>3</option>
@@ -62,7 +61,32 @@
                                         <p class="help-block">Enter the floor where location is located.</p>
                                         <span id="floorError" class="help-block"></span>
                                     </div>
-                                </div> <!-- / .col-lg-6 !-->
+                                </div> <!-- / .col-lg-3 !-->
+
+                                <!-- dispay Optison input !-->
+                                <div class="col-lg-3">
+                                    <div class="row" >
+                                        <div class="col-lg-12">
+                                            <div class="form-group" id="color-group">
+                                                <label for="color" >Color </label>
+                                                <input id="color" type="color" name="color" value="#33b5e5" style="float:right;"/>
+                                                <p class="help-block">Enter the color of the locaiton.</p>
+                                                <span id="colorError" class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" >
+                                        <div class="col-lg-12">
+                                            <div class="from-group" id="display-group">
+                                                <p class="input-label">Display Location Name </p>
+                                                <label class="radio-inline"><input type="radio" id="display-true" name="display" value="true" checked="checked"> Yes</label>
+                                                <label class="radio-inline"><input type="radio" id="display-false" name="display" value="false">No</label>
+                                                <p class="help-block">Hide the location on map.</p>
+                                                <span id="displayError" class="help-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- / .col-lg-3 !-->
                             </div> <!-- / Name & Floor !-->
 
                             <!-- Attribute & Tags !-->
