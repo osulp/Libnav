@@ -431,8 +431,8 @@ function fill(svg) {
 
 
 function createTooltip(data){
-    var locationTags = cleanUpTags(data.id)
-    var locationAttrs = cleanUpAttrs(data.id)
+    var locationTags = JSON.parse(data['attribute']);//cleanUpTags(data.id)
+    var locationAttrs = JSON.parse(data['tag']); //cleanUpAttrs(data.id)
     var tooltip = $('<div>',{
         'id': 'tooltip-' + data.id,
         'class': 'location-tooltip hidden'
