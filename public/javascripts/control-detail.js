@@ -39,10 +39,10 @@ function getLocationInfo(id){
 function displayLocation(location) {
 	// write location info to page
 	for (var a in location) {
-        if(a == 'attr'){
+        if(a == 'attribute'){
             writeAttributes(location[a]);
         }
-        else if (a == 'tags'){
+        else if (a == 'tag'){
             writeTags(location[a]);
         }
         else if (location[a] != null && a != 'point'){
@@ -57,10 +57,8 @@ function displayLocation(location) {
 
 function writeAttributes(attr){
     // write attributes
-    var attrOutput = [];
-    for (var a in attr) {
-        attrOutput.push(attr[a]);
-    }
+    var attrOutput = JSON.parse(attr);
+
     if (attrOutput != null) {
     	$('#data-attributes').text(attrOutput.join(', '));
     }
@@ -71,10 +69,8 @@ function writeAttributes(attr){
 
 function writeTags(tags){
     // write tags
-    var tagOutput = [];
-    for (var t in tags) {
-        tagOutput.push(tags[t]);
-    }
+    var tagOutput = JSON.parse(tags);
+
     if (tagOutput != null) {
     	$('#data-tags').text(tagOutput.join(', '));
     }
