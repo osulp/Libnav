@@ -24,7 +24,7 @@ $(function () {
     // get all grid()
 
     // get all terms for searching
-    searchableTerms = getSearchTerms();
+    //searchableTerms = getSearchTerms();
 
     /*
      * On sidebar navigation click
@@ -197,6 +197,8 @@ function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
         locations = JSON.parse(locationJSON[0]);
+
+        grids = JSON.parse(gridJSON[0])
 
         // display success message
         fillSidebar(locations);
