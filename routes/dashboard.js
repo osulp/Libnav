@@ -99,33 +99,23 @@ router.post('/unknown', function (req, res, next) {
         var attributes = req.body.attribute;
         var tags = req.body.tag;
 
-        location.insertLocation(data, function (id) {
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                    console.log(attributes[att]);
-                }
-                location.insertAttribute(attributes);
+            location.insertLocation(data, function (id) {
 
-            }
+                res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // insert attributes into tags.
-                location.insertTag(tags);
-            } */
-
-            res.json(JSON.stringify(true));
-
-        }); 
+            });
+        }
 
 
     } else {
@@ -166,32 +156,23 @@ router.post('/room', function (req, res, next) {
         var attributes = req.body.attribute;
         var tags = req.body.tag;
 
-        location.insertLocation(data, function (id) {
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                }
-                location.insertAttribute(attributes);
+            location.insertLocation(data, function (id) {
 
-            }
+                res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // insert attributes into tags.
-                location.insertTag(tags);
-            }*/ 
-
-            res.json(JSON.stringify(true));
-
-        });
+            });
+        }
 
 
     } else {
@@ -231,33 +212,23 @@ router.post('/servicepoint', function (req, res, next) {
         var attributes = req.body.attribute;
         var tags = req.body.tag;
 
-        location.insertLocation(data, function (id) {
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                    console.log(attributes[att]);
-                }
-                location.insertAttribute(attributes);
+            location.insertLocation(data, function (id) {
 
-            }
+                res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // insert attributes into tags.
-                location.insertTag(tags);
-            }*/
-
-            res.json(JSON.stringify(true));
-
-        });
+            });
+        }
 
     } else {
         res.render('error/login');
