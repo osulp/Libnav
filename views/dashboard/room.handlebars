@@ -244,6 +244,18 @@
     <!-- Form Controls JS !-->
     <script src="/public/javascripts/control-form.js" ></script>
 
+    <script>
+        var data = {{{data}}}
+        var locationOBJ  = null;
+        if( data != null){
+            locationOBJ = data;
+
+            loadLocation(locationOBJ);
+
+        }
+
+    </script>
+
 
 
 </body>

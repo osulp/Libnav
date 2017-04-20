@@ -11,20 +11,42 @@ exports.insertLocation = function (data, callback) {
 
     // insert information into floor table
     db.connection.query('INSERT INTO location SET ?', data, function (error, results, fields) {
-        db.connection.end();
 
         if (error) throw error;
-
         callback(results.insertId);
 
     });
 
     // close connection to database
-/*
     db.connection.end();
-    */
 
+    
 
+};
+
+exports.updateLocation = function (data, id, callback) {
+
+    var results = null;
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert information into floor table
+    db.connection.query('UPDATE location set ? where id=' + id, data, function (error, results, fields) {
+
+        if (error) throw error;
+
+        
+
+        callback(results);
+        
+    });
+
+    // close connection to database
+    db.connection.end();
+    
 
 };
 
@@ -82,14 +104,17 @@ exports.getLocations = function(callback){
     // connect to database
     db.connection.connect();
 
-    // insert attributes
-    db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point, entry_point from location', function (error, results, fields) {
+    // Get all locations
+    db.connection.query('SELECT * from location', function (error, results, fields) {
         if (error) throw error;
+
+        //close connection to database
+        //db.connection.end();
+
         callback(results);
     });
 
-    // close connection to database
-    db.connection.end();
+    
 };
 
 /*exports.getLocations = function(id, callback){
@@ -120,11 +145,17 @@ exports.deleteLocationById = function(id, callback){
     // insert attributes
     db.connection.query('DELETE FROM location where id=? ', id , function (error, results, fields) {
         if (error) throw error;
+
+        
+
+
         callback(results);
     });
 
     // close connection to database
     db.connection.end();
+
+    
 }
 
 
@@ -138,11 +169,15 @@ exports.getEntryPoint = function ( location, callback){
     // insert attributes
     db.connection.query('SELECT entry_point from location where id=? ', location , function (error, results, fields) {
         if (error) throw error;
+
+        
+
         callback(results);
     });
 
     // close connection to database
     db.connection.end();
+    
 }
 
 
@@ -173,19 +208,25 @@ exports.getTags = function (location, callback){
     // insert attributes
     db.connection.query('SELECT attr from tag where location_id=? ', location, function (error, results, fields) {
         if (error) throw error;
+
+        
+
         callback(results);
+
+        
     });
 
     // close connection to database
     db.connection.end();
+    
 };
 
 exports.getLocationById = function(id, callback){
-    var tagQuery = 'SELECT attr from tag where location_id=?';
+    /*var tagQuery = 'SELECT attr from tag where location_id=?';
     var attrQuery = 'SELECT attr from attribute where location_id=?';
     var locationQuery = 'SELECT * from location where id=?';
 
-    var location = {};
+    var location = {};*/
 
     // create database connection
     db.createConnection();
@@ -193,7 +234,17 @@ exports.getLocationById = function(id, callback){
     // connect to database
     db.connection.connect();
 
-    async.parallel([
+    db.connection.query('SELECT * from location where id=' + id, function (error, results, fields) {
+        if (error) throw error;
+        callback(results[0]);
+        
+        
+    });
+
+    // close connection to database
+    db.connection.end();
+
+    /*async.parallel([
         function(parallel_done){
             db.connection.query(locationQuery, id, function(error, result, fields){
                 if(error) return parallel_done(error);
@@ -231,9 +282,9 @@ exports.getLocationById = function(id, callback){
         ],
         function(error){
             if(error) console.log(error);
-            db.connection.end();
+            
             callback(location);
-        });
+        });*/
     
 };
 
@@ -289,7 +340,7 @@ exports.getSearch = function( callback){
         ],
         function(error){
             if(error) console.log(error);
-            db.connection.end();
+            //db.connection.end();
             callback(location);
         });
     

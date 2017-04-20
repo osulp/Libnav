@@ -1,5 +1,6 @@
 var svg;
 var update = false;
+var locationId = null;
 
 /**
  * Validation rules for all forms
@@ -102,10 +103,7 @@ var update = false;
         disableBtns();
         var url = $('form').attr('href');
 
-        // check if we are update a location
-        if(update){
-            url = '/update'
-        }
+
 
 
 
@@ -115,6 +113,18 @@ var update = false;
         //submitForm(data, url);
 
         if (validateData(data)) {
+
+             // // check if we are update a location
+             if(update){
+                url = '/dashboard/' + data['type'];
+
+                // set update flag
+                data['update'] = update;
+
+                // set id for updating database
+                data['id'] = locationId;
+            }
+
             // Submit data
             submitForm(data, url);
         }
@@ -543,30 +553,47 @@ function getKnowLocations(id) {
  */
  function loadLocation(location){
 
+    // set id when loading location for update
+    locationId = location['id'];
+
+    // set update flag
     update = true;
+
     var ignoreAttrs = ['id', 'entry_point', 'data_point']
     var attrDict = {
         'name': 'name', 
         'floor': 'floor', 
         'room_cap': 'capacity', 
-        'room_num': 'number', 
-        'attr': 'attribute',
-        'tags': 'tag'
+        'room_number': 'number', 
+        'attribute': 'attribute',
+        'tag': 'tag',
+        'color': 'color',
+        'display': 'display'
     }
 
     for(var a in location){
-        console.log(a in attrDict && !(a in ignoreAttrs));
+        console.log(a + ': ' + location[a]);
         if( a in attrDict && !(a in ignoreAttrs)){
-            if(a == 'attr' || a == 'tags'){
-                var text = [];
-                for(var at in location[a]){
-                    text.push(location[a][at])
-                }
+            if(a == 'attribute' || a == 'tag'){
+
+                var text = JSON.parse(location[a]);
+                console.log(text);
                 $('#' + attrDict[a]).val(text.join(', '));
-            }else{
-                $('#' + attrDict[a]).val(location[a]);
             }
-        }
-    }
+            else if (a == 'display'){
+                var display = null;
+                if( location[a]){
+                    display = 'true';
+                }
+                else {
+                    display = 'false'
+                }
+                $('#' + attrDict[a] + '-' + display).prop('checked',true);
+            }
+            else{
+             $('#' + attrDict[a]).val(location[a]);
+         }
+     }
+ }
 }
 
