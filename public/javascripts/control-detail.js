@@ -29,10 +29,10 @@ $(function(){
 
 function getLocationInfo(id){
     return $.ajax({
-		type: "GET",
-		async: true,
-		url: "/dashboard/details/data/" + id
-	});
+      type: "GET",
+      async: true,
+      url: "/dashboard/details/data/" + id
+  });
 };
 
 
@@ -45,13 +45,31 @@ function displayLocation(location) {
         else if (a == 'tag'){
             writeTags(location[a]);
         }
+        else if (a == 'color'){
+            $('#data-' + a).css('height', '20px');
+            $('#data-' + a).css('background-color', location[a]);
+        }
+        else if (a == 'display'){
+            var display = null;
+
+            console.log(location[a]);
+            if(location[a]){
+                display = "True";
+            }
+            else {
+                display = "False";
+            }
+            console.log(display);
+            $('#data-' + a).text(display);
+        }
         else if (location[a] != null && a != 'point'){
             $('#data-' + a).text(location[a]);
         }
+        
         else{
             $('#wrapper-' + a).addClass('hidden');
         }
-	}
+    }
 }
 
 
@@ -85,7 +103,8 @@ function deleteLocation(id){
         type: "GET",
         async: true,
         url: "/dashboard/location/delete/" + id
-    }).done(function(result){
+    })
+    .done(function(result){
         console.log(result)
         if (result) {
 
@@ -100,17 +119,17 @@ function deleteLocation(id){
                 $('#modal-message-warning').toggleClass('hidden');
             }
 
-    }).fail(function(){
+        })
+    .fail(function(){
 
     })
 }
 
 function loadmap(id, data){
-    console.log(data);
-            // load map
+    // load map
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
-    	if (error) throw error;
+       if (error) throw error;
 
         // select map wrapper
         var mapwrapper = d3.select('#map-wrapper');
