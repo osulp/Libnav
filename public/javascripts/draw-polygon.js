@@ -15,6 +15,7 @@
  var show  =false;
  var startPos = null;
  var endPos = null;
+ var locationLayers = false;
 
 
 
@@ -40,6 +41,18 @@
     
 }
 
+function buildLayers(svg){
+    var known = svg.append('g')
+        .attr('id', 'layer-known');
+    var unknow = svg.append('g')
+        .attr('id', 'layer-unknown');
+    var servicepoint = svg.append('g')
+        .attr('id', 'layer-servicepoint');
+    var room = svg.append('g')
+        .attr('id', 'layer-room');
+
+        locationLayers = true;
+}
 
 function getEntryPoint(location, callback) {
     var temp = false
@@ -72,25 +85,34 @@ function getEntryPoint(location, callback) {
  * Return: none
  *****************************/ 
  function renderPolygons(svg, data) {
-    // var div = d3.select("body").append("div")
-    // .attr("class", "tooltip")
-    // .style("opacity", 0);
-    // 
-    //console.log(data);
     $('body').append(createTooltip(data));
 
-
-    //console.log(data);
     points = JSON.parse(data.data_point)
-
-    //console.log(points[0])
 
     var attrArray = []
 
-    var foo = svg.append('g').attr('class', 'newLayer')
-    .text("hello world")
-    .style('fill', 'black')
-    .append("polygon")
+    var layer = null;
+
+    if(locationLayers){
+        layer = svg.select('#layer-' + data.type);
+    }
+    else{
+        console.log(svg.select('#layer-locaiton').empty());
+        if(svg.select('#layer-locaiton').empty()){
+            layer = svg.append('g').attr('id', 'layer-locaiton');
+        }
+        else{
+            layer = svg.select('#layer-locaiton')
+        }
+    }
+
+    
+
+    //var foo = svg.append('g').attr('class', 'newLayer')
+    //.text("hello world")
+    //.style('fill', 'black')
+    //
+    layer.append("polygon")
     .attr("id", "poly-"+ data.id +"" )
     .attr("points", points)
     .on("click", function(){
@@ -108,18 +130,20 @@ function getEntryPoint(location, callback) {
             div.addClass('hidden');
         }
     })
-    .style("fill", "0cff00")
-    .style("stroke", "0cff00")
+    .style("fill", data.color)
+    .style("stroke", data.color)
     .style("opacity", 0.5);
 
 
-    var g = getCenter(points);
-    svg.append('text')
-    .attr('x', g.x )
-    .attr('y', g.y)
-    .attr('text-anchor', 'middle')
-    .style('font-size', '16px')
-    .text(data.name)
+    if(data.display){
+        var g = getCenter(points);
+        svg.append('text')
+        .attr('x', g.x )
+        .attr('y', g.y)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .text(data.name);
+    }
 
 }
 

@@ -149,6 +149,7 @@ function loadMap() {
 
         // save svg object
         svg = mapwrapper.select("svg");
+        buildLayers(svg);
         loadLocationByFloor(svg, floor);
 
     });
