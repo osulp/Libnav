@@ -201,7 +201,6 @@ var locationToggle = false;
     })
 
     $('#btn-toggle-locations').on('click',function(){
-        console.log("you click me");
 
         var layer = svg.select('#layer-locaiton');
 
@@ -223,8 +222,6 @@ var locationToggle = false;
  * @param url
  */
  function submitForm(data, url) {
-    // for testing
-    console.log(data);
 
     $.ajax({
         type: "POST",
@@ -232,7 +229,6 @@ var locationToggle = false;
         url: url,
         data: data
     }).done(function (data) {
-        console.log(data)
         var result = JSON.parse(data);
         if (result) {
 
@@ -303,14 +299,11 @@ var locationToggle = false;
 
 
         if (input.name == 'display'){
-            console.log(input.checked);
             if(input.checked == true && validateInput(input)){
                 if(input.value == 'true'){
-                    console.log("DISPLAY: " + input.value);
                     data[input.name] = 1;
                 }
                 else if (input.value == 'false'){
-                    console.log("DISPLAY: " + input.value);
                     data[input.name] = 0;
                 }
             }
@@ -589,12 +582,9 @@ function getKnowLocations(id) {
     }
 
     for(var a in location){
-        console.log(a + ': ' + location[a]);
         if( a in attrDict && !(a in ignoreAttrs)){
             if(a == 'attribute' || a == 'tag'){
-
                 var text = JSON.parse(location[a]);
-                console.log(text);
                 $('#' + attrDict[a]).val(text.join(', '));
             }
             else if (a == 'display'){
