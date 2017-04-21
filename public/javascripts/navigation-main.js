@@ -362,8 +362,9 @@ var markPoints = function () {
 };
 
 
-function deleteGrid(){
-    $("#grid").empty();
+function deleteGrid(svg){
+    var grid = svg.select('#navigation-grid');
+    grid.remove();
 }
 
 

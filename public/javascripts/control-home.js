@@ -78,6 +78,7 @@ $(function () {
 
 
      $('#nagivation-start').on('click', function(){
+        console.log(startPos != null && endPos != null);
         if(startPos != null && endPos != null){
             drawGrid(svg);
             drawLine(startPos,endPos);
@@ -86,7 +87,7 @@ $(function () {
 
      $('#navigation-clear').on('click', function(){
         console.log("you clicked me");
-        deleteGrid();
+        deleteGrid(svg);
     })
 
  });
