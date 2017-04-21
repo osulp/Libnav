@@ -51,18 +51,14 @@ var loadGridForKnown = function (svgi) {
 };
 
 /*Takes svg */
-var drawGrid = function (svg) {
+var drawGrid = function (svgP) {
 
-    //var svg = svgP;
-    //svgP = svgP._groups[0][0];\
+    svgP = svgP._groups[0][0];
     var h = null;
     var w = null;
     if(svg !=null){
-        //w = svg.attributes.width.value;
-        //h = svg.attributes.height.value;  
-
-        w = parseInt(svg.style("width"));
-        h = parseInt(svg.style("height"));
+        w = svgP.attributes.width.value;
+        h = svgP.attributes.height.value;  
     }else{
         w = 700;
         h = 700;
@@ -71,16 +67,15 @@ var drawGrid = function (svg) {
     
     var square = 12;
     
-    //w = w.slice(0, -6);
-    //h = h.slice(0, -6);
+    w = w.slice(0, -6);
+    h = h.slice(0, -6);
 
     console.log(w);
 
     
     // create the svg
-    //grid = d3.select('#grid').append('svg');
-    //
-    grid = svg.append('g').attr('id', 'navigation-grid');
+    grid = d3.select('#grid').append('svg');
+
     grid.attr("width", w).attr("height", h).attr("class","navGrid");
 
     // calculate number of rows and columns
