@@ -48,7 +48,7 @@ function fuseSearch(searchString){
 
     {
       id: 1,
-      ...
+      //...
       tags: "['tag','tag', 'tag','tag']",
       attr: "['arrt','arrt','attr','attr']"
     }

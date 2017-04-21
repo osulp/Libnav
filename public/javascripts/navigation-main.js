@@ -264,18 +264,19 @@ var clearPaths = function () {
 var drawLine = function(point1, point2){
   
      var pos1 = point1.entry_point.split('-');
-     var row1 = pos1[1];
-     var col1 = pos1[2];
+     var row1 = parseInt(pos1[1]);
+     var col1 = parseInt(pos1[2]);
      var pos2 = point2.entry_point.split('-');
-     var row2 = pos2[1];
-     var col2 = pos2[2];
+     var row2 = parseInt(pos2[1]);
+     var col2 = parseInt(pos2[2]);
+     var path = null;
      
      var finder = new PF.AStarFinder();
      if(gridCalc == null || gridCalc===undefined){
         setGridPathFinderFromDB();
-        var path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+        path = finder.findPath(row1, col1,  row2, col2, gridCalc);
      }else{
-        var path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+        path = finder.findPath(row1, col1,  row2, col2, gridCalc);
      }
 
 

@@ -12,6 +12,7 @@ var searchTerm = null;
 
 // Contains array of grid objects
 var grids = null;
+var currentGrid = null;
 
 $(function () {
 
@@ -89,12 +90,12 @@ $(function () {
  * @returns {*}
  */
 function getGrids() {
-    $.ajax({
+    return $.ajax({
         type: "get",
         async: true,
         url: '/mapapi/grids'
-    })
-        .done(function (data) {
+    });
+        /*.done(function (data) {
             var result = JSON.parse(data);
             grids = result;
             if (result) {
@@ -113,7 +114,7 @@ function getGrids() {
         })
         .fail(function () {
             console.log("Location not retrieved");
-        });
+        });*/
 }
 
 
@@ -149,8 +150,6 @@ function loadMap() {
         // save svg object
         svg = mapwrapper.select("svg");
         loadLocationByFloor(svg, floor);
-        // loadgird(id)
-        //getGridFromDB();
 
     });
 
@@ -197,8 +196,8 @@ function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
         locations = JSON.parse(locationJSON[0]);
-
-        grids = JSON.parse(gridJSON[0])
+        grids = JSON.parse(gridJSON[0]);
+        console.log(grids);
 
         // display success message
         fillSidebar(locations);
@@ -206,7 +205,12 @@ function initialize() {
         // load map
         loadMap(floor);
 
-
+        for(var g in grids){
+            console.log(g);
+            if(grids[g].floor == floor){
+                floorGridFromDB = JSON.parse(grids[g].data);
+            }
+        }
 
     });
 }
