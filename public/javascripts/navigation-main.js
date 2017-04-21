@@ -51,26 +51,36 @@ var loadGridForKnown = function (svgi) {
 };
 
 /*Takes svg */
-var drawGrid = function (svgP) {
+var drawGrid = function (svg) {
 
-    svgP = svgP._groups[0][0];
-    if(svgP!=null){
-        var w = svgP.attributes.width.value;
-        var h = svgP.attributes.height.value;    
+    //var svg = svgP;
+    //svgP = svgP._groups[0][0];\
+    var h = null;
+    var w = null;
+    if(svg !=null){
+        //w = svg.attributes.width.value;
+        //h = svg.attributes.height.value;  
+
+        w = parseInt(svg.style("width"));
+        h = parseInt(svg.style("height"));
     }else{
-        var w = 700;
-        var h = 700;
+        w = 700;
+        h = 700;
         
     }
     
     var square = 12;
     
-    w = w.slice(0, -6);
-    h = h.slice(0, -6);
+    //w = w.slice(0, -6);
+    //h = h.slice(0, -6);
+
+    console.log(w);
 
     
     // create the svg
-    grid = d3.select('#grid').append('svg');
+    //grid = d3.select('#grid').append('svg');
+    //
+    grid = svg.append('g').attr('id', 'navigation-grid');
     grid.attr("width", w).attr("height", h).attr("class","navGrid");
 
     // calculate number of rows and columns
@@ -352,9 +362,10 @@ var markPoints = function () {
 };
 
 
-var deleteGrid = function(){
-    $(".navGrid").remove();
+function deleteGrid(){
+    $("#grid").empty();
 }
+
 
 
 $("#navLine").on("click", function () {

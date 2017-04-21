@@ -84,6 +84,11 @@ $(function () {
         }
     })
 
+     $('#navigation-clear').on('click', function(){
+        console.log("you clicked me");
+        deleteGrid();
+    })
+
  });
 
 
@@ -226,7 +231,7 @@ $(function () {
 
         var polyLocaiton = svg.select('#poly-' + id);
         polyLocaiton.style("filter", "url(#glow)")
-                    .style("opacity", 1);
+                    .style("opacity", .8);
 
         selectedLocaiton = id;
 
