@@ -12,8 +12,8 @@ var searchTerm = null;
 
 // Contains array of grid objects
 var grids = null;
-var currentGrid = null;
 
+var selectedLocaiton = null;
 $(function () {
 
     // Setting default floor
@@ -33,7 +33,7 @@ $(function () {
      *  parser id of floor link click
      *  load corresponding floor.
      */
-    $('a[id*="floor-"]').on('click', function () {
+     $('a[id*="floor-"]').on('click', function () {
         floor = this.id.split('-')[1];
         $('#map-wrapper').empty();
         $('#navgrid').empty();
@@ -41,7 +41,9 @@ $(function () {
 
     });
 
-    $('#input-search').keyup(function(event){
+     
+
+     $('#input-search').keyup(function(event){
         var input = $('#input-search').val();
         var searchWrapper = $('#search-results-wrapper');
         var searchUl = $('#search-results-ul');
@@ -75,21 +77,21 @@ $(function () {
     })
 
 
-    $('#nagivation-start').on('click', function(){
+     $('#nagivation-start').on('click', function(){
         if(startPos != null && endPos != null){
             drawGrid(svg);
             drawLine(startPos,endPos);
         }
     })
 
-});
+ });
 
 
 /**
  * Gets all grids from database
  * @returns {*}
  */
-function getGrids() {
+ function getGrids() {
     return $.ajax({
         type: "get",
         async: true,
@@ -115,7 +117,7 @@ function getGrids() {
         .fail(function () {
             console.log("Location not retrieved");
         });*/
-}
+    }
 
 
 /**
@@ -123,7 +125,7 @@ function getGrids() {
  * @param data
  * @param url
  */
-function getLocations() {
+ function getLocations() {
     return $.ajax({
         type: "get",
         async: false,
@@ -136,7 +138,7 @@ function getLocations() {
  * loads svg map based on id
  * @param id
  */
-function loadMap() {
+ function loadMap() {
     var map = '/public/images/floor-' + floor + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
@@ -152,6 +154,26 @@ function loadMap() {
         buildLayers(svg);
         loadLocationByFloor(svg, floor);
 
+
+        // creating glow effect 
+        //Container for the gradients
+        var defs = svg.append("defs");
+
+        //Filter for the outside glow
+        var filter = defs.append("filter")
+        .attr("id","glow");
+        
+        filter.append("feGaussianBlur")
+        .attr("stdDeviation","10")
+        .attr("result","coloredBlur");
+        
+        var feMerge = filter.append("feMerge");
+        
+        feMerge.append("feMergeNode")
+        .attr("in","coloredBlur");
+        
+        feMerge.append("feMergeNode")
+        .attr("in","SourceGraphic");
     });
 
 }
@@ -161,7 +183,7 @@ function loadMap() {
  * @param svg
  * @param floor
  */
-function loadLocationByFloor(svg, floor){
+ function loadLocationByFloor(svg, floor){
     for (var l in locations) {
         if (locations[l].floor == floor) {
             renderPolygons(svg, locations[l]);
@@ -178,18 +200,37 @@ function loadLocationByFloor(svg, floor){
  *  Display know location in the sidebar of the home page
  * @param locations
  */
-function fillSidebar() {
+ function fillSidebar() {
+    var id = "location-";
     console.log("inside locaiton");
     for (var l in locations) {
 
         if(locations[l]['type'] == 'known') {
             $('#navsb-floor-' + locations[l].floor).append(
                 $('<li>').append(
-                    $('<a>', {text: locations[l].name, href: '#'})
+                    $('<a>', {text: locations[l].name, href: '#', id: id + locations[l].id})
+                    )
                 )
-            )
         }
     }
+
+    $('a[id*="location-"]').on('click', function () {
+
+        id = this.id.split('-')[1];
+
+        if(selectedLocaiton){
+            var temp = svg.select('#poly-' + selectedLocaiton);
+            temp.style("filter", null)
+                .style("opacity", .5);
+        }
+
+        var polyLocaiton = svg.select('#poly-' + id);
+        polyLocaiton.style("filter", "url(#glow)")
+                    .style("opacity", 1);
+
+        selectedLocaiton = id;
+
+    });
 }
 
 
