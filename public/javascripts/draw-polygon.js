@@ -102,7 +102,7 @@ function getEntryPoint(location, callback) {
             layer = svg.append('g').attr('id', 'layer-locaiton');
         }
         else{
-            layer = svg.select('#layer-locaiton')
+            layer = svg.select('#layer-locaiton');
         }
     }
 

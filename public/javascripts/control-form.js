@@ -1,6 +1,7 @@
 var svg;
 var update = false;
 var locationId = null;
+var locationToggle = false;
 
 /**
  * Validation rules for all forms
@@ -197,6 +198,22 @@ var locationId = null;
     $('#btn-navigation-save').on('click', function () {
         // Stephen put call to save entity point method here
         // getEntry();
+    })
+
+    $('#btn-toggle-locations').on('click',function(){
+        console.log("you click me");
+
+        var layer = svg.select('#layer-locaiton');
+
+        if(locationToggle == false){
+            layer.attr("visibility", "hidden");
+            locationToggle = true;
+        }
+        else{
+            layer.attr("visibility", "show");
+            locationToggle = false;
+        }
+
     })
 });
 
@@ -591,9 +608,9 @@ function getKnowLocations(id) {
                 $('#' + attrDict[a] + '-' + display).prop('checked',true);
             }
             else{
-             $('#' + attrDict[a]).val(location[a]);
-         }
-     }
- }
+               $('#' + attrDict[a]).val(location[a]);
+           }
+       }
+   }
 }
 
