@@ -17,7 +17,7 @@ var selectedLocaiton = null;
 $(function () {
 
     // Setting default floor
-    floor = '1';
+    floor = '2';
 
     // Initialize the libnav application
     initialize();
@@ -87,7 +87,7 @@ $(function () {
 
      $('#navigation-clear').on('click', function(){
         console.log("you clicked me");
-        deleteGrid(svg);
+        deleteGrid();
     })
 
  });
@@ -211,15 +211,14 @@ $(function () {
     console.log("inside locaiton");
     for (var l in locations) {
 
-        if(locations[l]['type'] == 'known') {
+        //if(locations[l]['type'] == 'known') {
             $('#navsb-floor-' + locations[l].floor).append(
                 $('<li>').append(
                     $('<a>', {text: locations[l].name, href: '#', id: id + locations[l].id})
                     )
                 )
-        }
+        //}
     }
-
     $('a[id*="location-"]').on('click', function () {
 
         id = this.id.split('-')[1];

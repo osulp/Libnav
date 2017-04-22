@@ -357,9 +357,10 @@ var markPoints = function () {
 };
 
 
-function deleteGrid(svg){
-    var grid = svg.select('#navigation-grid');
-    grid.remove();
+function deleteGrid(){
+    //var grid = svg.select('#grid');
+    //grid.remove();
+    $('.navGrid').remove();
 }
 
 
