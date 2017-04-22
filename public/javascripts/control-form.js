@@ -1,5 +1,7 @@
 var svg;
 var update = false;
+var locationId = null;
+var locationToggle = false;
 
 /**
  * Validation rules for all forms
@@ -102,10 +104,7 @@ var update = false;
         disableBtns();
         var url = $('form').attr('href');
 
-        // check if we are update a location
-        if(update){
-            url = '/update'
-        }
+
 
 
 
@@ -115,6 +114,18 @@ var update = false;
         //submitForm(data, url);
 
         if (validateData(data)) {
+
+             // // check if we are update a location
+             if(update){
+                url = '/dashboard/' + data['type'];
+
+                // set update flag
+                data['update'] = update;
+
+                // set id for updating database
+                data['id'] = locationId;
+            }
+
             // Submit data
             submitForm(data, url);
         }
@@ -188,6 +199,21 @@ var update = false;
         // Stephen put call to save entity point method here
         // getEntry();
     })
+
+    $('#btn-toggle-locations').on('click',function(){
+
+        var layer = svg.select('#layer-locaiton');
+
+        if(locationToggle == false){
+            layer.attr("visibility", "hidden");
+            locationToggle = true;
+        }
+        else{
+            layer.attr("visibility", "show");
+            locationToggle = false;
+        }
+
+    })
 });
 
 /**
@@ -196,8 +222,6 @@ var update = false;
  * @param url
  */
  function submitForm(data, url) {
-    // for testing
-    console.log(data);
 
     $.ajax({
         type: "POST",
@@ -205,7 +229,6 @@ var update = false;
         url: url,
         data: data
     }).done(function (data) {
-        console.log(data)
         var result = JSON.parse(data);
         if (result) {
 
@@ -276,14 +299,11 @@ var update = false;
 
 
         if (input.name == 'display'){
-            console.log(input.checked);
             if(input.checked == true && validateInput(input)){
                 if(input.value == 'true'){
-                    console.log("DISPLAY: " + input.value);
                     data[input.name] = 1;
                 }
                 else if (input.value == 'false'){
-                    console.log("DISPLAY: " + input.value);
                     data[input.name] = 0;
                 }
             }
@@ -543,30 +563,44 @@ function getKnowLocations(id) {
  */
  function loadLocation(location){
 
+    // set id when loading location for update
+    locationId = location['id'];
+
+    // set update flag
     update = true;
+
     var ignoreAttrs = ['id', 'entry_point', 'data_point']
     var attrDict = {
         'name': 'name', 
         'floor': 'floor', 
         'room_cap': 'capacity', 
-        'room_num': 'number', 
-        'attr': 'attribute',
-        'tags': 'tag'
+        'room_number': 'number', 
+        'attribute': 'attribute',
+        'tag': 'tag',
+        'color': 'color',
+        'display': 'display'
     }
 
     for(var a in location){
-        console.log(a in attrDict && !(a in ignoreAttrs));
         if( a in attrDict && !(a in ignoreAttrs)){
-            if(a == 'attr' || a == 'tags'){
-                var text = [];
-                for(var at in location[a]){
-                    text.push(location[a][at])
-                }
+            if(a == 'attribute' || a == 'tag'){
+                var text = JSON.parse(location[a]);
                 $('#' + attrDict[a]).val(text.join(', '));
-            }else{
-                $('#' + attrDict[a]).val(location[a]);
             }
-        }
-    }
+            else if (a == 'display'){
+                var display = null;
+                if( location[a]){
+                    display = 'true';
+                }
+                else {
+                    display = 'false'
+                }
+                $('#' + attrDict[a] + '-' + display).prop('checked',true);
+            }
+            else{
+               $('#' + attrDict[a]).val(location[a]);
+           }
+       }
+   }
 }
 

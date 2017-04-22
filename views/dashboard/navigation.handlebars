@@ -30,74 +30,71 @@
                         <div class="form-group" id="name-group">
                             <label for="floor">Floor</label>
                             <select id="floorSelect" name="floor" class="form-control"
-                                    placeholder="floor"
-                                    required autofocus>
-                                <option value=1>1</option>
-                                <option value=2>2</option>
-                                <option value=3>3</option>
-                                <option value=4>4</option>
-                                <option value=5>5</option>
-                                <option value=6>6</option>
-                            </select>
-                            <p class="help-block">Enter the floor where location is located.</p>
-                        </div>
-                    </div> <!-- / .col-lg-3 !-->
-                    <!-- Defining Paths !-->
-                    <div class="col-lg-3">
-                        <p class="input-label">Defining paths</p>
-                        <div id="setWalkTrue" class="btn btn-default">Walkable</div>
-                        <div id="setWalkFalse" class="btn btn-default">Unwalkable</div>
-                    </div> <!-- col-lg-6 !-->
+                            placeholder="floor" required autofocus >
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=6>6</option>
+                        </select>
+                        <p class="help-block">Enter the floor where location is located.</p>
+                    </div>
+                </div> <!-- / .col-lg-3 !-->
+                <!-- Defining Paths !-->
+                <div class="col-lg-3">
+                    <p class="input-label">Defining paths</p>
+                    <div id="setWalkTrue" class="btn btn-default">Walkable</div>
+                    <div id="setWalkFalse" class="btn btn-default">Unwalkable</div>
+                </div> <!-- col-lg-6 !-->
 
-                    <!-- Defining Paths !-->
-                    <div class="col-lg-3">
-                        <p class="input-label">Test Paths</p>
-                        <div id="navLine" class="btn btn-default">Test</div>
-                        <div id="btn-clear-test" onclick="clearPaths()" class="btn btn-default">Clear</div>
-                    </div> <!-- col-lg-6 !-->
+                <!-- Defining Paths !-->
+                <div class="col-lg-3">
+                    <p class="input-label">Test Paths</p>
+                    <div id="navLine" class="btn btn-default">Test</div>
+                    <div id="btn-clear-test" onclick="clearPaths()" class="btn btn-default">Clear</div>
+                </div> <!-- col-lg-6 !-->
 
-                    <!-- Save Grid !-->
-                    <div class="col-lg-3 ">
-                        <p class="input-label ">Submit Grid</p>
-                        <form role="form">
-                            <button type="submit" class="btn btn-success" id="btn-save">Save</button>
-                        </form>
-                    </div> <!-- col-lg-6 !-->
+                <!-- Save Grid !-->
+                <div class="col-lg-3 ">
+                    <p class="input-label ">Submit Grid</p>
+                    <form role="form">
+                        <button type="submit" class="btn btn-success" id="btn-save">Save</button>
+                    </form>
+                </div> <!-- col-lg-6 !-->
 
+            </div> <!-- /.row !-->
 
-                </div> <!-- /.row !-->
+            <div class="row">
+                <!-- Map & Grid !-->
+                <div class="form-group" id="map-group">
+                    <section id="grid" style="position:absolute"></section>
+		    <div id="map-wrapper">
 
-                <div class="row">
-                    <!-- Map & Grid !-->
-                    <div class="form-group" id="map-group">
-                        <section id="grid" style="position:absolute"></section>
-
-                        <div id="map-wrapper">
-
-                        </div>
                     </div> <!-- / Map & Grid !-->
                 </div>
 
             </div>
             <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
-        {{> footer }}
     </div>
-    <!-- /#wrapper -->
+    <!-- /#page-wrapper -->
+    {{> footer }}
+</div>
+<!-- /#wrapper -->
 
-    {{> dashboard/confirmationmodal }}
+{{> dashboard/confirmationmodal }}
 
-    {{> dashboard/javascript }}
+{{> dashboard/javascript }}
 
-    <!-- Lodash JS !-->
-    <script src="/lodash/lodash.js"></script>
+<!-- Lodash JS !-->
+<script src="/lodash/lodash.js"></script>
 
-    <!-- Pathfinding js-->
-    <script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
+<!-- Pathfinding js-->
+<script src="/pathfinding/visual/lib/pathfinding-browser.min.js"></script>
 
-    <script src="../../public/javascripts/navigation-main.js"></script>
-    <script src="../../public/javascripts/control-navigation.js"></script>
+<script src="../../public/javascripts/navigation-main.js"></script>
+<script src="../../public/javascripts/control-navigation.js"></script>
 
 
 </body>

@@ -17,6 +17,8 @@
 </head>
 
 <body>
+
+
     <div id="wrapper">
         {{> nav }}
         {{> dashboard/sidebar }}
@@ -37,7 +39,7 @@
 
                         <table id="location-table" class="table">
                             <thead>
-                             <tr>
+                               <tr>
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Floor</th>
@@ -50,13 +52,17 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- /#page-wrapper -->
+
+        </div><!-- /.container-fluid -->
+    </div><!-- /#page-wrapper -->
     {{> footer }}
 </div>
 <!-- /#wrapper -->
+
+
+{{>dashboard/confirmationmodal }}
+
+{{> dashboard/javascript }}
 
 {{> dashboard/deletemodal}}
 {{> dashboard/confirmationmodal}}

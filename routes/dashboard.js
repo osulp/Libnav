@@ -30,7 +30,6 @@ router.get('/known', function (req, res, next) {
 /* Post Know Location page */
 router.post('/known', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        console.log(req.body);
 
         // defining know data
         var data = {
@@ -46,35 +45,23 @@ router.post('/known', function (req, res, next) {
 
         };
 
-        console.log(data);
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-        location.insertLocation(data, function (id) {
+            location.insertLocation(data, function (id) {
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                    console.log(attributes[att]);
-                }
-                location.insertAttribute(attributes);
+                res.json(JSON.stringify(true));
 
-            }
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
-
-                // insert attributes into tags.
-                location.insertTag(tags);
-            }*/
-
-            res.json(JSON.stringify(true));
-
-        });
+            });
+        }
 
 
     } else {
@@ -94,7 +81,6 @@ router.get('/unknown', function (req, res, next) {
 /* Post Unknown Location page */
 router.post('/unknown', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        console.log(req.body);
 
         // defining know data
         var data = {
@@ -110,38 +96,26 @@ router.post('/unknown', function (req, res, next) {
 
         };
 
-        console.log(data);
-
         var attributes = req.body.attribute;
         var tags = req.body.tag;
 
-        location.insertLocation(data, function (id) {
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                    console.log(attributes[att]);
-                }
-                location.insertAttribute(attributes);
+            location.insertLocation(data, function (id) {
 
-            }
+                res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // insert attributes into tags.
-                location.insertTag(tags);
-            } */
-
-            res.json(JSON.stringify(true));
-
-        }); 
+            });
+        }
 
 
     } else {
@@ -161,7 +135,6 @@ router.get('/room', function (req, res, next) {
 /* Post Room Location page */
 router.post('/room', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        console.log(req.body);
 
         // defining know data
         var data = {
@@ -179,37 +152,27 @@ router.post('/room', function (req, res, next) {
 
         };
 
-        console.log(data);
 
         var attributes = req.body.attribute;
         var tags = req.body.tag;
 
-        location.insertLocation(data, function (id) {
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                }
-                location.insertAttribute(attributes);
+            location.insertLocation(data, function (id) {
 
-            }
+                res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // insert attributes into tags.
-                location.insertTag(tags);
-            }*/ 
-
-            res.json(JSON.stringify(true));
-
-        });
+            });
+        }
 
 
     } else {
@@ -229,7 +192,6 @@ router.get('/servicepoint', function (req, res, next) {
 /* Post Service Point Location page */
 router.post('/servicepoint', function (req, res, next) {
     if (req.session.isAuthenticated) {
-        console.log(req.body);
 
         // defining know data
         var data = {
@@ -247,38 +209,26 @@ router.post('/servicepoint', function (req, res, next) {
 
         };
 
-        console.log(data);
-
         var attributes = req.body.attribute;
         var tags = req.body.tag;
 
-        location.insertLocation(data, function (id) {
+        if(!req.body.update){
+            //res.json(JSON.stringify(true));
 
-            /* // applying id to attributes
-            if (attributes != null) {
-                for (var att in attributes) {
-                    attributes[att][0] = id;
-                    console.log(attributes[att]);
-                }
-                location.insertAttribute(attributes);
+            location.insertLocation(data, function (id) {
 
-            }
+                res.json(JSON.stringify(true));
 
-            // insuring attributes into attribute.
-            if (tags != null) {
+            });
+        }
+        else{
+            //res.json(JSON.stringify(true));
 
-                // applying id to tags
-                for (var att in tags) {
-                    tags[att][0] = id;
-                }
+            location.updateLocation(data, req.body.id, function (results) {
+                res.json(JSON.stringify(true));
 
-                // insert attributes into tags.
-                location.insertTag(tags);
-            }*/
-
-            res.json(JSON.stringify(true));
-
-        });
+            });
+        }
 
     } else {
         res.render('error/login');
@@ -353,7 +303,6 @@ router.get('/location/delete/:id', function (req, res, next) {
 
         location.deleteLocationById(req.params.id, function (results) {
             var result = false;
-            console.log(results["affectedRows"]);
             if(results["affectedRows"] >= 1){
                 result = true;
             }
@@ -368,12 +317,12 @@ router.get('/location/delete/:id', function (req, res, next) {
     }
 });
 
-router.get('/location/edit/:id', function (req, res, next) {if (req.session.isAuthenticated) {
+router.get('/location/edit/:id', function (req, res, next) {
+    if (req.session.isAuthenticated) {
 
         location.getLocationById(req.params.id, function(location){
 
             res.locals.data = JSON.stringify(location);
-            console.log(location);
             res.render('dashboard/' + location['type'], 
                 {   session: true})
         });
@@ -404,9 +353,7 @@ router.post('/user', function (req, res, next) {
             'last': req.body.last
             
         };
-        console.log(data);
         user.insertUser(data, function(results){
-            console.log(results);
             res.json(JSON.stringify(true));
         });
 
@@ -430,7 +377,6 @@ router.post('/mapupload', function(req, res) {
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
   var sampleFile = req.body.image;
-  console.log(sampleFile);
 
   fs.writeFile("image.jpg", sampleFile, (err) => {
     if (err) throw err;

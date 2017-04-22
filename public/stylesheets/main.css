@@ -40,6 +40,13 @@ body {
     /*min-height: calc(100% - 50px);*/
     background-color: white;
     padding-bottom: 20px;
+    min-height: 570px;
+}
+
+.page_wrapper{
+    background-color: white;
+    padding-bottom: 20px;
+    min-height: 570px;
 }
 
 @media (min-width: 768px) {

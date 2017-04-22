@@ -54,12 +54,14 @@ var loadGridForKnown = function (svgi) {
 var drawGrid = function (svgP) {
 
     svgP = svgP._groups[0][0];
-    if(svgP!=null){
-        var w = svgP.attributes.width.value;
-        var h = svgP.attributes.height.value;    
+    var h = null;
+    var w = null;
+    if(svg !=null){
+        w = svgP.attributes.width.value;
+        h = svgP.attributes.height.value;  
     }else{
-        var w = 700;
-        var h = 700;
+        w = 700;
+        h = 700;
         
     }
     
@@ -68,9 +70,12 @@ var drawGrid = function (svgP) {
     w = w.slice(0, -6);
     h = h.slice(0, -6);
 
+    console.log(w);
+
     
     // create the svg
     grid = d3.select('#grid').append('svg');
+
     grid.attr("width", w).attr("height", h).attr("class","navGrid");
 
     // calculate number of rows and columns
@@ -264,18 +269,19 @@ var clearPaths = function () {
 var drawLine = function(point1, point2){
   
      var pos1 = point1.entry_point.split('-');
-     var row1 = pos1[1];
-     var col1 = pos1[2];
+     var row1 = parseInt(pos1[1]);
+     var col1 = parseInt(pos1[2]);
      var pos2 = point2.entry_point.split('-');
-     var row2 = pos2[1];
-     var col2 = pos2[2];
+     var row2 = parseInt(pos2[1]);
+     var col2 = parseInt(pos2[2]);
+     var path = null;
      
      var finder = new PF.AStarFinder();
      if(gridCalc == null || gridCalc===undefined){
         setGridPathFinderFromDB();
-        var path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+        path = finder.findPath(row1, col1,  row2, col2, gridCalc);
      }else{
-        var path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+        path = finder.findPath(row1, col1,  row2, col2, gridCalc);
      }
 
 
@@ -351,9 +357,12 @@ var markPoints = function () {
 };
 
 
-var deleteGrid = function(){
-    $(".navGrid").remove();
+function deleteGrid(){
+    //var grid = svg.select('#grid');
+    //grid.remove();
+    $('.navGrid').remove();
 }
+
 
 
 $("#navLine").on("click", function () {

@@ -13,10 +13,11 @@ var searchTerm = null;
 // Contains array of grid objects
 var grids = null;
 
+var selectedLocaiton = null;
 $(function () {
 
     // Setting default floor
-    floor = '1';
+    floor = '2';
 
     // Initialize the libnav application
     initialize();
@@ -24,7 +25,7 @@ $(function () {
     // get all grid()
 
     // get all terms for searching
-    searchableTerms = getSearchTerms();
+    //searchableTerms = getSearchTerms();
 
     /*
      * On sidebar navigation click
@@ -32,7 +33,7 @@ $(function () {
      *  parser id of floor link click
      *  load corresponding floor.
      */
-    $('a[id*="floor-"]').on('click', function () {
+     $('a[id*="floor-"]').on('click', function () {
         floor = this.id.split('-')[1];
         $('#map-wrapper').empty();
         $('#navgrid').empty();
@@ -40,7 +41,9 @@ $(function () {
 
     });
 
-    $('#input-search').keyup(function(event){
+     
+
+     $('#input-search').keyup(function(event){
         var input = $('#input-search').val();
         var searchWrapper = $('#search-results-wrapper');
         var searchUl = $('#search-results-ul');
@@ -75,27 +78,33 @@ $(function () {
     })
 
 
-    $('#nagivation-start').on('click', function(){
+     $('#nagivation-start').on('click', function(){
+        console.log(startPos != null && endPos != null);
         if(startPos != null && endPos != null){
             drawGrid(svg);
             drawLine(startPos,endPos);
         }
     })
 
-});
+     $('#navigation-clear').on('click', function(){
+        console.log("you clicked me");
+        deleteGrid();
+    })
+
+ });
 
 
 /**
  * Gets all grids from database
  * @returns {*}
  */
-function getGrids() {
-    $.ajax({
+ function getGrids() {
+    return $.ajax({
         type: "get",
         async: true,
         url: '/mapapi/grids'
-    })
-        .done(function (data) {
+    });
+        /*.done(function (data) {
             var result = JSON.parse(data);
             grids = result;
             if (result) {
@@ -114,8 +123,8 @@ function getGrids() {
         })
         .fail(function () {
             console.log("Location not retrieved");
-        });
-}
+        });*/
+    }
 
 
 /**
@@ -123,7 +132,7 @@ function getGrids() {
  * @param data
  * @param url
  */
-function getLocations() {
+ function getLocations() {
     return $.ajax({
         type: "get",
         async: false,
@@ -136,7 +145,7 @@ function getLocations() {
  * loads svg map based on id
  * @param id
  */
-function loadMap() {
+ function loadMap() {
     var map = '/public/images/floor-' + floor + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
@@ -149,10 +158,29 @@ function loadMap() {
 
         // save svg object
         svg = mapwrapper.select("svg");
+        buildLayers(svg);
         loadLocationByFloor(svg, floor);
-        // loadgird(id)
-        //getGridFromDB();
 
+
+        // creating glow effect 
+        //Container for the gradients
+        var defs = svg.append("defs");
+
+        //Filter for the outside glow
+        var filter = defs.append("filter")
+        .attr("id","glow");
+        
+        filter.append("feGaussianBlur")
+        .attr("stdDeviation","10")
+        .attr("result","coloredBlur");
+        
+        var feMerge = filter.append("feMerge");
+        
+        feMerge.append("feMergeNode")
+        .attr("in","coloredBlur");
+        
+        feMerge.append("feMergeNode")
+        .attr("in","SourceGraphic");
     });
 
 }
@@ -162,7 +190,7 @@ function loadMap() {
  * @param svg
  * @param floor
  */
-function loadLocationByFloor(svg, floor){
+ function loadLocationByFloor(svg, floor){
     for (var l in locations) {
         if (locations[l].floor == floor) {
             renderPolygons(svg, locations[l]);
@@ -179,18 +207,36 @@ function loadLocationByFloor(svg, floor){
  *  Display know location in the sidebar of the home page
  * @param locations
  */
-function fillSidebar() {
+ function fillSidebar() {
+    var id = "location-";
     console.log("inside locaiton");
     for (var l in locations) {
 
-        if(locations[l]['type'] == 'known') {
+        //if(locations[l]['type'] == 'known') {
             $('#navsb-floor-' + locations[l].floor).append(
                 $('<li>').append(
-                    $('<a>', {text: locations[l].name, href: '#'})
+                    $('<a>', {text: locations[l].name, href: '#', id: id + locations[l].id})
+                    )
                 )
-            )
-        }
+        //}
     }
+    $('a[id*="location-"]').on('click', function () {
+
+        id = this.id.split('-')[1];
+
+        if(selectedLocaiton){
+            var temp = svg.select('#poly-' + selectedLocaiton);
+            temp.style("filter", null)
+                .style("opacity", .5);
+        }
+
+        var polyLocaiton = svg.select('#poly-' + id);
+        polyLocaiton.style("filter", "url(#glow)")
+                    .style("opacity", .8);
+
+        selectedLocaiton = id;
+
+    });
 }
 
 
@@ -198,6 +244,8 @@ function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
         locations = JSON.parse(locationJSON[0]);
+        grids = JSON.parse(gridJSON[0]);
+        console.log(grids);
 
         // display success message
         fillSidebar(locations);
@@ -205,7 +253,12 @@ function initialize() {
         // load map
         loadMap(floor);
 
-
+        for(var g in grids){
+            console.log(g);
+            if(grids[g].floor == floor){
+                floorGridFromDB = JSON.parse(grids[g].data);
+            }
+        }
 
     });
 }

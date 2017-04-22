@@ -30,6 +30,7 @@ function getSearchTerms(){
 
 function fuseSearch(searchString){
     searchResults = {};
+
 ss
     
    if (searchString.length < 4) {
@@ -78,6 +79,30 @@ ss
          }
      }
 ss
+
+     var options = {
+      shouldSort: true,
+      threshold: 0.0,
+      location: 0,
+      distance: 100,
+      verbose: false,
+      maxPatternLength: 32,
+      minMatchCharLength: 3,
+      keys: ["attr", "name", "floor", "room_number", "room_cap"]
+    }
+
+    for(var l in locaitonArray){
+      search.append (location[l]['tag']);
+      search.append (location[l]['attribute']);
+    }
+
+    {
+      id: 1,
+      //...
+      tags: "['tag','tag', 'tag','tag']",
+      attr: "['arrt','arrt','attr','attr']"
+    }
+
     
     var fuse = new Fuse(searchObjs, options); // "list" is the item array
     var result = fuse.search(searchString);
