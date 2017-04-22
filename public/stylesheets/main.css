@@ -806,6 +806,33 @@ table.dataTable thead .sorting:after {
     margin-top: 5px;
 }
 
+label.inline-lable{
+    margin-right: 20px!important;
+}
+
+/* ---- btn Styleing ----*/
+.btn-group-wrap {
+    text-align: center;
+}
+
+.btn-group {
+    margin: 0 auto; 
+    text-align: center;
+    width: inherit;
+    display: inline-block;
+}
+
+/* --- Font Awesome Styleing ---- */
+.vertical-align{
+    vertical-align: middle;
+}
+/* --- Custom coloring --- */
+.danger{
+    color: #a94442;
+}
+
+
+
 
 
 

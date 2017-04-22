@@ -1,10 +1,11 @@
 var svg;
+var update = false;
 
 /**
  * Validation rules for all forms
  * @type {{name: {title: string, required: boolean, alphaNumeric: boolean}, number: {title: string, required: boolean, numeric: boolean}, capacity: {title: string, required: boolean, numeric: boolean}, url: {title: string, required: boolean, url: boolean}}}
  */
-var rules = {
+ var rules = {
     'name': {
         title: 'Location Name',
         required: true,
@@ -52,13 +53,22 @@ var rules = {
         title: 'Onid',
         required: true,
         alpha: true,
+    },
+    'type':{
+        title: 'Location Type',
+    },
+    'display': {
+        title: 'Dispaly Locaiton'
+    },
+    'color':{
+        title: 'Location Color',
     }
 };
 
 /**
  * main form control load
  */
-$(function () {
+ $(function () {
 
     // Loads Map
     loadMap(1);
@@ -76,6 +86,9 @@ $(function () {
 
         // clear poly when floor switches
         clear(svg);
+        
+        //close grid
+        hideGridForKnown();
 
         // hide draw location
         $('#location-draw-controls').addClass('hidden');
@@ -87,8 +100,14 @@ $(function () {
     $('form').submit(function (event) {
 
         disableBtns();
-
         var url = $('form').attr('href');
+
+        // check if we are update a location
+        if(update){
+            url = '/update'
+        }
+
+
 
         var data = getInputData();
 
@@ -121,14 +140,14 @@ $(function () {
     // Btn Draw Location
     $('#btn-location-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-       drawByButton(svg);
-    
+        drawByButton(svg);
+
     });
 
-     $('#btn-box-draw').on('click', function () {
+    $('#btn-box-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
-    
-       drawByBox(svg);
+
+        drawByBox(svg);
     });
 
 
@@ -151,13 +170,12 @@ $(function () {
 
     // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
-        console.log("Showing Grid");
         showGrid();
     });
 
     // Btn Hide Grid
     $('#btn-navigation-hide').on('click', function () {
-        hideGrid();
+        hideGridForKnown();
     });
 
     // Btn Clear Grid
@@ -177,8 +195,8 @@ $(function () {
  * @param data
  * @param url
  */
-function submitForm(data, url) {
-// for testing
+ function submitForm(data, url) {
+    // for testing
     console.log(data);
 
     $.ajax({
@@ -186,30 +204,28 @@ function submitForm(data, url) {
         async: true,
         url: url,
         data: data
-    })
-        .done(function (data) {
-            console.log(data)
-            var result = JSON.parse(data);
-            if (result) {
+    }).done(function (data) {
+        console.log(data)
+        var result = JSON.parse(data);
+        if (result) {
 
-                // shows modal on success
-                $('#modal-result').modal('show');
-                $('#modal-message-success').toggleClass('hidden');
-            }
-            else {
-                // display error message
-                // shows modal on success
-                $('#modal-result').modal('show');
-                $('#modal-message-warning').toggleClass('hidden');
+            // shows modal on success
+            $('#modal-result').modal('show');
+            $('#modal-message-success').toggleClass('hidden');
+        }
+        else {
+            // display error message
+            // shows modal on success
+            $('#modal-result').modal('show');
+            $('#modal-message-warning').toggleClass('hidden');
 
-                // Enable buttons for editing
-                enableBtns();
-            }
+            // Enable buttons for editing
+            enableBtns();
+        }
 
-        })
-        .fail(function () {
-            console.log("Form submit failed");
-        });
+    }).fail(function () {
+        console.log("Form submit failed");
+    });
 }
 
 /**
@@ -218,7 +234,7 @@ function submitForm(data, url) {
  * @param text
  * @returns {Array}
  */
-function splitText(text) {
+ function splitText(text) {
     var newtext = null;
 
     if (text != ' ') {
@@ -235,7 +251,7 @@ function splitText(text) {
         // scanning parsed text for empty strings.
         for (var t in text) {
             if (text[t] != "") {
-                newtext.push([null, text[t]]);
+                newtext.push(text[t]);
             }
         }
     }
@@ -246,7 +262,7 @@ function splitText(text) {
  * Gets input data from form
  * @returns {{}}
  */
-function getInputData() {
+ function getInputData() {
     var data = {};
     // select all form input and textares
     var inputs = $('form :input:not(:button) ');
@@ -258,13 +274,27 @@ function getInputData() {
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
 
-        if (input.name in rules) {
+
+        if (input.name == 'display'){
+            console.log(input.checked);
+            if(input.checked == true && validateInput(input)){
+                if(input.value == 'true'){
+                    console.log("DISPLAY: " + input.value);
+                    data[input.name] = 1;
+                }
+                else if (input.value == 'false'){
+                    console.log("DISPLAY: " + input.value);
+                    data[input.name] = 0;
+                }
+            }
+        }
+        else if (input.name in rules) {
             /**
              * validate input
              * if 'true': save input to data obj
              * if 'false': save false into data obj
              */
-            if (validateInput(input)) {
+             if (validateInput(input)) {
                 data[input.name] = input.value
             }
             else {
@@ -273,13 +303,14 @@ function getInputData() {
         }
         else if (input.name == 'tag' || input.name == 'attribute') {
             if (validataSearchAtt(input)) {
-                data[input.name] = splitText(input.value);
+                data[input.name] = JSON.stringify(splitText(input.value));
             }
             else {
                 data[input.name] = null;
             }
 
         }
+        
 
     }
 
@@ -290,7 +321,7 @@ function getInputData() {
  * loads svg map based on id
  * @param id
  */
-function loadMap(id) {
+ function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
         if (error) throw error;
@@ -311,7 +342,7 @@ function loadMap(id) {
  * Disables form control button
  *  for save, clear, and cancel
  */
-function disableBtns() {
+ function disableBtns() {
 
     // Disable save button
     $('#btn-save').attr('disabled', true);
@@ -333,9 +364,9 @@ function getKnowLocations(id) {
         async: true,
         url: '/mapapi/getAllLocation'
     })
-        .done(function (data) {
-            var result = JSON.parse(data);
-            if (result) {
+    .done(function (data) {
+        var result = JSON.parse(data);
+        if (result) {
 
                 // display success message
 
@@ -354,16 +385,16 @@ function getKnowLocations(id) {
             }
 
         })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });
+    .fail(function () {
+        console.log("Location not retrieved");
+    });
 }
 
 /**
  * Enables form control button
  *  for save, clear, and cancel
  */
-function enableBtns() {
+ function enableBtns() {
 
     // Disable save button
     $('#btn-save').attr('disabled', false);
@@ -382,7 +413,7 @@ function enableBtns() {
  * Gets data points from draw-polygons.js
  *  for marked locations
  */
-function getLocation() {
+ function getLocation() {
     var input = {
         name: 'location',
         value: JSON.stringify(data)
@@ -394,10 +425,10 @@ function getLocation() {
  * Gets the entry point for location on grid
  * @returns {{name: string, value}}
  */
-function getEntry() {
+ function getEntry() {
     var input = {
         name: 'entry',
-        value: "temp"
+        value: entryPoint
     };
     return input;
 }
@@ -410,7 +441,7 @@ function getEntry() {
  * @param name
  * @constructor
  */
-function ShowError(show, errors, name) {
+ function ShowError(show, errors, name) {
     var errorhelp = $('#' + name + 'Error');
     errorhelp.empty();
     if (!show) {
@@ -428,7 +459,7 @@ function ShowError(show, errors, name) {
  * @param name
  * @constructor
  */
-function ShowResults(show, name) {
+ function ShowResults(show, name) {
     var group = $('#' + name + '-group');
 
     if (show == 'error') {
@@ -449,7 +480,7 @@ function ShowResults(show, name) {
  * @param input
  * @returns {*}
  */
-function validateInput(input) {
+ function validateInput(input) {
     // validate input
     var result = approve.value(input.value, rules[input.name]);
 
@@ -459,12 +490,6 @@ function validateInput(input) {
         // success
         ShowError(result.approved, result.errors, input.name);
         ShowResults('success', input.name);
-
-        // saves that input is validated
-        //isValid[input.name] = result.approved;
-
-        // save form data
-        //formdata[input.name] = input.value;
     }
     else {
 
@@ -472,7 +497,6 @@ function validateInput(input) {
         ShowError(result.approved, result.errors, input.name);
         ShowResults('error', input.name);
 
-        //isValid[input.name] = result.approved;
     }
     return result.approved;
 }
@@ -482,7 +506,7 @@ function validateInput(input) {
  * @param input
  * @returns {boolean}
  */
-function validataSearchAtt(input) {
+ function validataSearchAtt(input) {
     var results = false;
     if (input.value != '') {
         results = true;
@@ -500,16 +524,49 @@ function validataSearchAtt(input) {
  * @param data
  * @returns {boolean}
  */
-function validateData(data) {
+ function validateData(data) {
     var results = true;
     for (var d in data) {
-        console.log(data[d]);
-        if (!data[d]) {
+        // check for valid infor except for the display fields.
+        if (!data[d] && d != 'display') {
 
             results = false;
             break;
         }
     }
     return results;
+}
+
+/**
+ * Load a location for editing
+ * @param  {location object } location [description]
+ */
+ function loadLocation(location){
+
+    update = true;
+    var ignoreAttrs = ['id', 'entry_point', 'data_point']
+    var attrDict = {
+        'name': 'name', 
+        'floor': 'floor', 
+        'room_cap': 'capacity', 
+        'room_num': 'number', 
+        'attr': 'attribute',
+        'tags': 'tag'
+    }
+
+    for(var a in location){
+        console.log(a in attrDict && !(a in ignoreAttrs));
+        if( a in attrDict && !(a in ignoreAttrs)){
+            if(a == 'attr' || a == 'tags'){
+                var text = [];
+                for(var at in location[a]){
+                    text.push(location[a][at])
+                }
+                $('#' + attrDict[a]).val(text.join(', '));
+            }else{
+                $('#' + attrDict[a]).val(location[a]);
+            }
+        }
+    }
 }
 

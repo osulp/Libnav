@@ -35,80 +35,129 @@
                 <div class="row">
                     <div class="col-lg-12">
 
-                        <table id="example" class="display" width="100%"></table>
-                    </div>
+                        <table id="location-table" class="table">
+                            <thead>
+                             <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Floor</th>
+                                <th>Type</th>
+                                <th>Room #</th>
+                                <th>Room Capacity</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
-        {{> footer }}
+        <!-- /.container-fluid -->
     </div>
-    <!-- /#wrapper -->
+    <!-- /#page-wrapper -->
+    {{> footer }}
+</div>
+<!-- /#wrapper -->
+
+{{> dashboard/deletemodal}}
+{{> dashboard/confirmationmodal}}
+{{> dashboard/javascript }}
+
+<!-- Datatables !-->
+<script src="/datatable/js/jquery.dataTables.js"></script>
+<script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
+<script src="/datatable-responsive/js/dataTables.responsive.js"></script>
+<script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
+
+<script>
+    var id = null;
+    var confirmModal = null;
+    var resultModal = null;
+    $(document).ready(function () {
+
+        // Initialze modal
+        confirmModal = $('#modal-delete').modal({'show': false});
+        resultModal = $('#modal-result').modal({'show': false});
+
+        $.ajax({
+            type: "get",
+            async: true,
+            url: '/mapapi/getAllLocation'
+        }).done(function (dataJSON) {
+            var data = JSON.parse(dataJSON);
 
 
-    {{> dashboard/javascript }}
+            data = formatData(data);
 
-    <!-- Datatables !-->
-    <script src="/datatable/js/jquery.dataTables.js"></script>
-    <script src="/datatable-bs/js/dataTables.bootstrap.js"></script>
-    <script src="/datatable-responsive/js/dataTables.responsive.js"></script>
-    <script src="/datatable-responsive-bs/js/responsive.bootstrap.js"></script>
-
-    <script>
-        $(document).ready(function () {
+            console.log(data);
 
 
-            $.ajax({
-                type: "get",
-                async: true,
-                url: '/mapapi/getAllLocation'
-            }).done(function (dataJSON) {
-                var data = JSON.parse(dataJSON);
-
-                data = formatData(data);
-
-
-                $('#example').DataTable({
-                    data: data,
-                    columns: [
-                        {title: "Id"},
-                        {title: "Name"},
-                        {title: "Floor"},
-                        {title: "Type"},
-                        {title: "Room #"},
-                        {title: "Room Capacity"},
-                        {title: "Options"}
-                    ]
-                });
+            $('#location-table').DataTable({
+                data: data,
+                "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "floor"},
+                {"data": "type"},
+                {"data": "room_number"},
+                {"data": "room_cap"},
+                {"data": "options"}
+                ]
             });
 
-            function formatData(data) {
-                var tableData = [];
-                for (var d in data) {
-                    var tableDataRow = [];
-                    for(var k in data[d]){
-                        if(data[d][k] != null && k != 'data_point'){
-                            tableDataRow.push(data[d][k]);
-                        }
-                        else if(k != 'data_point'){
-                            tableDataRow.push('-');
-                        }
-                    }
+            $('[id*="btn-delete-').on('click', function(){
+                id = this.id.split("btn-delete-")[1];
+                console.log(id);
+                confirmModal.modal('show');
+            });
+        });
 
-                    // Added options
-                    tableDataRow.push('<a href="/dashboard/details/' + data[d].id + '"><div class="btn btn-default">Detail</div></a>' +
-                            '<a href="/dashboard/edit/' + data[d].id + '"><div class="btn btn-warning">edit</div></a>' +
-                            '<a href="/dashboard/delete/' + data[d].id + '"><div class="btn btn-danger">Delete</div></a>');
+        // Delete yes btn onclick event
+        $('#btn-delete-yes').on('click', function(){
+            deleteLocation(id);
+        });
 
-                    tableData.push(tableDataRow);
+        
 
-            
-                }
-                return tableData;
+    });
+
+    function formatData(data) {
+        for (var d in data) {
+            // adding row id
+            data[d]['DT_RowId'] = 'row-' + data[d].id;
+            // Added options
+            data[d]['options'] = '<a href="/dashboard/details/' + data[d].id + '"><div class="btn btn-default">Detail</div></a>' +
+            '<a href="/dashboard/location/edit/' + data[d].id + '"><div class="btn btn-warning">edit</div></a>' +
+            '<div id="btn-delete-' + data[d].id + '" class="btn btn-danger">Delete</div></a>'
+        }
+        return data;
+    }
+
+    function deleteLocation(id){
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "/dashboard/location/delete/" + id
+        }).done(function(result){
+            console.log(result)
+            if (result) {
+
+                // shows modal on success
+                $('#modal-result').modal('show');
+                $('#modal-message-success').toggleClass('hidden');
+                $('#row-' + id).remove();
+            }
+            else {
+                // display error message
+                // shows modal on success
+                $('#modal-result').modal('show');
+                $('#modal-message-warning').toggleClass('hidden');
             }
 
-        });
-    </script>
+        }).fail(function(){
+
+        })
+    }
+</script>
+
 
 </body>

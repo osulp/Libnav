@@ -22,7 +22,7 @@ exports.insertLocation = function (data, callback) {
     // close connection to database
 /*
     db.connection.end();
-*/
+    */
 
 
 
@@ -83,11 +83,8 @@ exports.getLocations = function(callback){
     db.connection.connect();
 
     // insert attributes
-    db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point from location', function (error, results, fields) {
+    db.connection.query('SELECT id, floor, name, type, room_number , room_cap , data_point, entry_point from location', function (error, results, fields) {
         if (error) throw error;
-
-
-        console.log(results);
         callback(results);
     });
 
@@ -113,6 +110,23 @@ exports.getLocations = function(callback){
     db.connection.end();
 };*/
 
+exports.deleteLocationById = function(id, callback){
+    // create database connection
+    db.createConnection();
+
+    // connect to database
+    db.connection.connect();
+
+    // insert attributes
+    db.connection.query('DELETE FROM location where id=? ', id , function (error, results, fields) {
+        if (error) throw error;
+        callback(results);
+    });
+
+    // close connection to database
+    db.connection.end();
+}
+
 
 exports.getEntryPoint = function ( location, callback){
     // create database connection
@@ -124,9 +138,6 @@ exports.getEntryPoint = function ( location, callback){
     // insert attributes
     db.connection.query('SELECT entry_point from location where id=? ', location , function (error, results, fields) {
         if (error) throw error;
-        console.log(results);
-        console.log(fields);
-
         callback(results);
     });
 
@@ -145,9 +156,6 @@ exports.getAttributes = function ( location, callback){
     // insert attributes
     db.connection.query('SELECT attr from attribute where location_id=? ', location , function (error, results, fields) {
         if (error) throw error;
-        console.log(results);
-        console.log(fields);
-
         callback(results);
     });
 
@@ -165,7 +173,6 @@ exports.getTags = function (location, callback){
     // insert attributes
     db.connection.query('SELECT attr from tag where location_id=? ', location, function (error, results, fields) {
         if (error) throw error;
-        console.log(results);
         callback(results);
     });
 
@@ -190,7 +197,11 @@ exports.getLocationById = function(id, callback){
         function(parallel_done){
             db.connection.query(locationQuery, id, function(error, result, fields){
                 if(error) return parallel_done(error);
-                location.info = result;
+                //location.info = result;
+                for(var r in result){
+                    for(var a in result[r])
+                        location[a] = result[r][a]
+                }
                 parallel_done();
 
             })
@@ -198,7 +209,10 @@ exports.getLocationById = function(id, callback){
         function(parallel_done){
             db.connection.query(tagQuery, id, function(error, result,  fields){
                 if(error) return parallel_done(error);
-                location.tags = result;
+                location['tags'] = [];
+                for(var r in result){
+                    location['tags'].push(result[r]['attr'])
+                }
                 parallel_done();
 
             })
@@ -206,17 +220,20 @@ exports.getLocationById = function(id, callback){
         function(parallel_done){
             db.connection.query(attrQuery, id, function(error, result, fields){
                 if(error) return parallel_done(error);
-                location.attr = result;
+                location['attr'] = [];
+                for(var r in result){
+                    location['attr'].push(result[r]['attr'])
+                }
                 parallel_done();
 
             })
         }
-    ],
-    function(error){
-        if(error) console.log(error);
-        db.connection.end();
-        callback(location);
-    });
+        ],
+        function(error){
+            if(error) console.log(error);
+            db.connection.end();
+            callback(location);
+        });
     
 };
 
@@ -240,7 +257,6 @@ exports.getSearch = function( callback){
                 if(error) return parallel_done(error);
                 //location.info = result;
                 for(var r in result){
-                    console.log(result[r]);
                     location.push(result[r]);
                 }
                 parallel_done();
@@ -251,7 +267,6 @@ exports.getSearch = function( callback){
             db.connection.query(tagQuery, function(error, result){
                 if(error) return parallel_done(error);
                 for(var r in result){
-                    console.log(result[r]);
                     location.push(result[r]);
                 }
                 //location.tags = result;
@@ -263,7 +278,6 @@ exports.getSearch = function( callback){
             db.connection.query(attrQuery, function(error, result){
                 if(error) return parallel_done(error);
                 for(var r in result){
-                    console.log(result[r]);
                     location.push(result[r]);
                 }
 
@@ -272,11 +286,11 @@ exports.getSearch = function( callback){
 
             })
         }
-    ],
-    function(error){
-        if(error) console.log(error);
-        db.connection.end();
-        callback(location);
-    });
+        ],
+        function(error){
+            if(error) console.log(error);
+            db.connection.end();
+            callback(location);
+        });
     
 };

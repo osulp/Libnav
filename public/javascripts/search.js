@@ -30,6 +30,7 @@ function getSearchTerms(){
 
 function fuseSearch(searchString){
     searchResults = {};
+ss
     
    if (searchString.length < 4) {
         var options = {
@@ -76,6 +77,7 @@ function fuseSearch(searchString){
             keys: ["attr", "name", "floor", "room_number", "room_cap"] 
          }
      }
+ss
     
     var fuse = new Fuse(searchObjs, options); // "list" is the item array
     var result = fuse.search(searchString);

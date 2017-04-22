@@ -2,153 +2,87 @@
 
  Main js file for navigation functionality
 
- *loadGridForAdmin() - loads grid with admin functionalities such as setting points traversable or not, saving new grids
-
- *loadGridForNav() -
-
  */
 
-var rows;
+/*project global*/
+var entryPoint;
+var floorGridFromDB;
+
+/*file globals*/
+var grid;
+var gridCalc;
+var startPos;
+var finishPos;
+
+/*flags*/
+var isHomeNav = false;
 var walkable = true;
-var svgItem;
 var startFlag = true;
 var finishFlag = false;
 var notWalkFlag = false;
-var isDragging = false;
-var allRectangles;
-var entryPoint;
-var startPos;
-var finishPos;
-var floorGridFromDB;
-var grid;
-var isHomeNav = false;
-var svgnav;
-var gridCalc;
-var path;
-var finder;
 
+/*load grid for navigation dashboard page*/
+var loadGridForAdmin = function (svgi) {
 
-$("#navLine").on("click", function () {
-    allRectangles.on('click', null);
-    drawLineTest();
-});
+    if (svgi != undefined) {
+   
+        $("#navGrid").ready(function () {
 
-
-var setGridPathFinder = function (squaresColumn, squaresRow, grid) {
-    //set grid
-    gridCalc = new PF.Grid(squaresColumn + 1, squaresRow + 1);
-    //nonwalk
-    _.times(squaresColumn, function (n) {
-
-        _.times(squaresRow, function (m) {
-            gridCalc.setWalkableAt(n, m, false);
-            var recID = "s-" + n + "-" + m;
-            grid.select("rect[id='" + recID + "']").attr('fill', 'grey');
-        });
-
-    });
-};
-
-var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
-    //set grid
-    gridCalc = new PF.Grid(squaresColumn, squaresRow);
-    if(floorGridFromDB==null || floorGridFromDB ===undefined){
-        setGridPathFinder(squaresColumn, squaresRow, grid);
-    }else{
-    gridCalc.nodes = floorGridFromDB;
-    if(isHomeNav==false){
-        //nonwalk
-        _.times(squaresColumn, function (n) {
-
-            _.times(squaresRow, function (m) {
-                if(floorGridFromDB[m][n].walkable){
-                    var recID = "s-" + n + "-" + m;
-                    grid.select("rect[id='" + recID + "']").attr('fill', 'blue');
-                }
-                else{
-                    var recID = "s-" + n + "-" + m;
-                    grid.select("rect[id='" + recID + "']").attr('fill', 'red');
-                }
-            });
+            drawGrid(svgi);
+            gridMouse();
 
         });
     }
+
+};
+
+/*load grid for point select on known*/
+var loadGridForKnown = function (svgi) {
+
+    if (svgi != undefined) {
+     
+        $("#navGrid").ready(function () {
+            drawGrid(svgi);
+            markPoints();
+            hideGridForKnown();
+        });
     }
+
 };
 
+/*Takes svg */
+var drawGrid = function (svgP) {
 
-var getGridPathFinder = function (squaresColumn, squaresRow, grid) {
-
-
-    /*//set grid
-     gridCalc = fromDatabase();
-     //nonwalk
-     _.times(squaresColumn, function (n) {
-
-     _.times(squaresRow, function (m) {
-     gridCalc.setWalkableAt(n, m, false);
-     var recID = "s-" + n + "-" + m;
-     svg.select("rect[id='" + recID + "']").attr('fill', 'grey');
-     });
-
-     });*/
-        setGridPathFinderFromDB(squaresColumn, squaresRow, grid);
-
-  /*  if(floorGridFromDB==null || floorGridFromDB===undefined){
-        setGridPathFinder(squaresColumn,squaresRow,grid);
+    svgP = svgP._groups[0][0];
+    if(svgP!=null){
+        var w = svgP.attributes.width.value;
+        var h = svgP.attributes.height.value;    
     }else{
-    }*/
-};
+        var w = 700;
+        var h = 700;
+        
+    }
+    
+    var square = 12;
+    
+    w = w.slice(0, -6);
+    h = h.slice(0, -6);
 
-var hideGrid = function () {
-    grid.attr("display","none");
-    grid.attr("z-index","-1");
-};
-
-var showGrid = function () {
-    grid.attr("display","initial");
-    grid.attr("z-index","1");
-};
-
-var hideGrid2 = function () {
-    rects = grid.selectAll('rect');
-    rects.each(function () {
-        var x = this;
-        if (this.attributes.getNamedItem("path") == null) {
-            this.attributes.getNamedItem("fill-opacity").value = 0;
-            this.attributes.getNamedItem("stroke").value = "none";
-
-        } else {
-            this.attributes.getNamedItem("fill-opacity").value = .4;
-        }
-    });
-};
-
-var drawGrid = function () {
-
-    var square = 12,
-        w = svgnav.attributes.width.value,
-        h = svgnav.attributes.height.value;
-
-    w = w.slice(0, -2);
-    h = h.slice(0, -2);
-
+    
     // create the svg
     grid = d3.select('#grid').append('svg');
-    grid.attr("width", w).attr("height", h);
+    grid.attr("width", w).attr("height", h).attr("class","navGrid");
 
     // calculate number of rows and columns
-    var squaresRow = _.round(w / square);
-    var squaresColumn = _.round(h / square);
-
-
+    var squaresRow = _.round(w / square)+1;
+    var squaresColumn = _.round(h / square)+1;
 
     // loop over number of columns
     _.times(squaresColumn, function (n) {
 
         // create each set of rows
 
-        rows = grid.selectAll('rect' + ' .row-' + (n + 1)).data(d3.range(squaresRow))
+        var rows = grid.selectAll('rect' + ' .row-' + (n + 1)).data(d3.range(squaresRow))
             .enter().append('rect')
             .attr("fill-opacity", '.2')
             .attr("fill", 'white')
@@ -165,15 +99,96 @@ var drawGrid = function () {
             })
             .attr('y', n * square)
             .attr("stroke", 'black')
-            .attr("stroke-width", ".5");
+            .attr("stroke-width", ".2");
 
     });
     
-    getGridPathFinder(squaresColumn, squaresRow, grid);
+    setGridPathFinderFromDB(squaresColumn, squaresRow, grid);
     allRectangles = grid.selectAll('rect');
 };
+   
+/*Sets new pathfinding grid for pathfinding-js*/
+var setNewGridPathFinder = function (squaresColumn, squaresRow, grid) {
+    //set grid
+    gridCalc = new PF.Grid(squaresColumn + 1, squaresRow + 1);
+    //nonwalk
+    _.times(squaresColumn, function (n) {
 
+        _.times(squaresRow, function (m) {
+            gridCalc.setWalkableAt(n, m, false);
+            var recID = "s-" + n + "-" + m;
+            grid.select("rect[id='" + recID + "']").attr('fill', 'grey');
+        });
+    });
+};
+
+/*grabs pathfinding grid from db, if not available create new grid*/
+var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
+    //set grid
+    gridCalc = new PF.Grid(squaresColumn, squaresRow);
+    if(floorGridFromDB == null || floorGridFromDB === undefined){
+        setNewGridPathFinder(squaresColumn, squaresRow, grid);
+    }else{
+    gridCalc.nodes = floorGridFromDB;
+    if(isHomeNav==false){
+        //nonwalk
+        _.times(floorGridFromDB.length, function (n) {
+            _.times(floorGridFromDB.length, function (m) {
+                if(floorGridFromDB[m][n]===undefined){
+                   
+                }else{
+                    if(floorGridFromDB[m][n].walkable){
+                        var recID = "s-" + n + "-" + m;
+                        grid.select("rect[id='" + recID + "']").attr('fill', 'blue').attr('fill-opacity',.2);
+                    }
+                    else{
+                        var recID = "s-" + n + "-" + m;
+                        grid.select("rect[id='" + recID + "']").attr('fill', 'red').attr('fill-opacity',.2);
+                    }
+                }
+            });
+
+        });
+    }
+    }
+};
+
+/*show grid on the known and unkown location forms*/
+var showGrid = function () {
+    grid.attr("display","initial");
+    grid.attr("z-index","1");
+};
+
+/*Hides the grid on the known and unknown locations page*/
+var hideGridForKnown = function () {
+    grid.attr("display","none");
+    grid.attr("z-index","-1");
+};
+
+/*Hides the grid on the known page, displaying only path*/
+var hideGridForHomeNav = function () {
+    rects = grid.selectAll('rect');
+    rects.each(function () {
+        var x = this;
+        if (this.attributes.getNamedItem("path") == null) {
+            this.attributes.getNamedItem("fill-opacity").value = 0;
+            this.attributes.getNamedItem("stroke").value = "none";
+
+        } else {
+            this.attributes.getNamedItem("fill-opacity").value = .4;
+        }
+    });
+};
+
+/*Test a line on the dashboard navigation page*/
 function drawLineTest() {
+
+    
+    /*for drawing the test line*/
+   
+    
+    var allRectangles = grid.selectAll('rect');
+
     allRectangles.on('click', function (d, i) {
 
         var pos = this.id.split('-');
@@ -183,7 +198,7 @@ function drawLineTest() {
             startPos = [row, col];
             startFlag = false;
             finishFlag = true;
-            d3.select(this).attr('fill', 'green');
+            d3.select(this).attr('fill', 'blue');
 
         } else if (finishFlag) {
             finishPos = [row, col];
@@ -194,15 +209,15 @@ function drawLineTest() {
         }
 
         if (startFlag != true && finishFlag != true) {
-            finder = new PF.AStarFinder();
-            path = finder.findPath(startPos[0], startPos[1], finishPos[0], finishPos[1], gridCalc);
+            var finder = new PF.AStarFinder();
+            var path = finder.findPath(startPos[0], startPos[1], finishPos[0], finishPos[1], gridCalc);
             startFlag = false;
             finishFlag = false;
 
 
             for (var x = 1; x < path.length - 1; x++) {
                 var recID = "s-" + path[x][0] + "-" + path[x][1];
-                grid.select("rect[id='" + recID + "']").attr('fill', 'blue');
+                grid.select("rect[id='" + recID + "']").attr('fill', 'black');
             }
 
             for (var x = 0; x < path.length; x++) {
@@ -218,16 +233,40 @@ function drawLineTest() {
 
 
     });
+    
 }
 
+/*clear paths for the navigation line test on the dashboard page*/
+var clearPaths = function () {
+    startFlag = true;
+    finishFlag = false;
 
- var drawLine = function(point1, point2){
+    for (var x = 1; x < path.length - 1; x++) {
+        var recID = "s-" + path[x][0] + "-" + path[x][1];
+        grid.select("rect[id='" + recID + "']").attr('fill', 'white');
+    }
 
-     
-     var pos1 = point1[0].entry_point.split('-');
+    for (var x = 0; x < path.length; x++) {
+        var recID = "s-" + path[x][0] + "-" + path[x][1];
+        grid.select("rect[id='" + recID + "']").attr("path", 'false');
+    }
+
+    var startid = "s-" + startPos[0] + "-" + startPos[1];
+    var finishid = "s-" + finishPos[0] + "-" + finishPos[1];
+    grid.select("rect[id='" + startid + "']").attr("path", 'false').attr('fill', 'white');
+    grid.select("rect[id='" + finishid + "']").attr("path", 'false').attr('fill', 'white');
+
+    startPos = null;
+    finishPos = null;
+};
+
+/*given two points, navigate from point 1 to point 2*/ 
+var drawLine = function(point1, point2){
+  
+     var pos1 = point1.entry_point.split('-');
      var row1 = pos1[1];
      var col1 = pos1[2];
-     var pos2 = point2[0].entry_point.split('-');
+     var pos2 = point2.entry_point.split('-');
      var row2 = pos2[1];
      var col2 = pos2[2];
      
@@ -250,14 +289,16 @@ function drawLineTest() {
          grid.select("rect[id='" + recID + "']").attr("path", 'true');
      }
 
-     hideGrid2();
+     hideGridForHomeNav();
 
 
  };
  
-
-
+/* sets all of the on click/drag functionality for the the grid */
 var gridMouse = function () {
+    var allRectangles = grid.selectAll('rect');
+    var isDragging = false;
+
     var makeWalkMouseDown = allRectangles.on('mousedown', function () {
         isDragging = true;
     });
@@ -268,11 +309,11 @@ var gridMouse = function () {
         var col = pos[2];
         if (isDragging) {
             if (walkable) {
-                var thisRec = grid.select("rect[id='" + this.id + "']").attr('fill', 'blue');
+                var thisRec = grid.select("rect[id='" + this.id + "']").attr('fill', 'green').attr('fill-opacity',.5);
                 thisRec.attr("walkable", true);
                 gridCalc.setWalkableAt(row, col, true);
             } else {
-                grid.select("rect[id='" + this.id + "']").attr('fill', 'red').attr('fill-opacity', '.4');
+                grid.select("rect[id='" + this.id + "']").attr('fill', 'white').attr('fill-opacity', '.1');
                 gridCalc.setWalkableAt(row, col, false);
             }
         }
@@ -284,21 +325,13 @@ var gridMouse = function () {
         if (!wasDragging) {
         }
     });
-    
-/*    allRectangles.each(function(){
-        var pos = this.id.split('-');
-        var row = pos[1];
-        var col = pos[2];
-        var thisRec = grid.select("rect[id='" + this.id + "']").attr('fill', 'blue');
-        thisRec.attr("walkable", true);
-        gridCalc.setWalkableAt(row, col, true);
-        
-    });*/
 };
 
+/* mark the entry point for a location  */
 var markPoints = function () {
 
     var lastPoint;
+    var allRectangles = grid.selectAll('rect');
 
     allRectangles.on('click', function (d, i) {
 
@@ -314,92 +347,19 @@ var markPoints = function () {
         
         entryPoint = this.id; 
 
-        
-
     });
 };
 
-var clearPaths = function () {
-    startFlag = true;
-    finishFlag = false;
 
-    for (var x = 1; x < path.length - 1; x++) {
-        var recID = "s-" + path[x][0] + "-" + path[x][1];
-        grid.select("rect[id='" + recID + "']").attr('fill', 'white');
-    }
-
-    for (var x = 0; x < path.length; x++) {
-        var recID = "s-" + path[x][0] + "-" + path[x][1];
-        grid.select("rect[id='" + recID + "']").attr("path", 'false');
-    }
-
-    var startid = "s-" + startPos[0] + "-" + startPos[1];
-    var finishid = "s-" + finishPos[0] + "-" + finishPos[1];
-    grid.select("rect[id='" + startid + "']").attr("path", 'false').attr('fill', 'white');
-    grid.select("rect[id='" + finishid + "']").attr("path", 'false').attr('fill', 'white');
-
-    startPos = null;
-    finishPos = null;
-    path = null;
-    finder = null;
-};
+var deleteGrid = function(){
+    $(".navGrid").remove();
+}
 
 
-var loadGridForNavigation = function (svgi, point1, point2) {
-
-    if (svgi != undefined) {
-        svgnav = svgi._groups[0][0];
-
-        $("#navGrid").ready(function () {
-            
-            isHomeNav = true;
-            drawGrid();
-            drawLine(point1, point2);
-        });
-    }
-
-};
-
-var loadGridForAdmin = function (svgi) {
-
-    if (svgi != undefined) {
-        svgnav = svgi._groups[0][0];
-
-        $("#setWalkTrue").on("click", function () {
-            walkable = true;
-            allRectangles.on("click", null);
-            gridMouse();
-        });
-
-        $("#setWalkFalse").on("click", function () {
-            walkable = false;
-            allRectangles.on("click", null);
-            gridMouse();
-        });
-
-        $("#navGrid").ready(function () {
-
-            drawGrid();
-            gridMouse(allRectangles);
-
-        });
-    }
-
-};
-
-var loadGridForKnown = function (svgi) {
-
-    if (svgi != undefined) {
-        svgnav = svgi._groups[0][0];
-        $("#navGrid").ready(function () {
-            drawGrid();
-            markPoints();
-            hideGrid();
-        });
-    }
-
-};
-        
- 
+$("#navLine").on("click", function () {
+    var allRectangles = grid.selectAll('rect');
+    allRectangles.on('click', null);
+    drawLineTest();
+});
 
 
