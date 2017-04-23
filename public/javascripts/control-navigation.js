@@ -41,6 +41,7 @@ $(function () {
     
         $("#floorSelect").change(function(){
         deleteGrid();
+            
         for(var g in allGrids){
             if(allGrids[g].floor == this.value){
                 floorGridFromDB = JSON.parse(allGrids[g].data);
@@ -58,6 +59,7 @@ $(function () {
     $('form').submit(function (event) {
         var currFloor = $("#floorSelect").val();
         currFloor = parseInt(currFloor);
+        url = gridSave;
         for(var g in allGrids){
             if(allGrids[g].floor == currFloor){
                 url = gridUpdate;
