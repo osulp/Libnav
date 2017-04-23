@@ -65,7 +65,7 @@ $(function () {
             fuseSearch(searchTerm);
 
             for(var s in searchResults){
-                searchUl.append('<li><a href="#" id="search-' + searchResults[s].di + '">' + searchResults[s] + '</a></li>');
+                searchUl.append('<li><a href="#" id="search-' + searchResults[s].id + '">' + searchResults[s] + '</a></li>');
             }
 
             $('a[id*="search-"]').on('click', function () {
