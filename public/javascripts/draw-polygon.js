@@ -484,10 +484,12 @@ function createTooltip(data){
     }).append('<h5><strong>Attributes</strong></h5>');
 
     // appending attributes
-    for(a in locationAttrs){
+    /*for(a in locationAttrs){
         attributes.append(
             '<p>' + locationAttrs[a] + '</p>');
-    }
+    }*/
+
+    attributes.append('<p>' + locationAttrs.join(', ') + '</p>');
 
     // Create html structure to hold locaiton tags
     var tags = $('<div>',{
@@ -495,10 +497,12 @@ function createTooltip(data){
     }).append('<h5><strong>Tags</strong></h5>');
 
     // appending atgs
-    for(t in locationTags){
+    /*for(t in locationTags){
         tags.append(
             '<p>' + locationTags[t] + '</p>');
-    }
+    }*/
+
+    tags.append('<p>' + locationTags.join(', ') + '</p>');
 
     var startBtn = $('<div>',{
         'class': 'col-md-6'

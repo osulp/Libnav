@@ -121,27 +121,8 @@ $(function () {
         async: true,
         url: '/mapapi/grids'
     });
-        /*.done(function (data) {
-            var result = JSON.parse(data);
-            grids = result;
-            if (result) {
 
-                // display success message
-                if (result.length != 0) {
-                    
-                    floorGridFromDB = JSON.parse(result[0].data);
-                    console.log(floorGridFromDB);
-                }
-            }
-            else {
-                // display error message
-                console.log('Location for retrived');
-            }
-        })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });*/
-    }
+}
 
 
 /**
