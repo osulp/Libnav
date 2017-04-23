@@ -110,11 +110,13 @@
                 ]
             });
 
-            $('[id*="btn-delete-').on('click', function(){
+            // Onclick events for table Details button
+            $('#location-table tbody').on('click', 'div.btn-danger', function () {
+
                 id = this.id.split("btn-delete-")[1];
                 console.log(id);
                 confirmModal.modal('show');
-            });
+            })
         });
 
         // Delete yes btn onclick event
