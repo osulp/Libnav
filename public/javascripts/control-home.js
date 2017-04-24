@@ -60,14 +60,38 @@ $(function () {
 
             // show results dropdown
             searchWrapper.removeClass('hidden');
-
+            console.log("before input")
             searchTerm = $('#input-search').val();
-            fuseSearch(searchTerm);
+            console.log(searchTerm)
 
+            fuseSearch(searchTerm, locations);
+            console.log(searchResults)
             for(var s in searchResults){
-                console.log(s)
-                searchUl.append('<li><a href="#" id="location-'+s+'">' + searchResults[s] + '</a></li>');
+                console.log("line70 in control home")
+                //console.log(searchResults);
+              //  console.log(s);
+               // console.log(searchResults[s]);
+                searchUl.append('<li><a href="#" id="search-' + searchResults[s]['id'] + '">' + searchResults[s]['name'] + '</a></li>');
+
             }
+
+            $('a[id*="search-"]').on('click', function () {
+
+                id = this.id.split('-')[1];
+
+                if(selectedLocaiton){
+                    var temp = svg.select('#poly-' + selectedLocaiton);
+                    temp.style("filter", null)
+                        .style("opacity", .5);
+                }
+
+                var polyLocaiton = svg.select('#poly-' + id);
+                polyLocaiton.style("filter", "url(#glow)")
+                            .style("opacity", .8);
+
+                selectedLocaiton = id;
+
+    });
         }
         else if(input == ""){
             // Hide search results dropdown
