@@ -65,8 +65,26 @@ $(function () {
             fuseSearch(searchTerm);
 
             for(var s in searchResults){
-                searchUl.append('<li><a href="#">' + searchResults[s] + '</a></li>');
+                searchUl.append('<li><a href="#" id="search-' + searchResults[s].id + '">' + searchResults[s] + '</a></li>');
             }
+
+            $('a[id*="search-"]').on('click', function () {
+
+                id = this.id.split('-')[1];
+
+                if(selectedLocaiton){
+                    var temp = svg.select('#poly-' + selectedLocaiton);
+                    temp.style("filter", null)
+                        .style("opacity", .5);
+                }
+
+                var polyLocaiton = svg.select('#poly-' + id);
+                polyLocaiton.style("filter", "url(#glow)")
+                            .style("opacity", .8);
+
+                selectedLocaiton = id;
+
+    });
         }
         else if(input == ""){
             // Hide search results dropdown
