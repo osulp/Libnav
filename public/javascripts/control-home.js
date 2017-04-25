@@ -36,8 +36,8 @@ $(function () {
      $('a[id*="floor-"]').on('click', function () {
         floor = this.id.split('-')[1];
         $('#map-wrapper').empty();
-        $('#navgrid').empty();
         loadMap();
+        switchGrids(floor);
 
     });
 
@@ -239,6 +239,17 @@ $(function () {
 }
 
 
+function switchGrids(floor){
+     for(var g in grids){
+            console.log(g);
+            if(grids[g].floor == floor){
+                floorGridFromDB = JSON.parse(grids[g].data);
+            }
+        }
+    
+}
+
+
 function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
@@ -252,12 +263,7 @@ function initialize() {
         // load map
         loadMap(floor);
 
-        for(var g in grids){
-            console.log(g);
-            if(grids[g].floor == floor){
-                floorGridFromDB = JSON.parse(grids[g].data);
-            }
-        }
+        switchGrids(floor);
 
     });
 }

@@ -11,6 +11,7 @@ var floorGridFromDB;
 /*file globals*/
 var grid;
 var gridCalc;
+var svgn;
 var startPos;
 var finishPos;
 
@@ -20,6 +21,7 @@ var walkable = true;
 var startFlag = true;
 var finishFlag = false;
 var notWalkFlag = false;
+var multiFloorNavFlag = false;
 
 /*load grid for navigation dashboard page*/
 var loadGridForAdmin = function (svgi) {
@@ -54,8 +56,15 @@ var loadGridForKnown = function (svgi) {
 var drawGrid = function (svgP) {
 
     svgP = svgP._groups[0][0];
+    svgn = svgP;
     var h = null;
     var w = null;
+    grid = null;
+
+    if(grid !=null){
+        deleteGrid();
+    }
+
     if(svg !=null){
         w = svgP.attributes.width.value;
         h = svgP.attributes.height.value;  
@@ -112,8 +121,9 @@ var drawGrid = function (svgP) {
     allRectangles = grid.selectAll('rect');
 };
    
+
 /*Sets new pathfinding grid for pathfinding-js*/
-var setNewGridPathFinder = function (squaresColumn, squaresRow, grid) {
+var createNewGridPathFinder = function (squaresColumn, squaresRow, grid) {
     //set grid
     gridCalc = new PF.Grid(squaresColumn + 1, squaresRow + 1);
     //nonwalk
@@ -127,12 +137,13 @@ var setNewGridPathFinder = function (squaresColumn, squaresRow, grid) {
     });
 };
 
+
 /*grabs pathfinding grid from db, if not available create new grid*/
 var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
     //set grid
     gridCalc = new PF.Grid(squaresColumn, squaresRow);
     if(floorGridFromDB == null || floorGridFromDB === undefined){
-        setNewGridPathFinder(squaresColumn, squaresRow, grid);
+        createNewGridPathFinder(squaresColumn, squaresRow, grid);
     }else{
     gridCalc.nodes = floorGridFromDB;
     if(isHomeNav==false){
@@ -188,10 +199,6 @@ var hideGridForHomeNav = function () {
 /*Test a line on the dashboard navigation page*/
 function drawLineTest() {
 
-    
-    /*for drawing the test line*/
-   
-    
     var allRectangles = grid.selectAll('rect');
 
     allRectangles.on('click', function (d, i) {
@@ -241,47 +248,29 @@ function drawLineTest() {
     
 }
 
-/*clear paths for the navigation line test on the dashboard page*/
-var clearPaths = function () {
-    startFlag = true;
-    finishFlag = false;
-
-    for (var x = 1; x < path.length - 1; x++) {
-        var recID = "s-" + path[x][0] + "-" + path[x][1];
-        grid.select("rect[id='" + recID + "']").attr('fill', 'white');
-    }
-
-    for (var x = 0; x < path.length; x++) {
-        var recID = "s-" + path[x][0] + "-" + path[x][1];
-        grid.select("rect[id='" + recID + "']").attr("path", 'false');
-    }
-
-    var startid = "s-" + startPos[0] + "-" + startPos[1];
-    var finishid = "s-" + finishPos[0] + "-" + finishPos[1];
-    grid.select("rect[id='" + startid + "']").attr("path", 'false').attr('fill', 'white');
-    grid.select("rect[id='" + finishid + "']").attr("path", 'false').attr('fill', 'white');
-
-    startPos = null;
-    finishPos = null;
-};
 
 /*given two points, navigate from point 1 to point 2*/ 
 var drawLine = function(point1, point2){
   
+    if(point1.floor != point2.floor && multiFloorNavFlag==false){
+        navToDiffFloors(point1,point2);
+    }
+    
      var pos1 = point1.entry_point.split('-');
      var row1 = parseInt(pos1[1]);
      var col1 = parseInt(pos1[2]);
      var pos2 = point2.entry_point.split('-');
      var row2 = parseInt(pos2[1]);
      var col2 = parseInt(pos2[2]);
-     var path = null;
-     
+     path = null;
+    var gridBackup = gridCalc.clone(); 
+    
      var finder = new PF.AStarFinder();
      if(gridCalc == null || gridCalc===undefined){
         setGridPathFinderFromDB();
-        path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+        path = finder.findPath(row1, col1,  row2, col2, gridBackup);
      }else{
-        path = finder.findPath(row1, col1,  row2, col2, gridCalc);
+        path = finder.findPath(row1, col1,  row2, col2, gridBackup);
      }
 
 
@@ -296,9 +285,36 @@ var drawLine = function(point1, point2){
      }
 
      hideGridForHomeNav();
-
-
  };
+
+
+var navToDiffFloors = function( point1, point2){
+    var elevator1;
+    var elevator2;
+    var firstFloor = "#floor-" + point1.floor;
+    var secondFloor = "#floor-" + point2.floor;
+    $(firstFloor).click();
+    
+    _.forEach(locations, function(loc){
+        if(_.includes(loc.name,"elevator")){
+            if(point1.floor == loc.floor){
+                elevator1 = loc;
+            }else if(point2.floor == loc.floor){
+                elevator2 = loc;
+            }
+        }
+    });
+    
+    multiFloorNavFlag = true;
+    drawLine(point1, elevator1);
+    
+    $(secondFloor).click(function(){
+        deleteGrid();
+        drawGrid(svgn);
+        drawLine(point2, elevator2);
+    });
+}
+
  
 /* sets all of the on click/drag functionality for the the grid */
 var gridMouse = function () {
@@ -360,7 +376,7 @@ var markPoints = function () {
 function deleteGrid(){
     //var grid = svg.select('#grid');
     //grid.remove();
-    $('.navGrid').remove();
+    $("#grid > svg").remove();
 }
 
 
