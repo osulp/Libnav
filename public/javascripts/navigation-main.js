@@ -74,7 +74,8 @@ var drawGrid = function (svgP) {
         
     }
     
-    var square = 12;
+    //size of grid squares
+    var square = 9;
     
     w = w.slice(0, -6);
     h = h.slice(0, -6);
@@ -189,9 +190,6 @@ var hideGridForHomeNav = function () {
         if (this.attributes.getNamedItem("path") == null) {
             this.attributes.getNamedItem("fill-opacity").value = 0;
             this.attributes.getNamedItem("stroke").value = "none";
-
-        } else {
-            this.attributes.getNamedItem("fill-opacity").value = .4;
         }
     });
 };
@@ -249,40 +247,46 @@ function drawLineTest() {
 }
 
 
-/*given two points, navigate from point 1 to point 2*/ 
+var navigate = function(point1, point2){
+  if(point1.floor != point2.floor && multiFloorNavFlag==false){
+        navToDiffFloors(point1,point2);
+    }else{
+        drawGrid(svg);
+        drawLine(point1,point2);
+    }
+};
+
+/*given two points, draw line from point 1 to point 2*/ 
 var drawLine = function(point1, point2){
   
-    if(point1.floor != point2.floor && multiFloorNavFlag==false){
-        navToDiffFloors(point1,point2);
-    }
-    
      var pos1 = point1.entry_point.split('-');
      var row1 = parseInt(pos1[1]);
      var col1 = parseInt(pos1[2]);
      var pos2 = point2.entry_point.split('-');
      var row2 = parseInt(pos2[1]);
      var col2 = parseInt(pos2[2]);
-     path = null;
-    var gridBackup = gridCalc.clone(); 
-    
+     path = null;    
      var finder = new PF.AStarFinder();
      if(gridCalc == null || gridCalc===undefined){
         setGridPathFinderFromDB();
+        var gridBackup = gridCalc.clone(); 
         path = finder.findPath(row1, col1,  row2, col2, gridBackup);
      }else{
+        //var gridBackup = gridCalc.clone();
+         var gridBackup = gridCalc;
         path = finder.findPath(row1, col1,  row2, col2, gridBackup);
      }
 
 
      for (var x = 0; x < path.length; x++) {
          var recID = "s-" + path[x][0] + "-" + path[x][1];
-         grid.select("rect[id='" + recID + "']").attr('fill', 'blue');
+         grid.select("rect[id='" + recID + "']")
+             .attr('fill', '#c34500')
+             .attr("path", 'true')
+             .attr("fill-opacity",".8")
+             .attr("stroke", 'none');
      }
 
-     for (var x = 0; x < path.length; x++) {
-         var recID = "s-" + path[x][0] + "-" + path[x][1];
-         grid.select("rect[id='" + recID + "']").attr("path", 'true');
-     }
 
      hideGridForHomeNav();
  };
@@ -294,25 +298,26 @@ var navToDiffFloors = function( point1, point2){
     var firstFloor = "#floor-" + point1.floor;
     var secondFloor = "#floor-" + point2.floor;
     $(firstFloor).click();
-    
-    _.forEach(locations, function(loc){
-        if(_.includes(loc.name,"elevator")){
-            if(point1.floor == loc.floor){
-                elevator1 = loc;
-            }else if(point2.floor == loc.floor){
-                elevator2 = loc;
+    drawGrid(svg);
+  
+        _.forEach(locations, function(loc){
+            if(_.includes(loc.name,"elevator")){
+                if(point1.floor == loc.floor){
+                    elevator1 = loc;
+                }else if(point2.floor == loc.floor){
+                    elevator2 = loc;
+                }
             }
-        }
-    });
-    
-    multiFloorNavFlag = true;
-    drawLine(point1, elevator1);
-    
-    $(secondFloor).click(function(){
-        deleteGrid();
-        drawGrid(svgn);
-        drawLine(point2, elevator2);
-    });
+        });
+
+        multiFloorNavFlag = true;
+        drawLine(point1, elevator1);
+
+        $(secondFloor).click(function(){
+            deleteGrid();
+            navigate(point2, elevator2);
+            $(this).unbind();
+        });
 }
 
  

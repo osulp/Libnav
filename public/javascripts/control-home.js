@@ -37,6 +37,7 @@ $(function () {
         floor = this.id.split('-')[1];
         $('#map-wrapper').empty();
         loadMap();
+        deleteGrid();
         switchGrids(floor);
 
     });
@@ -98,8 +99,7 @@ $(function () {
      $('#nagivation-start').on('click', function(){
         console.log(startPos != null && endPos != null);
         if(startPos != null && endPos != null){
-            drawGrid(svg);
-            drawLine(startPos,endPos);
+            navigate(startPos,endPos);
         }
     })
 
