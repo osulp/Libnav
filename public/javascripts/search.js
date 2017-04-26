@@ -7,19 +7,19 @@ function fuseSearch(searchString, var_locations){
     var minCharVal = null;
     searchResults= {};
     if (searchString.length < 5){
-        console.log("in first if")
+        // console.log("in first if")
         thresholdVal = 0.2
         minCharVal = 3
     }else if (searchString.length < 9){
-         console.log("in first elif")
+        // console.log("in first elif")
         thresholdVal = 0.5
         minCharVal = 5
     }else if (searchString.length > 8){
-         console.log("in second elif")
+        // console.log("in second elif")
         thresholdVal = 0.6
         minCharVal = 6 
     }else{
-        console.log("in else")
+        // console.log("in else")
         thresholdVal = 0.5
         minCharVal = 3
     }
@@ -40,7 +40,7 @@ function fuseSearch(searchString, var_locations){
     
     var fuse = new Fuse(var_locations, options); // "list" is the item array
     var result = fuse.search(searchString);
-    console.log(result)
+    // console.log(result)
     for(var r in result){
         var id = null;
         if('attrid' in result[r]){
@@ -58,7 +58,7 @@ function fuseSearch(searchString, var_locations){
 }
 
 function returnAllNames(id, result){
-    console.log("in returnAllNames")
+    // console.log("in returnAllNames")
     
     // for each object
     for(var o in result){
@@ -82,7 +82,7 @@ function returnAllNames(id, result){
         }
 
     }
-        console.log(searchResults);
+        //console.log(searchResults);
 
 }
 
