@@ -5,7 +5,6 @@
  * Created: 1/16/17
  */
 
-
  var data;
  var count;
  var pointArray = [];
@@ -176,12 +175,8 @@ function getCenter(points){
  * shape data is saved to the database. Must derive the corners for all rectangles and ellipses
  *****************************/
 
- function selectByShape(svg) {
-    var oldColor = null;
-    var rectSelected = false;
-    var polySelected = false;
-    var ellSelected
-
+function selectByShape(svg) {
+var oldColor = null;
     //select rectangles
     var rects = svg.selectAll("rect");
     // rects.attributes.getNamedItem("fill").value = "white";
@@ -201,9 +196,7 @@ function getCenter(points){
     });
 
     rects.on("mouseleave", function () {
-        if(rectSelected){
-            this.attributes.getNamedItem("fill").value = "red"
-        } else if (oldColor && !rectSelected){
+        if (oldColor){
             this.attributes.getNamedItem("fill").value = oldColor;
             oldColor = null;
         } else {
@@ -212,8 +205,11 @@ function getCenter(points){
     });
 
     //get data from map
-    rects.on("click", function () {
-        rectSelected = true;
+
+        rects.on("click", function () {
+     
+        this.attributes.getNamedItem("fill").value = "red"
+        oldColor = "red"
         var values = {
             "x": this.attributes.getNamedItem("x").value,
             "y": this.attributes.getNamedItem("y").value,
@@ -254,11 +250,9 @@ function getCenter(points){
         data = p.point1.x + ',' + p.point1.y + ' ' +  p.point2.x + ',' + p.point2.y + ' '
         +  p.point3.x + ',' + p.point3.y + ' ' +  p.point4.x + ',' + p.point4.y 
 
-
-
-
         //console.log(data);
         this.attributes.getNamedItem("fill").value = "red";
+
     });
 
 
@@ -275,26 +269,30 @@ function getCenter(points){
     });
 
     polygon.on("mouseleave", function () {
-      if(polySelected){
-        this.attributes.getNamedItem("fill").value = "red"
-    } else if (oldColor && !polySelected){
-        this.attributes.getNamedItem("fill").value = oldColor;
-        oldColor = null;
-    } else {
+       if (oldColor){
+            this.attributes.getNamedItem("fill").value = oldColor;
+            oldColor = null;
+        } else {
         this.attributes.getNamedItem("fill").value = "white";
     }
 })
 
     polygon.on("click", function () {
-        polySelected = true;
+      
+        this.attributes.getNamedItem("fill").value = "red"
+        oldColor = "red"
+
+
         data = {
             "points": this.attributes.getNamedItem("points").value
         }
 
         //var points = this.attributes.getNamedItem("points").value;
+        console.log( this.attributes.getNamedItem("points").value);
 
         //console.log( this.attributes.getNamedItem("points").value);
         this.attributes.getNamedItem("fill").value = "red";
+
     });
 
     //elipses
@@ -315,9 +313,7 @@ function getCenter(points){
 
     });
     ellipse.on("mouseleave", function () {
-        if(ellSelected){
-            this.attributes.getNamedItem("fill").value = "red"
-        } else if (oldColor && !ellSelected){
+        if (oldColor){
             this.attributes.getNamedItem("fill").value = oldColor;
             oldColor = null;
         } else {
@@ -328,7 +324,10 @@ function getCenter(points){
 
     //derives a polygon based upon the ellipse's attributes
     ellipse.on("click", function () {
-        ellSelected = true;
+        
+        this.attributes.getNamedItem("fill").value = "red"
+        oldColor = "red"
+
         var ellipseVal =  {
             "cx": this.attributes.getNamedItem("cx").value,
             "cy": this.attributes.getNamedItem("cy").value,
