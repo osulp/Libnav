@@ -34,8 +34,7 @@
         var location2 = end.split("-")
         var point1 = getEntryPoint(location1[1]);
         var point2 = getEntryPoint(location2[1]);
-        drawGrid(svg);
-        drawLine(point1,point2);
+        navigate(point1,point2);
     }
     
     

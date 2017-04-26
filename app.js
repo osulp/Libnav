@@ -8,6 +8,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fileUpload = require('express-fileupload');
+var fs = require('fs');
+var mv = require('mv');
 
 
 
@@ -71,7 +73,10 @@ app.use('/datatable', express.static(__dirname + '/node_modules/datatables.net/'
 app.use('/datatable-bs', express.static(__dirname + '/node_modules/datatables.net-bs/'));
 app.use('/datatable-responsive', express.static(__dirname + '/node_modules/datatables.net-responsive/'));
 app.use('/datatable-responsive-bs', express.static(__dirname + '/node_modules/datatables.net-responsive-bs/'));
-app.use('/express-fileupload', express.static(__dirname + '/node_modules/file-upload'));;
+//fileupload
+app.use(fileUpload());
+
+//move
 app.use('/mv', express.static(__dirname + '/node_modules/mv'));;
 
 
@@ -79,6 +84,10 @@ app.use('/mv', express.static(__dirname + '/node_modules/mv'));;
 app.use('/fuse',  express.static(__dirname + '/node_modules/fuse.js'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+
+
+
 
 
 app.use(logger('dev'));
@@ -95,7 +104,27 @@ app.use(session({
 
 // Cas Setup
 
+//mapUpload
+app.post('/mapUpload', function(req, res) {
+  if (!req.files)
+    return res.status(400).send('No files were uploaded.');
+ 
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
+  let newSVGMap = req.files.newSVGMap;
+  let floorNum = req.body.floorNum;
+  newSVGMap.name = "floor-" + floorNum + ".svg";
+  console.log(__dirname);
+  
+  uploadPath = __dirname + '/public/images/mapUploadtest/' + newSVGMap.name;
 
+  newSVGMap.mv(uploadPath, function(err) {
+    if (err)
+      return res.status(500).send(err);
+  });
+    
+  res.send('success');
+    
+});
 
 // setting routes
 app.use('/', routes);
@@ -141,6 +170,7 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
+
 
 
 
