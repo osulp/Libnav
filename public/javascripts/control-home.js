@@ -72,11 +72,11 @@ $(function () {
                 //console.log(searchResults);
                 // console.log(s);
                 // console.log(searchResults[s]);
-                searchUl.append('<li><a href="#" id="search-' + searchResults[s]['id'] + '">' + searchResults[s]['name'] + '</a></li>');
+                searchUl.append('<li><a href="#" id="result-' + searchResults[s]['id'] + '">' + searchResults[s]['name'] + '</a></li>');
 
             }
 
-            $('a[id*="search-"]').on('click', function () {
+            $('a[id*="result-"]').on('click', function () {
                // console.log(this)
                 id = this.id.split('-')[1];
                 var searchLocation = null;
