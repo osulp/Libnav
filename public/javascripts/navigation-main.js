@@ -315,7 +315,7 @@ var navToDiffFloors = function( point1, point2){
         $(secondFloor).click(function(){
             deleteGrid();
             navigate(point2, elevator2);
-            $(this).unbind();
+            //$(this).off();
         });
 }
 
