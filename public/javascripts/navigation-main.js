@@ -35,7 +35,6 @@ var loadGridForAdmin = function (svgi) {
 
         });
     }
-
 };
 
 /*load grid for point select on known*/
