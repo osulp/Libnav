@@ -72,8 +72,10 @@ var locationToggle = false;
  */
  $(function () {
 
+    if(edit != true){
     // Loads Map
     loadMap(1);
+    }  
 
     // Initializes save result modal
     $('#modal-result').modal({'show': false});
@@ -104,14 +106,7 @@ var locationToggle = false;
         disableBtns();
         var url = $('form').attr('href');
 
-
-
-
-
         var data = getInputData();
-
-        // Submit data
-        //submitForm(data, url);
 
         if (validateData(data)) {
 
@@ -132,7 +127,6 @@ var locationToggle = false;
         else {
             enableBtns();
         }
-
 
         event.preventDefault();
         return false;
@@ -155,12 +149,12 @@ var locationToggle = false;
 
     });
 
+    // Btn Draw box
     $('#btn-box-draw').on('click', function () {
         $('#location-draw-controls').toggleClass('hidden');
 
         drawByBox(svg);
     });
-
 
     // Btn saves draw location
     $('#btn-location-save').on('click', function () {
@@ -178,7 +172,6 @@ var locationToggle = false;
         selectByShape(svg);
     });
 
-
     // Btn Show Grid
     $('#btn-navigation-show').on('click', function () {
         showGrid();
@@ -191,12 +184,11 @@ var locationToggle = false;
 
     // Btn Clear Grid
     $('#btn-navigation-clear').on('click', function () {
-        // Stephen put call to clear entry point method here
+
     });
 
     // Btn Save Entry Point
     $('#btn-navigation-save').on('click', function () {
-        // Stephen put call to save entity point method here
         // getEntry();
     })
 
@@ -328,10 +320,7 @@ var locationToggle = false;
             else {
                 data[input.name] = null;
             }
-
         }
-        
-
     }
 
     return data;
@@ -572,9 +561,9 @@ function getKnowLocations(id) {
     var ignoreAttrs = ['id']
     var attrDict = {
         'name': 'name', 
-        'floor': 'floor', 
         'room_cap': 'capacity',
         'url': 'url', 
+        'floor' : 'floor',
         'entry_point': 'entryPoint',
         'data_point': 'data',
         'room_number': 'number', 

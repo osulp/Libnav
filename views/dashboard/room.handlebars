@@ -222,6 +222,31 @@
 
     {{> dashboard/javascript }}
 
+    <!-- Get data if editing a location !-->
+    <script>
+    // gets the data from route
+    var data = {{{data}}}
+
+    // location object that holds locaitond data
+    var locationOBJ  = null;
+
+    // Flag for if we are edit a locaiton 
+    var edit = false;
+
+    // if data was set then save it to locaiton data
+    if( data != null){
+        edit = true;
+        locationOBJ = data;
+    }
+
+    </script>
+
+    <!-- Draw Polygons js !-->
+    <script src="/public/javascripts/draw-polygon.js"></script>
+
+    <!-- Navigation js !-->
+    <script src="/public/javascripts/navigation-main.js"></script>
+
     <!-- ApprovedJS !-->
     <script src="/approvejs/approve.min.js"></script>
 
@@ -231,27 +256,13 @@
     <!-- LodashJS !-->
     <script src="/lodash/lodash.js"></script>
 
-    <!-- Draw Polygons js !-->
-    <script src="/public/javascripts/draw-polygon.js"></script>
-
-    <!-- Navigation Controls !-->
-    <script src="/public/javascripts/navigation-main.js"></script>
-
     <!-- Form Controls JS !-->
     <script src="/public/javascripts/control-form.js" ></script>
 
     <script>
-        var data = {{{data}}}
-        var locationOBJ  = null;
-        if( data != null){
-            locationOBJ = data;
-
+        if(edit){
             loadLocation(locationOBJ);
-
         }
-
     </script>
-
-
-
+    
 </body>
