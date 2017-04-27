@@ -3,55 +3,59 @@ var floorGridFromDB;
 var allGrids = null;
 var gridUpdate = 'navigation/update';
 var url = 'navigation/save'
-
-
-
-
+var floor = null;
+var message = null;
 
 
 $(function () {
 
-    $.when(getGrids()).done(function(gridJSON){
-                var result = JSON.parse(gridJSON);
-                if (result && result.length!=0) {
-                    // display success message
-                    console.log(result);
-                    allGrids = result;
-                    floorGridFromDB = JSON.parse(result[0].data);
-                }
-                else {
-                    // display error message
-                }
-        loadMap(1);
-    })
-    
-         $("#setWalkTrue").on("click", function () {
-            var allRectangles = grid.selectAll('rect');
-            walkable = true;
-            allRectangles.on("click", null);
-            gridMouse();
-        });
+    floor = "1";
 
-        $("#setWalkFalse").on("click", function () {
-            var allRectangles = grid.selectAll('rect');
-            walkable = false;
-            allRectangles.on("click", null);
-            gridMouse();
-        });
+    initialize();
+
+    // Initializes save result modal
+    $('#modal-result').modal({'show': false});
     
-        $("#floorSelect").change(function(){
+    // btn to set walkable paths
+    $("#setWalkTrue").on("click", function () {
+        var allRectangles = grid.selectAll('rect');
+        walkable = true;
+        allRectangles.on("click", null);
+        gridMouse();
+    });
+
+    // btn to set unwalkable paths
+    $("#setWalkFalse").on("click", function () {
+        var allRectangles = grid.selectAll('rect');
+        walkable = false;
+        allRectangles.on("click", null);
+        gridMouse();
+    });
+    
+    // Changes floor depending on selected floor.
+    $("#floorSelect").change(function(){
         deleteGrid();
-            
-        for(var g in allGrids){
-            if(allGrids[g].floor == this.value){
-                floorGridFromDB = JSON.parse(allGrids[g].data);
-                break;
-            }else{
-                floorGridFromDB = null;
-            }
-        }
+
+        setGrid(this.value);
+
         loadMap(parseInt(this.value));            
-        });
+    });
+
+    $('#btn-model-close').on('click', function(){
+
+        console.log("You CLicked me");
+        // Hid message on close
+        $('#modal-message-' + message).toggleClass('hidden');
+
+        // reinitialzie navation form with update girds froms ave.
+        if(message == 'success'){
+            deleteGrid();
+            setGrid(floor);
+            initialize();
+        }
+
+        
+    })
 
     
     
@@ -96,22 +100,6 @@ $(function () {
 });
 
 
-/*function loadMap(id) {
- var map = '/public/images/floor-' + id + '.svg';
- d3.text(map, function (error, externalSVG) {
- if (error) throw error;
- // select map wrapper
- var mapwrapper = d3.select('#map-wrapper');
- mapwrapper.html(externalSVG);
-
- svg = mapwrapper.select("svg");
- //loadGridForAdmin(svg);
-
-
- });
-
- }*/
-
 function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
@@ -135,64 +123,82 @@ function loadMap(id) {
 
 var saveGrid = function (data, url) {
     if (data != undefined) {
+
         $.ajax({
             type: "POST",
             async: true,
             url: url,
             data: data
         })
-            .done(function (data) {
-                console.log(data);
-                var result = JSON.parse(data);
-                if (result) {
-                    // display success message
-                    console.log(result);
-                }
-                else {
-                    // display error message
-                }
+        .done(function (resultJSON) {
+            var result = JSON.parse(resultJSON);
 
-            })
-            .fail(function () {
-                console.log("Grid not saved");
-            });
+            if (result) {
+                floor = data.floor.toString();
+                // shows modal on success
+                $('#modal-result').modal('show');
+                $('#modal-message-success').toggleClass('hidden');
+                message = 'success';
+            }
+            else {
+                // display error message
+                // shows modal on success
+                $('#modal-result').modal('show');
+                $('#modal-message-warning').toggleClass('hidden');
+                message = 'warning';
+
+                // Enable buttons for editing
+                enableBtns();
+            }
+
+        })
+        .fail(function () {
+            console.log("Grid not saved");
+        });
     }
 }
 
+/**
+ * Initialize navation form
+ * @param  {[type]} floor [description]
+ * @return {[type]}       [description]
+ */
+function initialize(){
+    $.when(getGrids()).done(function(gridJSON){
+        var result = JSON.parse(gridJSON);
+        if (result && result.length!=0) {
+            // display success message
+            allGrids = result;
+            setGrid(floor);
+            // floorGridFromDB = JSON.parse(result[0].data);
+        }
+        else {
+            // display error message
+        }
+        loadMap(floor);
+    });
+}
+
+function setGrid(floorId){
+    for(var g in allGrids){
+            if(allGrids[g].floor == floorId){
+                floorGridFromDB = JSON.parse(allGrids[g].data);
+                break;
+            }else{
+                floorGridFromDB = null;
+            }
+        }
+}
 
 /**
  * Gets all grids from database
  * @returns {*}
  */
 
-function getGrids() {
+ function getGrids() {
     return $.ajax({
         type: "get",
         async: true,
         url: '/mapapi/grids'
     });
-        /*.done(function (data) {
-            var result = JSON.parse(data);
-            if (result) {
-
-                // display success message
-                if (result.length != 0) {
-                    console.log(result);
-                    floorGridFromDB = JSON.parse(result[0].data);
-                }
-
-                loadGridForAdmin(svg);
-
-            }
-            else {
-
-                loadGridForAdmin(svg);
-                // display error message
-                console.log('Location for retrived');
-            }
-
-        })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });*/
 }
