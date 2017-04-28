@@ -198,7 +198,7 @@
     <!-- Get data if editing a location !-->
     <script>
     // gets the data from route
-    var data = {{{data}}}
+    var locationData = {{{data}}}
 
     // location object that holds locaitond data
     var locationOBJ  = null;
@@ -207,9 +207,9 @@
     var edit = false;
 
     // if data was set then save it to locaiton data
-    if( data != null){
+    if( locationData != null){
         edit = true;
-        locationOBJ = data;
+        locationOBJ = locationData;
     }
 
     </script>
