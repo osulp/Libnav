@@ -2,59 +2,45 @@ var searchObjs = null;
 var searchResults = {};
 
 
-$(function(){
-    searchObjs = getSearchTerms();
-});
+function fuseSearch(searchString, var_locations){
+    var thresholdVal = null;
+    var minCharVal = null;
+    searchResults= {};
+    if (searchString.length < 5){
+        // console.log("in first if")
+        thresholdVal = 0.2
+        minCharVal = 3
+    }else if (searchString.length < 9){
+        // console.log("in first elif")
+        thresholdVal = 0.5
+        minCharVal = 5
+    }else if (searchString.length > 8){
+        // console.log("in second elif")
+        thresholdVal = 0.6
+        minCharVal = 6 
+    }else{
+        // console.log("in else")
+        thresholdVal = 0.5
+        minCharVal = 3
+    }
 
-//this will return everything from the database.
-function getSearchTerms(){
-    //add ajax call to call with the search function.
-    var terms = false;
-     $.ajax({
-        type: "get",
-        async: false,
-        url: '/mapapi/getSearch'
-    })
-        .done(function (data) {
-           result = JSON.parse(data);
-           terms = result;
-           //temp = data
-        })
-        .fail(function () {
-            console.log("Ajax Failed.")
-        });
-        return terms;
-}
+    console.log("done with the if statements.")
 
-
-
-function fuseSearch(searchString){
-    searchResults = {};
      var options = {
       shouldSort: true,
-      threshold: 0.0,
+      threshold: thresholdVal,
       location: 0,
       distance: 100,
       verbose: false,
       maxPatternLength: 32,
-      minMatchCharLength: 3,
-      keys: ["attr", "name", "floor", "room_number", "room_cap"]
+      minMatchCharLength: minCharVal,
+      keys: ["attribute", "tag", "name", "floor", "room_number", "room_cap"]
     }
 
-    for(var l in locaitonArray){
-      search.append (location[l]['tag']);
-      search.append (location[l]['attribute']);
-    }
-
-    {
-      id: 1,
-      //...
-      tags: "['tag','tag', 'tag','tag']",
-      attr: "['arrt','arrt','attr','attr']"
-    }
     
-    var fuse = new Fuse(searchObjs, options); // "list" is the item array
+    var fuse = new Fuse(var_locations, options); // "list" is the item array
     var result = fuse.search(searchString);
+    // console.log(result)
     for(var r in result){
         var id = null;
         if('attrid' in result[r]){
@@ -66,28 +52,37 @@ function fuseSearch(searchString){
         else if('id' in result[r]){
             id = result[r]['id'];
         }
-        returnAllNames(id);
+        returnAllNames(id,result)
     }
 
 }
 
-function returnAllNames(id){
+function returnAllNames(id, result){
+    // console.log("in returnAllNames")
+    
     // for each object
-    for(var o in searchObjs){
+    for(var o in result){
 
         // if its id
-        if('id' in searchObjs[o]){
+        if('id' in result[o]){
 
             // check if id matches
-            if(id == searchObjs[o].id){
+            if(id == result[o].id){
                 // check if it exist in the resutls
                 if(!(id in searchResults)){
-                    searchResults[searchObjs[o].id] = searchObjs[o].name;
+                        searchResults[o] = {'name':result[o].name,
+                        'id':result[o].id,
+                        'floor':result[o].floor
+                    }
+                    //searchResults.push(resobj) 
+                    
+                   // searchResults.push(resobj)
                 }
             }
         }
 
     }
+        //console.log(searchResults);
 
 }
 

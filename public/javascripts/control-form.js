@@ -569,11 +569,14 @@ function getKnowLocations(id) {
     // set update flag
     update = true;
 
-    var ignoreAttrs = ['id', 'entry_point', 'data_point']
+    var ignoreAttrs = ['id']
     var attrDict = {
         'name': 'name', 
         'floor': 'floor', 
-        'room_cap': 'capacity', 
+        'room_cap': 'capacity',
+        'url': 'url', 
+        'entry_point': 'entryPoint',
+        'data_point': 'data',
         'room_number': 'number', 
         'attribute': 'attribute',
         'tag': 'tag',
@@ -583,6 +586,7 @@ function getKnowLocations(id) {
 
     for(var a in location){
         if( a in attrDict && !(a in ignoreAttrs)){
+            console.log(a + ": " + location[a]);
             if(a == 'attribute' || a == 'tag'){
                 var text = JSON.parse(location[a]);
                 $('#' + attrDict[a]).val(text.join(', '));
@@ -596,6 +600,17 @@ function getKnowLocations(id) {
                     display = 'false'
                 }
                 $('#' + attrDict[a] + '-' + display).prop('checked',true);
+            }
+            else if (a == 'entry_point'){
+                entryPoint = location[a];
+            }
+            else if (a == 'data_point'){
+                data = JSON.parse(location[a]);
+            }
+            else if (a == 'floor'){
+                loadMap(location[a]);
+
+                $('#' + attrDict[a]).val(location[a]);
             }
             else{
                $('#' + attrDict[a]).val(location[a]);

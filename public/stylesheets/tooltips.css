@@ -8,6 +8,7 @@ div.location-tooltip {
   font: 12px sans-serif;
   background: #ffffff;
   border: #c34500 2px solid;
+  overflow-y:scroll;
   border-radius: 8px;
   -webkit-box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.75);

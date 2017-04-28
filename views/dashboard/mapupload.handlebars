@@ -28,23 +28,19 @@
                 <div class="row">
                     <div class="col-lg-12">
 
-                        <form name="imgUpload"  method = "POST" id ="imgUP" role="form">
-
-                            <!-- Name & Floor !-->
-                            <div class="row">
-
-                                <!-- Location name input !-->
-                                <div class="col-lg-6">
-                                   <input id="imgUpload" name = "image" type="file" />
-                               </div> <!-- / .col-lg-6 !-->
-
-                               <br>
-                               <!-- Form Control !-->
-                               <p class="input-label">Form Options</p>
-                               <button type="submit" class="btn btn-success" id="btn-save">Save</button>
-                               
-                           </div> <!-- col-lg-6 !-->
-                       </form>
+                         <form ref='uploadForm' 
+                          id='uploadForm' 
+                          action='http://localhost:3000/mapUpload' 
+                          method='post' 
+                          encType="multipart/form-data">
+                            Choose Floor Number: <input type="number" name="floorNum" />
+                             <br>
+                            Select File to Upload: <input type="file" name="newSVGMap" />
+                            <input type='submit' value='Upload!' />
+                          </form>   
+                        
+                        
+                      
                    </div> <!-- /.row !-->
 
 

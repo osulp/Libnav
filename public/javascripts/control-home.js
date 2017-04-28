@@ -36,8 +36,9 @@ $(function () {
      $('a[id*="floor-"]').on('click', function () {
         floor = this.id.split('-')[1];
         $('#map-wrapper').empty();
-        $('#navgrid').empty();
         loadMap();
+        deleteGrid();
+        switchGrids(floor);
 
     });
 
@@ -60,31 +61,61 @@ $(function () {
 
             // show results dropdown
             searchWrapper.removeClass('hidden');
-
+            // console.log("before input")
             searchTerm = $('#input-search').val();
-            fuseSearch(searchTerm);
+            // console.log(searchTerm)
 
+            fuseSearch(searchTerm, locations);
+            // console.log(searchResults)
             for(var s in searchResults){
-                searchUl.append('<li><a href="#" id="search-' + searchResults[s].id + '">' + searchResults[s] + '</a></li>');
+                //console.log("line70 in control home")
+                //console.log(searchResults);
+                // console.log(s);
+                // console.log(searchResults[s]);
+                searchUl.append('<li><a href="#" id="result-' + searchResults[s]['id'] + '">' + searchResults[s]['name'] + '</a></li>');
+
             }
 
-            $('a[id*="search-"]').on('click', function () {
-
+            $('a[id*="result-"]').on('click', function () {
+               // console.log(this)
                 id = this.id.split('-')[1];
+                var searchLocation = null;
 
-                if(selectedLocaiton){
-                    var temp = svg.select('#poly-' + selectedLocaiton);
-                    temp.style("filter", null)
-                        .style("opacity", .5);
+                for(var s in searchResults){
+                    if( searchResults[s]['id'] ==  id){
+                        searchLocation = searchResults[s];
+                        //if (searchResults[s]['floor'] != floor)
+                            //console.log("if before load map")
+                            //floor = searchResults[s]['floor'];
+                            //loadMap(searchResults[s]['floor'])
+                            //loadMap();
+                            //console.log("after load map")
+                        break;
+                    }
+                    
                 }
+                
+                if(floor != searchLocation['floor']){
+                    floor = searchLocation['floor'];
+                    loadMap();
+                }
+                console.log($('svg').ready(function(){
+                    if(selectedLocaiton){
+                        var temp = svg.select('#poly-' + selectedLocaiton);
+                        temp.style("filter", null)
+                            .style("opacity", .5);
+                    }
 
-                var polyLocaiton = svg.select('#poly-' + id);
-                polyLocaiton.style("filter", "url(#glow)")
-                            .style("opacity", .8);
+                    var polyLocaiton = svg.select('#poly-' + searchLocation['id']);
+                    polyLocaiton.style("filter", "url(#glow)")
+                                .style("opacity", .8);
 
-                selectedLocaiton = id;
+                    selectedLocaiton = searchLocation['id'];
+                }));
 
-    });
+                
+
+             });
         }
         else if(input == ""){
             // Hide search results dropdown
@@ -98,8 +129,7 @@ $(function () {
      $('#nagivation-start').on('click', function(){
         console.log(startPos != null && endPos != null);
         if(startPos != null && endPos != null){
-            drawGrid(svg);
-            drawLine(startPos,endPos);
+            navigate(startPos,endPos);
         }
     })
 
@@ -121,27 +151,8 @@ $(function () {
         async: true,
         url: '/mapapi/grids'
     });
-        /*.done(function (data) {
-            var result = JSON.parse(data);
-            grids = result;
-            if (result) {
 
-                // display success message
-                if (result.length != 0) {
-                    
-                    floorGridFromDB = JSON.parse(result[0].data);
-                    console.log(floorGridFromDB);
-                }
-            }
-            else {
-                // display error message
-                console.log('Location for retrived');
-            }
-        })
-        .fail(function () {
-            console.log("Location not retrieved");
-        });*/
-    }
+}
 
 
 /**
@@ -257,6 +268,17 @@ $(function () {
 }
 
 
+function switchGrids(floor){
+     for(var g in grids){
+            console.log(g);
+            if(grids[g].floor == floor){
+                floorGridFromDB = JSON.parse(grids[g].data);
+            }
+        }
+    
+}
+
+
 function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 
@@ -270,12 +292,7 @@ function initialize() {
         // load map
         loadMap(floor);
 
-        for(var g in grids){
-            console.log(g);
-            if(grids[g].floor == floor){
-                floorGridFromDB = JSON.parse(grids[g].data);
-            }
-        }
+        switchGrids(floor);
 
     });
 }
