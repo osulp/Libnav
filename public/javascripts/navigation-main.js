@@ -300,7 +300,7 @@ var navToDiffFloors = function( point1, point2){
     drawGrid(svg);
   
         _.forEach(locations, function(loc){
-            if(_.includes(loc.name,"elevator")){
+            if(_.includes(loc.name,"elevator") || _.includes(loc.name,"Elevator")){
                 if(point1.floor == loc.floor){
                     elevator1 = loc;
                 }else if(point2.floor == loc.floor){
