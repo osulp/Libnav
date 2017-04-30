@@ -136,6 +136,8 @@ $(function () {
      $('#navigation-clear').on('click', function(){
         console.log("you clicked me");
         deleteGrid();
+        switchGrids(floor);
+
     })
 
  });

@@ -113,9 +113,8 @@ app.post('/mapUpload', function(req, res) {
   let newSVGMap = req.files.newSVGMap;
   let floorNum = req.body.floorNum;
   newSVGMap.name = "floor-" + floorNum + ".svg";
-  console.log(__dirname);
   
-  uploadPath = __dirname + '/public/images/mapUploadtest/' + newSVGMap.name;
+  uploadPath = __dirname + '/public/images/' + newSVGMap.name;
 
   newSVGMap.mv(uploadPath, function(err) {
     if (err)

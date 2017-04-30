@@ -23,19 +23,8 @@ var finishFlag = false;
 var notWalkFlag = false;
 var multiFloorNavFlag = false;
 
-/*load grid for navigation dashboard page*/
-var loadGridForAdmin = function (svgi) {
 
-    if (svgi != undefined) {
-   
-        $("#navGrid").ready(function () {
 
-            drawGrid(svgi);
-            gridMouse();
-
-        });
-    }
-};
 
 /*load grid for point select on known*/
 var loadGridForKnown = function (svgi) {
@@ -271,11 +260,11 @@ var drawLine = function(point1, point2){
         var gridBackup = gridCalc.clone(); 
         path = finder.findPath(row1, col1,  row2, col2, gridBackup);
      }else{
-        //var gridBackup = gridCalc.clone();
-         var gridBackup = gridCalc;
+         var gridBackup = 
+             gridCalc;
         path = finder.findPath(row1, col1,  row2, col2, gridBackup);
      }
-
+    
 
      for (var x = 0; x < path.length; x++) {
          var recID = "s-" + path[x][0] + "-" + path[x][1];
@@ -285,8 +274,9 @@ var drawLine = function(point1, point2){
              .attr("fill-opacity",".8")
              .attr("stroke", 'none');
      }
+    
 
-
+    //hides everything but the path
      hideGridForHomeNav();
  };
 
@@ -312,9 +302,16 @@ var navToDiffFloors = function( point1, point2){
         multiFloorNavFlag = true;
         drawLine(point1, elevator1);
 
+        $(secondFloor).css("color","orange");
+        var secMultFloorDeny = false; 
+    
         $(secondFloor).click(function(){
+            if(secMultFloorDeny == false){
             deleteGrid();
             navigate(point2, elevator2);
+            secMultFloorDeny = true;
+            $(secondFloor).css("color","black");        
+            }
             //$(this).off();
         });
 }
