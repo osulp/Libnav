@@ -2,9 +2,6 @@
 
 **[Progress Blog](https://github.com/NathanHealea/ValleyLibraryInteractiveMap/wiki/)**
 
-
-How-to
-
 ## System Reqirements
 * Operating System: Centos 6.8
 * Web Service: Apache 2
@@ -12,6 +9,25 @@ How-to
 * PHP: v5.3.3
 * Nodjs: v7.4.0
 * Git: v1.7.1
+
+### Installiation 
+1. Clone repo into directory of choice. suggested /var/www/
+	1. Give 775 permission to files to dicrectary.
+2. CD into cloned directory
+3. run npm install in directory containing the packaged.js
+4. Set up database
+	1. Create a mysql database ex.'libnav'
+	2. Run docs/createAllTables.sql targiting the database you just created using relitive paths.
+		1. mysql -u user -p mydatabase < createAllTables.sql
+	3. If you would like to use demo data run the follow command using a relitive path.
+		1. mysql -u user -p mydatabases < dummyData.sql
+4. Make directory 'config' with permisison 775
+5. Run pm2 start bin/www
+	1. The NodeJS application will be running on port 3000
+6. Navigation to 'baseurl'/setup
+	1. fill out form informaion
+7. Application is fully setup.
+
 
 
 ### Navigation -  Navigating between two points 
