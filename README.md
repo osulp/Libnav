@@ -10,7 +10,7 @@
 * Nodjs: v7.4.0
 * Git: v1.7.1
 * Networking:
-  * This application, to have all features fully working, must be ran under the url fw-libnav.eece.oregonstate.edu located on a Intel located at Kelly Engineering at Oregon State Universirty hardwired into the network.
+  * This application, to have all features fully working, must be ran under the url fw-libnav.eecs.oregonstate.edu located on a Intel located at Kelly Engineering at Oregon State Universirty hardwired into the Universirty network.
 
 ## Installiation 
 1. Clone repo into directory of choice. suggested /var/www/
