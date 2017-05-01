@@ -7,6 +7,7 @@
 /*project global*/
 var entryPoint;
 var floorGridFromDB;
+var ePointsJSON = null;
 
 /*file globals*/
 var grid;
@@ -154,6 +155,7 @@ var setGridPathFinderFromDB = function (squaresColumn, squaresRow, grid) {
             });
 
         });
+        drawAllEntrancePoints();        
     }
     }
 };
@@ -372,6 +374,16 @@ var markPoints = function () {
 
     });
 };
+
+var drawAllEntrancePoints = function(){
+    if(ePointsJSON!=null || ePointsJSON === "undefined"){
+        _.forEach(ePointsJSON, function(loc){
+                if(floor == loc.floor){
+                      grid.select("rect[id='" + loc.entry_point + "']").attr('fill', 'black').attr("fill-opacity", ".8");
+                }
+        });
+    }
+}
 
 
 function deleteGrid(){

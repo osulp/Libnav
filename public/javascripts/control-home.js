@@ -13,6 +13,10 @@ var searchTerm = null;
 // Contains array of grid objects
 var grids = null;
 
+//disabling element is still clickable... adding flag to stop it 
+var disableStartFlag = false;
+
+
 var selectedLocaiton = null;
 $(function () {
 
@@ -127,16 +131,23 @@ $(function () {
 
 
      $('#nagivation-start').on('click', function(){
-        console.log(startPos != null && endPos != null);
-        if(startPos != null && endPos != null){
-            navigate(startPos,endPos);
+        if (disableStartFlag == false){
+            console.log(startPos != null && endPos != null);
+            if(startPos != null && endPos != null){
+                navigate(startPos,endPos);
+            }
         }
+         disableStartFlag = true;
+        $(this).addClass("disabled"); 
     })
 
      $('#navigation-clear').on('click', function(){
         console.log("you clicked me");
         deleteGrid();
         switchGrids(floor);
+        $('#nagivation-start').removeClass("disabled"); 
+        disableStartFlag = false;
+
 
     })
 

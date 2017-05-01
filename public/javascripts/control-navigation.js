@@ -5,6 +5,7 @@ var gridUpdate = 'navigation/update';
 var url = 'navigation/save'
 var floor = null;
 var message = null;
+var ePointsJSON = null;
 
 
 $(function () {
@@ -164,8 +165,9 @@ var saveGrid = function (data, url) {
  * @return {[type]}       [description]
  */
 function initialize(){
-    $.when(getGrids()).done(function(gridJSON){
-        var result = JSON.parse(gridJSON);
+    $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON){
+        var result = JSON.parse(gridJSON[0]);
+        ePointsJSON = JSON.parse(locationJSON[0]);
         if (result && result.length!=0) {
             // display success message
             allGrids = result;
@@ -189,6 +191,22 @@ function setGrid(floorId){
             }
         }
 }
+
+
+/**
+ * Ajax call to get all know location from database
+ * @param data
+ * @param url
+ */
+ function getLocations() {
+    return $.ajax({
+        type: "get",
+        async: false,
+        url: '/mapapi/getAllLocation'
+    });
+}
+
+
 
 /**
  * Gets all grids from database
