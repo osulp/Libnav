@@ -22,7 +22,7 @@
 	2. Run docs/createAllTables.sql targiting the database you just created using relitive paths.
 		1. mysql -u user -p mydatabase < createAllTables.sql
 	3. If you would like to use demo data run the follow command using a relitive path.
-		1. mysql -u user -p mydatabases < dummyData.sql
+		1. mysql -u user -p mydatabases < libnav-data.sql
 4. Make directory 'config' with permisison 775
 5. Run pm2 start bin/www
 	1. The NodeJS application will be running on port 3000
