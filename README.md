@@ -12,7 +12,7 @@
 
 ### Installiation 
 1. Clone repo into directory of choice. suggested /var/www/
-	1. Give 775 permission to files to dicrectary.
+	1. Give 775 permission to all files in cloned dicrectary.
 2. CD into cloned directory
 3. run npm install in directory containing the packaged.js
 4. Set up database
@@ -25,7 +25,8 @@
 5. Run pm2 start bin/www
 	1. The NodeJS application will be running on port 3000
 6. Navigation to 'baseurl'/setup
-	1. fill out form informaion
+	1. fill out information in form.
+7. Restart apllicaiton by running pm2 restart 'you process id from step 5'
 7. Application is fully setup.
 
 
