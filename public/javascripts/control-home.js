@@ -260,7 +260,6 @@ $(function () {
  */
 function switchGrids(floor){
      for(var g in grids){
-            console.log(g);
             if(grids[g].floor == floor){
                 floorGridFromDB = JSON.parse(grids[g].data);
             }
