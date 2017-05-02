@@ -100,7 +100,10 @@ $(function () {
 
 });
 
-
+/**
+ * Load map
+ * @param  {[type]} id [id of floor]
+ */
 function loadMap(id) {
     var map = '/public/images/floor-' + id + '.svg';
     d3.text(map, function (error, externalSVG) {
@@ -121,7 +124,11 @@ function loadMap(id) {
     });
 
 }
-
+/**
+ * Ajax call to save grid
+ * @param  {[type]} data [Grid data]
+ * @param  {[type]} url  [url to save api]
+ */
 var saveGrid = function (data, url) {
     if (data != undefined) {
 
