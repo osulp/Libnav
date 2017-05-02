@@ -145,23 +145,24 @@ function getEntryPoint(location, callback) {
     }
 
 }
-
+/*****************************************
+ * getCenter
+ * returns: the x,y point in the near center of the shape.
+ * variables:
+ * points-string containing comma separated and space separated variables  
+ * will parse the string split by commas and derive the centerish point of the 
+ * shape. Best for rectangles.
+ * */
 function getCenter(points){
     var points = points.split(" ");
 
-    //console.log(points)
-
-
     var point1 = points[0].split(",");
-    //console.log(point1[0]);
-    //console.log(point1[1]);
     var point2 =  points[2].split(",");
 
     var center = {
         'x' : (Number(point1[0]) + Number(point2[0]))/2,
         'y' : (Number(point1[1]) + Number(point2[1]))/2
     }
-
     return center;
 }
 
@@ -178,35 +179,26 @@ function getCenter(points){
 
 function selectByShape(svg) {
 var oldColor = null;
-    //select rectangles
+    
     var rects = svg.selectAll("rect");
-    // rects.attributes.getNamedItem("fill").value = "white";
 
-    //give rectangles fill
-   /* _.times(rects._groups[0].length, function (g) {
+        rects.on("mouseenter", function () {
+            if(this.attributes.getNamedItem("fill").value != "none"){
+                oldColor = this.attributes.getNamedItem("fill").value
+            }
+            this.attributes.getNamedItem("fill").value = "#5bc0de";
+        });
 
-        rects._groups[0][g].attributes.getNamedItem("fill").value = "white";
+        rects.on("mouseleave", function () {
+            if (oldColor){
+                this.attributes.getNamedItem("fill").value = oldColor;
+                oldColor = null;
+            } else {
+                this.attributes.getNamedItem("fill").value = "none";
+            }
+        });
 
-    });*/
-
-    rects.on("mouseenter", function () {
-        if(this.attributes.getNamedItem("fill").value != "none"){
-            oldColor = this.attributes.getNamedItem("fill").value
-        }
-        this.attributes.getNamedItem("fill").value = "#5bc0de";
-    });
-
-    rects.on("mouseleave", function () {
-        if (oldColor){
-            this.attributes.getNamedItem("fill").value = oldColor;
-            oldColor = null;
-        } else {
-            this.attributes.getNamedItem("fill").value = "none";
-        }
-    });
-
-    //get data from map
-
+        //get data from map
         rects.on("click", function () {
      
         this.attributes.getNamedItem("fill").value = "red"
@@ -219,13 +211,6 @@ var oldColor = null;
         }
 
         //points go clockwise with point 1 being top left
-        var points = {
-            'point1': ""+  this.attributes.getNamedItem("x").value + " " + this.attributes.getNamedItem("y").value + "",
-            'point2' : "" + (this.attributes.getNamedItem("x").value + this.attributes.getNamedItem("width").value) + " " + this.attributes.getNamedItem("y").value + "",
-            'point3' :  "" + this.attributes.getNamedItem("x").value  + " " + (this.attributes.getNamedItem("y").value - this.attributes.getNamedItem("height").value)  + "",
-            'point4' :  "" + (this.attributes.getNamedItem("x").value + this.attributes.getNamedItem("width").value) + " " + (this.attributes.getNamedItem("y").value - this.attributes.getNamedItem("height").value)  + ""
-        }
-
         //derive each corner in x,y coordinates
         var p = {
             point1: {
@@ -251,7 +236,7 @@ var oldColor = null;
         data = p.point1.x + ',' + p.point1.y + ' ' +  p.point2.x + ',' + p.point2.y + ' '
         +  p.point3.x + ',' + p.point3.y + ' ' +  p.point4.x + ',' + p.point4.y 
 
-        //console.log(data);
+        
         this.attributes.getNamedItem("fill").value = "red";
 
     });
@@ -288,23 +273,12 @@ var oldColor = null;
             "points": this.attributes.getNamedItem("points").value
         }
 
-        //var points = this.attributes.getNamedItem("points").value;
-        console.log( this.attributes.getNamedItem("points").value);
-
-        //console.log( this.attributes.getNamedItem("points").value);
         this.attributes.getNamedItem("fill").value = "red";
 
     });
 
     //elipses
     var ellipse = svg.selectAll("ellipse");
-
-
-  /*  _.times(ellipse._groups[0].length, function (g) {
-
-        ellipse._groups[0][g].attributes.getNamedItem("fill").value = "white";
-
-    });*/
 
     ellipse.on("mouseenter", function () {
         if(this.attributes.getNamedItem("fill").value ){
@@ -360,10 +334,8 @@ var oldColor = null;
 
             //produces test tring in form "x,y x,y x,y x,y"
             data = corners.point1.x + ',' + corners.point1.y + ' ' +  corners.point2.x + ',' + corners.point2.y + ' '
-
             +  corners.point3.x + ',' + corners.point3.y + ' ' +  corners.point4.x + ',' + corners.point4.y 
 
-            //console.log(data);
             this.attributes.getNamedItem("fill").value = "red";
         });
 
@@ -392,7 +364,7 @@ var oldColor = null;
             "x": pos[0],
             "y": pos[1]
         };
-        //console.log(point);
+    
 
         // add points to array
         pointArray.push(point);
@@ -425,20 +397,32 @@ var oldColor = null;
     });
 
 }
-
+/******************************
+ * clear
+ * return: none
+ * variables:
+ * svg- the svg saved as a html div, used in d3 
+ * removes all temporary points and polygons * 
+ */
 function clear(svg) {
-    //console.log("attempting to remove items");
+    
     svg.selectAll("circle.click-circle").remove();
     svg.selectAll("polygon.drawn-poly").remove();
     svg.selectAll("line.click-line").remove();
-    //pointArray = [];
-    //clear all points in the array
     while (pointArray.length > 0) {
         pointArray.pop();
     }
     count = 0;
 }
 
+
+/******************************
+ * fill
+ * return: none
+ * variables:
+ * svg- the svg saved as a html div, used in d3 
+ * fills in the point-by-point drawn shapes * 
+ */
 function fill(svg) {
     svg.append("polygon")
     .attr("class", "drawn-poly")
@@ -452,10 +436,15 @@ function fill(svg) {
     .style("opacity", .25);
 }
 
-
+/******************************
+ * createTooltips 
+ * return: html with all text for the tooltip.
+ * variables:
+ * data-the necessary data for the location to build the tool tip. 
+ */
 function createTooltip(data){
-    var locationTags = JSON.parse(data['attribute']);//cleanUpTags(data.id)
-    var locationAttrs = JSON.parse(data['tag']); //cleanUpAttrs(data.id)
+    var locationTags = JSON.parse(data['attribute']);
+    var locationAttrs = JSON.parse(data['tag']);
     var tooltip = $('<div>',{
         'id': 'tooltip-' + data.id,
         'class': 'location-tooltip hidden'
@@ -603,113 +592,15 @@ function findObj(id){
 
 }
 
-/*****************************
- * cleanUpTag
- * location: the id of a location in the database
- * takes all tags from a query and combines into a string for use in the tool tip
- *******************************/
- function cleanUpTags(location) {
-    var tagArray = []
-    var t = 0
-
-    var tagsR = getTags(location ,function(result){
-              // console.log(result);
-          })
-
-
-    for (t  in tagsR) {
-        tagArray.push(tagsR[t].attr)
-        t++
-    }
-
-    return tagArray;
-
-}
-
-
-/*****************************
- * cleanUpAttrs
- * location: the id of a location in the database
- * takes all attributes from a query and combines into a string for use in the tool tip
- *******************************/
- function cleanUpAttrs(location) {
-
-
-    var attrsR = getAttributes(location ,function(result){
-                //console.log(result);
-            })
-
-
-    var attrArray = []
-    var a = 0
-
-    for (a in attrsR) {
-        attrArray.push(attrsR[a].attr)
-        a++
-    }
-
-    return attrArray
-}
-
-/*****************************
- * getTags
- * location: the id of a location in the database
- * callback: javascript callback to return the query results for  the cleanUpTags function 
- * queries the database for all tags with the matching location id
- *******************************/
- function getTags(location, callback) {
-
-    //console.log("inside getTags");
-    var temp = false;
-    /* $.ajax({
-        type: "POST",
-        async: false,
-        url: '/mapapi/getTags',
-        data: {
-            location: location
-        }
-    })
-    .done(function (data) {
-            // console.log(data);
-            var result = JSON.parse(data);
-            temp = result;
-        })
-    .fail(function () {
-        console.log("Ajax Failed.");
-    });
-
-    //console.log(temp); */
-    return "Hello World";
-}
-
-/*****************************
- * getAttributes
- * location: the id of a location in the database
- * callback: javascript callback to return the query results for  the cleanUpAttrs function 
- * queries the database for all attributes with the matching location id
- *******************************/
- function getAttributes(location, callback) {
-    var temp = false
-    /*$.ajax({
-        type: "POST",
-        async: false,
-        url: '/mapapi/getAttributes',
-        data: {
-            location: location
-        }
-    })
-    .done(function (data) {
-            // console.log(data);
-            var result = JSON.parse(data);
-            temp = result
-        })
-    .fail(function () {
-        console.log("Ajax Failed.");
-    });*/
-    return "Hello World!";
-}
-
-
+/**************************************
+ * drawByBox  
+ * return:none
+ * Variables:
+ * svg: svg: the html object containg the SVG xml datat
+ * Allow the user to draw a box to the map by first clicking 
+ * where the top left corner is to be located and then
+ * clicking where the bottom right corner is located
+ */
 function drawByBox(svg){
   var point1 = null;
   var point2 = null;
@@ -757,7 +648,16 @@ function drawByBox(svg){
 
 
 }
-
+/************************
+ * deriveCorners 
+ * return: the string of the polygon with the four corners of a rectangle 
+ * shape in polygon form
+ * vairables
+ * point1: the top left corner of the rectangle
+ * point2: bottom right corner of the rectangle to be drawn
+ * Mathematicaly derives a rectangle shape before returning the results of the 
+ * function in polygon form 
+ */
 function deriveCorners(point1, point2){
 
     var point3 = {
@@ -775,7 +675,14 @@ function deriveCorners(point1, point2){
     return points;
 }
 
-
+/************************
+ * drawSpace
+ * return: None
+ * variables:
+ * svg: the html object containg the SVG xml data
+ * points: the points of the polygon to be drawn in the svg
+ * draws a polygon and appends to the svg
+ ************************/
 function drawSpace(svg,points){
     svg.append('polygon')
     .attr('class', 'drawn-poly')

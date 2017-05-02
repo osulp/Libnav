@@ -98,7 +98,7 @@ $(function () {
                     floor = searchLocation['floor'];
                     loadMap();
                 }
-                console.log($('svg').ready(function(){
+                ($('svg').ready(function(){
                     if(selectedLocaiton){
                         var temp = svg.select('#poly-' + selectedLocaiton);
                         temp.style("filter", null)
@@ -242,10 +242,6 @@ $(function () {
         if (locations[l].floor == floor) {
             renderPolygons(svg, locations[l]);
         }
-
-
-        //selectShapeByName(svg, 'tool tip room');
-
     }
     tooltipBtn();
 }
