@@ -16,8 +16,10 @@ var grids = null;
 //disabling element is still clickable... adding flag to stop it 
 var disableStartFlag = false;
 
-
+// Contains the selected location
 var selectedLocaiton = null;
+
+// Main load function
 $(function () {
 
     // Setting default floor
@@ -25,11 +27,6 @@ $(function () {
 
     // Initialize the libnav application
     initialize();
-
-    // get all grid()
-
-    // get all terms for searching
-    //searchableTerms = getSearchTerms();
 
     /*
      * On sidebar navigation click
@@ -47,7 +44,7 @@ $(function () {
     });
 
      
-
+     // key up event for search bar
      $('#input-search').keyup(function(event){
         var input = $('#input-search').val();
         var searchWrapper = $('#search-results-wrapper');
@@ -65,35 +62,21 @@ $(function () {
 
             // show results dropdown
             searchWrapper.removeClass('hidden');
-            // console.log("before input")
             searchTerm = $('#input-search').val();
-            // console.log(searchTerm)
-
             fuseSearch(searchTerm, locations);
-            // console.log(searchResults)
             for(var s in searchResults){
-                //console.log("line70 in control home")
-                //console.log(searchResults);
-                // console.log(s);
-                // console.log(searchResults[s]);
+
                 searchUl.append('<li><a href="#" id="result-' + searchResults[s]['id'] + '">' + searchResults[s]['name'] + '</a></li>');
 
             }
 
             $('a[id*="result-"]').on('click', function () {
-               // console.log(this)
                 id = this.id.split('-')[1];
                 var searchLocation = null;
 
                 for(var s in searchResults){
                     if( searchResults[s]['id'] ==  id){
                         searchLocation = searchResults[s];
-                        //if (searchResults[s]['floor'] != floor)
-                            //console.log("if before load map")
-                            //floor = searchResults[s]['floor'];
-                            //loadMap(searchResults[s]['floor'])
-                            //loadMap();
-                            //console.log("after load map")
                         break;
                     }
                     
@@ -117,8 +100,6 @@ $(function () {
                     selectedLocaiton = searchLocation['id'];
                 }));
 
-                
-
              });
         }
         else if(input == ""){
@@ -129,10 +110,9 @@ $(function () {
 
     })
 
-
+     // Click event for start navigation
      $('#nagivation-start').on('click', function(){
         if (disableStartFlag == false){
-            console.log(startPos != null && endPos != null);
             if(startPos != null && endPos != null){
                 navigate(startPos,endPos);
             }
@@ -141,8 +121,8 @@ $(function () {
         $(this).addClass("disabled"); 
     })
 
+     // On click event for clearing navigation
      $('#navigation-clear').on('click', function(){
-        console.log("you clicked me");
         deleteGrid();
         switchGrids(floor);
         $('#nagivation-start').removeClass("disabled"); 
@@ -202,7 +182,6 @@ $(function () {
         buildLayers(svg);
         loadLocationByFloor(svg, floor);
 
-
         // creating glow effect 
         //Container for the gradients
         var defs = svg.append("defs");
@@ -237,9 +216,6 @@ $(function () {
             renderPolygons(svg, locations[l]);
         }
 
-
-        //selectShapeByName(svg, 'tool tip room');
-
     }
     tooltipBtn();
 }
@@ -253,13 +229,11 @@ $(function () {
     console.log("inside locaiton");
     for (var l in locations) {
 
-        //if(locations[l]['type'] == 'known') {
-            $('#navsb-floor-' + locations[l].floor).append(
-                $('<li>').append(
-                    $('<a>', {text: locations[l].name, href: '#', id: id + locations[l].id})
-                    )
+        $('#navsb-floor-' + locations[l].floor).append(
+            $('<li>').append(
+                $('<a>', {text: locations[l].name, href: '#', id: id + locations[l].id})
                 )
-        //}
+            )
     }
     $('a[id*="location-"]').on('click', function () {
 
@@ -280,7 +254,10 @@ $(function () {
     });
 }
 
-
+/**
+ * Switches the grid global variabed
+ * @param  {[type]} floor [id of floor]
+ */
 function switchGrids(floor){
      for(var g in grids){
             console.log(g);
@@ -288,10 +265,12 @@ function switchGrids(floor){
                 floorGridFromDB = JSON.parse(grids[g].data);
             }
         }
-    
+
 }
 
-
+/**
+ * Initialization function for home page
+ */
 function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 

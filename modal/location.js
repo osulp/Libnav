@@ -1,6 +1,11 @@
 var db = require('../classes/database');
 var async = require('async');
 
+/**
+ * Inserts a locaiton into the database
+ * @param  {[type]}   data     [Location object]
+ * @param  {Function} callback [callback function]
+ */
 exports.insertLocation = function (data, callback) {
     var results = null;
     // create database connection
@@ -24,6 +29,12 @@ exports.insertLocation = function (data, callback) {
 
 };
 
+/**
+ * Upddatas a location by id
+ * @param  {[type]}   data     [Location object]
+ * @param  {[type]}   id       [id of locaiton to be updated]
+ * @param  {Function} callback [callback function]
+ */
 exports.updateLocation = function (data, id, callback) {
 
     var results = null;
@@ -50,6 +61,11 @@ exports.updateLocation = function (data, id, callback) {
 
 };
 
+/**
+ * Inserts an Attributes into the database
+ * @param  {[type]} data [an attribute, or list of attributes]
+ * Depercated
+ */
 exports.insertAttribute = function(data){
 
     // create database connection
@@ -65,6 +81,11 @@ exports.insertAttribute = function(data){
     db.connection.end();
 };
 
+/**
+ * Inserts an Tags into the database
+ * @param  {[type]} data [a tags, or list of tag]
+ * Depercated
+ */
 exports.insertTag = function(data){
 
     // create database connection
@@ -80,7 +101,11 @@ exports.insertTag = function(data){
     db.connection.end();
 };
 
-
+/**
+ * Inserts an Points into the database
+ * @param  {[type]} data [an points, or list of points]
+ * Depercated
+ */
 exports.insertPoint = function(data){
 
     // create database connection
@@ -96,7 +121,10 @@ exports.insertPoint = function(data){
     db.connection.end();
 };
 
-
+/**
+ * Gets all location from database
+ * @param  {Function} callback [callback Function]
+ */
 exports.getLocations = function(callback){
     // create database connection
     db.createConnection();
@@ -108,33 +136,17 @@ exports.getLocations = function(callback){
     db.connection.query('SELECT * from location', function (error, results, fields) {
         if (error) throw error;
 
-        //close connection to database
-        //db.connection.end();
-
         callback(results);
     });
 
     
 };
 
-/*exports.getLocations = function(id, callback){
-    // create database connection
-    db.createConnection();
-
-    // connect to database
-    db.connection.connect();
-
-    // insert attributes
-    db.connection.query('SELECT l.id, l.floor, l.name, l.type, l.url, l.room_number , l.room_cap , l.data_point from location l', function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-        callback(results);
-    });
-
-    // close connection to database
-    db.connection.end();
-};*/
-
+/**
+ * Deletes a location be id
+ * @param  {[type]}   id       [id of location to be deleted]
+ * @param  {Function} callback [call back function]
+ */
 exports.deleteLocationById = function(id, callback){
     // create database connection
     db.createConnection();
@@ -146,9 +158,6 @@ exports.deleteLocationById = function(id, callback){
     db.connection.query('DELETE FROM location where id=? ', id , function (error, results, fields) {
         if (error) throw error;
 
-        
-
-
         callback(results);
     });
 
@@ -158,7 +167,12 @@ exports.deleteLocationById = function(id, callback){
     
 }
 
-
+/**
+ * Gets the location entrypoint by id
+ * @param  {[type]}   location [location id]
+ * @param  {Function} callback [callback funciton]
+ * Depercated
+ */
 exports.getEntryPoint = function ( location, callback){
     // create database connection
     db.createConnection();
@@ -180,7 +194,12 @@ exports.getEntryPoint = function ( location, callback){
     
 }
 
-
+/**
+ * Gets attributes of a locaiton
+ * @param  {[type]}   location [location id]
+ * @param  {Function} callback [call back function]
+ * Depercated
+ */
 exports.getAttributes = function ( location, callback){
     // create database connection
     db.createConnection();
@@ -198,6 +217,12 @@ exports.getAttributes = function ( location, callback){
     db.connection.end();
 }
 
+/**
+ * Gets tags of a locaiton  
+ * @param  {[type]}   location [location id]
+ * @param  {Function} callback [call back function]
+ * Depercated
+ */
 exports.getTags = function (location, callback){
     // create database connection
     db.createConnection();
@@ -221,12 +246,13 @@ exports.getTags = function (location, callback){
     
 };
 
+/**
+ * Gets location by id
+ * @param  {[type]}   id       [locaiton id]
+ * @param  {Function} callback [callback funcation]
+ * @return {[type]}            [description]
+ */
 exports.getLocationById = function(id, callback){
-    /*var tagQuery = 'SELECT attr from tag where location_id=?';
-    var attrQuery = 'SELECT attr from attribute where location_id=?';
-    var locationQuery = 'SELECT * from location where id=?';
-
-    var location = {};*/
 
     // create database connection
     db.createConnection();
@@ -238,57 +264,18 @@ exports.getLocationById = function(id, callback){
         if (error) throw error;
         callback(results[0]);
         
-        
     });
 
     // close connection to database
     db.connection.end();
 
-    /*async.parallel([
-        function(parallel_done){
-            db.connection.query(locationQuery, id, function(error, result, fields){
-                if(error) return parallel_done(error);
-                //location.info = result;
-                for(var r in result){
-                    for(var a in result[r])
-                        location[a] = result[r][a]
-                }
-                parallel_done();
-
-            })
-        },
-        function(parallel_done){
-            db.connection.query(tagQuery, id, function(error, result,  fields){
-                if(error) return parallel_done(error);
-                location['tags'] = [];
-                for(var r in result){
-                    location['tags'].push(result[r]['attr'])
-                }
-                parallel_done();
-
-            })
-        },
-        function(parallel_done){
-            db.connection.query(attrQuery, id, function(error, result, fields){
-                if(error) return parallel_done(error);
-                location['attr'] = [];
-                for(var r in result){
-                    location['attr'].push(result[r]['attr'])
-                }
-                parallel_done();
-
-            })
-        }
-        ],
-        function(error){
-            if(error) console.log(error);
-            
-            callback(location);
-        });*/
-    
 };
 
-
+/**
+ * Gets all search tags, attributes and locaiton
+ * @param  {Function} callback [callback funciton]
+ * Depercated
+ */
 exports.getSearch = function( callback){
     var tagQuery = 'SELECT id as "tagid", location_id as "id", attr from tag';
     var attrQuery = 'SELECT id as "attrid", location_id as "id", attr from attribute ';

@@ -99,7 +99,6 @@ $(function () {
         }
 
         if (checkIsValid()) {
-            console.log('Check was valid');
             saveConfig(formdata);
         }
         else{
@@ -148,6 +147,10 @@ function ShowResults(show, name) {
     }
 }
 
+/**
+ * Checks if the form is valid
+ * @param  {[type]} formdata []
+ */
 function checkIsValid(formdata) {
     var valid = true;
 

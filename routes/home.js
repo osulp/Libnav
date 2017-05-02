@@ -8,6 +8,7 @@ router.get('/', function (req, res, next) {
     res.render('home/index', {title: 'Express'});
 });
 
+/* GET Home locations */
 router.get('/home/location', function (req, res, next) {
 
     location.getLocationPoints(function (results) {

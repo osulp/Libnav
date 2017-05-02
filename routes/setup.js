@@ -3,6 +3,7 @@ var router = express.Router();
 var crypt  =  require('../classes/crypt');
 var fs = require('fs');
 
+// Config varaibes to be saved to .json file
 var config = {
     'login': {
         'username': null,
@@ -23,7 +24,6 @@ router.get('/', function (req, res, next) {
 
 /* POST setup index page. */
 router.post('/', function (req, res, next) {
-    console.log('In post method');
     config['login']['username'] = crypt.encrypt(req.body.masterUsername);
     config['login']['password'] = crypt.encrypt( req.body.masterPassword);
     config['database']['host'] = req.body.dbHost;

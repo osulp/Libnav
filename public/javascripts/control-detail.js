@@ -27,6 +27,11 @@ $(function(){
     })
 });
 
+/**
+ * Gets a location data by id
+ * @param  {[type]} id [id of location]
+ * @return {[type]} json   [Json stringified object]
+ */
 function getLocationInfo(id){
     return $.ajax({
       type: "GET",
@@ -35,7 +40,10 @@ function getLocationInfo(id){
   });
 };
 
-
+/**
+ * Displays a location informaion
+ * @param  {[type]} location [location object]
+ */
 function displayLocation(location) {
 	// write location info to page
 	for (var a in location) {
@@ -72,7 +80,10 @@ function displayLocation(location) {
     }
 }
 
-
+/**
+ * Writes out attributes and formats 
+ * @param  {[type]} attr [list of strings]
+ */
 function writeAttributes(attr){
     // write attributes
     var attrOutput = JSON.parse(attr);
@@ -85,6 +96,10 @@ function writeAttributes(attr){
     }
 }
 
+/**
+ * Writes tages and formats 
+ * @param  {[type]} tags [list of strings]
+ */
 function writeTags(tags){
     // write tags
     var tagOutput = JSON.parse(tags);
@@ -98,6 +113,10 @@ function writeTags(tags){
 
 }
 
+/**
+ * Deletes a location given id
+ * @param  {[type]} id [id of location]
+ */
 function deleteLocation(id){
     $.ajax({
         type: "GET",
@@ -125,6 +144,11 @@ function deleteLocation(id){
     })
 }
 
+/**
+ * Loads the map and locaiton
+ * @param  {[type]} id   [id of floor]
+ * @param  {[type]} data [location object]
+ */
 function loadmap(id, data){
     // load map
     var map = '/public/images/floor-' + id + '.svg';

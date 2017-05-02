@@ -371,19 +371,5 @@ router.get('/mapupload', function (req, res, next) {
         res.render('error/login');
     }
 });
-/*
- Post Map Upload Page 
-router.post('/mapupload', function(req, res) {
-
-  console.log(req);
-  console.log(res);
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
-  var sampleFile = req.body.image;
-
-  fs.writeFile("image.jpg", sampleFile, (err) => {
-    if (err) throw err;
-    console.log('It\'s saved!');
-    }); 
-});*/
 
 module.exports = router;

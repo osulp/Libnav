@@ -8,15 +8,10 @@ var parseString = require('xml2js').parseString;
 /* GET user login */
 router.get('/login', function(req, res, next){
 	res.redirect('https://login.oregonstate.edu/cas/login?service=http://fw-libnav.eecs.oregonstate.edu:3000/user/login/authenticate');
-	
-
 });
 
 /* GET user login */
 router.get('/login/authenticate', function (req, res, next) {
-
-	console.log(req.query.ticket);
-
 
 	// makes requres to cas with token to get session infomation
 	request('https://login.oregonstate.edu/cas/serviceValidate?ticket=' + 
@@ -29,7 +24,6 @@ router.get('/login/authenticate', function (req, res, next) {
 
 				// retrives onid from cas xml
 				var onid = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
-				console.log(onid)
 
 				// Query database for matching onids
 				userModal.checkUser(onid,function(result){
@@ -55,29 +49,13 @@ router.get('/login/authenticate', function (req, res, next) {
 
 });
 
-router.get('/cas/authorize', function(req,res,next){
-	console.log('/cas/authorize');
-	console.log(req.body);
-	console.log(req.query);
-
-});
-
-/* POST user login */
-router.post('/login', function (req, res, next) {
-    // get info back to CAS 
-
-});
-
 /* GET user login for master */
 router.get('/login/master', function (req, res, next) {
 	res.render('user/login');
 });
 
-
-
 /* POST user login for master */
 router.post('/login/master', function (req, res, next) {
-	console.log("In post method")
 	var isAuthenticated = false;
 
 	isAuthenticated = user.authenticate(req.body.username, req.body.password);

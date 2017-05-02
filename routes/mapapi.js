@@ -3,6 +3,9 @@ var router = express.Router();
 var location = require('../modal/location');
 var navigation = require('../modal/navigation');
 
+/**
+ * GETS all grids from database
+ */
 
 router.get('/grids', function (req, res, next) {
      navigation.getGrid(function (results) {
@@ -23,12 +26,21 @@ router.get('/getAllLocation', function (req, res, next) {
 
 });
 
+/**
+ * GETS Search term
+ * Depercated
+ */
 router.get('/getSearch', function(req, res,next){
     location.getSearch(function (results) {
         res.contentType('json');
         res.json(JSON.stringify(results));
     })
 });
+
+/**
+ * GETS tags
+ * Depercated
+ */
 
 router.post("/getTags", function (req, res, next){
 
@@ -38,12 +50,22 @@ router.post("/getTags", function (req, res, next){
     })
 });
 
+/**
+ * GETS attributes
+ * Depercated
+ */
+
 router.post("/getAttributes", function (req, res, next){
     location.getAttributes(req.body.location, function(results) {
         res.contentType('json');
         res.json(JSON.stringify(results))
     })
 });
+
+/**
+ * GETS entrypoints of location
+ * Depercated
+ */
 
 router.post("/getEntryPoint", function (req, res, next){
     location.getEntryPoint(req.body.location, function(results) {

@@ -366,7 +366,10 @@ var locationToggle = false;
     $('#btn-cancel').prop('disabled', true);
 }
 
-
+/**
+ * Gets Known Location from database
+ * @param  {[type]} id [id of floor]
+ */
 function getKnowLocations(id) {
     $.ajax({
         type: "get",

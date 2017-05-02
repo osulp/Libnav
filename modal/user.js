@@ -1,5 +1,9 @@
 var db = require('../classes/database');
-
+/**
+ * Inserts a user in to the database
+ * @param  {[type]}   data     [user object]
+ * @param  {Function} callback [callback function]
+ */
 exports.insertUser = function (data, callback) {
     var results = null;
     // create database connection
@@ -21,6 +25,11 @@ exports.insertUser = function (data, callback) {
 
 };
 
+/**
+ * Deletes a user from the database
+ * @param  {[type]}   id       [id of user to be deleted]
+ * @param  {Function} callback [callback funciton]
+ */
 exports.deleteUser = function(id, callback){
     // create database connection
     db.createConnection();
@@ -39,6 +48,10 @@ exports.deleteUser = function(id, callback){
     db.connection.end();
 };
 
+/**
+ * Gets all user from the database
+ * @param  {Function} callback [callback funciton]
+ */
 exports.getUsers = function(callback){
     // create database connection
     db.createConnection();
@@ -57,6 +70,11 @@ exports.getUsers = function(callback){
     db.connection.end();
 };
 
+/**
+ * Gets user by onid for checking
+ * @param  {[type]}   onid     [user onid]
+ * @param  {Function} callback [callback function]
+ */
 exports.checkUser = function(onid, callback){
     // create database connection
     db.createConnection();
