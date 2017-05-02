@@ -1,31 +1,37 @@
 var searchObjs = null;
 var searchResults = {};
 
-
+/********************
+ * fuseSearch
+ * parameters:
+ * searchString:the string from the front end
+ * var_locations: the massive location object that is queried from the 
+ * database on load.
+ * finds all matches to the search string and saves directly to a variable on 
+ * the front end
+ */
 function fuseSearch(searchString, var_locations){
     var thresholdVal = null;
     var minCharVal = null;
     searchResults= {};
+
+    //set the options based upon the length of the search parameter
     if (searchString.length < 5){
-        // console.log("in first if")
         thresholdVal = 0.2
         minCharVal = 3
     }else if (searchString.length < 9){
-        // console.log("in first elif")
         thresholdVal = 0.5
         minCharVal = 5
     }else if (searchString.length > 8){
-        // console.log("in second elif")
+
         thresholdVal = 0.6
         minCharVal = 6 
     }else{
-        // console.log("in else")
         thresholdVal = 0.5
         minCharVal = 3
     }
 
-    console.log("done with the if statements.")
-
+    //set all fuse options
      var options = {
       shouldSort: true,
       threshold: thresholdVal,
@@ -38,18 +44,12 @@ function fuseSearch(searchString, var_locations){
     }
 
     
-    var fuse = new Fuse(var_locations, options); // "list" is the item array
+    var fuse = new Fuse(var_locations, options); 
     var result = fuse.search(searchString);
-    // console.log(result)
+    //get the names for the result
     for(var r in result){
         var id = null;
-        if('attrid' in result[r]){
-            id = result[r]['attrid'];
-        }
-        else if('tagid' in result[r]){
-            id = result[r]['tagid'];
-        }
-        else if('id' in result[r]){
+        if('id' in result[r]){
             id = result[r]['id'];
         }
         returnAllNames(id,result)
@@ -57,8 +57,18 @@ function fuseSearch(searchString, var_locations){
 
 }
 
+
+/*********************************
+ * returnAllNames
+ * return: the name of the location with the correct id
+ * parameters:
+ * id: the id of the location 
+ * result: the object containing all locations that have matches the search string
+ * This will find all names with the proper search string and will append them 
+ * to the list of search results for use by the search results in the front end.
+ */
 function returnAllNames(id, result){
-    // console.log("in returnAllNames")
+   
     
     // for each object
     for(var o in result){
@@ -74,20 +84,11 @@ function returnAllNames(id, result){
                         'id':result[o].id,
                         'floor':result[o].floor
                     }
-                    //searchResults.push(resobj) 
-                    
-                   // searchResults.push(resobj)
+                
                 }
             }
         }
 
     }
-        //console.log(searchResults);
-
-}
-
-function selectShapeByName(svg, id){
-    var p = d3.selectAll('#poly-' + id);
-    p.style('fill', 'blue')
 
 }
