@@ -266,9 +266,39 @@ function switchGrids(floor){
 
 }
 
+//display Nav box either top or bottom depending on size of screen
+var mq = window.matchMedia( "(max-width: 500px)" );
+
+if (mq.matches) {
+  $(".dispNavTop").attr("style","display:none");
+  $(".dispNavBot").attr("style","display:inherit");
+} else {
+ 
+}
+
+// media query event handler
+if (matchMedia) {
+  var mq = window.matchMedia("(max-width: 500px)");
+  mq.addListener(WidthChange);
+  WidthChange(mq);
+}
+
+// media query change
+function WidthChange(mq) {
+  if (mq.matches) {
+    $(".dispNavTop").attr("style","display:none");
+    $(".dispNavBot").attr("style","display:inherit");
+  } else {
+    $(".dispNavTop").attr("style","display:inherit");
+    $(".dispNavBot").attr("style","display:none");
+  }
+
+}
+
 /**
  * Initialization function for home page
  */
+
 function initialize() {
     $.when(getLocations(), getGrids()).done(function (locationJSON, gridJSON) {
 

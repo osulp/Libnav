@@ -202,6 +202,9 @@ body {
 
 .navbar-default.sidebar{
     background-color:#ffffff;
+    max-height:575px;
+    
+    overflow-y: auto;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -221,6 +224,7 @@ body {
 
 .sidebar ul li {
     border-bottom: 1px solid #e7e7e7;
+    overflow: hidden;
 }
 
 .sidebar ul li a {
@@ -266,7 +270,7 @@ body {
     .sidebar {
         z-index: 1;
         position: absolute;
-        width: 215px;
+        width: 225px;
         /*margin-top: 78px;*/
     }
 

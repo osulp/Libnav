@@ -2,13 +2,14 @@ div.location-tooltip {
   display:block;
   
   z-index: 1;
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   padding: 10px;
   font: 12px sans-serif;
   background: #ffffff;
   border: #c34500 2px solid;
-  overflow-y:scroll;
+  overflow-y:auto;
+  overflow-x: hidden;
   border-radius: 8px;
   -webkit-box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.75);
@@ -21,4 +22,13 @@ div.location-tooltip div.close{
   top: 0px;
   right:0px;
   padding:2px;
+}
+
+div.location-tooltip .title{
+  border-bottom: solid thin black;
+}
+
+div.location-tooltip .tt-nav-row{
+  margin-top: 5px;
+  margin-bottom: 5px;    
 }

@@ -459,7 +459,8 @@ function createTooltip(data){
         'id': 'row'
     }).append(
     $('<div>',{
-        'id': 'col-md-12'
+        'id': 'col-md-12',
+        'class':'title'
     }).append(
     $('<h4>',{
         'text': data.name
@@ -500,6 +501,12 @@ function createTooltip(data){
         'text': 'Start Here'
 
     }));
+    
+    startBtn.on("click",function(){
+       close.click(); 
+    });
+    
+    
 
     var endBtn = $('<div>',{
         'class': 'col-md-6'
@@ -510,14 +517,19 @@ function createTooltip(data){
         'text': 'End Here'
 
     }));
+    
+    endBtn.on("click",function(){
+       close.click(); 
+    });
 
     // Adding content to tooltip
     tooltip.append(
         close,
         name,
         $('<div>',{'class': 'row'}).append(attributes, tags),
-        $('<div>',{'class': 'row'}).append(startBtn, endBtn)
-    );
+        $('<div>',{'class': 'row tt-nav-row'}).append(startBtn, endBtn)
+
+    )
 
 
     return tooltip;
