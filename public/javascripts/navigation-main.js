@@ -215,20 +215,61 @@ var drawLine = function(point1, point2){
      }
     
     //mark path on grid
-     for (var x = 0; x < path.length; x++) {
+     for (var x = 0; x < path.length; x+=2) {
          var recID = "s-" + path[x][0] + "-" + path[x][1];
          grid.select("rect[id='" + recID + "']")
              .attr('fill', '#c34500')
              .attr("path", 'true')
              .attr("fill-opacity",".8")
-             .attr("stroke", 'none');
+             .attr("stroke", 'none')
+             .transition()
+             .duration(1000)
+             .attr("rx",100)
+             .attr("ry",100);
      }
+    
+    var endPath;
+    var startPath;
+       startPath = "s-" + path[0][0] + "-" + path[0][1];
+         endPath = "s-" + path[path.length-1][0] + "-" + path[path.length-1][1];
+    
+    pathImages(startPath,endPath);
     
 
     //hides everything but the path
      hideGridForHomeNav();
  };
 
+
+var pathImages = function(startPath, endPath){
+    
+    startPath = grid.select("rect[id='" + startPath + "']");
+
+    
+    var g = grid.append("svg:g").attr('id','youRhere');
+    
+    
+    var img = g.append("svg:image")
+    .attr("xlink:href", "public/images/mapspointer.png")
+    .attr("width", 30)
+    .attr("height", 30)
+    .attr("x", startPath._groups[0][0].attributes.getNamedItem('x').value-10)
+    .attr("y", startPath._groups[0][0].attributes.getNamedItem('y').value-25);
+    
+    
+    endPath = grid.select("rect[id='" + endPath + "']");
+    endPath._groups[0][0].attributes.getNamedItem('fill').value = "none";
+    
+    var g = grid.append("svg:g").attr('id','star');
+    
+    var img = g.append("svg:image")
+    .attr("xlink:href", "public/images/ff.png")
+    .attr("width", 40)
+    .attr("height", 40)
+    .attr("x", endPath._groups[0][0].attributes.getNamedItem('x').value-20)
+    .attr("y", endPath._groups[0][0].attributes.getNamedItem('y').value-20);
+   
+}
 
 
 /*****************************
