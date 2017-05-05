@@ -215,15 +215,19 @@ var drawLine = function(point1, point2){
      }
     
     //mark path on grid
-     for (var x = 0; x < path.length; x+=2) {
-         var recID = "s-" + path[x][0] + "-" + path[x][1];
-         grid.select("rect[id='" + recID + "']")
+     for (var x = 0; x < path.length-1; x++) {
+         
+    
+        var recID = "s-" + path[x][0] + "-" + path[x][1];
+       
+         
+        grid.select("rect[id='" + recID + "']")
              .attr('fill', '#c34500')
              .attr("path", 'true')
              .attr("fill-opacity",".8")
              .attr("stroke", 'none')
              .transition()
-             .duration(1000)
+             .duration(1250)
              .attr("rx",100)
              .attr("ry",100);
      }
@@ -371,7 +375,7 @@ var drawAllEntrancePoints = function(){
     //epoinstJSON is simply a JSON of all locations
     if(ePointsJSON!==null || ePointsJSON === "undefined"){
         _.forEach(ePointsJSON, function(loc){
-                if(floor == loc.floor){
+                if($("#floorSelect").val() == loc.floor){
                       grid.select("rect[id='" + loc.entry_point + "']").attr('fill', 'black').attr("fill-opacity", ".8");
                 }
         });
