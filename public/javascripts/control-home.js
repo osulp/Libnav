@@ -149,7 +149,10 @@ $(function () {
         switchGrids(floor);
         $('#nagivation-start').removeClass("disabled"); 
         disableStartFlag = false;
-
+        var startLable = $('#start-location');
+        var endLable = $('#end-location');
+        startLable.text("");
+        endLable.text(""); 
 
     })
 

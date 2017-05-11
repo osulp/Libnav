@@ -227,8 +227,10 @@ var drawLine = function(point1, point2){
              .attr("fill-opacity",".8")
              .attr("stroke", 'none')
              .transition()
-             .duration(1250)
+             .duration(1000)
              .attr("rx",100)
+             .attr("height",7)
+             .attr("width", 7)
              .attr("ry",100);
      }
     
@@ -245,6 +247,11 @@ var drawLine = function(point1, point2){
  };
 
 
+
+/*****************************
+ * pathImages
+ * Set start and end images 
+ *****************************/
 var pathImages = function(startPath, endPath){
     
     startPath = grid.select("rect[id='" + startPath + "']");
@@ -254,10 +261,11 @@ var pathImages = function(startPath, endPath){
     
     
     var img = g.append("svg:image")
-    .attr("xlink:href", "public/images/mapspointer.png")
+    //href for start image
+    .attr("xlink:href", "public/images/start-navigation.png")
     .attr("width", 30)
     .attr("height", 30)
-    .attr("x", startPath._groups[0][0].attributes.getNamedItem('x').value-10)
+    .attr("x", startPath._groups[0][0].attributes.getNamedItem('x').value-11)
     .attr("y", startPath._groups[0][0].attributes.getNamedItem('y').value-25);
     
     
@@ -267,11 +275,12 @@ var pathImages = function(startPath, endPath){
     var g = grid.append("svg:g").attr('id','star');
     
     var img = g.append("svg:image")
-    .attr("xlink:href", "public/images/ff.png")
-    .attr("width", 40)
-    .attr("height", 40)
-    .attr("x", endPath._groups[0][0].attributes.getNamedItem('x').value-20)
-    .attr("y", endPath._groups[0][0].attributes.getNamedItem('y').value-20);
+    //href for end image
+    .attr("xlink:href", "public/images/end-navigation.svg")
+    .attr("width", 30)
+    .attr("height", 30)
+    .attr("x", endPath._groups[0][0].attributes.getNamedItem('x').value-12)
+    .attr("y", endPath._groups[0][0].attributes.getNamedItem('y').value-15);
    
 }
 

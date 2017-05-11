@@ -553,7 +553,7 @@ function createTooltip(data){
  function tooltipBtn(){
     var id = null;
     var startLable = $('#start-location');
-    var endLable = $('#end-location')
+    var endLable = $('#end-location');
 
     // Start button on click event
     $('[id*="start-"]').on('click', function(){
