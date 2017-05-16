@@ -269,7 +269,7 @@ function switchGrids(floor){
 
 }
 
-//display Nav box either top or bottom depending on size of screen
+/*//display Nav box either top or bottom depending on size of screen
 var mq = window.matchMedia( "(max-width: 500px)" );
 
 if (mq.matches) {
@@ -296,7 +296,7 @@ function WidthChange(mq) {
     $(".dispNavBot").attr("style","display:none");
   }
 
-}
+}*/
 
 /**
  * Initialization function for home page
