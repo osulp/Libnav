@@ -4,10 +4,11 @@ var user = require('../classes/user');
 var userModal = require('../modal/user');
 var request = require('request');
 var parseString = require('xml2js').parseString;
+var hostname = 'lib-sandbox.library.oregonstate.edu';
 
 /* GET user login */
 router.get('/login', function(req, res, next){
-	res.redirect('https://login.oregonstate.edu/cas/login?service=http://fw-libnav.eecs.oregonstate.edu:3000/user/login/authenticate');
+	res.redirect('https://login.oregonstate.edu/cas/login?service=http://' + hostname + '/user/login/authenticate');
 });
 
 /* GET user login */
@@ -16,12 +17,13 @@ router.get('/login/authenticate', function (req, res, next) {
 	// makes requres to cas with token to get session infomation
 	request('https://login.oregonstate.edu/cas/serviceValidate?ticket=' + 
 		req.query.ticket + 
-		'&service=http://fw-libnav.eecs.oregonstate.edu:3000/user/login/authenticate',
+		'&service=http://' + hostname + '/user/login/authenticate',
 		function(error, responce, body){
 
 			// parse cas xml
 			parseString(body, {trim: true}, function (err, result) {
 
+console.log(result);
 				// retrives onid from cas xml
 				var onid = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
 
