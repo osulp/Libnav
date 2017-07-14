@@ -5,7 +5,7 @@ var config = '';
 
 // try to load config
 try{
-    config = require('../config/config');
+    config = require('../config/config.json');
 }
 catch(e){
     console.log('Config file was not loaded.');
