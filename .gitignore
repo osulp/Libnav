@@ -319,6 +319,7 @@ jspm_packages
 .node_repl_history
 
 /config/config.json
+!/config/.keep
 *.tar
 
 sftp-config.json

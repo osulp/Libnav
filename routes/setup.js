@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var crypt  =  require('../classes/crypt');
+var path = require('path');
 var fs = require('fs');
 
 // Config varaibes to be saved to .json file
@@ -32,7 +33,10 @@ router.post('/', function (req, res, next) {
     config['database']['password'] = crypt.encrypt( req.body.dbPassword);
 
     // write config informaion to file.
-    fs.writeFile('./config/config.json', JSON.stringify(config));
+    fs.writeFile(path.join(__dirname, '../config/config.json'), JSON.stringify(config), function(err) {
+        if(err) throw err;
+        console.log('The config file was saved.');
+    });
     res.json(JSON.stringify(true));
 
 });
